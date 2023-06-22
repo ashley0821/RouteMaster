@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,7 @@ namespace RouteMaster.Models.Interfaces
 {
 	public interface IAccommodationRepository
 	{
+		IEnumerable<AccommodationIndexDto> Search();
+
 	}
 }

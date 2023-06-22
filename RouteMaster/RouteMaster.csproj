@@ -129,11 +129,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccommodationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Dto\AccommodationDto.cs" />
+    <Compile Include="Models\Dto\AccommodationIndexDto.cs" />
     <Compile Include="Models\EFModels\Accommodation.cs" />
     <Compile Include="Models\EFModels\AccommodationDetail.cs" />
     <Compile Include="Models\EFModels\AccommodationImage.cs" />
@@ -178,12 +179,14 @@
     <Compile Include="Models\EFModels\Town.cs" />
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
+    <Compile Include="Models\Infra\EFRepositories\AccommodationEFRepository.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
+    <Compile Include="Models\Infra\Extensions\Extension.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Interfaces\IAccommodationRepository.cs" />
     <Compile Include="Models\Services\AccommodationService.cs" />
-    <Compile Include="Models\ViewModels\AccommodationVM.cs" />
+    <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -237,12 +240,16 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Accommodations\Create.cshtml" />
+    <Content Include="Views\Accommodations\Delete.cshtml" />
+    <Content Include="Views\Accommodations\Details.cshtml" />
+    <Content Include="Views\Accommodations\Edit.cshtml" />
+    <Content Include="Views\Accommodations\Index.cshtml" />
+    <Content Include="Views\Accommodations\MyAccommodationIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\Infra\DapperRepositories\" />
-    <Folder Include="Models\Infra\EFRepositories\" />
-    <Folder Include="Models\Infra\Extensions\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
