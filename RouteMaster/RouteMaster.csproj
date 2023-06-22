@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.143\lib\net461\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -129,8 +132,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+
     <Compile Include="Controllers\AccommodationsController.cs" />
+    <Compile Include="Controllers\ActivitiesController.cs" />
+    <Compile Include="Controllers\ActivityCategoriesController.cs" />
+    <Compile Include="Controllers\ExtraServicesController.cs" />
+
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PackageToursController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -240,12 +249,35 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+
     <Content Include="Views\Accommodations\Create.cshtml" />
     <Content Include="Views\Accommodations\Delete.cshtml" />
     <Content Include="Views\Accommodations\Details.cshtml" />
     <Content Include="Views\Accommodations\Edit.cshtml" />
     <Content Include="Views\Accommodations\Index.cshtml" />
     <Content Include="Views\Accommodations\MyAccommodationIndex.cshtml" />
+
+    <Content Include="Views\Activities\Create.cshtml" />
+    <Content Include="Views\Activities\Delete.cshtml" />
+    <Content Include="Views\Activities\Details.cshtml" />
+    <Content Include="Views\Activities\Edit.cshtml" />
+    <Content Include="Views\Activities\Index.cshtml" />
+    <Content Include="Views\ExtraServices\Create.cshtml" />
+    <Content Include="Views\ExtraServices\Delete.cshtml" />
+    <Content Include="Views\ExtraServices\Details.cshtml" />
+    <Content Include="Views\ExtraServices\Edit.cshtml" />
+    <Content Include="Views\ExtraServices\Index.cshtml" />
+    <Content Include="Views\PackageTours\Create.cshtml" />
+    <Content Include="Views\PackageTours\Delete.cshtml" />
+    <Content Include="Views\PackageTours\Details.cshtml" />
+    <Content Include="Views\PackageTours\Edit.cshtml" />
+    <Content Include="Views\PackageTours\Index.cshtml" />
+    <Content Include="Views\ActivityCategories\Create.cshtml" />
+    <Content Include="Views\ActivityCategories\Delete.cshtml" />
+    <Content Include="Views\ActivityCategories\Details.cshtml" />
+    <Content Include="Views\ActivityCategories\Edit.cshtml" />
+    <Content Include="Views\ActivityCategories\Index.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
