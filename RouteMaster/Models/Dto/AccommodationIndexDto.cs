@@ -9,6 +9,8 @@ namespace RouteMaster.Models.Dto
 {
 	public class AccommodationIndexDto
 	{
+		public int Id { get; set; }
+
 		public int PartnerId { get; set; }
 
 		[Required]
