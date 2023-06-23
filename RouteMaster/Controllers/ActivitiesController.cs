@@ -7,6 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.EFRepositories;
+using RouteMaster.Models.Infra.Extensions;
+using RouteMaster.Models.Interfaces;
+using RouteMaster.Models.Services;
+using RouteMaster.Models.ViewModels;
 
 namespace RouteMaster.Controllers
 {
@@ -17,12 +22,34 @@ namespace RouteMaster.Controllers
         // GET: Activities
         public ActionResult Index()
         {
-            var activities = db.Activities.Include(a => a.ActivityCategory).Include(a => a.Attraction).Include(a => a.Region);
-            return View(activities.ToList());
+            IEnumerable<ActivityIndexVM> activities = GetActivities();
+            return View(activities);
         }
+		private IEnumerable<ActivityIndexVM> GetActivities()
+		{
+            IActivityRepository repo = new ActivityEFRepositoy();
+            ActivityService service=new ActivityService(repo);
 
-        // GET: Activities/Details/5
-        public ActionResult Details(int? id)
+            return service.Search()
+                   .ToList()
+                   .Select(a => a.ToIndexVM());           
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// GET: Activities/Details/5
+		public ActionResult Details(int? id)
         {
             if (id == null)
             {

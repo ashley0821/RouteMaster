@@ -142,6 +142,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dto\AccommodationIndexDto.cs" />
+    <Compile Include="Models\Dto\ActivityIndexDto.cs" />
     <Compile Include="Models\EFModels\Accommodation.cs" />
     <Compile Include="Models\EFModels\AccommodationDetail.cs" />
     <Compile Include="Models\EFModels\AccommodationImage.cs" />
@@ -187,13 +188,18 @@
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
     <Compile Include="Models\Infra\EFRepositories\AccommodationEFRepository.cs" />
+    <Compile Include="Models\Infra\EFRepositories\ActivityEFRepositoy.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
+    <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
     <Compile Include="Models\Infra\Extensions\Extension.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Interfaces\IAccommodationRepository.cs" />
+    <Compile Include="Models\Interfaces\IActivityRepository.cs" />
     <Compile Include="Models\Services\AccommodationService.cs" />
+    <Compile Include="Models\Services\ActivityService.cs" />
     <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
+    <Compile Include="Models\ViewModels\ActivityIndexVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
