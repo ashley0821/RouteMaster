@@ -4,49 +4,10 @@
     ViewBag.Title = "MyAccommodationIndex";
 }
 
-<h2>MyAccommodationIndex</h2>
+<h2>我的住宿</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        @*<th>
-            @Html.DisplayNameFor(model => model.PartnerId)
-        </th>*@
-        <th>
-            @Html.DisplayNameFor(model => model.AccommodationImage)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.PartnerId)
-        </td>*@
-        <td>
-            @*@Html.DisplayFor(modelItem => item.AccommodationImage)*@
-            <img src="~/Uploads/@item.AccommodationImage" class="w-100" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
-
-</table>
+<div class="my-2 d-flex justify-content-end">
+    @*@Html.ActionLink("新增其他住宿", "Create")*@
+    <a href="/Accommodations/Create" class="btn btn-outline-primary">新增其他住宿</a>
+</div>
+@{ Html.RenderPartial("_AccommodationCardPartial");}

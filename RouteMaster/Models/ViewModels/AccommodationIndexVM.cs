@@ -9,6 +9,8 @@ namespace RouteMaster.Models.ViewModels
 {
 	public class AccommodationIndexVM
 	{
+		public int Id { get; set; }
+
 		public int PartnerId { get; set; }
 
 		[Required]

@@ -132,12 +132,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-
     <Compile Include="Controllers\AccommodationsController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
-
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PackageToursController.cs" />
     <Compile Include="Global.asax.cs">
@@ -249,14 +247,12 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-
     <Content Include="Views\Accommodations\Create.cshtml" />
     <Content Include="Views\Accommodations\Delete.cshtml" />
     <Content Include="Views\Accommodations\Details.cshtml" />
     <Content Include="Views\Accommodations\Edit.cshtml" />
     <Content Include="Views\Accommodations\Index.cshtml" />
     <Content Include="Views\Accommodations\MyAccommodationIndex.cshtml" />
-
     <Content Include="Views\Activities\Create.cshtml" />
     <Content Include="Views\Activities\Delete.cshtml" />
     <Content Include="Views\Activities\Details.cshtml" />
@@ -277,7 +273,7 @@
     <Content Include="Views\ActivityCategories\Details.cshtml" />
     <Content Include="Views\ActivityCategories\Edit.cshtml" />
     <Content Include="Views\ActivityCategories\Index.cshtml" />
-
+    <Content Include="Views\Accommodations\_AccommodationCardPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

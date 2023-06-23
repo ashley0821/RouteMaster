@@ -10,10 +10,11 @@ namespace RouteMaster.Models.Infra.Extensions
 {
 	public static class Extension
 	{
-		public static AccommodationIndexVM toVM(this AccommodationIndexDto dto)
+		public static AccommodationIndexVM ToVM(this AccommodationIndexDto dto)
 		{
 			return new AccommodationIndexVM
 			{
+				Id = dto.Id,
 				PartnerId = dto.PartnerId,
 				Name = dto.Name,
 				Address = dto.Address,
