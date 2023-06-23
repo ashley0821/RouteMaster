@@ -10,7 +10,7 @@ namespace RouteMaster.Models.Services
 {
 	public class AccommodationService
 	{
-		public IAccommodationRepository _repo { get; set; }
+		private readonly IAccommodationRepository _repo;
 
 		public AccommodationService(IAccommodationRepository repo)
 		{

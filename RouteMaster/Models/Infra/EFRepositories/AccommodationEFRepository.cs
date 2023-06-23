@@ -12,7 +12,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 {
 	public class AccommodationEFRepository : IAccommodationRepository
 	{
-		private AppDbContext _db = new AppDbContext();
+		private readonly AppDbContext _db = new AppDbContext();
 
 		IEnumerable<AccommodationIndexDto> IAccommodationRepository.Search()
 		{
@@ -21,6 +21,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				.Include(a => a.AccommodationImages)
 				.Select(a => new AccommodationIndexDto
 				{
+					Id = a.Id,
 					PartnerId = a.PartnerId,
 					Name = a.Name,
 					Address = a.Address,

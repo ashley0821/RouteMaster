@@ -17,7 +17,7 @@ namespace RouteMaster.Controllers
 {
     public class AccommodationsController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        private readonly AppDbContext db = new AppDbContext();
 
         // GET: Accommodations
         public ActionResult Index()
@@ -35,14 +35,6 @@ namespace RouteMaster.Controllers
             return View(accommodations);//.ToList());
         }
 
-		private IEnumerable<AccommodationIndexVM> GetAccommodations()
-		{
-			IAccommodationRepository repo = new AccommodationEFRepository();
-			//IProductRepository repo = new ProductDapperRepository();
-			AccommodationService service = new AccommodationService(repo);
-			return service.Search().
-				Select(dto =>dto.toVM());
-		}
 
 		// GET: Accommodations/Details/5
 		public ActionResult Details(int? id)
@@ -159,5 +151,15 @@ namespace RouteMaster.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+
+		private IEnumerable<AccommodationIndexVM> GetAccommodations()
+		{
+			IAccommodationRepository repo = new AccommodationEFRepository();
+			//IProductRepository repo = new ProductDapperRepository();
+			AccommodationService service = new AccommodationService(repo);
+			return service.Search().
+				Select(dto => dto.ToVM());
+		}
+
+	}
 }

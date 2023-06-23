@@ -11,7 +11,7 @@ namespace RouteMaster.Models.Infra
 {
 	public class EmailHelper
 	{
-		private string senderEmail = "g01.webapp@gmail.com"; // 寄件者
+		private readonly string senderEmail = "g01.webapp@gmail.com"; // 寄件者
 
 		public void SendForgetPasswordEmail(string url, string name, string email)
 		{
@@ -56,12 +56,14 @@ namespace RouteMaster.Models.Infra
 			var smtpServer = "smtp.gmail.com";
 			var SmtpPort = 587;
 
-			var mms = new MailMessage();
-			mms.From = new MailAddress(smtpAccount);
-			mms.Subject = subject;
-			mms.Body = body;
-			mms.IsBodyHtml = true;
-			mms.SubjectEncoding = Encoding.UTF8;
+			var mms = new MailMessage
+			{
+				From = new MailAddress(smtpAccount),
+				Subject = subject,
+				Body = body,
+				IsBodyHtml = true,
+				SubjectEncoding = Encoding.UTF8
+			};
 			mms.To.Add(new MailAddress(to));
 
 			using (var client = new SmtpClient(smtpServer, SmtpPort))
@@ -74,7 +76,7 @@ namespace RouteMaster.Models.Infra
 
 		private void CreateTextFile(string path, string from, string to, string subject, string body)
 		{
-			var fileName = $"{to.Replace("@", "_")} {DateTime.Now.ToString("yyyyMMdd_HHmmss")}.txt";
+			var fileName = $"{to.Replace("@", "_")} {DateTime.Now:yyyyMMdd_HHmmss}.txt";
 			var fullPath = Path.Combine(path, fileName);
 
 			var contents = $@"from:{from}
