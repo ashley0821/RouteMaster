@@ -50,8 +50,38 @@ namespace RouteMaster.Models.Infra.Extensions
 		}
 
 
+		public static ActivityCreateDto	ToCreateDto(this ActivityCreateVM vm)
+		{
+			return new ActivityCreateDto
 
+			{
+				ActivityCategoryId = vm.ActivityCategoryId,
+				AttractionId = vm.AttractionId,
+				Name = vm.Name,
+				RegionId = vm.RegionId,
+				Price = vm.Price,	
+				StartTime = vm.StartTime,
+				EndTime = vm.EndTime,
+				Description = vm.Description,
+				Status = vm.Status,
+			};
+		}
 
+		public static Activity ToEntity(this ActivityCreateDto dto)
+		{
+			return new Activity
+			{
+				ActivityCategoryId=dto.ActivityCategoryId,
+				AttractionId=dto.AttractionId,
+				Name = dto.Name,
+				RegionId = dto.RegionId,
+				Price = dto.Price,
+				StartTime = dto.StartTime,
+				EndTime = dto.EndTime,
+				Description = dto.Description,
+				Status = dto.Status,
+			};
+		}
 
 
 	}

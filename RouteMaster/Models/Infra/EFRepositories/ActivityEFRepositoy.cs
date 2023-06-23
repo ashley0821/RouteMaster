@@ -19,6 +19,24 @@ namespace RouteMaster.Models.Infra.EFRepositories
             _db = new AppDbContext();
         }
 
+		public void Create(ActivityCreateDto dto)
+		{
+			Activity activity= dto.ToEntity();
+			_db.Activities.Add(activity);
+			_db.SaveChanges();
+		}
+
+
+
+		public bool ExistAcativity(string activityName, int attractionId, DateTime startTime, DateTime endTime)
+		{
+			return _db.Activities.
+			Any(a => a.Name == activityName 
+				&& a.AttractionId == attractionId 
+				&& a.StartTime == startTime 
+				&& a.EndTime == endTime);
+		}
+
 		public IEnumerable<ActivityIndexDto> Search()
 		{
 			//todo search 篩選條件設計
