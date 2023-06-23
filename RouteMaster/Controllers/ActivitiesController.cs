@@ -35,19 +35,6 @@ namespace RouteMaster.Controllers
                    .Select(a => a.ToIndexVM());           
 		}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 		// GET: Activities/Details/5
 		public ActionResult Details(int? id)
         {
@@ -64,32 +51,54 @@ namespace RouteMaster.Controllers
         }
 
         // GET: Activities/Create
+
+
         public ActionResult Create()
         {
-            ViewBag.ActivityCategoryId = new SelectList(db.ActivityCategories, "Id", "Name");
-            ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name");
-            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name");
+            //ViewBag.ActivityCategoryId = new SelectList(db.ActivityCategories, "Id", "Name");          
+            //ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name");
+            //ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name");
+
+
+			PrepareActivityCategoryDataSource(null);
+            PrepareAttractionDataSource(null);
+            PrepareRegionDataSource(null);			
             return View();
         }
+
+
 
         // POST: Activities/Create
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ActivityCategoryId,AttractionId,Name,RegionId,Price,StartTime,EndTime,Description,Status")] Activity activity)
+        public ActionResult Create(ActivityCreateVM vm)
         {
+
+			IActivityRepository repo = new ActivityEFRepositoy();
+			ActivityService service = new ActivityService(repo);
+
+			if (ModelState.IsValid == false)
+            {
+                return View();
+            }
+
             if (ModelState.IsValid)
             {
-                db.Activities.Add(activity);
-                db.SaveChanges();
+                service.Create(vm.ToCreateDto());
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ActivityCategoryId = new SelectList(db.ActivityCategories, "Id", "Name", activity.ActivityCategoryId);
-            ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name", activity.AttractionId);
-            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", activity.RegionId);
-            return View(activity);
+            //ViewBag.ActivityCategoryId = new SelectList(db.ActivityCategories, "Id", "Name", vm.ActivityCategoryId);
+            //ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name", vm.AttractionId);
+            //ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
+
+
+            PrepareActivityCategoryDataSource(vm.ActivityCategoryId);
+            PrepareAttractionDataSource(vm.AttractionId);
+            PrepareRegionDataSource(vm.AttractionId);
+            return View(vm);
         }
 
         // GET: Activities/Edit/5
@@ -163,5 +172,25 @@ namespace RouteMaster.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+
+
+
+
+		private void PrepareActivityCategoryDataSource(int? categoryId)
+		{
+			var categories = db.ActivityCategories.ToList().Prepend(new ActivityCategory());
+			ViewBag.ActivityCategoryId = new SelectList(categories, "Id", "Name", categoryId);
+		}
+        private void PrepareAttractionDataSource(int? attractionId)
+		{
+			var attractions = db.Attractions.ToList().Prepend(new Attraction());
+			ViewBag.AttractionId = new SelectList(attractions, "Id", "Name", attractionId);
+		}
+		private void PrepareRegionDataSource(int? regionId)
+		{
+			var regions = db.Regions.ToList().Prepend(new Region());
+			ViewBag.RegionId = new SelectList(regions, "Id", "Name", regionId);
+		}
+
+	}
 }
