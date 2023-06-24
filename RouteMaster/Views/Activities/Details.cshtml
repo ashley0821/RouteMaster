@@ -1,0 +1,90 @@
+﻿@model RouteMaster.Models.EFModels.Activity
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Activity</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            活動種類
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActivityCategory.Name)
+        </dd>
+
+        <dt>
+            舉辦景點
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attraction.Name)
+        </dd>
+
+        <dt>
+            所在縣市
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Region.Name)
+        </dd>
+
+        <dt>
+            活動名稱
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            活動價格
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            開始時間
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            結束時間
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+
+        <dt>
+            活動介紹
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            是否上架
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

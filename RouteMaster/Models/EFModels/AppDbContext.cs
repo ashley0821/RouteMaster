@@ -323,5 +323,7 @@ namespace RouteMaster.Models.EFModels
                 .WithRequired(e => e.TravelPlan)
                 .WillCascadeOnDelete(false);
         }
+
+        public System.Data.Entity.DbSet<RouteMaster.Models.ViewModels.ActivityIndexVM> ActivityIndexVMs { get; set; }
     }
 }

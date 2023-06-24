@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.143\lib\net461\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -129,10 +132,19 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccommodationsController.cs" />
+    <Compile Include="Controllers\ActivitiesController.cs" />
+    <Compile Include="Controllers\ActivityCategoriesController.cs" />
+    <Compile Include="Controllers\ExtraServicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PackageToursController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dto\AccommodationIndexDto.cs" />
+    <Compile Include="Models\Dto\ActivityCreateDto.cs" />
+    <Compile Include="Models\Dto\ActivityIndexDto.cs" />
+    <Compile Include="Models\Dto\FAQDto.cs" />
     <Compile Include="Models\EFModels\Accommodation.cs" />
     <Compile Include="Models\EFModels\AccommodationDetail.cs" />
     <Compile Include="Models\EFModels\AccommodationImage.cs" />
@@ -177,6 +189,21 @@
     <Compile Include="Models\EFModels\Town.cs" />
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
+    <Compile Include="Models\Infra\EFRepositories\AccommodationEFRepository.cs" />
+    <Compile Include="Models\Infra\EFRepositories\ActivityEFRepositoy.cs" />
+    <Compile Include="Models\Infra\EmailHelper.cs" />
+    <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
+    <Compile Include="Models\Infra\Extensions\Extension.cs" />
+    <Compile Include="Models\Infra\HashUtility.cs" />
+    <Compile Include="Models\Infra\Result.cs" />
+    <Compile Include="Models\Interfaces\IAccommodationRepository.cs" />
+    <Compile Include="Models\Interfaces\IActivityRepository.cs" />
+    <Compile Include="Models\Services\AccommodationService.cs" />
+    <Compile Include="Models\Services\ActivityService.cs" />
+    <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
+    <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
+    <Compile Include="Models\ViewModels\ActivityIndexVM.cs" />
+    <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -230,17 +257,38 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Accommodations\Create.cshtml" />
+    <Content Include="Views\Accommodations\Delete.cshtml" />
+    <Content Include="Views\Accommodations\Details.cshtml" />
+    <Content Include="Views\Accommodations\Edit.cshtml" />
+    <Content Include="Views\Accommodations\Index.cshtml" />
+    <Content Include="Views\Accommodations\MyAccommodationIndex.cshtml" />
+    <Content Include="Views\Activities\Create.cshtml" />
+    <Content Include="Views\Activities\Delete.cshtml" />
+    <Content Include="Views\Activities\Details.cshtml" />
+    <Content Include="Views\Activities\Edit.cshtml" />
+    <Content Include="Views\Activities\Index.cshtml" />
+    <Content Include="Views\ExtraServices\Create.cshtml" />
+    <Content Include="Views\ExtraServices\Delete.cshtml" />
+    <Content Include="Views\ExtraServices\Details.cshtml" />
+    <Content Include="Views\ExtraServices\Edit.cshtml" />
+    <Content Include="Views\ExtraServices\Index.cshtml" />
+    <Content Include="Views\PackageTours\Create.cshtml" />
+    <Content Include="Views\PackageTours\Delete.cshtml" />
+    <Content Include="Views\PackageTours\Details.cshtml" />
+    <Content Include="Views\PackageTours\Edit.cshtml" />
+    <Content Include="Views\PackageTours\Index.cshtml" />
+    <Content Include="Views\ActivityCategories\Create.cshtml" />
+    <Content Include="Views\ActivityCategories\Delete.cshtml" />
+    <Content Include="Views\ActivityCategories\Details.cshtml" />
+    <Content Include="Views\ActivityCategories\Edit.cshtml" />
+    <Content Include="Views\ActivityCategories\Index.cshtml" />
+    <Content Include="Views\Accommodations\_AccommodationCardPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\DTOs\" />
-    <Folder Include="Models\EFModels\NewFolder1\" />
     <Folder Include="Models\Infra\DapperRepositories\" />
-    <Folder Include="Models\Infra\EFRepositories\" />
-    <Folder Include="Models\Infra\Extensions\" />
-    <Folder Include="Models\Interfaces\" />
-    <Folder Include="Models\Services\" />
-    <Folder Include="Models\ViewModels\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
