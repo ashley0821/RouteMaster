@@ -1,0 +1,13 @@
+﻿@model IEnumerable<RouteMaster.Models.ViewModels.AccommodationIndexVM>
+
+@{
+    ViewBag.Title = "MyAccommodationIndex";
+}
+
+<h2>我的住宿</h2>
+
+<div class="my-2 d-flex justify-content-end">
+    @*@Html.ActionLink("新增其他住宿", "Create")*@
+    <a href="/Accommodations/Create" class="btn btn-outline-primary">新增其他住宿</a>
+</div>
+@{ Html.RenderPartial("_AccommodationCardPartial");}
