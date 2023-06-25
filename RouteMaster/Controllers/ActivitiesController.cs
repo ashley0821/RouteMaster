@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -113,10 +114,21 @@ namespace RouteMaster.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ActivityCategoryId = new SelectList(db.ActivityCategories, "Id", "Name", activity.ActivityCategoryId);
-            ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name", activity.AttractionId);
-            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", activity.RegionId);
-            return View(activity);
+
+            PrepareActivityCategoryDataSource(activity.ActivityCategoryId);
+            PrepareAttractionDataSource(activity.AttractionId);
+            PrepareRegionDataSource(activity.RegionId);
+
+
+
+
+            //ViewBag.ActivityCategoryId = new SelectList(db.ActivityCategories, "Id", "Name", activity.ActivityCategoryId);
+            //ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name", activity.AttractionId);
+            //ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", activity.RegionId);
+
+
+
+            return View(activity.ToEditDto().ToEditVM());
         }
 
         // POST: Activities/Edit/5
@@ -124,19 +136,30 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ActivityCategoryId,AttractionId,Name,RegionId,Price,StartTime,EndTime,Description,Status")] Activity activity)
+        public ActionResult Edit(ActivityEditVM vm)
         {
+            IActivityRepository repo=new ActivityEFRepositoy();
+            ActivityService service=new ActivityService(repo);
+
             if (ModelState.IsValid)
             {
-                db.Entry(activity).State = EntityState.Modified;
-                db.SaveChanges();
+                service.Edit(vm);             
                 return RedirectToAction("Index");
             }
-            ViewBag.ActivityCategoryId = new SelectList(db.ActivityCategories, "Id", "Name", activity.ActivityCategoryId);
-            ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name", activity.AttractionId);
-            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", activity.RegionId);
-            return View(activity);
+
+			PrepareActivityCategoryDataSource(vm.ActivityCategoryId);
+			PrepareAttractionDataSource(vm.AttractionId);
+			PrepareRegionDataSource(vm.RegionId);
+
+
+			//ViewBag.ActivityCategoryId = new SelectList(db.ActivityCategories, "Id", "Name", activity.ActivityCategoryId);
+			//ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name", activity.AttractionId);
+			//ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", activity.RegionId);
+			return View(vm);
         }
+
+
+
 
         // GET: Activities/Delete/5
         public ActionResult Delete(int? id)
@@ -153,16 +176,30 @@ namespace RouteMaster.Controllers
             return View(activity);
         }
 
+
+
         // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Activity activity = db.Activities.Find(id);
-            db.Activities.Remove(activity);
-            db.SaveChanges();
+            IActivityRepository repo=new ActivityEFRepositoy();
+            ActivityService service=new ActivityService(repo);
+            service.Delete(id);
+
+
+            //Activity activity = db.Activities.Find(id);
+            //db.Activities.Remove(activity);
+            //db.SaveChanges();
+
             return RedirectToAction("Index");
         }
+
+
+
+
+
+
 
         protected override void Dispose(bool disposing)
         {
@@ -172,10 +209,6 @@ namespace RouteMaster.Controllers
             }
             base.Dispose(disposing);
         }
-
-
-
-
 		private void PrepareActivityCategoryDataSource(int? categoryId)
 		{
 			var categories = db.ActivityCategories.ToList().Prepend(new ActivityCategory());
