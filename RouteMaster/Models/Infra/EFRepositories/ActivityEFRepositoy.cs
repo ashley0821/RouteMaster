@@ -26,7 +26,31 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			_db.SaveChanges();
 		}
 
+		public void Delete(int id)
+		{
+			var activity = _db.Activities.Find(id);
+			_db.Activities.Remove(activity);
+			_db.SaveChanges();
+		}
 
+		public void Edit(ActivityEditDto dto)
+		{
+			var activityInDb=_db.Activities.Find(dto.Id);
+
+			activityInDb.ActivityCategoryId = dto.ActivityCategoryId;
+			activityInDb.AttractionId = dto.AttractionId;
+			activityInDb.Name=dto.Name;
+			activityInDb.RegionId = dto.RegionId;			
+			activityInDb.Price=dto.Price;
+			activityInDb.StartTime=dto.StartTime;
+			activityInDb.EndTime=dto.EndTime;
+			activityInDb.Description = dto.Description;
+			activityInDb.Status=dto.Status;
+
+			_db.SaveChanges();
+			
+			
+		}
 
 		public bool ExistAcativity(string activityName, int attractionId, DateTime startTime, DateTime endTime)
 		{

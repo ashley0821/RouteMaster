@@ -1,6 +1,8 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
+using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,5 +35,24 @@ namespace RouteMaster.Models.Services
             _repo.Create(dto);
             return Result.Success();
         }
+        public Result Edit(ActivityEditVM vm)
+        {
+            //todo 邏輯判斷
+
+
+			var dto =vm.ToEditDto();    
+            _repo.Edit(dto);
+            return Result.Success();
+        }
+
+        public Result Delete(int id)
+        {
+            //todo 邏輯判斷
+
+            _repo.Delete(id);
+            return Result.Success();
+        }
+
+
     }
 }
