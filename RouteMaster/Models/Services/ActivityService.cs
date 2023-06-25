@@ -35,12 +35,10 @@ namespace RouteMaster.Models.Services
             _repo.Create(dto);
             return Result.Success();
         }
-        public Result Edit(ActivityEditVM vm)
+        public Result Edit(ActivityEditDto dto)
         {
             //todo 邏輯判斷
-
-
-			var dto =vm.ToEditDto();    
+			  
             _repo.Edit(dto);
             return Result.Success();
         }

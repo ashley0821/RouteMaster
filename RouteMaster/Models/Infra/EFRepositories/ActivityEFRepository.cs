@@ -10,11 +10,11 @@ using System.Data.Entity;
 
 namespace RouteMaster.Models.Infra.EFRepositories
 {
-	public class ActivityEFRepositoy:IActivityRepository
+	public class ActivityEFRepository:IActivityRepository
 	{
 		private AppDbContext _db;
 
-        public ActivityEFRepositoy()
+        public ActivityEFRepository()
         {
             _db = new AppDbContext();
         }
