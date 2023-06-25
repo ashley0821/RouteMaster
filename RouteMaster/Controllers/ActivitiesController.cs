@@ -28,7 +28,7 @@ namespace RouteMaster.Controllers
         }
 		private IEnumerable<ActivityIndexVM> GetActivities()
 		{
-            IActivityRepository repo = new ActivityEFRepositoy();
+            IActivityRepository repo = new ActivityEFRepository();
             ActivityService service=new ActivityService(repo);
 
             return service.Search()
@@ -77,7 +77,7 @@ namespace RouteMaster.Controllers
         public ActionResult Create(ActivityCreateVM vm)
         {
 
-			IActivityRepository repo = new ActivityEFRepositoy();
+			IActivityRepository repo = new ActivityEFRepository();
 			ActivityService service = new ActivityService(repo);
 
 			if (ModelState.IsValid == false)
@@ -138,12 +138,12 @@ namespace RouteMaster.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ActivityEditVM vm)
         {
-            IActivityRepository repo=new ActivityEFRepositoy();
+            IActivityRepository repo=new ActivityEFRepository();
             ActivityService service=new ActivityService(repo);
 
             if (ModelState.IsValid)
             {
-                service.Edit(vm);             
+                service.Edit(vm.ToEditDto());             
                 return RedirectToAction("Index");
             }
 
@@ -183,7 +183,7 @@ namespace RouteMaster.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            IActivityRepository repo=new ActivityEFRepositoy();
+            IActivityRepository repo=new ActivityEFRepository();
             ActivityService service=new ActivityService(repo);
             service.Delete(id);
 
