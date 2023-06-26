@@ -23,7 +23,6 @@ namespace RouteMaster.Models.EFModels
 
         public int AttractionId { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
         public int RegionId { get; set; }
@@ -34,7 +33,7 @@ namespace RouteMaster.Models.EFModels
 
         public DateTime EndTime { get; set; }
 
-        [Required]
+
         public string Description { get; set; }
 
         public bool Status { get; set; }
