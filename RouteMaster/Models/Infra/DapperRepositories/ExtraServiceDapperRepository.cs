@@ -62,17 +62,35 @@ Name, AttractionId, Price, Description, Status
 
 		public void Delete(int id)
 		{
-			throw new NotImplementedException();
+			using(var conn=new SqlConnection(_connstr))
+			{
+				string sql = @"DELETE FROM ExtraServices WHERE Id=@Id";
+				conn.Execute(sql, id);
+			}
 		}
+
+
 
 		public void Edit(ExtraServiceEditDto dto)
 		{
-			throw new NotImplementedException();
+			using(var conn =new SqlConnection(_connstr))
+			{
+				string sql = @"";
+				conn.Execute(sql);
+			}
 		}
 
 		public bool ExistExtraService(string name, int attractionId)
 		{
-			throw new NotImplementedException();
+			using(var conn =new SqlConnection(_connstr))
+			{
+				string sql = " select count(*) as [count] from ExtraServices WHERE [Name]=@name and AttractionId=@attractionId";
+                var parameters = new { name, attractionId };
+                var result = conn.QueryFirstOrDefault<int>(sql, parameters);
+				bool exists = result > 0;
+                return exists;
+            }
+            
 		}
 
 
