@@ -6,7 +6,7 @@ using System.Web;
 
 namespace RouteMaster.Models.ViewModels
 {
-	public class MemberCreateVM
+	public class MemberIndexVM
 	{
 		public int Id { get; set; }
 
@@ -29,7 +29,7 @@ namespace RouteMaster.Models.ViewModels
 		//[StringLength(255)]
 		//public string EncryptedPassword { get; set; }
 
-		[Display(Name = "電子信箱")]
+		[Display(Name = "信箱")]
 		[Required]
 		[StringLength(255)]
 		public string Email { get; set; }
@@ -39,7 +39,7 @@ namespace RouteMaster.Models.ViewModels
 		[StringLength(10)]
 		public string CellPhoneNumber { get; set; }
 
-		[Display(Name = "聯絡地址")]
+		[Display(Name = "地址")]
 		[StringLength(255)]
 		public string Address { get; set; }
 
@@ -49,15 +49,18 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "生日")]
 		public DateTime Birthday { get; set; }
 
+		[Display(Name = "創建日期")]
 		public DateTime CreateDate { get; set; }
 
 		//[Required]
 		//public string Image { get; set; }
 
+		[Display(Name = "已驗證")]
 		public bool IsConfirmed { get; set; }
 
 		//public string ConfirmCode { get; set; }
 
+		[Display(Name = "已被停帳")]
 		public bool? IsSuspended { get; set; }
 	}
 }
