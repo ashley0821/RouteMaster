@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\BundleConfig2.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccommodationsController.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\PackageToursController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -149,6 +151,10 @@
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceIndexDto.cs" />
     <Compile Include="Models\Dto\FAQDto.cs" />
+
+    <Compile Include="Models\Dto\MemberCreateDto.cs" />
+    <Compile Include="Models\Dto\MemberIndexDto.cs" />
+
     <Compile Include="Models\Dto\OrderDto.cs" />
     <Compile Include="Models\EFModels\Accommodation.cs" />
     <Compile Include="Models\EFModels\AccommodationDetail.cs" />
@@ -196,7 +202,12 @@
     <Compile Include="Models\EFModels\TravelPlan.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServiceDapperRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\AccommodationEFRepository.cs" />
+
+    <Compile Include="Models\Infra\EFRepositories\ActivityEFRepositoy.cs" />
+    <Compile Include="Models\Infra\EFRepositories\MemberRepository.cs" />
+
     <Compile Include="Models\Infra\EFRepositories\ActivityEFRepository.cs" />
+
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
     <Compile Include="Models\Infra\Extensions\Extension.cs" />
@@ -205,10 +216,17 @@
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Interfaces\IAccommodationRepository.cs" />
     <Compile Include="Models\Interfaces\IActivityRepository.cs" />
+
+    <Compile Include="Models\Interfaces\IMemberRepository.cs" />
+    <Compile Include="Models\Services\AccommodationService.cs" />
+    <Compile Include="Models\Services\ActivityService.cs" />
+    <Compile Include="Models\Services\MemberService.cs" />
+
     <Compile Include="Models\Interfaces\IExtraServiceRepository.cs" />
     <Compile Include="Models\Services\AccommodationService.cs" />
     <Compile Include="Models\Services\ActivityService.cs" />
     <Compile Include="Models\Services\ExtraServiceService.cs" />
+
     <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
@@ -217,6 +235,7 @@
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceIndexVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
+    <Compile Include="Models\ViewModels\MemberIndexVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -300,7 +319,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+
+    <Folder Include="Data\" />
+    <Folder Include="Models\Infra\DapperRepositories\" />
     <Folder Include="Uploads\" />
+    <Folder Include="Views\Members\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
