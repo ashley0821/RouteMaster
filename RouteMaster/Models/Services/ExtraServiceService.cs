@@ -26,17 +26,20 @@ namespace RouteMaster.Models.Services
 
         public Result Create(ExtraServiceCreateDto dto)
         {
-            throw new NotImplementedException();
+            _repo.Create(dto);
+            return Result.Success();
         }
 
         public Result Edit(ExtraServiceEditDto dto)
         {
-            throw new NotImplementedException();
+            _repo.Edit(dto);
+            return Result.Success();    
         }
 
         public Result Delete(int id)
         {
-            throw new NotSupportedException();
+            _repo.Delete(id);
+            return Result.Success();
         }
 
 
