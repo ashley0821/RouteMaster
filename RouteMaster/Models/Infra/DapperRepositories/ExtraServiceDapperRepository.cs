@@ -75,8 +75,8 @@ Name, AttractionId, Price, Description, Status
 		{
 			using(var conn =new SqlConnection(_connstr))
 			{
-				string sql = @"";
-				conn.Execute();
+				string sql = @"Update ExtraService";
+				conn.Execute(sql);
 			}
 		}
 
