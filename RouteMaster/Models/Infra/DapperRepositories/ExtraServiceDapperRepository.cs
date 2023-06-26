@@ -76,7 +76,7 @@ Name, AttractionId, Price, Description, Status
 			using(var conn =new SqlConnection(_connstr))
 			{
 				string sql = @"";
-				conn.Execute();
+				conn.Execute(sql);
 			}
 		}
 
