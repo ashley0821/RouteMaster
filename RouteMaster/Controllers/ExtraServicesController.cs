@@ -7,6 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.DapperRepositories;
+using RouteMaster.Models.Infra.Extensions;
+using RouteMaster.Models.Interfaces;
+using RouteMaster.Models.Services;
+using RouteMaster.Models.ViewModels;
 
 namespace RouteMaster.Controllers
 {
@@ -17,12 +22,34 @@ namespace RouteMaster.Controllers
         // GET: ExtraServices
         public ActionResult Index()
         {
-            var extraServices = db.ExtraServices.Include(e => e.Attraction);
-            return View(extraServices.ToList());
+            IEnumerable<ExtraServiceIndexVM> extraServices = GetExtraServices();
+            return View(extraServices);
         }
 
-        // GET: ExtraServices/Details/5
-        public ActionResult Details(int? id)
+		private IEnumerable<ExtraServiceIndexVM> GetExtraServices()
+		{
+            IExtraServiceRepository repo =new ExtraServiceDapperRepository();
+            ExtraServiceService service =new ExtraServiceService(repo);
+
+            return service.Search()
+                .Select(dto=>dto.ToIndexVM());
+			
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// GET: ExtraServices/Details/5
+		public ActionResult Details(int? id)
         {
             if (id == null)
             {
