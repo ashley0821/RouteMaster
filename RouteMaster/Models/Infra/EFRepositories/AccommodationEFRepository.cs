@@ -14,6 +14,11 @@ namespace RouteMaster.Models.Infra.EFRepositories
 	{
 		private readonly AppDbContext _db = new AppDbContext();
 
+		public void Create()
+		{
+			throw new NotImplementedException();
+		}
+
 		IEnumerable<AccommodationIndexDto> IAccommodationRepository.Search()
 		{
 			return _db.Accommodations.AsNoTracking()
