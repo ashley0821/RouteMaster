@@ -138,7 +138,11 @@
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+
+    <Compile Include="Controllers\OrdersController.cs" />
+
     <Compile Include="Controllers\MembersController.cs" />
+
     <Compile Include="Controllers\PackageToursController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -152,10 +156,13 @@
     <Compile Include="Models\Dto\ExtraServiceIndexDto.cs" />
     <Compile Include="Models\Dto\FAQDto.cs" />
 
+    <Compile Include="Models\Dto\OrderIndexDto.cs" />
+
     <Compile Include="Models\Dto\MemberCreateDto.cs" />
     <Compile Include="Models\Dto\MemberIndexDto.cs" />
 
     <Compile Include="Models\Dto\OrderDto.cs" />
+
     <Compile Include="Models\EFModels\Accommodation.cs" />
     <Compile Include="Models\EFModels\AccommodationDetail.cs" />
     <Compile Include="Models\EFModels\AccommodationImage.cs" />
@@ -208,10 +215,15 @@
 
     <Compile Include="Models\Infra\EFRepositories\ActivityEFRepository.cs" />
 
+    <Compile Include="Models\Infra\EFRepositories\OrderEFRepository.cs" />
+
+
+
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
     <Compile Include="Models\Infra\Extensions\Extension.cs" />
     <Compile Include="Models\Infra\Extensions\ExtraServiceExts.cs" />
+    <Compile Include="Models\Infra\Extensions\OrderExts.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Interfaces\IAccommodationRepository.cs" />
@@ -223,9 +235,14 @@
     <Compile Include="Models\Services\MemberService.cs" />
 
     <Compile Include="Models\Interfaces\IExtraServiceRepository.cs" />
+    <Compile Include="Models\Interfaces\IOrderRepository.cs" />
     <Compile Include="Models\Services\AccommodationService.cs" />
     <Compile Include="Models\Services\ActivityService.cs" />
     <Compile Include="Models\Services\ExtraServiceService.cs" />
+
+    <Compile Include="Models\Services\OrderService.cs" />
+
+
 
     <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
@@ -235,7 +252,11 @@
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceIndexVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
+
+    <Compile Include="Models\ViewModels\OrderInvdexVM.cs" />
+
     <Compile Include="Models\ViewModels\MemberIndexVM.cs" />
+
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -316,12 +337,15 @@
     <Content Include="Views\ActivityCategories\Edit.cshtml" />
     <Content Include="Views\ActivityCategories\Index.cshtml" />
     <Content Include="Views\Accommodations\_AccommodationCardPartial.cshtml" />
+    <Content Include="Views\Orders\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
 
+
     <Folder Include="Data\" />
     <Folder Include="Models\Infra\DapperRepositories\" />
+
     <Folder Include="Uploads\" />
     <Folder Include="Views\Members\" />
   </ItemGroup>
