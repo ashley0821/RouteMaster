@@ -141,6 +141,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dto\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\AccommodationIndexDto.cs" />
     <Compile Include="Models\Dto\ActivityCreateDto.cs" />
     <Compile Include="Models\Dto\ActivityEditDto.cs" />
@@ -198,7 +199,7 @@
     <Compile Include="Models\Infra\EFRepositories\ActivityEFRepository.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
-    <Compile Include="Models\Infra\Extensions\Extension.cs" />
+    <Compile Include="Models\Infra\Extensions\AccommodationExts.cs" />
     <Compile Include="Models\Infra\Extensions\ExtraServiceExts.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\Result.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Models\Services\AccommodationService.cs" />
     <Compile Include="Models\Services\ActivityService.cs" />
     <Compile Include="Models\Services\ExtraServiceService.cs" />
+    <Compile Include="Models\ViewModels\AccommodationCreateVM.cs" />
     <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
@@ -296,6 +298,7 @@
     <Content Include="Views\ActivityCategories\Edit.cshtml" />
     <Content Include="Views\ActivityCategories\Index.cshtml" />
     <Content Include="Views\Accommodations\_AccommodationCardPartial.cshtml" />
+    <Content Include="Views\Accommodations\CreateAccommodation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

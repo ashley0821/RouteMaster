@@ -29,7 +29,7 @@ namespace RouteMaster.Models.EFModels
 
         public string Description { get; set; }
 
-        public double Grade { get; set; }
+        public double? Grade { get; set; }
 
         public int RegionId { get; set; }
 
