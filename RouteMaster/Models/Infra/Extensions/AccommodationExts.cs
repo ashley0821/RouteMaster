@@ -27,7 +27,7 @@ namespace RouteMaster.Models.Infra.Extensions
 		{
 			return new AccommodationCreateDto
             {
-				Id = vm.Id,
+				//Id = vm.Id,
 				PartnerId = vm.PartnerId,
 				Name = vm.Name,
                 RegionId = vm.RegionId,
@@ -42,8 +42,8 @@ namespace RouteMaster.Models.Infra.Extensions
 		{
 			return new Accommodation
 			{
-				Id = dto.Id,
-				PartnerId = dto.PartnerId,
+				//Id = dto.Id,
+				PartnerId = 1,//dto.PartnerId,
 				Name = dto.Name,
 				RegionId = dto.RegionId,
 				TownId = dto.TownId,
