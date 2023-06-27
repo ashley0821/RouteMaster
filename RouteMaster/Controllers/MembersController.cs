@@ -1,4 +1,6 @@
-﻿using RouteMaster.Models.Infra.EFRepositories;
+﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
@@ -20,9 +22,9 @@ namespace RouteMaster.Controllers
 			return View(members);
 		}
 
-		private IEnumerable<MemberIndexVM> GetMembers()
+		public IEnumerable<MemberIndexVM> GetMembers()
 		{
-			IMemberRepository repo = new MemberRepository();
+			IMemberRepository repo = new MemberEFRepository();
 			MemberService service = new MemberService(repo);
 			return service.Seacrh()
 				.Select(dto => new MemberIndexVM
@@ -43,15 +45,42 @@ namespace RouteMaster.Controllers
 		}
 
 		[HttpGet]
-		private ActionResult Create()
+		public ActionResult Register()
 		{
 			return View();
 		}
 
-		//[HttpPost]
-		//private ActionResult Create()
-		//{
-		//	return View();
-		//}
+		[HttpPost]
+		public ActionResult Register(MemberRegisterVM vm) 
+		{
+			if (ModelState.IsValid == false) return View(vm);
+
+			Result result = RegisterMember(vm);
+
+			if (result.IsSuccess)
+			{
+				return View("ConfirmRegister");
+			}
+			else
+			{
+				ModelState.AddModelError(string.Empty, result.ErrorMessage);
+				return View(vm);
+			}
+		}
+
+		public Result RegisterMember(MemberRegisterVM vm)
+		{
+			IMemberRepository repo = new MemberEFRepository();
+
+			MemberService service = new MemberService(repo);
+			return service.Register(vm.ToDto());
+		}
+
+
+		public ActionResult EditMember()
+		{
+			return View();
+		}
+
 	}
 }

@@ -1,39 +1,41 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Interfaces;
-using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Web;
 
 namespace RouteMaster.Models.Services
 {
-	public class ExtraServiceService
-	{
-		private IExtraServiceRepository _repo;
+    public class TravelPlanService
+    {
+        private ITravelPlanRepository _repo;
 
-        public ExtraServiceService(IExtraServiceRepository repo)
+
+        public TravelPlanService(ITravelPlanRepository reop)
         {
-            _repo = repo;            
+            _repo = reop;
+            
         }
 
-        public IEnumerable<ExtraServiceIndexDto> Search()
+        public IEnumerable<TravelPlanIndexDto> Search()
         {
             return _repo.Search();
         }
 
-
-        public Result Create(ExtraServiceCreateDto dto)
+        public Result Create(TravelPlanCreateDto dto)
         {
             _repo.Create(dto);
             return Result.Success();
         }
 
-        public Result Edit(ExtraServiceEditDto dto)
+        public Result Edit(TravelPlanEditDto dto)
         {
             _repo.Edit(dto);
-            return Result.Success();    
+            return Result.Success();
+
         }
 
         public Result Delete(int id)
@@ -41,9 +43,5 @@ namespace RouteMaster.Models.Services
             _repo.Delete(id);
             return Result.Success();
         }
-
-
-
-
     }
 }
