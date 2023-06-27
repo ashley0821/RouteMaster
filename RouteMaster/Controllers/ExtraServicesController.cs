@@ -54,7 +54,7 @@ namespace RouteMaster.Controllers
         // GET: ExtraServices/Create
         public ActionResult Create()
         {
-            ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name");
+            PrepareAttractionDataSource(null);
             return View();
         }
 
@@ -63,18 +63,22 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,AttractionId,Price,Description,Status")] ExtraService extraService)
+        public ActionResult Create(ExtraServiceCreateVM vm)
         {
+            IExtraServiceRepository repo = new ExtraServiceDapperRepository();
+            ExtraServiceService service=new ExtraServiceService(repo);  
+
             if (ModelState.IsValid)
             {
-                db.ExtraServices.Add(extraService);
-                db.SaveChanges();
+                service.Create(vm.ToCreateDto());        
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name", extraService.AttractionId);
-            return View(extraService);
+
+            PrepareAttractionDataSource(vm.AttractionId);
+            return View(vm);
         }
+
 
         // GET: ExtraServices/Edit/5
         public ActionResult Edit(int? id)
@@ -87,9 +91,11 @@ namespace RouteMaster.Controllers
             if (extraService == null)
             {
                 return HttpNotFound();
-            }
-            ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name", extraService.AttractionId);
-            return View(extraService);
+            } 
+            
+            
+            PrepareAttractionDataSource(extraService.AttractionId);
+            return View(extraService.ToEditDto().ToEditVM());
         }
 
         // POST: ExtraServices/Edit/5
@@ -97,16 +103,20 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,AttractionId,Price,Description,Status")] ExtraService extraService)
+        public ActionResult Edit(ExtraServiceEditVM vm)
         {
+            IExtraServiceRepository repo=new ExtraServiceDapperRepository();
+            ExtraServiceService service = new ExtraServiceService(repo);
+
             if (ModelState.IsValid)
             {
-                db.Entry(extraService).State = EntityState.Modified;
-                db.SaveChanges();
+               service.Edit(vm.ToEditDto());
                 return RedirectToAction("Index");
             }
-            ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name", extraService.AttractionId);
-            return View(extraService);
+
+
+           PrepareAttractionDataSource (vm.AttractionId);
+            return View(vm);
         }
 
         // GET: ExtraServices/Delete/5
@@ -129,9 +139,10 @@ namespace RouteMaster.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ExtraService extraService = db.ExtraServices.Find(id);
-            db.ExtraServices.Remove(extraService);
-            db.SaveChanges();
+            IExtraServiceRepository repo = new ExtraServiceDapperRepository();
+            ExtraServiceService service=new ExtraServiceService(repo);
+            service.Delete(id);
+
             return RedirectToAction("Index");
         }
 
@@ -142,6 +153,12 @@ namespace RouteMaster.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void PrepareAttractionDataSource(int? attractionId)
+        {
+            var attractions = db.Attractions.ToList().Prepend(new Attraction());
+            ViewBag.AttractionId = new SelectList(attractions, "Id", "Name", attractionId);
         }
     }
 }

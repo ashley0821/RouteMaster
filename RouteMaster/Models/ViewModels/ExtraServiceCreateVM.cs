@@ -10,15 +10,18 @@ namespace RouteMaster.Models.ViewModels
 	{	
 
 		[Required]
-		public string Name { get; set; }
+        public string Name { get; set; }
 
-		public int AttractionId { get; set; }
+        [Required]
+        public int AttractionId { get; set; }
 
-		public int Price { get; set; }
+        [Required]
+        public int Price { get; set; }
 
 		[Required]
-		public string Description { get; set; }
+        public string Description { get; set; }
 
-		public bool Status { get; set; }
+        [Required]
+        public bool Status { get; set; }
 	}
 }
