@@ -152,6 +152,7 @@
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceIndexDto.cs" />
     <Compile Include="Models\Dto\FAQDto.cs" />
+    <Compile Include="Models\Dto\MemberEditDto.cs" />
     <Compile Include="Models\Dto\MemberRegisterDto.cs" />
     <Compile Include="Models\Dto\OrderIndexDto.cs" />
     <Compile Include="Models\Dto\MemberCreateDto.cs" />
