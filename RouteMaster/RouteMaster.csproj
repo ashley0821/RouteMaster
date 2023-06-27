@@ -338,7 +338,6 @@
     <Content Include="Views\ActivityCategories\Edit.cshtml" />
     <Content Include="Views\ActivityCategories\Index.cshtml" />
     <Content Include="Views\Accommodations\_AccommodationCardPartial.cshtml" />
-    <Content Include="Views\Accommodations\CreateAccommodation.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\TravelPlans\Create.cshtml" />
