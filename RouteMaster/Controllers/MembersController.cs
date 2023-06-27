@@ -22,7 +22,7 @@ namespace RouteMaster.Controllers
 			return View(members);
 		}
 
-		private IEnumerable<MemberIndexVM> GetMembers()
+		public IEnumerable<MemberIndexVM> GetMembers()
 		{
 			IMemberRepository repo = new MemberEFRepository();
 			MemberService service = new MemberService(repo);
@@ -68,12 +68,19 @@ namespace RouteMaster.Controllers
 			}
 		}
 
-		private Result RegisterMember(MemberRegisterVM vm)
+		public Result RegisterMember(MemberRegisterVM vm)
 		{
 			IMemberRepository repo = new MemberEFRepository();
 
 			MemberService service = new MemberService(repo);
 			return service.Register(vm.ToDto());
 		}
+
+
+		public ActionResult EditMember()
+		{
+			return View();
+		}
+
 	}
 }
