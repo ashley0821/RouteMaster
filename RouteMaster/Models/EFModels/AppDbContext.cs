@@ -325,5 +325,7 @@ namespace RouteMaster.Models.EFModels
         }
 
         public System.Data.Entity.DbSet<RouteMaster.Models.ViewModels.ActivityIndexVM> ActivityIndexVMs { get; set; }
+
+        public System.Data.Entity.DbSet<RouteMaster.Models.ViewModels.AccommodationCreateVM> AccommodationCreateVMs { get; set; }
     }
 }

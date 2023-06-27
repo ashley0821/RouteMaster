@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
@@ -35,9 +37,8 @@ namespace RouteMaster.Controllers
             return View(accommodations);//.ToList());
         }
 
-
-		// GET: Accommodations/Details/5
-		public ActionResult Details(int? id)
+        // GET: Accommodations/Details/5
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
