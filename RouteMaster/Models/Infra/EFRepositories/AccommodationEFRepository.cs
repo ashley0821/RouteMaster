@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using System.Web;
+using RouteMaster.Models.Infra.Extensions;
+using System.Security.Principal;
 
 namespace RouteMaster.Models.Infra.EFRepositories
 {
@@ -14,7 +16,21 @@ namespace RouteMaster.Models.Infra.EFRepositories
 	{
 		private readonly AppDbContext _db = new AppDbContext();
 
-		IEnumerable<AccommodationIndexDto> IAccommodationRepository.Search()
+		public void Create(AccommodationCreateDto dto)
+		{
+			Accommodation accommodation = dto.ToEntity();
+
+            _db.Accommodations.Add(accommodation);
+            _db.SaveChanges();
+        }
+
+        public bool ExistAccount(string name)
+        {
+            return _db.Accommodations.Any(m => m.Name == name);
+
+        }
+
+        public IEnumerable<AccommodationIndexDto> Search()
 		{
 			return _db.Accommodations.AsNoTracking()
 				.Include(a => a.Partner)
