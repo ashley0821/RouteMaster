@@ -36,5 +36,25 @@ namespace RouteMaster.Controllers
 				   .ToList()
 				   .Select(o => o.ToIndexVM());
 		}
+
+		public ActionResult IndexDapper()
+		{
+
+			var viewModelItems = db.ActivitiesDetails
+				.ToList()
+				.Select(dto => new ActivitiesDetailsIndexVM
+				{
+					Id = dto.Id,
+					OrderId = dto.OrderId,
+					ActivityId = dto.ActivityId,
+					ActivityName = dto.ActivityName,
+					StartTime = dto.StartTime,
+					EndTime = dto.EndTime,
+					Price = dto.Price,
+					Quantity = dto.Quantity,
+
+				});
+			return PartialView("_IndexDapper", viewModelItems);
+		}
 	}
 }

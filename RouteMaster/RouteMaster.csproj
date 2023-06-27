@@ -134,6 +134,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccommodationsController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
+    <Compile Include="Controllers\ActivitiesDetailsController.cs" />
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -146,6 +147,9 @@
     </Compile>
     <Compile Include="Models\Dto\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\AccommodationIndexDto.cs" />
+    <Compile Include="Models\Dto\ActivitiesCreateDetailsDto.cs" />
+    <Compile Include="Models\Dto\ActivitiesDetailsDto.cs" />
+    <Compile Include="Models\Dto\ActivitiesEditDetailsDto.cs" />
     <Compile Include="Models\Dto\ActivityCreateDto.cs" />
     <Compile Include="Models\Dto\ActivityEditDto.cs" />
     <Compile Include="Models\Dto\ActivityIndexDto.cs" />
@@ -208,6 +212,7 @@
     <Compile Include="Models\EFModels\Town.cs" />
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\ActivitiesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServiceDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\PackageTourDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\TravelPlanDapperRepository.cs" />
@@ -241,6 +246,7 @@
     <Compile Include="Models\ViewModels\AccommodationCreateVM.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
     <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
+    <Compile Include="Models\ViewModels\ActivitiesDetailsIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
     <Compile Include="Models\ViewModels\ActivityIndexVM.cs" />
@@ -339,6 +345,9 @@
     <Content Include="Views\ActivityCategories\Index.cshtml" />
     <Content Include="Views\Accommodations\_AccommodationCardPartial.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
+
+    <Content Include="Views\Orders\_IndexDapper.cshtml" />
+
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\TravelPlans\Create.cshtml" />
     <Content Include="Views\TravelPlans\Delete.cshtml" />
@@ -346,6 +355,7 @@
     <Content Include="Views\TravelPlans\Edit.cshtml" />
     <Content Include="Views\TravelPlans\Index.cshtml" />
     <Content Include="Views\Member\EditMember.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
