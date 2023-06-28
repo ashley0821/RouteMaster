@@ -30,6 +30,29 @@ namespace RouteMaster.Models.Infra.EFRepositories
         {
             PackageTour packageTour= dto.ToEntity();
             _db.PackageTours.Add(packageTour);
+
+            foreach(var vm in dto.Activities)
+            {
+                Activity activity=vm.ToIndexDto().ToEntity();
+                packageTour.Activities.Add(activity);
+            }
+
+
+            //todo Attractions
+            //foreach (var attractionDto in dto.Attractions)
+            //{
+            //    Attraction attraction = attractionDto.ToEntity();
+            //    packageTour.Attractions.Add(attraction);
+            //}
+
+
+
+            foreach (var vm in dto.ExtraServices)
+            {
+                ExtraService extraService = vm.ToIndexDto().ToEntity();
+                packageTour.ExtraServices.Add(extraService);
+            }
+
             _db.SaveChanges();
 
         }
@@ -41,27 +64,46 @@ namespace RouteMaster.Models.Infra.EFRepositories
             _db.SaveChanges();
         }
 
+
+
         public void Edit(PackageTourEditDto dto)
         {
             var packageInDb = _db.PackageTours.Find(dto.Id);
 
             packageInDb.Description = dto.Description;
-            packageInDb.Status= dto.Status; 
+            packageInDb.Status= dto.Status;
             packageInDb.CouponId = dto.CouponId;
 
-
-
-            //todo
-
-
-            //packageInDb.Activities.Add(dto.Activities)
+            //packageInDb.Activities.Add(dto.Activities);
             //packageInDb.ExtraServices = dto.ExtraServices;
 
-            _db.SaveChanges();
 
 
-          
-          
+            packageInDb.Activities.Clear();
+            foreach (var vm in dto.Activities)
+            {
+                var activity = vm.ToIndexDto().ToEntity();
+                packageInDb.Activities.Add(activity);  
+            }
+
+            //todo Attractions
+            //packageInDb.Attractions.Clear();
+            //foreach (var vm in dto.Attractions)
+            //{
+            //    var attraction = vm.ToIndexDto().ToEntity();
+            //    packageInDb.Attractions.Add(attraction);
+            //}
+
+
+
+
+            packageInDb.ExtraServices.Clear();
+            foreach (var vm in dto.ExtraServices)
+            {
+                var extraService = vm.ToIndexDto().ToEntity();
+                packageInDb.ExtraServices.Add(extraService);
+            }
+            _db.SaveChanges();              
 
         }
 
