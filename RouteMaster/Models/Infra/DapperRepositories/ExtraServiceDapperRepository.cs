@@ -76,7 +76,7 @@ Name, AttractionId, Price, Description, Status
 Price=@Price, [Description]=@Description 
 WHERE Id=@Id" ;
 
-				conn.Execute(sql);
+				conn.Execute(sql,dto);
 			}
 		}
 
