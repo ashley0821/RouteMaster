@@ -345,9 +345,7 @@
     <Content Include="Views\ActivityCategories\Index.cshtml" />
     <Content Include="Views\Accommodations\_AccommodationCardPartial.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
-
     <Content Include="Views\Orders\_IndexDapper.cshtml" />
-
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\TravelPlans\Create.cshtml" />
     <Content Include="Views\TravelPlans\Delete.cshtml" />
@@ -355,7 +353,7 @@
     <Content Include="Views\TravelPlans\Edit.cshtml" />
     <Content Include="Views\TravelPlans\Index.cshtml" />
     <Content Include="Views\Member\EditMember.cshtml" />
-
+    <Content Include="Views\Orders\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
