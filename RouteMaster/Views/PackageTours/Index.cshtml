@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RouteMaster.Models.EFModels.PackageTour>
+﻿@model IEnumerable<RouteMaster.Models.ViewModels.PackageTourIndexVM>
 
 @{
     ViewBag.Title = "Index";
@@ -11,9 +11,7 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Coupon.Id)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
@@ -21,7 +19,14 @@
             @Html.DisplayNameFor(model => model.Status)
         </th>
         <th>
+            @*@Html.DisplayNameFor(model => model.Attractions)*@
+            景點列表
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Activities)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExtraServices)
         </th>
 
     </tr>
@@ -30,9 +35,7 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Coupon.Id)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
@@ -41,15 +44,40 @@
         </td>
 
         <td>
-            @Html.DisplayFor(modelItem => item.Activities)
+            @*@foreach(var attraction in item.Attractions)
+                {
+                    <div>@attraction.Name</div>
+                }*@
+        </td>
 
+        <td>
             @foreach (var activity in item.Activities)
             {
-                <div>@activity.Name</div> <!-- 假設 Activity 有一個 Name 屬性 -->
-                <div>@activity.Price</div>
+                <div >
+                    <div>@activity.Name</div>
+                    @*<div>@activity.Attraction.Name</div>*@
+                    <div>@activity.StartTime</div>
+                    <div>@activity.EndTime</div>
+                    <div>@activity.Price</div>
+                </div>        
             }
-
         </td>
+
+
+        <td>
+            @foreach (var extraService in item.ExtraServices)
+            {
+                <div>
+                    <div>@extraService.Name</div>
+                    @*<div>@extraService.Attraction.Name</div>*@
+                    <div>@extraService.Price</div>
+                </div>         
+            }
+        </td>
+
+
+        
+
         
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
