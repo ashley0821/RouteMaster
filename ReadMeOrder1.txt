@@ -12,4 +12,9 @@ AccomodationDetails partial view (useDapper)
 [v] add Dto
 [v] add interface, service
 [v] add DapperRepository
-[X] need to fix partial view bug 
+[v] need to fix partial view bug 
+
+6/30 12:40am
+[v] fixed partial view bug 
+[v] ActivitiesDetails method changed EF>>Dapper
+[.] ExtraServicesDetails method changed EF>>Dapper
