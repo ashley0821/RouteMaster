@@ -13,28 +13,28 @@ namespace RouteMaster.Controllers
 		// GET: ActivitiesDetails
 
 		private readonly AppDbContext db = new AppDbContext();
-		public ActionResult IndexDapper()
-		{
+		//public ActionResult IndexDapper()
+		//{
 
 
-			//var ActivitiesDetailsItems = new ActivitiesDetailsDapperRepository().GetActivitiesDetails();
-			var test = db.ActivitiesDetails;
+		//	//var ActivitiesDetailsItems = new ActivitiesDetailsDapperRepository().GetActivitiesDetails();
+		//	var test = db.ActivitiesDetails;
 
-			var viewModelItems = test
-				.ToList()
-				.Select(dto => new ActivitiesDetailsIndexVM
-				{
-					Id = dto.Id,
-					OrderId = dto.OrderId,
-					ActivityId = dto.ActivityId,
-					ActivityName = dto.ActivityName,
-					StartTime = dto.StartTime,
-					EndTime = dto.EndTime,
-					Price = dto.Price,
-					Quantity = dto.Quantity,
+		//	var viewModelItems = test
+		//		.ToList()
+		//		.Select(dto => new ActivitiesDetailsIndexVM
+		//		{
+		//			Id = dto.Id,
+		//			OrderId = dto.OrderId,
+		//			ActivityId = dto.ActivityId,
+		//			ActivityName = dto.ActivityName,
+		//			StartTime = dto.StartTime,
+		//			EndTime = dto.EndTime,
+		//			Price = dto.Price,
+		//			Quantity = dto.Quantity,
 
-				});
-			return PartialView(viewModelItems);
-		}
+		//		});
+		//	return PartialView(viewModelItems);
+		//}
 	}
 }
