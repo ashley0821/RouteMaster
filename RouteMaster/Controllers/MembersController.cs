@@ -96,7 +96,7 @@ namespace RouteMaster.Controllers
 			return View();
 		}
 		[HttpPost]
-		public ActionResult Login() 
+		public ActionResult Login(int a) 
 		{
 			return View();
 		}
