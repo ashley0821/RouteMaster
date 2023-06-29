@@ -1,5 +1,6 @@
 ﻿@model RouteMaster.Models.EFModels.Order
 
+
 @{
     ViewBag.Title = "Details";
 }
@@ -7,6 +8,7 @@
 <h2>Details</h2>
 <div>
     <h3>Accomodation Details</h3>
+    @{Html.RenderAction("AccomodationDetailsPartialView", new { id = Model.Id }); }
     <br />
 </div>
 <div>
@@ -20,7 +22,6 @@
 </div>
 <div>
     <h3>ExtraService Details</h3>
-    @{Html.RenderAction("ExtraServicesDetailsPartialView", new {id = Model.Id});}
+    @{Html.RenderAction("ExtraServicesDetailsPartialView", new { id = Model.Id });}
 
 </div>
-   
