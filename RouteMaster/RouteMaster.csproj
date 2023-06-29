@@ -344,6 +344,8 @@
     <Content Include="Views\TravelPlans\Details.cshtml" />
     <Content Include="Views\TravelPlans\Edit.cshtml" />
     <Content Include="Views\TravelPlans\Index.cshtml" />
+    <Content Include="Views\PackageTours\_ActivitiesListPartial.cshtml" />
+    <Content Include="Views\PackageTours\_ExtraServicesListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
