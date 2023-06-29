@@ -52,12 +52,7 @@ Name, AttractionId, Price, Description, Status
 
 				conn.Execute(sql, dto);
 
-			}
-
-		
-
-			
-
+			}	
 		}
 
 		public void Delete(int id)
@@ -76,9 +71,12 @@ Name, AttractionId, Price, Description, Status
 			using(var conn =new SqlConnection(_connstr))
 			{
 
-				string sql = @"Update ExtraService";
+				string sql = @"Update ExtraService SET 
+[Name]=@Name, AttractionId=@AttractionId, 
+Price=@Price, [Description]=@Description 
+WHERE Id=@Id" ;
 
-				conn.Execute(sql);
+				conn.Execute(sql,dto);
 			}
 		}
 

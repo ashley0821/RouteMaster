@@ -24,7 +24,36 @@ namespace RouteMaster.Models.Infra.Extensions
 
 
 
-		public static ExtraServiceIndexDto ToIndexDto(this ExtraService entity)
+        public static ExtraServiceIndexDto ToIndexDto(this ExtraServiceIndexVM vm)
+        {
+            return new ExtraServiceIndexDto
+            {
+                Id = vm.Id,
+                Name = vm.Name,
+                Price = vm.Price,
+                Description = vm.Description,
+                Status = vm.Status,
+            };
+        }
+
+
+
+
+        public static ExtraService ToEntity(this ExtraServiceIndexDto dto)
+        {
+            return new ExtraService
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                Price = dto.Price,
+                Description = dto.Description,
+                Status = dto.Status,
+            };
+        }
+
+
+
+        public static ExtraServiceIndexDto ToIndexDto(this ExtraService entity)
 		{
 			return new ExtraServiceIndexDto
 			{
