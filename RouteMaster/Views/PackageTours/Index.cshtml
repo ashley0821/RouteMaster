@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RouteMaster.Models.EFModels.PackageTour>
+﻿@model IEnumerable<RouteMaster.Models.ViewModels.PackageTourIndexVM>
 
 @{
     ViewBag.Title = "Index";
@@ -11,33 +11,78 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Coupon.Id)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Status)
         </th>
-        <th></th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Attractions)*@
+            景點列表
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Activities)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExtraServices)
+        </th>
+
     </tr>
+
+
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Coupon.Id)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Status)
         </td>
+
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @*@foreach(var attraction in item.Attractions)
+                {
+                    <div>@attraction.Name</div>
+                }*@
+        </td>
+
+        <td>
+            @foreach (var activity in item.Activities)
+            {
+                <div >
+                    <div>@activity.Name</div>
+                    @*<div>@activity.Attraction.Name</div>*@
+                    <div>@activity.StartTime</div>
+                    <div>@activity.EndTime</div>
+                    <div>@activity.Price</div>
+                </div>        
+            }
+        </td>
+
+
+        <td>
+            @foreach (var extraService in item.ExtraServices)
+            {
+                <div>
+                    <div>@extraService.Name</div>
+                    @*<div>@extraService.Attraction.Name</div>*@
+                    <div>@extraService.Price</div>
+                </div>         
+            }
+        </td>
+
+
+        
+
+        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }

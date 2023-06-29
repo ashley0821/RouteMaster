@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json.Linq;
 using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
@@ -14,6 +15,7 @@ using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RouteMaster.Controllers
 {
@@ -56,7 +58,14 @@ namespace RouteMaster.Controllers
         public ActionResult Create()
         {
             //ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName");
-            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name");
+            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name")
+				.Prepend(new SelectListItem
+				{
+                    Disabled = true,
+					Selected = true,
+					Text = "請選擇",
+					Value = ""
+				}); 
             ViewBag.TownId = new SelectList(db.Towns, "Id", "Name");
             return View();
         }
@@ -69,6 +78,7 @@ namespace RouteMaster.Controllers
         public ActionResult Create(AccommodationCreateVM vm)
         {
             ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
+                
             ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", vm.TownId);
             if (!ModelState.IsValid) return View(vm);
             //建立新會員
@@ -92,10 +102,12 @@ namespace RouteMaster.Controllers
 
         private Result CreateAccommodation(AccommodationCreateVM vm)
         {
-                IAccommodationRepository repo = new AccommodationEFRepository();
-                AccommodationService service = new AccommodationService(repo);
+            if (vm.RegionId == 0 || vm.TownId == 0) return Result.Fail("請再確認欄位資料是否正確");
 
-                return service.Create(vm.ToDto());
+            IAccommodationRepository repo = new AccommodationEFRepository();
+            AccommodationService service = new AccommodationService(repo);
+
+            return service.Create(vm.ToDto());
         }
 
         // GET: Accommodations/Edit/5
@@ -179,5 +191,19 @@ namespace RouteMaster.Controllers
 				Select(dto => dto.ToVM()).OrderByDescending(dto=>dto.Id);
 		}
 
+		[HttpPost]
+		public ActionResult ShowTownList(int regionId)
+		{
+			IEnumerable<Town> townList = db.Towns.Where(t => t.RegionId == regionId);
+
+			var townData = townList.Select(t => new
+			{
+				regionId = t.RegionId,
+				name = t.Name
+			}).ToList();
+
+			//return townList;
+			return Json(townData, JsonRequestBehavior.AllowGet);
+        }
 	}
 }

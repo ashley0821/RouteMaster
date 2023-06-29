@@ -7,6 +7,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.EFRepositories;
+using RouteMaster.Models.Infra.Extensions;
+using RouteMaster.Models.Interfaces;
+using RouteMaster.Models.Services;
+using RouteMaster.Models.ViewModels;
+using WebGrease.Css.Extensions;
 
 namespace RouteMaster.Controllers
 {
@@ -17,9 +23,31 @@ namespace RouteMaster.Controllers
         // GET: PackageTours
         public ActionResult Index()
         {
-            var packageTours = db.PackageTours.Include(p => p.Coupon);
-            return View(packageTours.ToList());
+        
+            //test使用導覽屬性直接改動中介表
+            //int id = 5;
+            //Activity activity = db.Activities.Find(id);
+            //List<PackageTour> packageTours = db.PackageTours.ToList();
+            //packageTours.ForEach(pt => pt.Activities.Add(activity));
+            //db.SaveChanges();
+
+
+
+           
+            IPackageTourRepository repo =new PackageTourEFRepository();
+            PackageTourService service = new PackageTourService(repo);
+            return View(service.Search().ToList().Select(x => x.ToIndexVM()));
+
+
+
+
+            //var packageTours = db.PackageTours.Include(p => p.Coupon);
+            //return View(packageTours.ToList().Select(x=>x.ToIndexDto().ToIndexVM()));
         }
+
+
+
+        
 
         // GET: PackageTours/Details/5
         public ActionResult Details(int? id)
@@ -37,28 +65,45 @@ namespace RouteMaster.Controllers
         }
 
         // GET: PackageTours/Create
+
+
         public ActionResult Create()
         {
-            ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Id");
+            //ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Id");
+
+            PrepareCouponDataSource(null);
             return View();
+
+
+
         }
+
 
         // POST: PackageTours/Create
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,Status,CouponId")] PackageTour packageTour)
+        public ActionResult Create(PackageTourCreateVM vm)
         {
+            IPackageTourRepository repo=new PackageTourEFRepository();
+            PackageTourService service=new PackageTourService(repo);
+
+
+            if (ModelState.IsValid == false)
+            {
+                return View();
+            }
+
             if (ModelState.IsValid)
             {
-                db.PackageTours.Add(packageTour);
-                db.SaveChanges();
+                service.Create(vm.ToCreateDto());
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Id", packageTour.CouponId);
-            return View(packageTour);
+            //ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Id", packageTour.CouponId);
+            PrepareCouponDataSource(vm.CouponId);
+            return View(vm);
         }
 
         // GET: PackageTours/Edit/5
@@ -127,6 +172,15 @@ namespace RouteMaster.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+
+
+        private void PrepareCouponDataSource(int? couponId)
+        {
+            var coupons = db.Coupons.ToList().Prepend(new Coupon());
+            ViewBag.CouponId = new SelectList(coupons, "Id", "Discount", couponId);
         }
     }
 }

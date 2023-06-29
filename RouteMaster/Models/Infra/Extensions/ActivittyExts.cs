@@ -4,6 +4,7 @@ using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Web;
 
@@ -12,6 +13,8 @@ namespace RouteMaster.Models.Infra.Extensions
 {
 	public static class ActivittyExts
 	{
+
+
 		public static ActivityIndexVM ToIndexVM(this ActivityIndexDto dto)
 		{
 			return new ActivityIndexVM
@@ -31,8 +34,27 @@ namespace RouteMaster.Models.Infra.Extensions
 		}
 
 
+        public static ActivityIndexDto ToIndexDto(this ActivityIndexVM vm)
+        {
+            return new ActivityIndexDto
+            {
+                Id = vm.Id,
+                ActivityCategoryName = vm.ActivityCategoryName,
+                AttractionName = vm.AttractionName,
+                Name = vm.Name,
+                RegionName = vm.RegionName,
+                Price = vm.Price,
+                StartTime = vm.StartTime,
+                EndTime = vm.EndTime,
+                Description = vm.Description,
+                Status = vm.Status,
 
-		public static ActivityIndexDto ToIndexDto(this Activity entity)
+            };
+        }
+
+
+
+        public static ActivityIndexDto ToIndexDto(this Activity entity)
 		{
 			return new ActivityIndexDto
 			{
@@ -50,7 +72,50 @@ namespace RouteMaster.Models.Infra.Extensions
 		}
 
 
-		public static ActivityCreateDto	ToCreateDto(this ActivityCreateVM vm)
+
+		public static int GetActivityCategoryIdFromId(this int id)
+		{
+			AppDbContext db = new AppDbContext();
+			int result = db.Activities.FirstOrDefault(a => a.Id == id).ActivityCategoryId;
+			return result;			
+		}
+
+
+        public static int GetAttractionIdFromId(this int id)
+        {
+            AppDbContext db = new AppDbContext();
+            int result = db.Activities.FirstOrDefault(a => a.Id == id).AttractionId;
+            return result;
+        }
+
+        public static int GetRegionIdFromId(this int id)
+        {
+            AppDbContext db = new AppDbContext();
+            int result = db.Activities.FirstOrDefault(a => a.Id == id).RegionId;
+            return result;
+        }
+
+
+
+        public static Activity ToEntity(this ActivityIndexDto dto)
+        {
+			return new Activity
+			{
+				Id = dto.Id,
+				ActivityCategoryId = GetActivityCategoryIdFromId(dto.Id),
+				AttractionId=GetAttractionIdFromId(dto.Id),
+				Name = dto.Name,
+                RegionId=GetRegionIdFromId(dto.Id),
+                Price = dto.Price,
+                StartTime = dto.StartTime,
+                EndTime = dto.EndTime,
+                Description = dto.Description,
+                Status = dto.Status,
+            };
+        }
+
+
+        public static ActivityCreateDto	ToCreateDto(this ActivityCreateVM vm)
 		{
 			return new ActivityCreateDto
 
