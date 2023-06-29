@@ -16,5 +16,5 @@ AccomodationDetails partial view (useDapper)
 
 6/30 12:40am
 [v] fixed partial view bug 
-[v] ActivitiesDetails method changed EF>>Dapper
-[.] ExtraServicesDetails method changed EF>>Dapper
+[v] ActivitiesDetails use Dapper (hide Entity Framework)
+[v] ExtraServicesDetails use Dapper (hide Entity Framework)

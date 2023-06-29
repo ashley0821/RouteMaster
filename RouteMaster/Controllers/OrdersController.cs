@@ -125,11 +125,6 @@ namespace RouteMaster.Controllers
 
 
 
-
-
-
-
-
         public ActionResult AccomodationDetailsPartialView(int orderId)
 			{
 				AccomodationDetailsDapperRepository repo = new AccomodationDetailsDapperRepository();
