@@ -51,7 +51,7 @@ namespace RouteMaster.Controllers
 		}
 
 
-		//ActivitiesDetails
+		//ActivitiesDetails (EF)
 	
 		public ActionResult IndexDapper(int id)
 		{
@@ -75,6 +75,7 @@ namespace RouteMaster.Controllers
 			return PartialView("_IndexDapper", viewModelItems.Where(x => x.OrderId == id).ToList());
 		}
 
+		//ExtraServiceDetails (EF)
 		public ActionResult ExtraServicesDetailsPartialView(int id)
 		{
 			
@@ -95,12 +96,27 @@ namespace RouteMaster.Controllers
 			//return PartialView("ExtraServicesDetailsPartialView",viewModelItems.Where(x=>x.OrderId==id).ToList());
 			return PartialView("_ExtraServicesDetailsPartialView", viewModelItems.Where(x => x.OrderId == id).ToList());
 
-			//return PartialView("_ExtraServicesDetailsPartialView", viewModelItems.ToList());
-
+			
 
 
 		}
 
+		//AccomodationDetails (Dapper)
+		public ActionResult AccomodationDetailsPartialView()
+		{
+			IEnumerable<AccomodationDetailsVM> accomodationDetails = (IEnumerable<AccomodationDetailsVM>)GetAccomodationdetails();
+			return PartialView("_AccomodationDetailsPartialView", accomodationDetails);
+		}
+
+		private IEnumerable<AccomodationDetailsVM> GetAccomodationdetails()
+		{
+			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
+			AccomodationDetailsService service = new AccomodationDetailsService(repo);
+
+			return service.Search()
+				.Select(dto => dto.ToIndexVM());
+
+		}
 
 	}
 }
