@@ -8,7 +8,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "方案項目", "方案項目", "{71CCF823-877F-40EC-945C-00B490F5D551}"
 	ProjectSection(SolutionItems) = preProject
 		ReadMe.txt = ReadMe.txt
+
 		ReadMeOrder1.txt = ReadMeOrder1.txt
+
+		ReadMeMember.txt = ReadMeMember.txt
+
 	EndProjectSection
 EndProject
 Global
