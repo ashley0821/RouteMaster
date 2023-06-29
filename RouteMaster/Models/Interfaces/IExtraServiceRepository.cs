@@ -1,5 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
