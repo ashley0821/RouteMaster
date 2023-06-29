@@ -8,7 +8,7 @@ namespace RouteMaster.Models.Dto
 {
     public class AccommodationCreateDto
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         public int PartnerId { get; set; }
 

@@ -12,6 +12,7 @@ namespace RouteMaster.Models.Interfaces
 	{
 		IEnumerable<AccommodationIndexDto> Search();
 
-		void Create();
-	}
+		void Create(AccommodationCreateDto dto);
+        bool ExistAccount(string name);
+    }
 }

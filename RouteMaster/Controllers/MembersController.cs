@@ -22,7 +22,7 @@ namespace RouteMaster.Controllers
 			return View(members);
 		}
 
-		private IEnumerable<MemberIndexVM> GetMembers()
+		public IEnumerable<MemberIndexVM> GetMembers()
 		{
 			IMemberRepository repo = new MemberEFRepository();
 			MemberService service = new MemberService(repo);
@@ -68,12 +68,41 @@ namespace RouteMaster.Controllers
 			}
 		}
 
-		private Result RegisterMember(MemberRegisterVM vm)
+		public ActionResult ActiveRegister()
+		{
+			return View();
+		}
+
+		public Result RegisterMember(MemberRegisterVM vm)
 		{
 			IMemberRepository repo = new MemberEFRepository();
 
 			MemberService service = new MemberService(repo);
 			return service.Register(vm.ToDto());
 		}
+
+		public ActionResult EditMember()
+		{
+			return View();
+		}
+
+		public ActionResult DeleteMember()
+		{
+			return View();
+		}
+
+		public ActionResult Login()
+		{
+			return View();
+		}
+
+
+		[HttpPost]
+		public ActionResult Login(MemberCreateVM vm)//to do建置有錯誤 記得要改成對的vm
+		{
+			return View();
+		}
+
+
 	}
 }
