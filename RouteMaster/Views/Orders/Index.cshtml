@@ -1,0 +1,73 @@
+﻿@model IEnumerable<RouteMaster.Models.ViewModels.OrderIndexVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MemberId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MemberName)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.PaymentMethodId)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentMethodName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MemberId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MemberName)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.PaymentMethodId)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentMethodName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+<div>
+    @*@Html.Partial("_IndexDapper",Model.Select(m=>m.ActivitiesDetails))*@
+    @*@{Html.RenderAction("IndexDapper");}*@
+</div>

@@ -6,12 +6,16 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json.Linq;
+using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RouteMaster.Controllers
 {
@@ -35,9 +39,8 @@ namespace RouteMaster.Controllers
             return View(accommodations);//.ToList());
         }
 
-
-		// GET: Accommodations/Details/5
-		public ActionResult Details(int? id)
+        // GET: Accommodations/Details/5
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -54,8 +57,15 @@ namespace RouteMaster.Controllers
         // GET: Accommodations/Create
         public ActionResult Create()
         {
-            ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName");
-            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name");
+            //ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName");
+            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name")
+				.Prepend(new SelectListItem
+				{
+                    Disabled = true,
+					Selected = true,
+					Text = "請選擇",
+					Value = ""
+				}); 
             ViewBag.TownId = new SelectList(db.Towns, "Id", "Name");
             return View();
         }
@@ -65,19 +75,39 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,PartnerId,Name,Description,Grade,RegionId,TownId,Address,PositionX,PositionY,PhoneNumber,Website,IndustryEmail,ParkingSpace,CreateDate")] Accommodation accommodation)
+        public ActionResult Create(AccommodationCreateVM vm)
         {
-            if (ModelState.IsValid)
-            {
-                db.Accommodations.Add(accommodation);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
+                
+            ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", vm.TownId);
+            if (!ModelState.IsValid) return View(vm);
+            //建立新會員
 
-            ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName", accommodation.PartnerId);
-            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", accommodation.RegionId);
-            ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", accommodation.TownId);
-            return View(accommodation);
+            Result result = CreateAccommodation(vm);
+
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("MyAccommodationIndex");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
+            //ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName", accommodation.PartnerId);
+            //ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
+            //ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", vm.TownId);
+            //return View(vm);
+        }
+
+        private Result CreateAccommodation(AccommodationCreateVM vm)
+        {
+            if (vm.RegionId == 0 || vm.TownId == 0) return Result.Fail("請再確認欄位資料是否正確");
+
+            IAccommodationRepository repo = new AccommodationEFRepository();
+            AccommodationService service = new AccommodationService(repo);
+
+            return service.Create(vm.ToDto());
         }
 
         // GET: Accommodations/Edit/5
@@ -158,8 +188,22 @@ namespace RouteMaster.Controllers
 			//IProductRepository repo = new ProductDapperRepository();
 			AccommodationService service = new AccommodationService(repo);
 			return service.Search().
-				Select(dto => dto.ToVM());
+				Select(dto => dto.ToVM()).OrderByDescending(dto=>dto.Id);
 		}
 
+		[HttpPost]
+		public ActionResult ShowTownList(int regionId)
+		{
+			IEnumerable<Town> townList = db.Towns.Where(t => t.RegionId == regionId);
+
+			var townData = townList.Select(t => new
+			{
+				regionId = t.RegionId,
+				name = t.Name
+			}).ToList();
+
+			//return townList;
+			return Json(townData, JsonRequestBehavior.AllowGet);
+        }
 	}
 }

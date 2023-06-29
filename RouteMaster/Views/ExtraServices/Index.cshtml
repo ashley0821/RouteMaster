@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RouteMaster.Models.EFModels.ExtraService>
+﻿@model IEnumerable<RouteMaster.Models.ViewModels.ExtraServiceIndexVM>
 
 @{
     ViewBag.Title = "Index";
@@ -12,10 +12,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Attraction.Name)
+            @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.AttractionId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Price)
@@ -32,10 +32,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Attraction.Name)
+            @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.AttractionId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Price)
