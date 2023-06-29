@@ -11,7 +11,8 @@ namespace RouteMaster.Models.Infra.Extensions
 {
 	public static class AccommodationExts
 	{
-		public static AccommodationIndexVM ToVM(this AccommodationIndexDto dto)
+		private static AppDbContext _db = new AppDbContext(); 
+        public static AccommodationIndexVM ToVM(this AccommodationIndexDto dto)
 		{
 			return new AccommodationIndexVM
 			{
@@ -27,7 +28,7 @@ namespace RouteMaster.Models.Infra.Extensions
 		{
 			return new AccommodationCreateDto
             {
-				Id = vm.Id,
+				//Id = vm.Id,
 				PartnerId = vm.PartnerId,
 				Name = vm.Name,
                 RegionId = vm.RegionId,
@@ -40,18 +41,24 @@ namespace RouteMaster.Models.Infra.Extensions
 		
 		public static Accommodation ToEntity(this AccommodationCreateDto dto)
 		{
+			string address = GetFullAddress(dto);
 			return new Accommodation
 			{
-				Id = dto.Id,
-				PartnerId = dto.PartnerId,
+				//Id = dto.Id,
+				PartnerId = 1,//dto.PartnerId,
 				Name = dto.Name,
 				RegionId = dto.RegionId,
 				TownId = dto.TownId,
-				Address = dto.Address,
+				Address = address,
 				PhoneNumber = dto.PhoneNumber,
 				IndustryEmail = dto.IndustryEmail,
                 CreateDate = DateTime.Now
             };
+		}
+
+		private static string GetFullAddress(AccommodationCreateDto dto)
+		{
+			return $"{_db.Regions.Where(r=>r.Id == dto.RegionId).FirstOrDefault().Name}{_db.Towns.Where(t=>t.Id == dto.TownId).FirstOrDefault().Name}{dto.Address}";
 		}
 	}
 }

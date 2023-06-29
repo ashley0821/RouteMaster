@@ -3,6 +3,7 @@ using RouteMaster.Models.EFModels;
 using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.EnterpriseServices;
 using System.Linq;
 using System.Web;
 
@@ -10,6 +11,8 @@ namespace RouteMaster.Models.Infra.Extensions
 {
     public static class PackageTourExts
     {
+
+        //Attractions待補
 
         public static PackageTourIndexVM ToIndexVM(this PackageTourIndexDto dto)
         {
@@ -19,7 +22,9 @@ namespace RouteMaster.Models.Infra.Extensions
                 Description = dto.Description,
                 Status = dto.Status,
                 CouponId = dto.CouponId,    
-
+                Activities = dto.Activities,
+                ExtraServices = dto.ExtraServices,      
+ 
             };
         }
 
@@ -32,20 +37,23 @@ namespace RouteMaster.Models.Infra.Extensions
                 Id = entity.Id,   
                 Description = entity.Description,
                 Status = entity.Status,
-                CouponId= entity.CouponId,  
+                CouponId= entity.CouponId,
+                Activities=entity.Activities.Select(x=>x.ToIndexDto().ToIndexVM()).ToList(),
+                ExtraServices=entity.ExtraServices.Select(x=>x.ToIndexDto().ToIndexVM()).ToList()    
             };
         }
+
 
 
         public static PackageTourCreateDto ToCreateDto(this PackageTourCreateVM vm)
         {
             return new PackageTourCreateDto
-
             {
-
                 Description = vm.Description,
                 Status = vm.Status,
                 CouponId = vm.CouponId,
+                Activities=vm.Activities,
+                ExtraServices=vm.ExtraServices,
             };
         }
 
@@ -53,12 +61,19 @@ namespace RouteMaster.Models.Infra.Extensions
         {
             return new PackageTour
             {
-
                 Description = dto.Description,
                 Status = dto.Status,
-                CouponId = dto.CouponId,    
+                CouponId = dto.CouponId,
+                Activities = dto.Activities.Select(x => x.ToIndexDto().ToEntity()).ToList(),
+                ExtraServices=dto.ExtraServices.Select(x=>x.ToIndexDto().ToEntity()).ToList()
             };
         }
+
+
+
+
+
+
 
         public static PackageTourEditDto ToEditDto(this PackageTour entity)
         {
@@ -75,7 +90,7 @@ namespace RouteMaster.Models.Infra.Extensions
         {
             return new PackageTourEditVM
             {
-                Id = dto.Id,
+               
                 Description = dto.Description,
                 Status = dto.Status,
                 CouponId= dto.CouponId,
@@ -86,7 +101,7 @@ namespace RouteMaster.Models.Infra.Extensions
         {
             return new PackageTourEditDto
             {
-                Id = vm.Id,
+           
                 Description = vm.Description,
                 Status = vm.Status,
                 CouponId=vm.CouponId,

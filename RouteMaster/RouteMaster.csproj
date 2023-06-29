@@ -134,18 +134,24 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccommodationsController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
+    <Compile Include="Controllers\ActivitiesDetailsController.cs" />
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
+    <Compile Include="Controllers\AdministratorsController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\PackageToursController.cs" />
+    <Compile Include="Controllers\PartnersController.cs" />
     <Compile Include="Controllers\TravelPlansController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dto\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\AccommodationIndexDto.cs" />
+    <Compile Include="Models\Dto\ActivitiesCreateDetailsDto.cs" />
+    <Compile Include="Models\Dto\ActivitiesDetailsDto.cs" />
+    <Compile Include="Models\Dto\ActivitiesEditDetailsDto.cs" />
     <Compile Include="Models\Dto\ActivityCreateDto.cs" />
     <Compile Include="Models\Dto\ActivityEditDto.cs" />
     <Compile Include="Models\Dto\ActivityIndexDto.cs" />
@@ -208,6 +214,7 @@
     <Compile Include="Models\EFModels\Town.cs" />
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\ActivitiesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServiceDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\PackageTourDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\TravelPlanDapperRepository.cs" />
@@ -215,6 +222,7 @@
     <Compile Include="Models\Infra\EFRepositories\MemberEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\ActivityEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\OrderEFRepository.cs" />
+    <Compile Include="Models\Infra\EFRepositories\PackageTourEFRepository.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
     <Compile Include="Models\Infra\Extensions\AccommodationExts.cs" />
@@ -241,6 +249,7 @@
     <Compile Include="Models\ViewModels\AccommodationCreateVM.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
     <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
+    <Compile Include="Models\ViewModels\ActivitiesDetailsIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
     <Compile Include="Models\ViewModels\ActivityIndexVM.cs" />
@@ -338,8 +347,8 @@
     <Content Include="Views\ActivityCategories\Edit.cshtml" />
     <Content Include="Views\ActivityCategories\Index.cshtml" />
     <Content Include="Views\Accommodations\_AccommodationCardPartial.cshtml" />
-    <Content Include="Views\Accommodations\CreateAccommodation.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Orders\_IndexDapper.cshtml" />
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\TravelPlans\Create.cshtml" />
     <Content Include="Views\TravelPlans\Delete.cshtml" />
@@ -347,6 +356,16 @@
     <Content Include="Views\TravelPlans\Edit.cshtml" />
     <Content Include="Views\TravelPlans\Index.cshtml" />
     <Content Include="Views\Member\EditMember.cshtml" />
+    <Content Include="Views\Partners\Create.cshtml" />
+    <Content Include="Views\Partners\Delete.cshtml" />
+    <Content Include="Views\Partners\Details.cshtml" />
+    <Content Include="Views\Partners\Edit.cshtml" />
+    <Content Include="Views\Partners\Index.cshtml" />
+    <Content Include="Views\Administrators\Create.cshtml" />
+    <Content Include="Views\Administrators\Delete.cshtml" />
+    <Content Include="Views\Administrators\Details.cshtml" />
+    <Content Include="Views\Administrators\Edit.cshtml" />
+    <Content Include="Views\Administrators\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

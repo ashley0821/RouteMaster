@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.EFModels;
+using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,9 @@ namespace RouteMaster.Models.Dto
 
         public int? CouponId { get; set; }
 
-        public virtual Coupon Coupon { get; set; }
+        public List<ActivityIndexVM> Activities { get; set; }
+        public List<ExtraServiceIndexVM> ExtraServices { get; set; }
+
+        //public List<AttractionIndexVM> Attractions { get; set; }
     }
 }
