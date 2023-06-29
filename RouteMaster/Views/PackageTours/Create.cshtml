@@ -79,6 +79,7 @@
 
         var container = document.querySelector("#activityContainer");
         var addActs = document.querySelectorAll(".addActivity");
+        //var arrayToUse =[1,2,3,4,5];
         var arrayToUse =[];
 
 
@@ -121,15 +122,16 @@
 
                 var data = JSON.stringify({ arrayToUse: arrayToUse });
                 // 回應處理
-                xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        // 處理成功回應
-                        var response = JSON.parse(xhr.responseText);
-                        console.log(response); // 處理回應的結果
-                        // 可以在此進行頁面重新導向或其他後續操作
-                    } else {
-                        // 處理錯誤回應
-                        console.log('發生錯誤');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            // 请求成功处理
+                            console.log('请求成功');                        
+                            // 进行后续操作
+                        } else {
+                            // 请求失败处理
+                            console.log('请求失败');
+                        }
                     }
                 };
 

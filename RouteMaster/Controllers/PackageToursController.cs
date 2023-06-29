@@ -87,16 +87,20 @@ namespace RouteMaster.Controllers
         }
 
 
+
+
+
+
         // POST: PackageTours/Create
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create( PackageTourCreateVM vm)
+        
+        public ActionResult Create(PackageTourCreateVM vm,List<Activity> arrayToUse)
         {
             IPackageTourRepository repo = new PackageTourEFRepository();
             PackageTourService service = new PackageTourService(repo);
-
+            arrayToUse[0].Name = "123";
 
             if (ModelState.IsValid == false)
             {
@@ -117,6 +121,14 @@ namespace RouteMaster.Controllers
             PrepareCouponDataSource(vm.CouponId);
             return View(vm);
         }
+
+
+
+
+
+
+
+
 
         // GET: PackageTours/Edit/5
         public ActionResult Edit(int? id)

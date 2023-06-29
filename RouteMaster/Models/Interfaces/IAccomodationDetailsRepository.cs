@@ -11,7 +11,7 @@ namespace RouteMaster.Models.Interfaces
 	public interface IAccomodationDetailsRepository
 	{
 		
-			IEnumerable<AccommodationDetailsDto> Search(AccomodationDetailsVM vm);
+			IEnumerable<AccommodationDetailsDto> Search();
 
 			void Create(AccommodationDetailsDto dto);
 
