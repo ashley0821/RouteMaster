@@ -10,9 +10,12 @@
     <br />
 </div>
 <div>
+
     <h3>Activities Details</h3>
-    @{Html.RenderAction("IndexDapper");}
     
+        @{Html.RenderAction("IndexDapper", new { id = Model.Id }); }
+    @*@{Html.RenderAction("IndexDapper", new { orderId = Model.OrderId });}*@
+
     <br />
 </div>
 <div>

@@ -38,7 +38,7 @@ namespace RouteMaster.Controllers
 				   .Select(o => o.ToIndexVM());
 		}
 
-		public ActionResult Details(int? id)
+		public ActionResult Details(int id)
 		{
 			if (id == null)
 			{
@@ -54,10 +54,10 @@ namespace RouteMaster.Controllers
 
 
 		//ActivitiesDetails
-		public ActionResult IndexDapper()
+		public ActionResult IndexDapper(int id)
 		{
 
-			var viewModelItems = db.ActivitiesDetails
+			var viewModelItems = db.ActivitiesDetails				
 				.ToList()
 				.Select(dto => new ActivitiesDetailsIndexVM
 				{
@@ -71,12 +71,15 @@ namespace RouteMaster.Controllers
 					Quantity = dto.Quantity,
 
 				});
-			return PartialView("_IndexDapper", viewModelItems);
+
+			 viewModelItems.Select(x=>x.OrderId=id).ToList();
+			return PartialView("_IndexDapper", viewModelItems.Where(x=>x.OrderId == id).ToList());
 		}
 
 		public ActionResult ExtraServicesDetailsPartialView()
 		{
 			
+
 			var viewModelItems = db.ExtraServicesDetails
 								.ToList()
 								.Select(dto => new ExtraServicesDetailsVM
