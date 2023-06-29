@@ -27,7 +27,7 @@ namespace RouteMaster.Controllers
 
 
 		}
-
+		//Order
 		private IEnumerable<OrderIndexVM> GetOrders()
 		{
 			IOrderRepository repo = new OrderEFRepository();
@@ -38,6 +38,22 @@ namespace RouteMaster.Controllers
 				   .Select(o => o.ToIndexVM());
 		}
 
+		public ActionResult Details(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Order order = db.Orders.Find(id);
+			if (order == null)
+			{
+				return HttpNotFound();
+			}
+			return View(order);
+		}
+
+
+		//ActivitiesDetails
 		public ActionResult IndexDapper()
 		{
 
@@ -58,18 +74,25 @@ namespace RouteMaster.Controllers
 			return PartialView("_IndexDapper", viewModelItems);
 		}
 
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            return View(order);
-        }
-    }
+		public ActionResult ExtraServicesDetailsPartialView()
+		{
+			
+			var viewModelItems = db.ExtraServicesDetails
+								.ToList()
+								.Select(dto => new ExtraServicesDetailsVM
+								{
+									Id = dto.Id,
+									OrderId = dto.OrderId,
+									ExtraServiceId = dto.ExtraServiceId,
+									ExtraServiceName = dto.ExtraServiceName,
+									Price = dto.Price,
+									Quantity = dto.Quantity,
+								});
+			return PartialView(viewModelItems);
+
+
+		}
+
+
+	}
 }
