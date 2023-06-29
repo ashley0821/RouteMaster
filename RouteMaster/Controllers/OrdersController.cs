@@ -27,7 +27,7 @@ namespace RouteMaster.Controllers
 
 
 		}
-
+		//Order
 		private IEnumerable<OrderIndexVM> GetOrders()
 		{
 			IOrderRepository repo = new OrderEFRepository();
@@ -38,10 +38,26 @@ namespace RouteMaster.Controllers
 				   .Select(o => o.ToIndexVM());
 		}
 
-		public ActionResult IndexDapper()
+		public ActionResult Details(int id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Order order = db.Orders.Find(id);
+			if (order == null)
+			{
+				return HttpNotFound();
+			}
+			return View(order);
+		}
+
+
+		//ActivitiesDetails
+		public ActionResult IndexDapper(int id)
 		{
 
-			var viewModelItems = db.ActivitiesDetails
+			var viewModelItems = db.ActivitiesDetails				
 				.ToList()
 				.Select(dto => new ActivitiesDetailsIndexVM
 				{
@@ -55,21 +71,31 @@ namespace RouteMaster.Controllers
 					Quantity = dto.Quantity,
 
 				});
-			return PartialView("_IndexDapper", viewModelItems);
+
+			 viewModelItems.Select(x=>x.OrderId=id).ToList();
+			return PartialView("_IndexDapper", viewModelItems.Where(x=>x.OrderId == id).ToList());
 		}
 
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            return View(order);
-        }
-    }
+		public ActionResult ExtraServicesDetailsPartialView()
+		{
+			
+
+			var viewModelItems = db.ExtraServicesDetails
+								.ToList()
+								.Select(dto => new ExtraServicesDetailsVM
+								{
+									Id = dto.Id,
+									OrderId = dto.OrderId,
+									ExtraServiceId = dto.ExtraServiceId,
+									ExtraServiceName = dto.ExtraServiceName,
+									Price = dto.Price,
+									Quantity = dto.Quantity,
+								});
+			return PartialView(viewModelItems);
+
+
+		}
+
+
+	}
 }

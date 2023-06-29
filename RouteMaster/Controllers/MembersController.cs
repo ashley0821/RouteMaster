@@ -68,6 +68,11 @@ namespace RouteMaster.Controllers
 			}
 		}
 
+		public ActionResult ActiveRegister()
+		{
+			return View();
+		}
+
 		public Result RegisterMember(MemberRegisterVM vm)
 		{
 			IMemberRepository repo = new MemberEFRepository();
@@ -76,11 +81,26 @@ namespace RouteMaster.Controllers
 			return service.Register(vm.ToDto());
 		}
 
-
 		public ActionResult EditMember()
 		{
 			return View();
 		}
+
+		public ActionResult DeleteMember()
+		{
+			return View();
+		}
+
+		public ActionResult Login()
+		{
+			return View();
+		}
+		[HttpPost]
+		public ActionResult Login() 
+		{
+			return View();
+		}
+
 
 	}
 }
