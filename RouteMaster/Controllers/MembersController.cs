@@ -95,8 +95,10 @@ namespace RouteMaster.Controllers
 		{
 			return View();
 		}
+
+
 		[HttpPost]
-		public ActionResult Login(int a) 
+		public ActionResult Login(MemberCreateVM vm)//to do建置有錯誤 記得要改成對的vm
 		{
 			return View();
 		}
