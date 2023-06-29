@@ -1,5 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.DapperRepositories;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
@@ -40,10 +41,7 @@ namespace RouteMaster.Controllers
 
 		public ActionResult Details(int id)
 		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
+			
 			Order order = db.Orders.Find(id);
 			if (order == null)
 			{
@@ -54,10 +52,11 @@ namespace RouteMaster.Controllers
 
 
 		//ActivitiesDetails
+	
 		public ActionResult IndexDapper(int id)
 		{
 
-			var viewModelItems = db.ActivitiesDetails				
+			var viewModelItems = db.ActivitiesDetails
 				.ToList()
 				.Select(dto => new ActivitiesDetailsIndexVM
 				{
@@ -72,11 +71,11 @@ namespace RouteMaster.Controllers
 
 				});
 
-			 viewModelItems.Select(x=>x.OrderId=id).ToList();
-			return PartialView("_IndexDapper", viewModelItems.Where(x=>x.OrderId == id).ToList());
+			//viewModelItems.Select(x => x.OrderId = id).ToList();
+			return PartialView("_IndexDapper", viewModelItems.Where(x => x.OrderId == id).ToList());
 		}
 
-		public ActionResult ExtraServicesDetailsPartialView()
+		public ActionResult ExtraServicesDetailsPartialView(int id)
 		{
 			
 
@@ -91,7 +90,13 @@ namespace RouteMaster.Controllers
 									Price = dto.Price,
 									Quantity = dto.Quantity,
 								});
-			return PartialView(viewModelItems);
+
+			//viewModelItems.Select(x=>x.OrderId = id).ToList();
+			//return PartialView("ExtraServicesDetailsPartialView",viewModelItems.Where(x=>x.OrderId==id).ToList());
+			return PartialView("_ExtraServicesDetailsPartialView", viewModelItems.Where(x => x.OrderId == id).ToList());
+
+			//return PartialView("_ExtraServicesDetailsPartialView", viewModelItems.ToList());
+
 
 
 		}
