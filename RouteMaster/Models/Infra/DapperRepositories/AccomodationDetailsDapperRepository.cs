@@ -20,7 +20,7 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 			_connStr = System.Configuration.ConfigurationManager.ConnectionStrings
 				["AppDbContext"].ConnectionString;
 		}
-		public IEnumerable<AccommodationDetailsDto> Search(AccomodationDetailsVM vm)
+		public IEnumerable<AccommodationDetailsDto> Search()
 		{
 			using (var conn = new SqlConnection(_connStr))
 			{
@@ -34,7 +34,7 @@ namespace RouteMaster.Models.Infra.DapperRepositories
       ,[CheckOut]
       ,[RoomPrice]
   FROM AccommodationDetails where orderid = @orderid by orderid";
-				return conn.Query<AccommodationDetailsDto>(sql, vm);
+				return conn.Query<AccommodationDetailsDto>(sql);
 			}
 		}
 
