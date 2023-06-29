@@ -31,9 +31,11 @@ namespace RouteMaster.Models.EFModels
 
         public double? Grade { get; set; }
 
-        public int RegionId { get; set; }
+        [Required]
+		public int RegionId { get; set; }
 
-        public int TownId { get; set; }
+        [Required]
+		public int TownId { get; set; }
 
         [Required]
         public string Address { get; set; }

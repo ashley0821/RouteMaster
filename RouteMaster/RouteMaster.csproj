@@ -253,6 +253,7 @@
     <Compile Include="Models\Services\TravelPlanService.cs" />
     <Compile Include="Models\ViewModels\AccommodationCreateVM.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
+    <Compile Include="Models\ViewModels\AccommodationEditVM.cs" />
     <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivitiesDetailsIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
@@ -382,6 +383,7 @@
     <Content Include="Views\Administrators\Edit.cshtml" />
     <Content Include="Views\Administrators\Index.cshtml" />
 
+
     <Content Include="Views\FAQs\Create.cshtml" />
     <Content Include="Views\FAQs\Delete.cshtml" />
     <Content Include="Views\FAQs\Details.cshtml" />
@@ -390,6 +392,7 @@
 
 
     <Content Include="Views\Orders\ExtraServicesDetailsPartialView.cshtml" />
+
 
 
   </ItemGroup>
