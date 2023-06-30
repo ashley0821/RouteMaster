@@ -10,11 +10,7 @@ namespace RouteMaster.Models.Dto
 	public class AccommodationIndexDto
 	{
 		public int Id { get; set; }
-
 		public int PartnerId { get; set; }
-
-		[Required]
-		[StringLength(850)]
 		public string Name { get; set; }
 		public string Address { get; set; }
 		public string AccommodationImage { get; set; }

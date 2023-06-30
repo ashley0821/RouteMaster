@@ -25,16 +25,40 @@ namespace RouteMaster.Models.Services
 
         public Result Create(AccommodationCreateDto dto)
         {
-            if (_repo.ExistAccount(dto.Name))
+            if (_repo.ExistName(dto.Name))
             {
                 //丟出異常,或者傳回 Result
                 return Result.Fail($"住宿名稱{dto.Name}已存在, 請確認後再試一次");
             }
 
-            // 新增一筆紀錄
-            _repo.Create(dto);
+			if (dto.RegionId == 0 || dto.TownId == 0) return Result.Fail("請再確認欄位資料是否正確");
+
+			// 新增一筆紀錄
+			_repo.Create(dto);
 
             return Result.Success();
         }
-    }
+
+		public AccommodationEditDto GetEditInfo(int? id)
+		{
+			return _repo.GetEditInfo(id);
+		}
+
+		public Result EditAccommodationProfile(AccommodationEditDto dto)
+		{
+			if (!_repo.ExistName(dto.Name) || !_repo.IsOriginalName(dto))
+			{
+				//丟出異常,或者傳回 Result
+				return Result.Fail($"住宿名稱{dto.Name}已存在, 請確認後再試一次");
+			}
+
+			if (dto.RegionId == 0 || dto.TownId == 0) return Result.Fail("請再確認欄位資料是否正確");
+
+			// 新增一筆紀錄
+			_repo.EditAccommodationProfile(dto);
+
+			return Result.Success();
+			
+		}
+	}
 }

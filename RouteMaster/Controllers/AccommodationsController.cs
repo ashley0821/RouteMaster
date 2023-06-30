@@ -120,7 +120,7 @@ namespace RouteMaster.Controllers
             }
 
             ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", model.RegionId);
-            ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", model.TownId);
+            ViewBag.TownId = new SelectList(db.Towns.Where(t=>t.RegionId == model.RegionId), "Id", "Name", model.TownId);
             return View(model);
         }
 
@@ -130,22 +130,68 @@ namespace RouteMaster.Controllers
 		// 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Accommodation accommodation)
+        public ActionResult Edit(AccommodationEditVM vm)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(accommodation).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName", accommodation.PartnerId);
-            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", accommodation.RegionId);
-            ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", accommodation.TownId);
-            return View(accommodation);
+			ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
+			ViewBag.TownId = new SelectList(db.Towns.Where(t => t.RegionId == vm.RegionId), "Id", "Name", vm.TownId);
+			if (!ModelState.IsValid) return View(vm);
+
+			Result result = EditAccommodationProfile(vm);
+
+			if (result.IsSuccess)
+			{
+				return RedirectToAction("MyAccommodationIndex");
+			}
+			else
+			{
+				ModelState.AddModelError(string.Empty, result.ErrorMessage);
+				return View(vm);
+			}
+			
         }
 
-        // GET: Accommodations/Delete/5
-        public ActionResult Delete(int? id)
+		public ActionResult CreateRoom()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult CreateRoom(AccommodationCreateVM vm)
+		{
+			ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
+
+			ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", vm.TownId);
+			if (!ModelState.IsValid) return View(vm);
+			//建立新會員
+
+			Result result = CreateAccommodation(vm);
+
+			if (result.IsSuccess)
+			{
+				return RedirectToAction("MyAccommodationIndex");
+			}
+			else
+			{
+				ModelState.AddModelError(string.Empty, result.ErrorMessage);
+				return View(vm);
+			}
+			//ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName", accommodation.PartnerId);
+			//ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
+			//ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", vm.TownId);
+			//return View(vm);
+		}
+
+		private Result EditAccommodationProfile(AccommodationEditVM vm)
+		{
+			IAccommodationRepository repo = new AccommodationEFRepository();
+			AccommodationService service = new AccommodationService(repo);
+
+			return service.EditAccommodationProfile(vm.ToDto());
+		}
+
+		// GET: Accommodations/Delete/5
+		public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -181,31 +227,16 @@ namespace RouteMaster.Controllers
 
 		private AccommodationEditVM GetAccommodationProfile(int? id)
 		{
-			var accommodationdb = db.Accommodations.FirstOrDefault(x => x.Id == id);
+			IAccommodationRepository repo = new AccommodationEFRepository();
+			//IProductRepository repo = new ProductDapperRepository();
+			AccommodationService service = new AccommodationService(repo);
+            return service.GetEditInfo(id).ToVM();
 
-            //var length = db.Regions.Select(r => r.Id == accommodationdb.RegionId);
-            int length = accommodationdb.Region.Name.Length + accommodationdb.Town.Name.Length;
-            
-
-			return accommodationdb == null ? null : new AccommodationEditVM
-			{
-				Id = accommodationdb.Id,
-                PartnerId = accommodationdb.PartnerId,
-				Name = accommodationdb.Name,
-                Description = accommodationdb.Description,
-                RegionId = accommodationdb.RegionId,
-                TownId = accommodationdb.TownId,
-                Address = accommodationdb.Address.Substring(length),
-                PhoneNumber = accommodationdb.PhoneNumber,
-                Website = accommodationdb.Website,
-                IndustryEmail = accommodationdb.IndustryEmail,
-                ParkingSpace = accommodationdb.ParkingSpace
-			};
+			
 		}
 
         private Result CreateAccommodation(AccommodationCreateVM vm)
         {
-            if (vm.RegionId == 0 || vm.TownId == 0) return Result.Fail("請再確認欄位資料是否正確");
 
             IAccommodationRepository repo = new AccommodationEFRepository();
             AccommodationService service = new AccommodationService(repo);
@@ -223,13 +254,14 @@ namespace RouteMaster.Controllers
 		}
 
 		[HttpPost]
+        //[ValidateAntiForgeryToken]
 		public ActionResult ShowTownList(int regionId)
 		{
 			IEnumerable<Town> townList = db.Towns.Where(t => t.RegionId == regionId);
 
 			var townData = townList.Select(t => new
 			{
-				regionId = t.RegionId,
+				townId = t.Id,
 				name = t.Name
 			}).ToList();
 

@@ -147,6 +147,7 @@
     </Compile>
     <Compile Include="Models\Dto\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\AccommodationDetailsDto.cs" />
+    <Compile Include="Models\Dto\AccommodationEditDto.cs" />
     <Compile Include="Models\Dto\AccommodationIndexDto.cs" />
     <Compile Include="Models\Dto\ActivitiesCreateDetailsDto.cs" />
     <Compile Include="Models\Dto\ActivitiesDetailsDto.cs" />
@@ -255,11 +256,12 @@
     <Compile Include="Models\Services\ExtraServiceService.cs" />
     <Compile Include="Models\Services\PackageTourService.cs" />
     <Compile Include="Models\Services\TravelPlanService.cs" />
-    <Compile Include="Models\ViewModels\AccommodationCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\AccommodationCreateVM.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
-    <Compile Include="Models\ViewModels\AccommodationEditVM.cs" />
-    <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
-    <Compile Include="Models\ViewModels\AccomodationDetailsVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\AccommodationEditVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\AccommodationIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\AccomodationDetailsVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\Room\RoomCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivitiesDetailsIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
@@ -372,10 +374,8 @@
     <Content Include="Views\TravelPlans\Details.cshtml" />
     <Content Include="Views\TravelPlans\Edit.cshtml" />
     <Content Include="Views\TravelPlans\Index.cshtml" />
-
     <Content Include="Views\PackageTours\_ActivitiesListPartial.cshtml" />
     <Content Include="Views\PackageTours\_ExtraServicesListPartial.cshtml" />
-
     <Content Include="Views\Member\EditMember.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
     <Content Include="Views\Partners\Create.cshtml" />
@@ -395,7 +395,7 @@
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\Orders\_ExtraServicesDetailsPartialView.cshtml" />
     <Content Include="Views\Orders\_AccomodationDetailsPartialView.cshtml" />
-
+    <Content Include="Views\Accommodations\CreateRoom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
