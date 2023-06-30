@@ -13,8 +13,6 @@ namespace RouteMaster.Models.Infra.Extensions
 {
 	public static class ActivittyExts
 	{
-
-
 		public static ActivityIndexVM ToIndexVM(this ActivityIndexDto dto)
 		{
 			return new ActivityIndexVM

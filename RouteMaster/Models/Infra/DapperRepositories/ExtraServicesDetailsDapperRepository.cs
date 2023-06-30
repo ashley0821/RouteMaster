@@ -9,31 +9,27 @@ using System.Web;
 
 namespace RouteMaster.Models.Infra.DapperRepositories
 {
+	public class ExtraServicesDetailsDapperRepository
+	{
+		private readonly string _connStr;
 
-}
-//{
-//	public class ExtraServicesDetailsDapperRepository
-//	{
-//		private readonly string _connStr;
-
-//		public ExtraServicesDetailsDapperRepository()
-//		{
-//			_connStr =
-//			System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ConnectionString;
-//		}
-//		public IEnumerable<ExtraServicesDetailsDto> search(ExtraServicesDetailsVM vm)
-//		{
-//			using(var conn = new SqlConnection(_connStr))
-//			{
-//				string sql = @"SELECT [Id]
-//      ,[OrderId]
-//      ,[ExtraServiceId]
-//      ,[ExtraServiceName]
-//      ,[Price]
-//      ,[Quantity]
-//  FROM ExtraServicesDetails order by OrderId";
-//				return conn.Query<ExtraServicesDetailsDto>(sql,vm);
-//			}
-//		}
-//	}
-//}
+		public ExtraServicesDetailsDapperRepository()
+		{
+			_connStr =
+			System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ConnectionString;
+		}
+		public List<ExtraServicesDetailsVM> GetExtraServicesDetails(int orderId)
+		{
+			
+		string sql = @"SELECT [Id]
+      ,[OrderId]
+      ,[ExtraServiceId]
+      ,[ExtraServiceName]
+      ,[Price]
+      ,[Quantity]
+         FROM ExtraServicesDetails WHERE orderid = @orderid";
+			IEnumerable<ExtraServicesDetailsVM> extraServicesDetails = new SqlConnection(_connStr).Query<ExtraServicesDetailsVM>(sql, new { orderid = orderId });
+			return extraServicesDetails.ToList();
+			}
+		}
+	}

@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.ViewModels;
@@ -9,29 +10,29 @@ using System.Web;
 
 namespace RouteMaster.Models.Services
 {
-	public class ActivitiesDetailsService
+	public class AccomodationDetailsService
 	{
-		private IActivitiesDetailsRepository _repo;
+		private IAccomodationDetailsRepository _repo;
 
 
-		public ActivitiesDetailsService(IActivitiesDetailsRepository repo)
+		public AccomodationDetailsService(IAccomodationDetailsRepository repo)
 		{
 			_repo = repo;
 
 		}
 
-		public IEnumerable<ActivitiesDetailsDto> Search()
-		{
-			return _repo.Search();
-		}
+        public IEnumerable<AccommodationDetailsDto> Search(int orderId)
+        {
+            return _repo.Search(orderId);
+        }
 
-		public Result Create(ActivitiesDetailsDto dto)
+        public Result Create(AccommodationDetailsDto dto)
 		{
 			_repo.Create(dto);
 			return Result.Success();
 		}
 
-		public Result Edit(ActivitiesDetailsDto dto)
+		public Result Edit(AccommodationDetailsDto dto)
 		{
 			_repo.Edit(dto);
 			return Result.Success();
