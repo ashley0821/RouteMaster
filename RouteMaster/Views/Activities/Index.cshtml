@@ -1,8 +1,137 @@
 ﻿@model IEnumerable<RouteMaster.Models.ViewModels.ActivityIndexVM>
 
+
+
+@{
+    var activityCategories = ViewBag.ActivityCategoryId as SelectList;
+    var attractions = ViewBag.AttractionId as SelectList;
+    var regions = ViewBag.RegionId as SelectList;
+    var criteria = ViewBag.Criteria as RouteMaster.Models.Infra.Criterias.ActivityIndexCriteria;
+    string s_actCategoryId = criteria.ActivityCategoryId.HasValue ? criteria.ActivityCategoryId.Value.ToString() : "";
+    string s_attractionId = criteria.AttractionId.HasValue ? criteria.AttractionId.Value.ToString() : "";
+    string s_regionId = criteria.RegionId.HasValue ? criteria.RegionId.Value.ToString() : "";
+}
+
+
+
+
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+<section class="container">
+    <form method="get">
+        <div class="row">
+
+            <div class="mb-3 col-md-3">
+                <label for="a_name">活動名稱</label>
+                <input type="text" class="form-control" name="name" value="@criteria.Name" />
+            </div>
+
+            <div class="mb-3 col-md-3">
+                <label for="s_actCategoryId">活動分類</label>
+                <select name="activityCategoryId" id="s_actCategoryId" class="form-select">
+                    @foreach (var item in activityCategories)
+                    {
+                        <option value="@item.Value" @(s_actCategoryId == item.Value ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+            </div>
+
+
+            <div class="mb-3 col-md-3">
+                <label for="s_attractionId">景點</label>
+                <select name="attractionId" id="s_attractionId" class="form-select">
+                    @foreach (var item in attractions)
+                    {
+                        <option value="@item.Value" @(s_attractionId == item.Value ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+            </div>
+
+
+
+            <div class="mb-3 col-md-3">
+                <label for="s_regionId">縣市</label>
+                <select name="regionId" id="s_regionId" class="form-select">
+                    @foreach (var item in regions)
+                    {
+                        <option value="@item.Value" @(s_regionId == item.Value ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+            </div>
+
+
+            <div class="mb-3 col-md-4">
+                <label for="s_minPrice" style="display: block">金額</label>
+                <input type="number" class="form-control" name="minPrice" id="s_minPrice" style="width: 40%; display: inline" value="@criteria.MinPrice"> ~
+                <input type="number" class="form-control" name="maxPrice" id="s_maxPrice" style="width: 40%; display: inline" value="@criteria.MaxPrice">
+            </div>
+
+
+            <div class="mb-3 col-md-4">
+                <label for="s_minPrice" style="display: block">日期</label>
+                <input type="datetime" class="form-control" name="startDate" id="s_startDate" style="width: 40%; display: inline" value="@criteria.StartDate"> ~
+                <input type="datetime" class="form-control" name="endDate" id="s_endDate" style="width: 40%; display: inline" value="@criteria.EndDate">
+            </div>
+
+            <div class="mb-3 col-md-4">
+                <label for="status">只顯示上架中的活動</label>
+                <input type="checkbox" name="ShowAvailableOnly" id="status" @(criteria.ShowAvailableOnly? "checked" : "") />
+            </div>
+
+
+            <div class="mb-3 col-md-2 align-self-end">
+                <button class="btn btn-primary">Search</button>
+            </div>
+
+
+        </div>
+    </form>
+</section>
+
+
+
+<script>
+    var statusCheckbox = document.getElementById('status');
+
+    statusCheckbox.addEventListener('change', function () {
+        @criteria.ShowAvailableOnly =statusCheckbox.checked;
+        //好扯喔 瀏覽器
+        statusCheckbox.value = statusCheckbox.checked ? 'true' : 'false';
+       
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <table class="table">
     <tr>
         <th>
@@ -35,41 +164,44 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActivityCategoryName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AttractionName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RegionName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityCategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttractionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+            </td>
+        </tr>
+    }
 
 </table>
+
+
