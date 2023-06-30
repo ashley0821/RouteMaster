@@ -11,6 +11,10 @@ namespace RouteMaster.Models.Interfaces
 	{
 		IEnumerable<AttractionIndexDto> Search();
 
-	
+		bool ExistAttraction(string Name);
+
+		void Create(AttractionCreateDto dto);
+
+		AttractionDetailDto Get(int id);
 	}
 }
