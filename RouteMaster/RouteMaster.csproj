@@ -215,6 +215,7 @@
     <Compile Include="Models\EFModels\Town.cs" />
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
+    <Compile Include="Models\Infra\Criterias\ActivityIndexCriteria.cs" />
     <Compile Include="Models\Infra\DapperRepositories\AccomodationDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ActivitiesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServiceDapperRepository.cs" />
@@ -395,8 +396,10 @@
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\Orders\_ExtraServicesDetailsPartialView.cshtml" />
     <Content Include="Views\Orders\_AccomodationDetailsPartialView.cshtml" />
+
     <Content Include="Views\Member\Register.cshtml" />
     <Content Include="Views\Member\ConfirmRegister.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

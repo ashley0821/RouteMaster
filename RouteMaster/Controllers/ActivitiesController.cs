@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
@@ -21,20 +21,35 @@ namespace RouteMaster.Controllers
         private AppDbContext db = new AppDbContext();
 
         // GET: Activities
-        public ActionResult Index()
+        public ActionResult Index(ActivityIndexCriteria criteria)
         {
-            IEnumerable<ActivityIndexVM> activities = GetActivities();
+            ViewBag.Criteria=criteria;
+            PrepareActivityCategoryDataSource(criteria.ActivityCategoryId);
+            PrepareRegionDataSource(criteria.RegionId);
+            PrepareAttractionDataSource(criteria.AttractionId); 
+
+
+
+
+
+            IEnumerable<ActivityIndexVM> activities = GetActivities(criteria);
             return View(activities);
         }
-		private IEnumerable<ActivityIndexVM> GetActivities()
+
+
+		private IEnumerable<ActivityIndexVM> GetActivities(ActivityIndexCriteria criteria)
 		{
             IActivityRepository repo = new ActivityEFRepository();
             ActivityService service=new ActivityService(repo);
 
-            return service.Search()
-                   .ToList()
+            return service.Search(criteria)                   
                    .Select(a => a.ToIndexVM());           
 		}
+
+
+
+
+
 
 		// GET: Activities/Details/5
 		public ActionResult Details(int? id)
