@@ -101,15 +101,6 @@ namespace RouteMaster.Controllers
             //return View(vm);
         }
 
-        private Result CreateAccommodation(AccommodationCreateVM vm)
-        {
-            if (vm.RegionId == 0 || vm.TownId == 0) return Result.Fail("請再確認欄位資料是否正確");
-
-            IAccommodationRepository repo = new AccommodationEFRepository();
-            AccommodationService service = new AccommodationService(repo);
-
-            return service.Create(vm.ToDto());
-        }
 
         // GET: Accommodations/Edit/5
         public ActionResult Edit(int? id)
@@ -120,7 +111,7 @@ namespace RouteMaster.Controllers
             }
 
 			//var model = GetMemberProfile(currentUserAccount);
-			AccommodationEditVM model = GetMemberProfile(id);
+			AccommodationEditVM model = GetAccommodationProfile(id);
 
 			//Accommodation accommodation = db.Accommodations.Find(id);
             if (model == null)
@@ -133,36 +124,13 @@ namespace RouteMaster.Controllers
             return View(model);
         }
 
-		private AccommodationEditVM GetMemberProfile(int? id)
-		{
-			var accommodationdb = db.Accommodations.FirstOrDefault(x => x.Id == id);
-
-            //var length = db.Regions.Select(r => r.Id == accommodationdb.RegionId);
-            int length = accommodationdb.Region.Name.Length + accommodationdb.Town.Name.Length;
-            
-
-			return accommodationdb == null ? null : new AccommodationEditVM
-			{
-				Id = accommodationdb.Id,
-                PartnerId = accommodationdb.PartnerId,
-				Name = accommodationdb.Name,
-                Description = accommodationdb.Description,
-                RegionId = accommodationdb.RegionId,
-                TownId = accommodationdb.TownId,
-                Address = accommodationdb.Address.Substring(length),
-                PhoneNumber = accommodationdb.PhoneNumber,
-                Website = accommodationdb.Website,
-                IndustryEmail = accommodationdb.IndustryEmail,
-                ParkingSpace = accommodationdb.ParkingSpace
-			};
-		}
 
 		// POST: Accommodations/Edit/5
 		// 若要免於大量指派 (overposting) 攻擊，請啟用您要繫結的特定屬性，
 		// 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,PartnerId,Name,Description,Grade,RegionId,TownId,Address,PositionX,PositionY,PhoneNumber,Website,IndustryEmail,ParkingSpace,CreateDate")] Accommodation accommodation)
+        public ActionResult Edit(Accommodation accommodation)
         {
             if (ModelState.IsValid)
             {
@@ -209,6 +177,40 @@ namespace RouteMaster.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+		private AccommodationEditVM GetAccommodationProfile(int? id)
+		{
+			var accommodationdb = db.Accommodations.FirstOrDefault(x => x.Id == id);
+
+            //var length = db.Regions.Select(r => r.Id == accommodationdb.RegionId);
+            int length = accommodationdb.Region.Name.Length + accommodationdb.Town.Name.Length;
+            
+
+			return accommodationdb == null ? null : new AccommodationEditVM
+			{
+				Id = accommodationdb.Id,
+                PartnerId = accommodationdb.PartnerId,
+				Name = accommodationdb.Name,
+                Description = accommodationdb.Description,
+                RegionId = accommodationdb.RegionId,
+                TownId = accommodationdb.TownId,
+                Address = accommodationdb.Address.Substring(length),
+                PhoneNumber = accommodationdb.PhoneNumber,
+                Website = accommodationdb.Website,
+                IndustryEmail = accommodationdb.IndustryEmail,
+                ParkingSpace = accommodationdb.ParkingSpace
+			};
+		}
+
+        private Result CreateAccommodation(AccommodationCreateVM vm)
+        {
+            if (vm.RegionId == 0 || vm.TownId == 0) return Result.Fail("請再確認欄位資料是否正確");
+
+            IAccommodationRepository repo = new AccommodationEFRepository();
+            AccommodationService service = new AccommodationService(repo);
+
+            return service.Create(vm.ToDto());
         }
 
 		private IEnumerable<AccommodationIndexVM> GetAccommodations()

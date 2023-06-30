@@ -8,6 +8,9 @@ using System.Linq;
 using System.Web;
 
 namespace RouteMaster.Models.Infra.DapperRepositories
+{
+
+}
 //{
 //	public class ExtraServicesDetailsDapperRepository
 //	{
