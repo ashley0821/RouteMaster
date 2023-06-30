@@ -1,6 +1,8 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Interfaces;
+using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +21,12 @@ namespace RouteMaster.Models.Services
 
 		}
 
-		public IEnumerable<AccommodationDetailsDto> Search()
-		{
-			return _repo.Search();
-		}
+        public IEnumerable<AccommodationDetailsDto> Search(int orderId)
+        {
+            return _repo.Search(orderId);
+        }
 
-		public Result Create(AccommodationDetailsDto dto)
+        public Result Create(AccommodationDetailsDto dto)
 		{
 			_repo.Create(dto);
 			return Result.Success();

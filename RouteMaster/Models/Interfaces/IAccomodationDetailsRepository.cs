@@ -11,13 +11,13 @@ namespace RouteMaster.Models.Interfaces
 	public interface IAccomodationDetailsRepository
 	{
 		
-			IEnumerable<AccommodationDetailsDto> Search(AccomodationDetailsVM vm);
+			IEnumerable<AccommodationDetailsDto> Search(int orderId);
 
 			void Create(AccommodationDetailsDto dto);
 
 			void Edit(AccommodationDetailsDto dto);
 
 			void Delete(int id);
-		
-	}
+       
+    }
 }
