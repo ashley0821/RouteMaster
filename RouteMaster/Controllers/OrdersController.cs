@@ -41,7 +41,7 @@ namespace RouteMaster.Controllers
 
 		public ActionResult Details(int id)
 		{
-			
+
 			Order order = db.Orders.Find(id);
 			if (order == null)
 			{
@@ -80,17 +80,17 @@ namespace RouteMaster.Controllers
 		public ActionResult IndexDapper(int orderId)
 
 		{
-			ActivitiesDetailsDapperRepository repo= new ActivitiesDetailsDapperRepository();
+			ActivitiesDetailsDapperRepository repo = new ActivitiesDetailsDapperRepository();
 			List<ActivitiesDetailsIndexVM> activitiesdetails = repo.GetActivitiesDetails(orderId);
 			return PartialView("_IndexDapper", activitiesdetails);
 
 		}
 
 
-        //ExtraServiceDetails (EF)
-  //      public ActionResult ExtraServicesDetailsPartialView(int id)
+		//ExtraServiceDetails (EF)
+		//      public ActionResult ExtraServicesDetailsPartialView(int id)
 		//{
-			
+
 
 		//	var viewModelItems = db.ExtraServicesDetails
 		//						.ToList()
@@ -111,27 +111,34 @@ namespace RouteMaster.Controllers
 		//}
 
 		//AccomodationDetails (Dapper)
-		
-		
-		
+
+
+
 		public ActionResult ExtraServicesDetailsPartialView(int orderId)
 		{
-			ExtraServicesDetailsDapperRepository repo= new ExtraServicesDetailsDapperRepository();
+			ExtraServicesDetailsDapperRepository repo = new ExtraServicesDetailsDapperRepository();
 			List<ExtraServicesDetailsVM> extraServicesDetails = repo.GetExtraServicesDetails(orderId);
 
-            return PartialView("_ExtraServicesDetailsPartialView", extraServicesDetails);
-        } 
+			return PartialView("_ExtraServicesDetailsPartialView", extraServicesDetails);
+		}
 
 
 
 
-        public ActionResult AccomodationDetailsPartialView(int orderId)
-			{
-				AccomodationDetailsDapperRepository repo = new AccomodationDetailsDapperRepository();
-				List<AccomodationDetailsVM> accomodationDetails = repo.GetAccomodationDetails(orderId);
+		public ActionResult AccomodationDetailsPartialView(int orderId)
+		{
+			AccomodationDetailsDapperRepository repo = new AccomodationDetailsDapperRepository();
+			List<AccomodationDetailsVM> accomodationDetails = repo.GetAccomodationDetails(orderId);
 
-				return PartialView("_AccomodationDetailsPartialView", accomodationDetails);
-			}
+			return PartialView("_AccomodationDetailsPartialView", accomodationDetails);
+		}
 
+
+
+
+
+		
 	}
+
+		
 }
