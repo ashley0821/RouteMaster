@@ -22,12 +22,14 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 			_connStr = System.Configuration.ConfigurationManager.ConnectionStrings
 				["AppDbContext"].ConnectionString;
 		}
+
         public List<AccomodationDetailsVM> GetAccomodationDetails(int orderId)
 		{
 			string sql= @"SELECT [OrderId], [AccommodationId], [AccommodationName], [RoomType], [RoomName], [CheckIn], [CheckOut], [RoomPrice]
                    FROM AccommodationDetails
                    WHERE orderid = @orderid";
             IEnumerable<AccomodationDetailsVM> accomodationDetails = new SqlConnection(_connStr).Query<AccomodationDetailsVM>(sql, new {orderid= orderId });
+
 
             return accomodationDetails.ToList();
         }
