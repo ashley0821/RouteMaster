@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using RouteMaster.Models.Dto;
+using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -17,19 +18,18 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 			_connStr =
 			System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ConnectionString;
 		}
-		public IEnumerable<ExtraServicesDetailsDto> search()
+		public List<ExtraServicesDetailsVM> GetExtraServicesDetails(int orderId)
 		{
-			using(var conn = new SqlConnection(_connStr))
-			{
-				string sql = @"SELECT [Id]
+			
+		string sql = @"SELECT [Id]
       ,[OrderId]
       ,[ExtraServiceId]
       ,[ExtraServiceName]
       ,[Price]
       ,[Quantity]
-  FROM ExtraServicesDetails order by OrderId";
-				return conn.Query<ExtraServicesDetailsDto>(sql);
+         FROM ExtraServicesDetails WHERE orderid = @orderid";
+			IEnumerable<ExtraServicesDetailsVM> extraServicesDetails = new SqlConnection(_connStr).Query<ExtraServicesDetailsVM>(sql, new { orderid = orderId });
+			return extraServicesDetails.ToList();
 			}
 		}
 	}
-}

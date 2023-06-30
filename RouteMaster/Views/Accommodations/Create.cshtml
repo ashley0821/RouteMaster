@@ -125,7 +125,7 @@
 
                         // 遍历返回的 Town 数据并添加到 DropDownList
                         $.each(data, function (index, town) {
-                            $("#town").append($('<option></option>').val(town.regionId).text(town.name));
+                            $("#town").append($('<option></option>').val(town.townId).text(town.name));
                         });
                     }).fail(err => {
                         $("#town").empty().append($('<option></option>').val("").text("請選擇"));

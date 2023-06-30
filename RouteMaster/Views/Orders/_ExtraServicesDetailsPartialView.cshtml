@@ -1,31 +1,20 @@
-﻿@model IEnumerable<RouteMaster.Models.ViewModels.ActivitiesDetailsIndexVM>
+﻿@model IEnumerable<RouteMaster.Models.ViewModels.ExtraServicesDetailsVM>
 
 <p>
-    @*@html.actionlink("create new", "create")*@
+    @*@Html.ActionLink("Create New", "Create")*@
 </p>
 
-@*@foreach (var orderGroup in Model.GroupBy(item => item.OrderId))
-{
-    var orderId = orderGroup.Key;
-    var orderDetails = orderGroup.ToList();*@
 
-    @*<h3>Order ID: @orderId</h3>*@
     <table class="table">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.OrderId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ActivityId)
+                @Html.DisplayNameFor(model => model.ExtraServiceId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ActivityName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
+                @Html.DisplayNameFor(model => model.ExtraServiceName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
@@ -43,16 +32,10 @@
                     @Html.DisplayFor(modelItem => item.OrderId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ActivityId)
+                    @Html.DisplayFor(modelItem => item.ExtraServiceId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ActivityName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndTime)
+                    @Html.DisplayFor(modelItem => item.ExtraServiceName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
@@ -67,6 +50,6 @@
                 </td>
             </tr>
         }
+
     </table>
-@*}*@
 

@@ -1,5 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.DapperRepositories;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
@@ -40,10 +41,7 @@ namespace RouteMaster.Controllers
 
 		public ActionResult Details(int id)
 		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
+			
 			Order order = db.Orders.Find(id);
 			if (order == null)
 			{
@@ -53,49 +51,87 @@ namespace RouteMaster.Controllers
 		}
 
 
-		//ActivitiesDetails
-		public ActionResult IndexDapper(int id)
+		//activitiesdetails(ef)
+
+		//public actionresult indexdapper(int id)
+		//{
+
+		//	var viewmodelitems = db.activitiesdetails
+		//		.tolist()
+		//		.select(dto => new activitiesdetailsindexvm
+		//		{
+		//			id = dto.id,
+		//			orderid = dto.orderid,
+		//			activityid = dto.activityid,
+		//			activityname = dto.activityname,
+		//			starttime = dto.starttime,
+		//			endtime = dto.endtime,
+		//			price = dto.price,
+		//			quantity = dto.quantity,
+
+		//		});
+
+		//	//viewmodelitems.select(x => x.orderid = id).tolist();
+		//	return partialview("_indexdapper", viewmodelitems.where(x => x.orderid == id).tolist());
+		//}
+
+
+		//
+		public ActionResult IndexDapper(int orderId)
+
 		{
+			ActivitiesDetailsDapperRepository repo= new ActivitiesDetailsDapperRepository();
+			List<ActivitiesDetailsIndexVM> activitiesdetails = repo.GetActivitiesDetails(orderId);
+			return PartialView("_IndexDapper", activitiesdetails);
 
-			var viewModelItems = db.ActivitiesDetails				
-				.ToList()
-				.Select(dto => new ActivitiesDetailsIndexVM
-				{
-					Id = dto.Id,
-					OrderId = dto.OrderId,
-					ActivityId = dto.ActivityId,
-					ActivityName = dto.ActivityName,
-					StartTime = dto.StartTime,
-					EndTime = dto.EndTime,
-					Price = dto.Price,
-					Quantity = dto.Quantity,
-
-				});
-
-			 viewModelItems.Select(x=>x.OrderId=id).ToList();
-			return PartialView("_IndexDapper", viewModelItems.Where(x=>x.OrderId == id).ToList());
 		}
 
-		public ActionResult ExtraServicesDetailsPartialView()
-		{
+
+        //ExtraServiceDetails (EF)
+  //      public ActionResult ExtraServicesDetailsPartialView(int id)
+		//{
 			
 
-			var viewModelItems = db.ExtraServicesDetails
-								.ToList()
-								.Select(dto => new ExtraServicesDetailsVM
-								{
-									Id = dto.Id,
-									OrderId = dto.OrderId,
-									ExtraServiceId = dto.ExtraServiceId,
-									ExtraServiceName = dto.ExtraServiceName,
-									Price = dto.Price,
-									Quantity = dto.Quantity,
-								});
-			return PartialView(viewModelItems);
+		//	var viewModelItems = db.ExtraServicesDetails
+		//						.ToList()
+		//						.Select(dto => new ExtraServicesDetailsVM
+		//						{
+		//							Id = dto.Id,
+		//							OrderId = dto.OrderId,
+		//							ExtraServiceId = dto.ExtraServiceId,
+		//							ExtraServiceName = dto.ExtraServiceName,
+		//							Price = dto.Price,
+		//							Quantity = dto.Quantity,
+		//						});
+
+		//	//viewModelItems.Select(x=>x.OrderId = id).ToList();
+		//	//return PartialView("ExtraServicesDetailsPartialView",viewModelItems.Where(x=>x.OrderId==id).ToList());
+		//	return PartialView("_ExtraServicesDetailsPartialView", viewModelItems.Where(x => x.OrderId == id).ToList());
+
+		//}
+
+		//AccomodationDetails (Dapper)
+		
+		
+		
+		public ActionResult ExtraServicesDetailsPartialView(int orderId)
+		{
+			ExtraServicesDetailsDapperRepository repo= new ExtraServicesDetailsDapperRepository();
+			List<ExtraServicesDetailsVM> extraServicesDetails = repo.GetExtraServicesDetails(orderId);
+
+            return PartialView("_ExtraServicesDetailsPartialView", extraServicesDetails);
+        } 
 
 
-		}
 
+
+        public ActionResult AccomodationDetailsPartialView(int orderId)
+			{
+				AccomodationDetailsDapperRepository repo = new AccomodationDetailsDapperRepository();
+				List<AccomodationDetailsVM> accomodationDetails = repo.GetAccomodationDetails(orderId);
+
+				return PartialView("_AccomodationDetailsPartialView", accomodationDetails);
+			}
 
 	}
 }
