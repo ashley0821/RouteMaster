@@ -1,5 +1,7 @@
 ﻿using Dapper;
 using RouteMaster.Models.Dto;
+using RouteMaster.Models.EFModels;
+using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -18,11 +20,10 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 				["AppDbContext"].ConnectionString;
 		}
 
-		public IEnumerable<ActivitiesDetailsDto> GetActivitiesDetails()
+		public List<ActivitiesDetailsIndexVM>GetActivitiesDetails(int orderId)
 		{
-			using (var conn = new SqlConnection(_connStr))
-			{
-				string sql = @"SELECT 
+			
+			string sql = @"SELECT 
        [OrderId]
       ,[ActivityId]
       ,[ActivityName]
@@ -30,11 +31,12 @@ namespace RouteMaster.Models.Infra.DapperRepositories
       ,[EndTime]
       ,[Price]
       ,[Quantity]
-  FROM ActivitiesDetails order by orderId";
-				return conn.Query<ActivitiesDetailsDto>(sql);
-			}
+  FROM ActivitiesDetails where orderId = @orderId order by orderId";
+			IEnumerable<ActivitiesDetailsIndexVM>activitiesDetails=new SqlConnection(_connStr).Query<ActivitiesDetailsIndexVM>(sql, new { orderid = orderId });
+            return activitiesDetails.ToList();
+        }
 
-		}
+		
 	};
 }
 	

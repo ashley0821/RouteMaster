@@ -53,7 +53,7 @@ namespace RouteMaster.Controllers
 		[HttpPost]
 		public ActionResult Register(MemberRegisterVM vm) 
 		{
-			if (ModelState.IsValid == false) return View(vm);
+			if (!ModelState.IsValid) return View(vm);
 
 			Result result = RegisterMember(vm);
 
@@ -68,11 +68,6 @@ namespace RouteMaster.Controllers
 			}
 		}
 
-		public ActionResult ActiveRegister()
-		{
-			return View();
-		}
-
 		public Result RegisterMember(MemberRegisterVM vm)
 		{
 			IMemberRepository repo = new MemberEFRepository();
@@ -80,6 +75,19 @@ namespace RouteMaster.Controllers
 			MemberService service = new MemberService(repo);
 			return service.Register(vm.ToDto());
 		}
+
+
+		public ActionResult ConfirmRegister()
+		{
+			return View();
+		}
+
+
+		public ActionResult ActiveRegister()
+		{
+			return View();
+		}
+
 
 		public ActionResult EditMember()
 		{
@@ -95,12 +103,13 @@ namespace RouteMaster.Controllers
 		{
 			return View();
 		}
+
+
 		[HttpPost]
-		public ActionResult Login() 
+		public ActionResult Login(MemberCreateVM vm)//to do建置有錯誤 記得要改成對的vm
 		{
 			return View();
 		}
-
 
 	}
 }

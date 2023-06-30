@@ -135,6 +135,8 @@
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
     <Compile Include="Controllers\AdministratorsController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
+    <Compile Include="Controllers\FAQsController.cs" />
+    <Compile Include="Controllers\ExtraServicesDetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
@@ -145,6 +147,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dto\AccommodationCreateDto.cs" />
+    <Compile Include="Models\Dto\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\AccommodationIndexDto.cs" />
     <Compile Include="Models\Dto\ActivitiesCreateDetailsDto.cs" />
     <Compile Include="Models\Dto\ActivitiesDetailsDto.cs" />
@@ -155,6 +158,7 @@
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceIndexDto.cs" />
+    <Compile Include="Models\Dto\ExtraServicesDetailsDto.cs" />
     <Compile Include="Models\Dto\FAQDto.cs" />
     <Compile Include="Models\Dto\MemberEditDto.cs" />
     <Compile Include="Models\Dto\MemberRegisterDto.cs" />
@@ -211,8 +215,10 @@
     <Compile Include="Models\EFModels\Town.cs" />
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\AccomodationDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ActivitiesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServiceDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\ExtraServicesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\PackageTourDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\TravelPlanDapperRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\AccommodationEFRepository.cs" />
@@ -221,9 +227,11 @@
     <Compile Include="Models\Infra\EFRepositories\OrderEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\PackageTourEFRepository.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
+    <Compile Include="Models\Infra\Extensions\AccomodationDetailsExts.cs" />
     <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
     <Compile Include="Models\Infra\Extensions\AccommodationExts.cs" />
     <Compile Include="Models\Infra\Extensions\ExtraServiceExts.cs" />
+    <Compile Include="Models\Infra\Extensions\FAQExts.cs" />
     <Compile Include="Models\Infra\Extensions\MemberExts.cs" />
     <Compile Include="Models\Infra\Extensions\OrderExts.cs" />
     <Compile Include="Models\Infra\Extensions\PackageTourExts.cs" />
@@ -231,10 +239,15 @@
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Interfaces\IAccommodationRepository.cs" />
+    <Compile Include="Models\Interfaces\IAccomodationDetailsRepository.cs" />
+    <Compile Include="Models\Interfaces\IActivitiesDetailsRepository.cs" />
     <Compile Include="Models\Interfaces\IActivityRepository.cs" />
+    <Compile Include="Models\Interfaces\IExtraServiceDetailsRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
     <Compile Include="Models\Interfaces\IPackageTourRepository.cs" />
     <Compile Include="Models\Interfaces\ITravelPlanRepository.cs" />
+    <Compile Include="Models\Services\AccomodationDetailsService.cs" />
+    <Compile Include="Models\Services\ActivitiesDetailsService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Interfaces\IExtraServiceRepository.cs" />
     <Compile Include="Models\Interfaces\IOrderRepository.cs" />
@@ -245,7 +258,9 @@
     <Compile Include="Models\Services\TravelPlanService.cs" />
     <Compile Include="Models\ViewModels\AccommodationCreateVM.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
+    <Compile Include="Models\ViewModels\AccommodationEditVM.cs" />
     <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
+    <Compile Include="Models\ViewModels\AccomodationDetailsVM.cs" />
     <Compile Include="Models\ViewModels\ActivitiesDetailsIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
@@ -253,8 +268,15 @@
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceIndexVM.cs" />
+    <Compile Include="Models\ViewModels\FAQCreateVM.cs" />
+    <Compile Include="Models\ViewModels\FAQCriteriaVM.cs" />
+    <Compile Include="Models\ViewModels\FAQEditImgVM.cs" />
+    <Compile Include="Models\ViewModels\FAQEditVM.cs" />
+    <Compile Include="Models\ViewModels\FAQIndexVM.cs" />
+    <Compile Include="Models\ViewModels\ExtraServicesDetailsVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
+    <Compile Include="Models\ViewModels\MemberLogin.cs" />
     <Compile Include="Models\ViewModels\MemberRegisterVM.cs" />
     <Compile Include="Models\ViewModels\OrderInvdexVM.cs" />
     <Compile Include="Models\ViewModels\MemberIndexVM.cs" />
@@ -352,6 +374,8 @@
     <Content Include="Views\TravelPlans\Details.cshtml" />
     <Content Include="Views\TravelPlans\Edit.cshtml" />
     <Content Include="Views\TravelPlans\Index.cshtml" />
+    <Content Include="Views\PackageTours\_ActivitiesListPartial.cshtml" />
+    <Content Include="Views\PackageTours\_ExtraServicesListPartial.cshtml" />
     <Content Include="Views\Member\EditMember.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
     <Content Include="Views\Partners\Create.cshtml" />
@@ -364,11 +388,22 @@
     <Content Include="Views\Administrators\Details.cshtml" />
     <Content Include="Views\Administrators\Edit.cshtml" />
     <Content Include="Views\Administrators\Index.cshtml" />
+    <Content Include="Views\FAQs\Create.cshtml" />
+    <Content Include="Views\FAQs\Delete.cshtml" />
+    <Content Include="Views\FAQs\Details.cshtml" />
+    <Content Include="Views\FAQs\Edit.cshtml" />
+    <Content Include="Views\FAQs\Index.cshtml" />
+    <Content Include="Views\Orders\_ExtraServicesDetailsPartialView.cshtml" />
+    <Content Include="Views\Orders\_AccomodationDetailsPartialView.cshtml" />
+    <Content Include="Views\Member\Register.cshtml" />
+    <Content Include="Views\Member\ConfirmRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
     <Folder Include="Uploads\" />
+    <Folder Include="Views\AccomodationDetails\" />
+    <Folder Include="Views\ExtraServicesDetails\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

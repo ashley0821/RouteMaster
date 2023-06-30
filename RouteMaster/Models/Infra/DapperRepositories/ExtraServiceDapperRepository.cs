@@ -2,6 +2,7 @@
 using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Interfaces;
+using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -29,7 +30,7 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 
 				string sql = @"select[Id], [Name], [AttractionId], 
 [Price], [Description] ,[Status] 
-from ExtraServices order by Price";
+from ExtraServices  order by Price";
 				return conn.Query<ExtraServiceIndexDto>(sql);	
 			}
 		}
