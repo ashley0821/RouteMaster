@@ -19,6 +19,10 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
+
+
+
+
 <section class="container">
     <form method="get">
         <div class="row">
@@ -71,13 +75,13 @@
 
             <div class="mb-3 col-md-4">
                 <label for="s_minPrice" style="display: block">日期</label>
-                <input type="datetime" class="form-control" name="startDate" id="s_startDate" style="width: 40%; display: inline" value="@criteria.StartDate"> ~
-                <input type="datetime" class="form-control" name="endDate" id="s_endDate" style="width: 40%; display: inline" value="@criteria.EndDate">
+                <input type="date" class="form-control" name="startDate" id="s_startDate" style="width: 40%; display: inline" value="@criteria.StartDate"> ~
+                <input type="date" class="form-control" name="endDate" id="s_endDate" style="width: 40%; display: inline" value="@criteria.EndDate">
             </div>
 
             <div class="mb-3 col-md-4">
                 <label for="status">只顯示上架中的活動</label>
-                <input type="checkbox" name="ShowAvailableOnly" id="status" @(criteria.ShowAvailableOnly? "checked" : "") />
+                <input type="checkbox" name="ShowAvailableOnly" id="status" @(criteria.ShowAvailableOnly ? "checked" : "") />
             </div>
 
 
@@ -93,18 +97,14 @@
 
 
 <script>
-    var statusCheckbox = document.getElementById('status');
+    var statusCheckbox = document.querySelector('#status');
 
     statusCheckbox.addEventListener('change', function () {
-        @criteria.ShowAvailableOnly =statusCheckbox.checked;
-        //好扯喔 瀏覽器
+        @criteria.ShowAvailableOnly =statusCheckbox.checked;       
         statusCheckbox.value = statusCheckbox.checked ? 'true' : 'false';
-       
+
     });
 </script>
-
-
-
 
 
 
@@ -194,6 +194,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
+
+
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
                     @Html.ActionLink("Details", "Details", new { id=item.Id }) |
