@@ -131,12 +131,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccommodationsController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
-    <Compile Include="Controllers\ActivitiesDetailsController.cs" />
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
     <Compile Include="Controllers\AdministratorsController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
     <Compile Include="Controllers\FAQsController.cs" />
-    <Compile Include="Controllers\ExtraServicesDetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
