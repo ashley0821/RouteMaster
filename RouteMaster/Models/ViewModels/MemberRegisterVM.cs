@@ -15,29 +15,29 @@ namespace RouteMaster.Models.ViewModels
 		[StringLength(50)]
 		public string FirstName { get; set; }
 
+
 		[Display(Name = "姓")]
 		[Required]
 		[StringLength(50)]
 		public string LastName { get; set; }
+
 
 		[Display(Name = "帳號")]
 		[Required]
 		[StringLength(30)]
 		public string Account { get; set; }
 
+
 		[Display(Name ="密碼")]
 		[Required]
 		[StringLength (20)]
 		public string Password { get; set; }
 
+		[Display(Name ="密碼確認")]
 		[Compare("Password", ErrorMessage ="必需與您輸入的'密碼'相同")]
 		public string ConfirmPassword { get; set; }
 
 
-		//[Display(Name = "雜湊後密碼")]
-		//[Required]
-		//[StringLength(255)]
-		//public string EncryptedPassword { get; set; }
 
 		[Display(Name = "電子信箱")]
 		[Required]
@@ -45,23 +45,29 @@ namespace RouteMaster.Models.ViewModels
 		[EmailAddress(ErrorMessage = "Invalid Email Address")] 
 		public string Email { get; set; }
 
+
 		[Display(Name = "電話號碼")]
 		[Required]
 		[StringLength(10, MinimumLength = 10, ErrorMessage = "Invalid Phone Number")]
 		public string CellPhoneNumber { get; set; }
 
+
 		[Display(Name = "地址")]
 		[StringLength(255)]
 		public string Address { get; set; }
 
+
 		[Display(Name = "性別")]
 		public bool Gender { get; set; }
+
 
 		[Display(Name = "生日")]
 		public DateTime Birthday { get; set; }
 
+
 		[Display(Name = "註冊日期")]
 		public DateTime CreateDate { get; set; }
+
 
 		[Display(Name = "大頭貼")]
 		[Required]

@@ -1,7 +1,11 @@
-6/30
+6/30 
 [√]建立 Member-RegisterPage
 [√]連結到RegisterPage
 [√]建立 Confirmpage
+[√]密碼雜湊11:39，
+[ ]帳號停權的商業邏輯
+
+
 ------完成member三層式，先不用裡面的商業邏輯
 Register
 []成功註冊會員
@@ -14,8 +18,8 @@ Register
 Edit 06120049
 []
 
-Delete
-[]
+Delete(刪除功能變更為停權功能)
+[]停權功能-1.把密碼改成雜湊，以及變更為未開通
 
 Search
 []

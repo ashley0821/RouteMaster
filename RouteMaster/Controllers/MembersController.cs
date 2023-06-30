@@ -53,7 +53,7 @@ namespace RouteMaster.Controllers
 		[HttpPost]
 		public ActionResult Register(MemberRegisterVM vm) 
 		{
-			if (ModelState.IsValid == false) return View(vm);
+			if (!ModelState.IsValid) return View(vm);
 
 			Result result = RegisterMember(vm);
 

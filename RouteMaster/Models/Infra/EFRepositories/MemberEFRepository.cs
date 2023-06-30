@@ -35,10 +35,12 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				CellPhoneNumber = dto.CellPhoneNumber,
 				Address = dto.Address,
 				Gender = dto.Gender,
+				Image = "false",
+				CreateDate = DateTime.Now,
 				IsConfirmed = dto.IsConfirmed,
-				ConfirmCode = dto.ConfirmCode,
-				IsSuspended = dto.IsSuspended,
-
+				ConfirmCode = Guid.NewGuid().ToString("N"),
+				Birthday = dto.Birthday,
+				IsSuspended = null
 			};
 
 			//存到DB

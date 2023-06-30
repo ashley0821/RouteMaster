@@ -276,6 +276,7 @@
     <Compile Include="Models\ViewModels\ExtraServicesDetailsVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
+    <Compile Include="Models\ViewModels\MemberLogin.cs" />
     <Compile Include="Models\ViewModels\MemberRegisterVM.cs" />
     <Compile Include="Models\ViewModels\OrderInvdexVM.cs" />
     <Compile Include="Models\ViewModels\MemberIndexVM.cs" />
