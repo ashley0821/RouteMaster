@@ -1,5 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.ViewModels;
@@ -20,9 +21,9 @@ namespace RouteMaster.Models.Services
             _repo = repo;            
         }
 
-        public IEnumerable<ActivityIndexDto> Search()
+        public IEnumerable<ActivityIndexDto> Search(ActivityIndexCriteria criteria)
         {
-            return _repo.Search();
+            return _repo.Search(criteria);
         }
 
         public Result Create(ActivityCreateDto dto)

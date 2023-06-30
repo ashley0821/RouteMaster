@@ -31,9 +31,9 @@ namespace RouteMaster.Models.Services
 			}
 
 			// 將密碼進行雜湊
-			//var salt = HashUtility.GetSalt();
-			//var hashPassword = HashUtility.ToSHA256(dto.Password, salt);
-			//dto.EncryptedPassword = hashPassword;
+			var salt = HashUtility.GetSalt();
+			var hashPassword = HashUtility.ToSHA256(dto.Password, salt);
+			dto.EncryptedPassword = hashPassword;
 
 			// 填入 isConfirmed, ConfirmCode
 			dto.IsConfirmed = false;
