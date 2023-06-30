@@ -1,0 +1,75 @@
+﻿@model IEnumerable<RouteMaster.Models.ViewModels.AttractionIndexVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            類別 @*@Html.DisplayNameFor(model => model.Category)*@
+        </th>
+        <th>
+            縣市 @*@Html.DisplayNameFor(model => model.Region)*@
+        </th>
+        <th>
+            鄉鎮 @*@Html.DisplayNameFor(model => model.Town)*@
+        </th>
+        <th>
+            名稱 @*@Html.DisplayNameFor(model => model.Name)*@
+        </th>
+        <th>
+            敘述 @*@Html.DisplayNameFor(model => model.DescriptionText)*@
+        </th>
+        <th>
+            平均分數 @*@Html.DisplayNameFor(model => model.AverageScoreText)*@
+        </th>
+        <th>
+            平均停留時數 @*@Html.DisplayNameFor(model => model.AverageStayHoursText)*@
+        </th>
+        <th>
+            平均花費 @*@Html.DisplayNameFor(model => model.AveragePriceText)*@
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Region)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Town)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescriptionText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AverageScoreText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AverageStayHoursText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AveragePriceText)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
