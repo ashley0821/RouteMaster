@@ -1,0 +1,144 @@
+﻿@model RouteMaster.Models.ViewModels.PackageTourCreateVM
+
+@{
+    ViewBag.Title = "Create";
+}
+@{
+    Html.RenderAction("ActivitiesList");
+}
+@{
+    Html.RenderAction("ExtraServicesList");
+}
+
+@*@{
+        Html.RenderAction("AttractionsList");
+    }*@
+
+<h2>建立套裝行程</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label col-md-2" })
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "form-label col-md-2" })
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Status)
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.CouponId, htmlAttributes: new { @class = "form-label col-md-2" })
+            @Html.DropDownList("CouponId", null, htmlAttributes: new { @class = "form-select" })
+            @Html.ValidationMessageFor(model => model.CouponId, "", new { @class = "text-danger" })
+        </div>
+
+
+
+
+        <h2>活動列表</h2>
+        <div id="activityContainer">            
+
+           
+        </div>
+
+        <h2>額外服務列表</h2>
+        <div id="extraService">
+
+
+        </div>
+
+
+
+
+       
+        <div class="mb-3">
+            <input type="submit" value="新增" class="btn btn-primary" />
+        </div>
+    </div>
+
+}
+
+
+@section Scripts {
+
+    <script>
+
+        var activities = @Html.Raw(Json.Encode(ViewBag.Activities));
+
+        var container = document.querySelector("#activityContainer");
+        var addActs = document.querySelectorAll(".addActivity");
+        //var arrayToUse =[1,2,3,4,5];
+        var arrayToUse =[];
+
+
+        for (let i = 0; i < addActs.length; i++) {
+            addActs[i].addEventListener('click', () => {
+                var id = parseInt(addActs[i].getAttribute('data-id'));
+                var newItem = document.createElement("div");
+                container.appendChild(newItem);
+                addActs[i].disabled = true;
+
+
+
+
+                //console.log(activities)
+
+                for (let j = 0; j < activities.length; j++) {
+                    if (activities[j].Id === id) {
+                        //console.log("找到符合條件的元素: ", activities[j]);
+                        arrayToUse.push(activities[j]);
+                        newItem.textContent = activities[j].Name;
+                        break;
+                    }
+                }
+            });
+        }
+
+
+            // 監聽表單提交事件
+            var form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // 防止表單直接提交
+
+                // 使用AJAX發送POST請求
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '@Url.Action("Create", "PackageTours")'); // 替換成您的控制器路由
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                // 將陣列資料轉換為JSON字串
+                //var data = "arrayToUse=" + encodeURIComponent(JSON.stringify(arrayToUse));
+
+                var data = JSON.stringify({ arrayToUse: arrayToUse });
+                // 回應處理
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            // 请求成功处理
+                            console.log('请求成功');                        
+                            // 进行后续操作
+                        } else {
+                            // 请求失败处理
+                            console.log('请求失败');
+                        }
+                    }
+                };
+
+                // 發送請求
+                xhr.send(data);
+            });
+  
+
+    </script>
+}

@@ -1,0 +1,140 @@
+﻿@model RouteMaster.Models.ViewModels.AccommodationCreateVM
+
+@{
+    ViewBag.Title = "CreateAccommodation";
+}
+
+<h2>CreateAccommodation</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>AccommodationCreateVM</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @*<div class="mb-3">
+            @Html.LabelFor(model => model.PartnerId, htmlAttributes: new { @class = "form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PartnerId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PartnerId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div>
+        @*@Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "form-label col-md-2" })*@
+        <label class="form-label col-md-2 m-0">貴住宿的地址</label>
+        <div class="d-flex row">
+            <div class="mb-3 col-xl-1 col-sm-2 pe-0 ">
+                    @Html.DropDownList("RegionId", null, htmlAttributes: new { @class = "form-control text-center", @id = "region"})
+                    @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3 col-xl-1 col-sm-2 p-0">
+                @*@Html.LabelFor(model => model.TownId, htmlAttributes: new { @class = "form-label col-md-2" })*@
+                    @Html.DropDownList("TownId", null, htmlAttributes: new { @class = "form-control text-center", @id = "town" })
+                    @Html.ValidationMessageFor(model => model.TownId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3 col-xl-6  col-sm-8 p-0">
+                @*@Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "form-label col-md-2" })*@
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+        <div class="mb-3">
+            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.IndustryEmail, htmlAttributes: new { @class = "form-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IndustryEmail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IndustryEmail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script>
+            $(function () {
+
+                $("#town").empty().append($('<option></option>').val("").text("請選擇"));
+
+                var baseAddress = "https://localhost:44371";
+
+                $("#region").on("change", function () {
+                    var regionId = $("#region").val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: `${baseAddress}/Accommodations/ShowTownList`,
+                        data: {
+                            regionId: regionId
+                        },
+                        dataType: "json", // 指定返回的数据类型为 JSON
+                        //contentType: "application/json"
+                        //async: false, // 預設就是非同步
+                        //timeout: 5000,
+                        //        success: function (data) {
+                        //            // 请求成功时的回调函数
+                        //            $("#town").empty();
+
+                        //            // 解析返回的 JSON 数据
+                        //            //var townList = JSON.parse(data);
+
+                        //            // 遍历返回的 Town 数据并添加到 DropDownList
+                        //            $.each(data, function (index, town) {
+                        //                $("#town").append($('<option></option>').val(town.regionId).text(town.name));
+                        //            });
+                        //        },
+                        //        error: function (err) {
+                        //            $("#town").empty().append($('<option></option>').text("請選擇"));
+                        //        }
+                        //    });
+                        //});
+                    }).done(data => {
+                        // 清空 Town DropDownList 的选项
+                        $("#town").empty();
+
+                        // 遍历返回的 Town 数据并添加到 DropDownList
+                        $.each(data, function (index, town) {
+                            $("#town").append($('<option></option>').val(town.regionId).text(town.name));
+                        });
+                    }).fail(err => {
+                        $("#town").empty().append($('<option></option>').val("").text("請選擇"));
+                    });
+
+                });
+
+
+            });
+
+        </script>
+    }
