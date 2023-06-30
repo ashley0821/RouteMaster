@@ -42,6 +42,8 @@ namespace RouteMaster.Models.Dto
 				Address = vm.Address,
 				Gender = vm.Gender,
 				Birthday = vm.Birthday,
+				Image = vm.Image,
+				
 			};
 
 		}
