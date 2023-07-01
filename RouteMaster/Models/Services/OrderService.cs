@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace RouteMaster.Models.Services
 			_repo = repo;
 		}
 
-		public IEnumerable<OrderIndexDto> Search()
+		public IEnumerable<OrderIndexDto> Search(OrderCriteria criteria)
 		{
-			return _repo.Search();
+			return _repo.Search(criteria);
 		}
 
 	}

@@ -14,7 +14,7 @@ namespace RouteMaster.Models.ViewModels
 		public int Id { get; set; }
 
 		[Display(Name = "訂購人")]
-		//public int MemberId { get; set; }
+		public int MemberId { get; set; }
 		public string MemberName { get; set; }
 		[Display(Name = "付款方式")]
 		//public int PaymentMethodId { get; set; }
