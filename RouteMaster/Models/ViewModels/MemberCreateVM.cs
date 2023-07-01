@@ -4,10 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
+
 namespace RouteMaster.Models.ViewModels
 {
 	public class MemberCreateVM
 	{
+		
 		public int Id { get; set; }
 
 		[Display(Name = "名")]

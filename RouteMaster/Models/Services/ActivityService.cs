@@ -1,6 +1,10 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Criterias;
+using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
+using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +22,9 @@ namespace RouteMaster.Models.Services
             _repo = repo;            
         }
 
-        public IEnumerable<ActivityIndexDto> Search()
+        public IEnumerable<ActivityIndexDto> Search(ActivityIndexCriteria criteria)
         {
-            return _repo.Search();
+            return _repo.Search(criteria);
         }
 
         public Result Create(ActivityCreateDto dto)
@@ -33,5 +37,28 @@ namespace RouteMaster.Models.Services
             _repo.Create(dto);
             return Result.Success();
         }
+        public Result Edit(ActivityEditDto dto)
+        {
+            //todo 邏輯判斷
+			  
+            _repo.Edit(dto);
+            return Result.Success();
+        }
+
+        public Result Delete(int id)
+        {
+            //todo 邏輯判斷
+
+            _repo.Delete(id);
+            return Result.Success();
+        }
+
+
+        public Activity GetActivityById(int id)
+        {
+            return _repo.GetActivityById(id);
+            
+        }
+
     }
 }

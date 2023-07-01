@@ -8,6 +8,7 @@ namespace RouteMaster.Models.Dto
 {
 	public class FAQDto
 	{
+		
 		public int Id { get; set; }
 
 		public int CategoryId { get; set; }
