@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra.Criterias;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,7 @@ namespace RouteMaster.Models.Interfaces
 		void Edit(ActivityEditDto dto);
 
 		void Delete(int id);
+
+		Activity GetActivityById(int id);
 	}
 }

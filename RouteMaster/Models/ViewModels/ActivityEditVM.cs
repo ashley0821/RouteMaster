@@ -26,18 +26,24 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "價格")]
 		[DisplayFormat(DataFormatString = "{0:#,#}")]
 		public int Price { get; set; }
+
 		[Required]
 		[Display(Name = "開始時間")]
-		public DateTime StartTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
+
+        public DateTime StartTime { get; set; }
+
 		[Required]
 		[Display(Name = "結束時間")]
-		public DateTime EndTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
+        public DateTime EndTime { get; set; }
 
 		[Required]
 		[Display(Name = "活動內容介紹")]
 		public string Description { get; set; }
-		[Required]
 
+
+		[Required]
 		[Display(Name = "上架狀態")]
 		public bool Status { get; set; }
 
