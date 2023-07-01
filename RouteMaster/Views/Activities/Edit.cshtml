@@ -4,98 +4,89 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>編輯活動</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>ActivityEditVM</h4>
+
+    <div class="row">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
             @Html.LabelFor(model => model.ActivityCategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ActivityCategoryId", null, htmlAttributes: new { @class = "form-select" })
-                @Html.ValidationMessageFor(model => model.ActivityCategoryId, "", new { @class = "text-danger" })
-            </div>
+            @Html.DropDownList("ActivityCategoryId", null, htmlAttributes: new { @class = "form-select" })
+            @Html.ValidationMessageFor(model => model.ActivityCategoryId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.DropDownList("RegionId", null, htmlAttributes: new { @class = "form-select", id = "regionSelect" })
+            @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.AttractionId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("AttractionId", null, htmlAttributes: new { @class = "form-select" })
-                @Html.ValidationMessageFor(model => model.AttractionId, "", new { @class = "text-danger" })
-            </div>
+            @Html.DropDownList("AttractionId", null, htmlAttributes: new { @class = "form-select", id = "attractionSelect" })
+            @Html.ValidationMessageFor(model => model.AttractionId, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("RegionId", null, htmlAttributes: new { @class = "form-select" })
-                @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
+
+        <div class="mb-3">
             @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
-            </div>
+            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
-            </div>
+        <div class="mb-3 ">
+            <input type="date" id="startDate" />
+            <input type="time" id="startTime" />
+            @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "form-label col-md-2" })
+            @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control ", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.StartTime)
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
-            </div>
+
+
+        <div class="mb-3">
+            <input type="date" id="endDate" />
+            <input type="time" id="endTime" />
+            @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "form-label col-md-2" })
+            @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.EndTime)
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Status)
-                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-                </div>
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Status)
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+        <div class="mb-3">
+
+            <input type="submit" value="Save" class="btn btn-primary" />
         </div>
+
     </div>
 }
 
@@ -105,4 +96,85 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+
+
+    <script>
+        //日期選擇
+        var startDateInput = document.querySelector('#startDate');
+        var startTimeInput = document.querySelector('#startTime');
+        var endDateInput = document.querySelector('#endDate');
+        var endTimeInput = document.querySelector('#endTime');
+        startDateInput.addEventListener('change', updateStartTime);
+        startTimeInput.addEventListener('change', updateStartTime);
+        endDateInput.addEventListener('change', updateEndTime);
+        endTimeInput.addEventListener('change', updateEndTime);
+
+        function updateStartTime() {
+            var startDateValue = startDateInput.value;
+            var startTimeValue = startTimeInput.value;
+            var dateTimeValue = startDateValue + 'T' + startTimeValue;
+            var startTimeEditor = document.querySelector('#StartTime');
+            startTimeEditor.value = dateTimeValue;
+        }
+
+        function updateEndTime() {
+            var endDateValue = endDateInput.value;
+            var endTimeValue = endTimeInput.value;
+            var dateTimeValue = endDateValue + 'T' + endTimeValue;
+            var endTimeEditor = document.querySelector('#EndTime');
+            endTimeEditor.value = dateTimeValue;
+        }
+    </script>
+
+
+    <script>
+    //ajax回傳條件
+    $(document).ready(function () {
+        $('#regionSelect').change(function () {
+            var regionId = $(this).val();
+            $.ajax({
+                url: '@Url.Action("GetAttractionsByRegion", "Activities")',
+                type: 'GET',
+                data: { regionId: regionId },
+                success: function (data) {
+                    var attractionSelect = $('#attractionSelect');
+                    attractionSelect.empty();
+                    attractionSelect.append($('<option></option>').val('').text('請選擇'));
+                    $.each(data, function (index, attraction) {
+                        attractionSelect.append($('<option></option>').val(attraction.Value).text(attraction.Text));
+                    });
+                }
+            });
+        });
+    });
+    </script>
+
+
+
+    <script>
+    //ajax 對應選取
+    $(document).ready(function () {
+        $('#attractionSelect').change(function () {
+            var selectedAttractionId = $(this).val();
+            var regionId = $('#regionSelect').val();
+
+            $.ajax({
+                url: '@Url.Action("GetRegionIdByAttraction", "Activities")',
+                type: 'GET',
+                data: { attractionId: selectedAttractionId },
+                success: function (data) {
+                    if (data !== regionId) {
+                        $('#regionSelect').val(data);
+
+                    }
+                }
+            });
+        });
+    });
+    </script>
+
+
+
+
 }
