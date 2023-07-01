@@ -40,12 +40,22 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			{
 				query = query.Where(o=>o.PaymentStatus==criteria.PaymentStatus).ToList();
 			}
-			
-			#endregion
+            if (criteria.CreateStartDate.HasValue)
+            {
+                DateTime startDate = criteria.CreateStartDate.Value;
+                query = query.Where(o => o.CreateDate >= startDate).ToList();
+            }
+
+            if (criteria.CreateEndDate.HasValue)
+            {
+                DateTime endDate = criteria.CreateEndDate.Value;
+                query = query.Where(o => o.CreateDate <= endDate).ToList();
+            }
+            #endregion
 
 
 
-			var orders = query.Select(o => new OrderIndexDto
+            var orders = query.Select(o => new OrderIndexDto
 			{
 				Id = o.Id,
 				MemberId = o.MemberId,
