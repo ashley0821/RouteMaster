@@ -15,9 +15,9 @@ namespace RouteMaster.Models.Infra.Extensions
 			return new OrderIndexVM
 			{
 				Id = dto.Id,
-				MemberId = dto.MemberId,
+				//MemberId = dto.MemberId,
 				MemberName = dto.MemberName,
-				PaymentMethodId = dto.PaymentMethodId,
+				//PaymentMethodId = dto.PaymentMethodId,
 				PaymentMethodName = dto.PaymentMethodName,
 				PaymentStatus = dto.PaymentStatus,
 				CreateDate = dto.CreateDate,
@@ -33,9 +33,9 @@ namespace RouteMaster.Models.Infra.Extensions
 			return new OrderIndexDto
 			{
 				Id = entity.Id,
-				MemberId = entity.MemberId,
+				//MemberId = entity.MemberId,
 				MemberName = entity.Member.FirstName,
-				PaymentMethodId = entity.PaymentMethodId,
+				//PaymentMethodId = entity.PaymentMethodId,
 				PaymentMethodName = entity.PaymentMethod.Name,
 				PaymentStatus = entity.PaymentStatus,
 				CreateDate = entity.CreateDate,

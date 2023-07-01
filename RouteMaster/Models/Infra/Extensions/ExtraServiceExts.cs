@@ -15,7 +15,8 @@ namespace RouteMaster.Models.Infra.Extensions
 			return new ExtraServiceIndexVM
 			{
 				Id = dto.Id,
-				Name = dto.Name,			
+				Name = dto.Name,	
+				AttractionId = dto.AttractionId,
 				Price = dto.Price,			
 				Description = dto.Description,
 				Status = dto.Status,
@@ -30,6 +31,7 @@ namespace RouteMaster.Models.Infra.Extensions
             {
                 Id = vm.Id,
                 Name = vm.Name,
+				AttractionId = vm.AttractionId,
                 Price = vm.Price,
                 Description = vm.Description,
                 Status = vm.Status,
@@ -45,6 +47,7 @@ namespace RouteMaster.Models.Infra.Extensions
             {
                 Id = dto.Id,
                 Name = dto.Name,
+				AttractionId= dto.AttractionId,	
                 Price = dto.Price,
                 Description = dto.Description,
                 Status = dto.Status,
@@ -57,8 +60,9 @@ namespace RouteMaster.Models.Infra.Extensions
 		{
 			return new ExtraServiceIndexDto
 			{
-		
+				Id=entity.Id,		
 				Name = entity.Name,	
+				AttractionId = entity.AttractionId,
 				Price = entity.Price,	
 				Description = entity.Description,
 				Status = entity.Status,
@@ -72,6 +76,7 @@ namespace RouteMaster.Models.Infra.Extensions
 			{			
 				AttractionId = vm.AttractionId,
 				Name = vm.Name,
+				Price= vm.Price,
 				Description = vm.Description,
 				Status = vm.Status,
 			};
@@ -93,8 +98,7 @@ namespace RouteMaster.Models.Infra.Extensions
 		public static ExtraServiceEditDto ToEditDto(this ExtraService entity)
 		{
 			return new ExtraServiceEditDto
-			{
-	
+			{				
 				AttractionId = entity.AttractionId,
 				Name = entity.Name,		
 				Price = entity.Price,	

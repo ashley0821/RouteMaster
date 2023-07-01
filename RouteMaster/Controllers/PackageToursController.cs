@@ -77,7 +77,8 @@ namespace RouteMaster.Controllers
 
 
             ViewBag.Activities = db.Activities.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
-
+            ViewBag.ExtraServices=db.ExtraServices.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
+            
 
             PrepareCouponDataSource(null);
             return View();
@@ -96,11 +97,11 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         
-        public ActionResult Create(PackageTourCreateVM vm,List<Activity> arrayToUse)
+        public ActionResult Create(PackageTourCreateVM vm,List<Activity> arrOfActivities,List<ExtraService> arrOfExtraServices)
         {
             IPackageTourRepository repo = new PackageTourEFRepository();
             PackageTourService service = new PackageTourService(repo);
-            arrayToUse[0].Name = "123";
+            
 
             if (ModelState.IsValid == false)
             {
