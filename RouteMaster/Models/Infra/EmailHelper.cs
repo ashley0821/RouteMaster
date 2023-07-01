@@ -42,7 +42,8 @@ namespace RouteMaster.Models.Infra
 		public virtual void SendFromGmail(string from, string to, string subject, string body)
 		{
 			// todo 以下是開發時,測試之用, 只是建立text file, 不真的寄出信
-			var path = HttpContext.Current.Server.MapPath("~/files/");
+			//google帳號只能用第一段帳號認證的帳號
+			var path = HttpContext.Current.Server.MapPath("~/Uploads/");
 			CreateTextFile(path, from, to, subject, body);
 			return;
 
