@@ -137,8 +137,8 @@
     <Compile Include="Controllers\ExtraServicesController.cs" />
     <Compile Include="Controllers\FAQsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PackageToursController.cs" />
     <Compile Include="Controllers\PartnersController.cs" />
     <Compile Include="Controllers\TravelPlansController.cs" />
@@ -288,7 +288,7 @@
     <Compile Include="Models\ViewModels\ExtraServicesDetailsVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
-    <Compile Include="Models\ViewModels\MemberLogin.cs" />
+    <Compile Include="Models\ViewModels\MemberLoginVM.cs" />
     <Compile Include="Models\ViewModels\MemberRegisterVM.cs" />
     <Compile Include="Models\ViewModels\OrderInvdexVM.cs" />
     <Compile Include="Models\ViewModels\MemberIndexVM.cs" />
@@ -380,7 +380,6 @@
     <Content Include="Views\Accommodations\_AccommodationCardPartial.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Orders\_IndexDapper.cshtml" />
-    <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\TravelPlans\Create.cshtml" />
     <Content Include="Views\TravelPlans\Delete.cshtml" />
     <Content Include="Views\TravelPlans\Details.cshtml" />
@@ -388,7 +387,6 @@
     <Content Include="Views\TravelPlans\Index.cshtml" />
     <Content Include="Views\PackageTours\_ActivitiesListPartial.cshtml" />
     <Content Include="Views\PackageTours\_ExtraServicesListPartial.cshtml" />
-    <Content Include="Views\Member\EditMember.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
     <Content Include="Views\Partners\Create.cshtml" />
     <Content Include="Views\Partners\Delete.cshtml" />
@@ -407,21 +405,19 @@
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\Orders\_ExtraServicesDetailsPartialView.cshtml" />
     <Content Include="Views\Orders\_AccomodationDetailsPartialView.cshtml" />
-
-
     <Content Include="Views\Accommodations\CreateRoom.cshtml" />
-
-
     <Content Include="Views\Attractions\Index.cshtml" />
-
     <Content Include="Views\Attractions\Create.cshtml" />
     <Content Include="Views\Attractions\Details.cshtml" />
-
-
-    <Content Include="Views\Member\Register.cshtml" />
-    <Content Include="Views\Member\ConfirmRegister.cshtml" />
-
-
+    <Content Include="Views\Members\Create.cshtml" />
+    <Content Include="Views\Members\Delete.cshtml" />
+    <Content Include="Views\Members\Details.cshtml" />
+    <Content Include="Views\Members\Edit.cshtml" />
+    <Content Include="Views\Members\Index.cshtml" />
+    <Content Include="Views\Members\ActiveRegister.cshtml" />
+    <Content Include="Views\Members\ConfirmRegister.cshtml" />
+    <Content Include="Views\Members\Login.cshtml" />
+    <Content Include="Views\Members\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

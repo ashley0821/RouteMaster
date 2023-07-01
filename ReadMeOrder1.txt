@@ -31,4 +31,6 @@ AccomodationDetails partial view (useDapper)
 [v] Add criteria, create membername and paymentstatus search list
 [V] Add select data on orderindex
 [v] Add query data on OrderEFRepository
-[todo] Add querycreatedatedata on OrderEFRepository
+
+[v] Add querycreatedatedata on OrderEFRepository
+[v] Add datepick
