@@ -219,6 +219,7 @@
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
     <Compile Include="Models\Infra\Criterias\ActivityIndexCriteria.cs" />
+    <Compile Include="Models\Infra\Criterias\OrderCriteria.cs" />
     <Compile Include="Models\Infra\DapperRepositories\AccomodationDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ActivitiesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServiceDapperRepository.cs" />

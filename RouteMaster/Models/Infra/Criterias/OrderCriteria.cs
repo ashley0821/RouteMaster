@@ -7,5 +7,10 @@ namespace RouteMaster.Models.Infra.Criterias
 {
 	public class OrderCriteria
 	{
+		//public int? MemberId { get; set; }
+		public string MemberName { get; set; }
+		public int? PaymentStatus { get; set; }
+		public DateTime? CreateStartDate { get; set; }
+		public DateTime? CreateEndDate { get; set; }
 	}
 }
