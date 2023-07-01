@@ -1,15 +1,13 @@
 ﻿@model IEnumerable<RouteMaster.Models.ViewModels.OrderIndexVM>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datepicker/dist/css/bootstrap-datepicker.min.css">
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
 @{
     ViewBag.Title = "Index";
+    var paymentStatus = ViewBag.paymentStatus as SelectList;
+    var criteria = ViewBag.Criteria as RouteMaster.Models.Infra.Criterias.OrderCriteria;
+    string s_paymentstatus = criteria.PaymentStatus.HasValue ? criteria.PaymentStatus.Value.ToString() : "";
 }
-
 <h2>訂單明細</h2>
 
 <p>
@@ -21,19 +19,22 @@
         <div class="row">
             <div class="mb-2 col-md-3">
                 <label for="MemberName">訂購人</label>
-                <input type="text" class="form-control" name="membername" id="MemberName" />
-            </div>
-
-            <div>
-                <div class="mb-2 col-md-2">
-                    <label for="s_CreateDate">訂購日期</label>
-                    <input type="text" class="form-control datepicker" name="CreateDate" id="s_CreateDate" autocomplete="off">
-                </div>
+                <input type="text" class="form-control" name="membername" id="MemberName" value="@criteria.MemberName" />
             </div>
 
             <div class="mb-2 col-md-2">
                 <label for="s_PaymentStatus">付款狀態</label>
-                <select name="PaymentStatus" id="s_PaymentStatus" class="form-select"></select>
+                <select name="paymentStatus" id="s_PaymentStatus" class="form-select">
+                    @foreach (var item in paymentStatus)
+                    {
+                        <option value="@item.Value" @(s_paymentstatus == item.Value ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3 col-md-4">
+                <label for="s_CreateDate" style="display: block">訂購日期</label>
+                <input type="datetime" class="form-control" name="CreateStartDate" id="s_CreateStartDate" style="width: 40%; display: inline" value="@criteria.CreateStartDate"> ~
+                <input type="datetime" class="form-control" name="CreateEndDate" id="s_CreateEndDate" style="width: 40%; display: inline" value="@criteria.CreateEndDate">
             </div>
 
 
@@ -41,21 +42,18 @@
                 <button class="btn btn-primary">搜尋</button>
             </div>
 
-
-
         </div>
-
     </form>
 
 </section>
 
 <table class="table">
     <tr>
-        <div class="mb-4">
+      
         <th class="control-label col-md-1" style="text-align: center;">
             @Html.DisplayNameFor(model => model.Id)
         </th>
-        </div>
+      
         @*<th>
                 @Html.DisplayNameFor(model => model.MemberId)
             </th>*@
@@ -80,6 +78,7 @@
         </th>
         <th></th>
     </tr>
+    
 
     @foreach (var item in Model)
     {

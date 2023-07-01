@@ -1,69 +1,112 @@
 ﻿@model RouteMaster.Models.ViewModels.Accommodations.Room.RoomCreateVM
 
+@section Styles{
+    <style>
+
+        img {
+            width: 500px;
+            height: 400px;
+        }
+        .drop-zone {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .drop-zone p {
+                margin: 0;
+            }
+
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .preview-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+}
+
 @{
     ViewBag.Title = "CreateRoom";
 }
 
-<h2>CreateRoom</h2>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
 <div class="form-horizontal">
     <h4>RoomCreateVM</h4>
     <hr />
-    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.AccommodationId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AccommodationId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AccommodationId, "", new { @class = "text-danger" })
+    <div class="d-flex">
+        <div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>*@
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
+
+        <div class="drop-zone" id="dropZone">
+            <p>點擊這裡選擇或拖曳照片</p>
+            <div class="image-preview" id="imagePreview"></div>
+        </div>
+        @*<form runat="server">
+            <div id="dropZone" class="drop-zone">
+                <p>拖曳圖片到此處</p>
+                <div id="imagePreview" class="image-preview"></div>
+            </div>
+        </form>
+
+        <input accept="image/*" type="file" id="imgInp" style="display: none;" multiple>
+
+        <form runat="server" style="margin-top: 20px;">
+            <div style="display: flex; align-items: center;">
+                <label for="imgInp" style="cursor: pointer;">
+                    <img id="blah" src="#" alt="your image" style="width: 500px; height: 400px; border: 2px solid #ccc; padding: 10px;">
+                </label>
+            </div>
+        </form>*@
     </div>
+</div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <form runat="server">
-        <input accept="image/*" type='file' id="imgInp" />
-        <img id="blah" src="#" alt="your image" />
-    </form>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
+<div class="form-group" style="margin-top: 20px;">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" class="btn btn-primary" />
     </div>
 </div>
 }
@@ -74,12 +117,65 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        imgInp.onchange = evt => {
-            const [file] = imgInp.files;
-            if (file) {
-                blah.src = URL.createObjectURL(file);
+<script>
+    const dropZone = document.getElementById('dropZone');
+    const imagePreview = document.getElementById('imagePreview');
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.multiple = true;
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+    dropZone.appendChild(fileInput);
+
+    dropZone.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    dropZone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dropZone.classList.remove('drag-over');
+
+        const files = event.dataTransfer.files;
+        handleFiles(files);
+    });
+
+    fileInput.addEventListener('change', (event) => {
+        const files = event.target.files;
+        handleFiles(files);
+        event.target.value = ''; // 清空文件選擇，以便重複選擇同一張圖片
+    });
+
+    function handleFiles(files) {
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    const imageUrl = event.target.result;
+                    const imageElement = document.createElement('img');
+                    imageElement.src = imageUrl;
+                    imageElement.classList.add('preview-image');
+
+                    const imageName = `photo_${i + 1}`;
+                    imageElement.setAttribute('name', imageName);
+
+                    imagePreview.appendChild(imageElement);
+                };
+
+                reader.readAsDataURL(file);
             }
         }
-    </script>
+    }
+</script>
 }
