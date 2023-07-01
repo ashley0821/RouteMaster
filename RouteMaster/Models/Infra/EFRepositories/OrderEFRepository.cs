@@ -18,7 +18,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 		public IEnumerable<OrderIndexDto>Search(OrderCriteria criteria)
 		{
-
+			    
 
 
 			var query = _db.Orders
