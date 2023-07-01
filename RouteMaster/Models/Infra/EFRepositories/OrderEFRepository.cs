@@ -10,9 +10,10 @@ using System.Web;
 
 namespace RouteMaster.Models.Infra.EFRepositories
 {
-	public class OrderEFRepository : IOrderRepository
-	{
+	public class OrderEFRepository : IOrderRepository 
+    {
 		private readonly AppDbContext _db = new AppDbContext();
+
 
 	 
 
@@ -81,4 +82,5 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 		
 	}
+
 }

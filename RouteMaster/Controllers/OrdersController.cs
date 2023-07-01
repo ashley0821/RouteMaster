@@ -20,12 +20,12 @@ namespace RouteMaster.Controllers
 
 	{
 		private readonly AppDbContext db = new AppDbContext();
-		// GET: Orders
+		GET: Orders
 		public ActionResult Index(OrderCriteria criteria)
 		{
 			ViewBag.Criteria = criteria;
 
-		
+
 			PreparePaymentStatusDataSource(null);
 			PrepareMemberNameDataSource(null);
 			IEnumerable<OrderIndexVM> orders = (IEnumerable<OrderIndexVM>)GetOrders(criteria);
@@ -34,7 +34,7 @@ namespace RouteMaster.Controllers
 
 
 		}
-		//Order
+		Order 
 		private IEnumerable<OrderIndexVM> GetOrders(OrderCriteria criteria)
 		{
 			IOrderRepository repo = new OrderEFRepository();
@@ -44,6 +44,7 @@ namespace RouteMaster.Controllers
 				   .ToList()
 				   .Select(o => o.ToIndexVM());
 		}
+		
 
 		public ActionResult Details(int id)
 		{
