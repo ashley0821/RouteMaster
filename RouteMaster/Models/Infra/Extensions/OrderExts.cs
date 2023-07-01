@@ -28,6 +28,7 @@ namespace RouteMaster.Models.Infra.Extensions
 
 
 
+
 		public static OrderIndexDto ToIndexDto(this Order entity)
 		{
 			return new OrderIndexDto

@@ -19,12 +19,33 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 		public bool ExistAccount(string account)
 		{
-			throw new NotImplementedException();
+			return _db.Members.Any(m => m.Account == account);
 		}
 
 		public void Register(MemberRegisterDto dto)
 		{
-			throw new NotImplementedException();
+			//將RegisterDTO轉為member
+			Member member = new Member
+			{
+				FirstName = dto.FirstName,
+				LastName = dto.LastName,
+				Account = dto.Account,
+				Email = dto.Email,
+				EncryptedPassword = dto.EncryptedPassword,
+				CellPhoneNumber = dto.CellPhoneNumber,
+				Address = dto.Address,
+				Gender = dto.Gender,
+				Image = "false",
+				CreateDate = DateTime.Now,
+				IsConfirmed = dto.IsConfirmed,
+				ConfirmCode = Guid.NewGuid().ToString("N"),
+				Birthday = dto.Birthday,
+				IsSuspended = null
+			};
+
+			//存到DB
+			_db.Members.Add(member);
+			_db.SaveChanges();
 		}
 
 		public IEnumerable<MemberIndexDto> Seacrh()
