@@ -20,32 +20,33 @@ namespace RouteMaster.Controllers
 
 	{
 		private readonly AppDbContext db = new AppDbContext();
-        // GET: Orders
-        //public ActionResult Index(OrderCriteria criteria)
-        //{
-        //	ViewBag.Criteria = criteria;
+		GET: Orders
+		public ActionResult Index(OrderCriteria criteria)
+		{
+			ViewBag.Criteria = criteria;
 
 
-        //	PreparePaymentStatusDataSource(null);
-        //	PrepareMemberNameDataSource(null);
-        //	IEnumerable<OrderIndexVM> orders = (IEnumerable<OrderIndexVM>)GetOrders(criteria);
+			PreparePaymentStatusDataSource(null);
+			PrepareMemberNameDataSource(null);
+			IEnumerable<OrderIndexVM> orders = (IEnumerable<OrderIndexVM>)GetOrders(criteria);
 
-        //	return View(orders);
+			return View(orders);
 
 
-        //}
-        //Order 因為有錯所以先註解
-        //private IEnumerable<OrderIndexVM> GetOrders(OrderCriteria criteria)
-        //{
-        //	IOrderRepository repo = new OrderEFRepository();
-        //	OrderService service = new OrderService(repo);
+		}
+		Order 
+		private IEnumerable<OrderIndexVM> GetOrders(OrderCriteria criteria)
+		{
+			IOrderRepository repo = new OrderEFRepository();
+			OrderService service = new OrderService(repo);
 
-        //	return service.Search(criteria)
-        //		   .ToList()
-        //		   .Select(o => o.ToIndexVM());
-        //} 因為有錯所以先註解
+			return service.Search(criteria)
+				   .ToList()
+				   .Select(o => o.ToIndexVM());
+		}
+		
 
-        public ActionResult Details(int id)
+		public ActionResult Details(int id)
 		{
 
 			Order order = db.Orders.Find(id);

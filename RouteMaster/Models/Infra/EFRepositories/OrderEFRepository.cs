@@ -10,75 +10,75 @@ using System.Web;
 
 namespace RouteMaster.Models.Infra.EFRepositories
 {
-	public class OrderEFRepository /*: IOrderRepository 有錯先註解*/
+	public class OrderEFRepository : IOrderRepository 
     {
 		private readonly AppDbContext _db = new AppDbContext();
 
 
 
-        //public IEnumerable<OrderIndexDto>Search(OrderCriteria criteria)
-        //{
+        public IEnumerable<OrderIndexDto> Search(OrderCriteria criteria)
+        {
 
 
 
-        //	var query = _db.Orders
-        //.AsNoTracking()
-        //.OrderByDescending(o => o.CreateDate)
-        //.Include(o => o.Member)
-        //.Include(o => o.PaymentMethod)
-        //.ToList();
+            var query = _db.Orders
+        .AsNoTracking()
+        .OrderByDescending(o => o.CreateDate)
+        .Include(o => o.Member)
+        .Include(o => o.PaymentMethod)
+        .ToList();
 
 
-        //	#region where
+            #region where
 
-        //	if (!string.IsNullOrEmpty(criteria.MemberName))
-        //	{
-        //		query = query.Where(o => o.Member.FirstName == criteria.MemberName).ToList();
-        //	}
-        //	if(criteria.PaymentStatus !=null && criteria.PaymentStatus.Value > 0)
-        //	{
-        //		query = query.Where(o=>o.PaymentStatus==criteria.PaymentStatus).ToList();
-        //	}
+            if (!string.IsNullOrEmpty(criteria.MemberName))
+            {
+                query = query.Where(o => o.Member.FirstName == criteria.MemberName).ToList();
+            }
+            if (criteria.PaymentStatus != null && criteria.PaymentStatus.Value > 0)
+            {
+                query = query.Where(o => o.PaymentStatus == criteria.PaymentStatus).ToList();
+            }
 
-        //	#endregion
+            #endregion
 
 
 
-        //	var orders = query.Select(o => new OrderIndexDto
-        //	{
-        //		Id = o.Id,
-        //		MemberId = o.MemberId,
-        //		MemberName = o.Member.FirstName,
-        //		PaymentMethodId = o.PaymentMethodId,
-        //		PaymentMethodName = o.PaymentMethod.Name,
-        //		PaymentStatus = o.PaymentStatus,
-        //		CreateDate = o.CreateDate,
-        //		Total = o.Total
-        //	});
+            var orders = query.Select(o => new OrderIndexDto
+            {
+                Id = o.Id,
+                MemberId = o.MemberId,
+                MemberName = o.Member.FirstName,
+                PaymentMethodId = o.PaymentMethodId,
+                PaymentMethodName = o.PaymentMethod.Name,
+                PaymentStatus = o.PaymentStatus,
+                CreateDate = o.CreateDate,
+                Total = o.Total
+            });
 
-        //	return orders;
-        //	//return (IEnumerable<OrderIndexDto>)_db.Orders
-        //	//   .AsNoTracking()
-        //	//   .OrderByDescending(o => o.CreateDate)
-        //	//   .Include(o => o.Member)
-        //	//   .Include(o => o.PaymentMethod)
-        //	//   .ToList()
-        //	//   //.Where(o=>o.Member.FirstName==criteria.MemberName)
+            return orders;
+            return (IEnumerable<OrderIndexDto>)_db.Orders
+               .AsNoTracking()
+               .OrderByDescending(o => o.CreateDate)
+               .Include(o => o.Member)
+               .Include(o => o.PaymentMethod)
+               .ToList()
+               //.Where(o=>o.Member.FirstName==criteria.MemberName)
 
-        //	//   .Select(o => new OrderIndexDto
-        //	//   {
-        //	//	   Id = o.Id,
-        //	//	   MemberId = o.MemberId,
-        //	//	   MemberName = o.Member.FirstName,
-        //	//	   PaymentMethodId = o.PaymentMethodId,
-        //	//	   PaymentMethodName = o.PaymentMethod.Name,
-        //	//	   PaymentStatus = o.PaymentStatus,
-        //	//	   CreateDate = o.CreateDate,
-        //	//	   Total = o.Total,
+               .Select(o => new OrderIndexDto
+               {
+                   Id = o.Id,
+                   MemberId = o.MemberId,
+                   MemberName = o.Member.FirstName,
+                   PaymentMethodId = o.PaymentMethodId,
+                   PaymentMethodName = o.PaymentMethod.Name,
+                   PaymentStatus = o.PaymentStatus,
+                   CreateDate = o.CreateDate,
+                   Total = o.Total,
 
-        //	//   });
-        //}
+               });
+        }
 
-        //因為有錯所以先註解
+
     }
 }
