@@ -83,7 +83,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 
 
-
+	
 
 
 
@@ -129,6 +129,10 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				&& a.EndTime == endTime);
 		}
 
-		
-	}
+        public Activity GetActivityById(int id)
+        {
+			Activity activityInDb= _db.Activities.FirstOrDefault(x=>x.Id==id);
+			return activityInDb;
+        }
+    }
 }

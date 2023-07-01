@@ -36,12 +36,14 @@ namespace RouteMaster.Models.ViewModels
         [Display(Name = "聯絡手機或市話")]
 		public string PhoneNumber { get; set; }
 
+        [Display(Name = "官方網站")]
 		public string Website { get; set; }
 
 		[StringLength(255)]
         [Display(Name = "聯絡Email")]
 		public string IndustryEmail { get; set; }
 
+        [Display(Name = "停車位數量")]
 		public int? ParkingSpace { get; set; }
 
 	}
