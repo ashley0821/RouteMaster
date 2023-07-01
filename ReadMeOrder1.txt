@@ -19,8 +19,16 @@ AccomodationDetails partial view (useDapper)
 [v] ActivitiesDetails use Dapper (hide Entity Framework)
 [v] ExtraServicesDetails use Dapper (hide Entity Framework)
 
-6/30 10:36am
+6/30 4:50pm
 [v] Delete ActivitiesDetails controller (useless)
 [v] Delete ExtraServicesDetails controller (useless)
 [v] Add PaymentStatusText on OrderIndexVM 1=已付款, 2=未付款, 3=已取消
 [v] Adjust orderIndex format
+[v] Add search (membername, paymentstatus, createdate)
+
+
+7/1
+[v] Add criteria, create membername and paymentstatus search list
+[V] Add select data on orderindex
+[v] Add query data on OrderEFRepository
+[todo] Add querycreatedatedata on OrderEFRepository
