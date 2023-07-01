@@ -6,7 +6,7 @@ using System.Web;
 
 namespace RouteMaster.Models.ViewModels
 {
-	public class MemberLogin
+	public class MemberLoginVM
 	{
 		[Display(Name="帳號")]
 		[Required]

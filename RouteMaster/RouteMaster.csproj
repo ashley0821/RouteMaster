@@ -219,7 +219,6 @@
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
     <Compile Include="Models\Infra\Criterias\ActivityIndexCriteria.cs" />
-    <Compile Include="Models\Infra\Criterias\OrderCriteria.cs" />
     <Compile Include="Models\Infra\DapperRepositories\AccomodationDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ActivitiesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServiceDapperRepository.cs" />
@@ -288,7 +287,7 @@
     <Compile Include="Models\ViewModels\ExtraServicesDetailsVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
-    <Compile Include="Models\ViewModels\MemberLogin.cs" />
+    <Compile Include="Models\ViewModels\MemberLoginVM.cs" />
     <Compile Include="Models\ViewModels\MemberRegisterVM.cs" />
     <Compile Include="Models\ViewModels\OrderInvdexVM.cs" />
     <Compile Include="Models\ViewModels\MemberIndexVM.cs" />
@@ -407,21 +406,14 @@
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\Orders\_ExtraServicesDetailsPartialView.cshtml" />
     <Content Include="Views\Orders\_AccomodationDetailsPartialView.cshtml" />
-
-
     <Content Include="Views\Accommodations\CreateRoom.cshtml" />
-
-
     <Content Include="Views\Attractions\Index.cshtml" />
-
     <Content Include="Views\Attractions\Create.cshtml" />
     <Content Include="Views\Attractions\Details.cshtml" />
-
-
     <Content Include="Views\Member\Register.cshtml" />
     <Content Include="Views\Member\ConfirmRegister.cshtml" />
-
-
+    <Content Include="Views\Member\ActiveRegister.cshtml" />
+    <Content Include="Views\Member\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
