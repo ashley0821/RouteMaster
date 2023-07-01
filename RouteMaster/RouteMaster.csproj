@@ -156,6 +156,7 @@
     <Compile Include="Models\Dto\ActivityEditDto.cs" />
     <Compile Include="Models\Dto\ActivityIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionCreateDto.cs" />
+    <Compile Include="Models\Dto\AttractionDetailDto.cs" />
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
     <Compile Include="Models\ViewModels\ActivityIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionCreateVM.cs" />
+    <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
     <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
@@ -409,6 +411,10 @@
 
 
     <Content Include="Views\Attractions\Index.cshtml" />
+
+    <Content Include="Views\Attractions\Create.cshtml" />
+    <Content Include="Views\Attractions\Details.cshtml" />
+
 
     <Content Include="Views\Member\Register.cshtml" />
     <Content Include="Views\Member\ConfirmRegister.cshtml" />
