@@ -21,11 +21,15 @@ namespace RouteMaster.Models.ViewModels.Accommodations.Room
 		[Display(Name ="客房名稱")]
 		public string Name { get; set; }
 
-		[Display(Name ="客房數量(此類型)")]
+		[Required]
+		[Display(Name = "客房數量(此類型)")]
 		public int Quantity { get; set; }
 
+		[Required]
 		[Display(Name = "每晚最低房價")]
 		public int Price { get; set; }
 
+		//[Display(Name = "房間照片")]
+		//public HttpPostedFileBase[] Files { get; set; }
 	}
 }

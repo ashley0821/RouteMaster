@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace RouteMaster.Models.Interfaces
 {
@@ -17,5 +18,6 @@ namespace RouteMaster.Models.Interfaces
 		AccommodationEditDto GetEditInfo(int? id);
 		void EditAccommodationProfile(AccommodationEditDto dto);
 		bool IsOriginalName(AccommodationEditDto dto);
+		void CreateRoomAndImages(RoomCreateDto dto, HttpPostedFileBase[] files, String path);
 	}
 }

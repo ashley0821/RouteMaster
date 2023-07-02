@@ -171,6 +171,7 @@
     <Compile Include="Models\Dto\PackageTourCreateDto.cs" />
     <Compile Include="Models\Dto\PackageTourEditDto.cs" />
     <Compile Include="Models\Dto\PackageTourIndexDto.cs" />
+    <Compile Include="Models\Dto\RoomCreateDto.cs" />
     <Compile Include="Models\Dto\TravelPlanCreateDto.cs" />
     <Compile Include="Models\Dto\TravelPlanEditDto.cs" />
     <Compile Include="Models\Dto\TravelPlanIndexDto.cs" />
