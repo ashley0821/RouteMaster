@@ -8,7 +8,7 @@ namespace RouteMaster.Models.ViewModels.Accommodations.Room
 {
 	public class RoomCreateVM
 	{
-		public int Id { get; set; }
+		//public int Id { get; set; }
 
 		public int AccommodationId { get; set; }
 

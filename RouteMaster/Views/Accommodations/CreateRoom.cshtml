@@ -45,8 +45,10 @@
     <div class="form-horizontal">
         <h4>RoomCreateVM</h4>
         <hr />
+
         <div class="row">
             <div class="col-2">
+
                 <div class="mb-3">
                     @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
                     <div class="col-md-10">
@@ -61,6 +63,7 @@
                         @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
 
                 <div class="mb-3">
                     @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
