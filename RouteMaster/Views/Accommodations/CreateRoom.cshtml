@@ -36,44 +36,52 @@
 
 @{
     ViewBag.Title = "CreateRoom";
+    var roomType = ViewBag.RoomType;
 }
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("CreateRoom", "Accommodations", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
     <h4>RoomCreateVM</h4>
     <hr />
-    <div class="d-flex">
+    <div class="d-flex ">
         <div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+                    @*@Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @*@Html.DropDownList("RoomType", null, htmlAttributes: new { @class = "form-control", @name = "Type"})*@
+                    <select name="Type" id="s_categoryId" class="form-select">
+                        @foreach (var type in roomType)
+                        {
+                            <option value="@type.Value">@type.Text</option>
+                        }
+                    </select>
                     @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
@@ -101,12 +109,12 @@
                 </label>
             </div>
         </form>*@
-    </div>
-</div>
 
-<div class="form-group" style="margin-top: 20px;">
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+    <div class="mb-3" style="margin-top: 20px;">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
     </div>
 </div>
 }
@@ -125,6 +133,7 @@
     fileInput.multiple = true;
     fileInput.accept = 'image/*';
     fileInput.style.display = 'none';
+    fileInput.name = 'files';
     dropZone.appendChild(fileInput);
 
     dropZone.addEventListener('click', () => {
@@ -168,7 +177,7 @@
                     imageElement.classList.add('preview-image');
 
                     const imageName = `photo_${i + 1}`;
-                    imageElement.setAttribute('name', imageName);
+                    imageElement.setAttribute('name', files);
 
                     imagePreview.appendChild(imageElement);
                 };
