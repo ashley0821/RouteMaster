@@ -1,8 +1,10 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.ViewModels;
+using RouteMaster.Models.ViewModels.Accommodations.Room;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Net;
@@ -12,7 +14,7 @@ namespace RouteMaster.Models.Infra.Extensions
 {
 	public static class AccommodationExts
 	{
-		private static AppDbContext _db = new AppDbContext(); 
+		private readonly static AppDbContext _db = new AppDbContext(); 
 
 		// dto轉vm
         public static AccommodationIndexVM ToVM(this AccommodationIndexDto dto)
@@ -26,7 +28,6 @@ namespace RouteMaster.Models.Infra.Extensions
 				AccommodationImage = dto.AccommodationImage
 			};
 		}
-
         public static AccommodationEditVM ToVM(this AccommodationEditDto dto)
 		{
 			return new AccommodationEditVM
@@ -77,6 +78,20 @@ namespace RouteMaster.Models.Infra.Extensions
 				ParkingSpace = vm.ParkingSpace
 			};
 		}
+		public static RoomCreateDto ToDto(this RoomCreateVM vm)
+		{
+			return new RoomCreateDto
+			{
+				Id = vm.Id,
+				AccommodationId = vm.AccommodationId,
+				Type = vm.Type,
+				Name = vm.Name,
+				Quantity = vm.Quantity,
+				Price = vm.Price
+			};
+		}
+
+
 		//entity轉dto
 		public static AccommodationIndexDto ToIndexDto(this Accommodation accommodation)
 		{
@@ -89,7 +104,6 @@ namespace RouteMaster.Models.Infra.Extensions
 				AccommodationImage = accommodation.AccommodationImages.FirstOrDefault()?.Image
 			};
 		}
-		
 		public static AccommodationEditDto ToEditDto(this Accommodation accommodation)
 		{
 			int length = accommodation.Region.Name.Length + accommodation.Town.Name.Length;
@@ -109,6 +123,7 @@ namespace RouteMaster.Models.Infra.Extensions
 				ParkingSpace = accommodation.ParkingSpace
 			};
 		}
+
 		//dto 轉entity
 		public static Accommodation ToIndexEntity(this AccommodationCreateDto dto)
 		{
@@ -145,7 +160,17 @@ namespace RouteMaster.Models.Infra.Extensions
 		//		CreateDate = DateTime.Now
 		//	};
 		//}
-
+		public static Room ToRoomCreateEntity(this RoomCreateDto dto)
+		{
+			return new Room
+			{
+				AccommodationId = dto.Id,//dto.PartnerId,
+				Type = dto.Type,
+				Name = dto.Name,
+				Quantity = dto.Quantity,
+				Price = dto.Price
+			};
+		}
 
 		private static string GetFullAddress(AccommodationCreateDto dto)
 		{

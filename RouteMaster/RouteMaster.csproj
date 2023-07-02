@@ -171,6 +171,7 @@
     <Compile Include="Models\Dto\PackageTourCreateDto.cs" />
     <Compile Include="Models\Dto\PackageTourEditDto.cs" />
     <Compile Include="Models\Dto\PackageTourIndexDto.cs" />
+    <Compile Include="Models\Dto\RoomCreateDto.cs" />
     <Compile Include="Models\Dto\TravelPlanCreateDto.cs" />
     <Compile Include="Models\Dto\TravelPlanEditDto.cs" />
     <Compile Include="Models\Dto\TravelPlanIndexDto.cs" />
@@ -407,6 +408,10 @@
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\Orders\_ExtraServicesDetailsPartialView.cshtml" />
     <Content Include="Views\Orders\_AccomodationDetailsPartialView.cshtml" />
+
+
+    <Content Include="Views\PackageTours\_AttractionsListPartial.cshtml" />
+
     <Content Include="Views\Accommodations\CreateRoom.cshtml" />
     <Content Include="Views\Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\Create.cshtml" />
@@ -420,7 +425,9 @@
     <Content Include="Views\Members\ConfirmRegister.cshtml" />
     <Content Include="Views\Members\Login.cshtml" />
     <Content Include="Views\Members\Register.cshtml" />
+
     <Content Include="Views\Members\EditPassword.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

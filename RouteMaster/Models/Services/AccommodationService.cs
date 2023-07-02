@@ -60,5 +60,14 @@ namespace RouteMaster.Models.Services
 			return Result.Success();
 			
 		}
+
+		public Result CreateRoomAndImages(RoomCreateDto dto, HttpPostedFileBase[] files, String path)
+		{
+			
+			// 新增一筆紀錄
+			_repo.CreateRoomAndImages(dto, files, path);
+
+			return Result.Success();
+		}
 	}
 }
