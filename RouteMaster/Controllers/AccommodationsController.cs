@@ -152,7 +152,6 @@ namespace RouteMaster.Controllers
         }
 
 		public ActionResult CreateRoom(int? id)
-		
         {
 			if (id == null)
 			{
@@ -166,14 +165,14 @@ namespace RouteMaster.Controllers
 				return HttpNotFound();
 			}
 
-			//RoomCreateVM vm = new RoomCreateVM
-   //         {
-   //             AccommodationId = model.Id
-   //         };
+            RoomCreateVM vm = new RoomCreateVM
+            {
+                AccommodationId = model.Id
+            };
 
-			PrepareRoomTypeViewBag();
+            PrepareRoomTypeViewBag();
             
-			return View();
+			return View(vm);
 		}
 
 
