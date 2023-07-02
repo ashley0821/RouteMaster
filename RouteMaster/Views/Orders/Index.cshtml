@@ -33,8 +33,8 @@
             </div>
             <div class="mb-3 col-md-4">
                 <label for="s_CreateDate" style="display: block">訂購日期</label>
-                <input type="datetime" class="form-control" name="CreateStartDate" id="s_CreateStartDate" style="width: 40%; display: inline" value="@criteria.CreateStartDate"> ~
-                <input type="datetime" class="form-control" name="CreateEndDate" id="s_CreateEndDate" style="width: 40%; display: inline" value="@criteria.CreateEndDate">
+                <input type="date" class="form-control" name="CreateStartDate" id="s_CreateStartDate" style="width: 40%; display: inline" value="@criteria.CreateStartDate"> ~
+                <input type="date" class="form-control" name="CreateEndDate" id="s_CreateEndDate" style="width: 40%; display: inline" value="@criteria.CreateEndDate">
             </div>
 
 
@@ -49,11 +49,11 @@
 
 <table class="table">
     <tr>
-      
+
         <th class="control-label col-md-1" style="text-align: center;">
             @Html.DisplayNameFor(model => model.Id)
         </th>
-      
+
         @*<th>
                 @Html.DisplayNameFor(model => model.MemberId)
             </th>*@
@@ -78,7 +78,7 @@
         </th>
         <th></th>
     </tr>
-    
+
 
     @foreach (var item in Model)
     {
@@ -117,17 +117,18 @@
     }
 
 </table>
-<script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
 
-    $(document).ready(function () {
-        $('.datepicker').datepicker({
-            format: 'yyyy-mm-dd',
-            autoclose: true
+
+    <script>
+    ;
+       
         });
-    });
-</script>
+    </script>
 
-<div>
-    @*@Html.Partial("_IndexDapper",Model.Select(m=>m.ActivitiesDetails))*@
-    @*@{Html.RenderAction("IndexDapper");}*@
-</div>
+    <div>
+        @*@Html.Partial("_IndexDapper",Model.Select(m=>m.ActivitiesDetails))*@
+        @*@{Html.RenderAction("IndexDapper");}*@
+    </div>
