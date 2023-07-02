@@ -270,6 +270,7 @@
     <Compile Include="Models\ViewModels\Accommodations\AccommodationIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccomodationDetailsVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\Room\RoomType.cs" />
     <Compile Include="Models\ViewModels\ActivitiesDetailsIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
