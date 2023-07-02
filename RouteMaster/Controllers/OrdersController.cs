@@ -20,7 +20,7 @@ namespace RouteMaster.Controllers
 
 	{
 		private readonly AppDbContext db = new AppDbContext();
-		GET: Orders
+		//GET: Orders
 		public ActionResult Index(OrderCriteria criteria)
 		{
 			ViewBag.Criteria = criteria;
@@ -34,7 +34,7 @@ namespace RouteMaster.Controllers
 
 
 		}
-		Order 
+		//Order 
 		private IEnumerable<OrderIndexVM> GetOrders(OrderCriteria criteria)
 		{
 			IOrderRepository repo = new OrderEFRepository();
