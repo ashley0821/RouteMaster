@@ -169,7 +169,7 @@ namespace RouteMaster.Controllers
             {
                 AccommodationId = model.Id
             };
-
+            ViewBag.AccommodationId = model.Id;
             PrepareRoomTypeViewBag();
             
 			return View(vm);
@@ -182,9 +182,9 @@ namespace RouteMaster.Controllers
 		{
 			
 			if (!ModelState.IsValid) return View(vm);
-			//建立新會員
+            //建立新會員
 
-			Result result = CreateRoomAndImage(vm, files);
+            Result result = CreateRoomAndImage(vm, files);
 
 			if (result.IsSuccess)
 			{
@@ -203,11 +203,12 @@ namespace RouteMaster.Controllers
 
 		private Result CreateRoomAndImage(RoomCreateVM vm, HttpPostedFileBase[] files)
 		{
+			string path = Server.MapPath("~/Uploads");
 			IAccommodationRepository repo = new AccommodationEFRepository();
-			AccommodationService service = new AccommodationService(repo);
-            return Result.Success();
-			//return service.EditAccommodationProfile(vm.ToDto());
-		}
+            AccommodationService service = new AccommodationService(repo) ;
+
+			return service.CreateRoomAndImages(vm.ToDto(), files, path);
+        }
 		private void PrepareRoomTypeViewBag()
 		{
             var roomTypes = new List<RoomType>{
@@ -281,8 +282,6 @@ namespace RouteMaster.Controllers
 			//IProductRepository repo = new ProductDapperRepository();
 			AccommodationService service = new AccommodationService(repo);
             return service.GetEditInfo(id)?.ToVM();
-
-			
 		}
 
         private Result CreateAccommodation(AccommodationCreateVM vm)

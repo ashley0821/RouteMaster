@@ -9,6 +9,8 @@ using System.Data.Entity;
 using System.Web;
 using RouteMaster.Models.Infra.Extensions;
 using System.Security.Principal;
+using System.Data;
+using System.IO;
 
 namespace RouteMaster.Models.Infra.EFRepositories
 {
@@ -49,9 +51,6 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		{
 			var accommodationdb = _db.Accommodations.AsNoTracking().FirstOrDefault(x => x.Id == id);
 
-			//var length = db.Regions.Select(r => r.Id == accommodationdb.RegionId);
-
-
 			return accommodationdb == null ? null : accommodationdb.ToEditDto();
 			;
 		}
@@ -77,5 +76,46 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			return accommodationDb.Select(a => a.ToIndexDto());
 		}
 
+		public void CreateRoomAndImages(RoomCreateDto dto, HttpPostedFileBase[] files, String path)
+		{
+			Room entity = dto.ToRoomCreateEntity();
+			_db.Rooms.Add(entity);
+
+			RoomImage img = new RoomImage();
+
+			if (files.Length > 0 && files[0] != null)
+			{
+				foreach (HttpPostedFileBase file in files)
+				{
+					string fileName = SaveUploadedFile(path, file);
+					img.Image = fileName;
+					_db.RoomImages.Add(img);
+					_db.SaveChanges();
+				}
+			}
+			_db.SaveChanges();
+		}
+		private string SaveUploadedFile(string path, HttpPostedFileBase file1)
+		{
+			// 如果沒有上傳檔案或檔案是空的, 就不處理, 傳回 string.empty
+			if (file1 == null || file1.ContentLength == 0) return string.Empty;
+
+			// 取得上傳檔案的副檔名
+			string ext = Path.GetExtension(file1.FileName); // ".jpg" 而不是"jpg"
+
+			// 如果副檔名不在允許的範圍裡, 表示上傳不合理的檔案類型, 就不處理, 傳回 string.empty
+			string[] allowedExts = new string[] { ".jpg", ".jpeg", ".png", ".tif" };
+			if (allowedExts.Contains(ext.ToLower()) == false) return string.Empty;
+
+			// 生成一個不會重複的檔名
+			string newFileName = Guid.NewGuid().ToString("N") + ext; // "N"格式不會產生 dash字串縮短
+			string fullName = Path.Combine(path, newFileName);
+
+			//將上傳檔案存放到指定位置
+			file1.SaveAs(fullName);
+
+			//傳回存放的檔名
+			return newFileName;
+		}
 	}
 }

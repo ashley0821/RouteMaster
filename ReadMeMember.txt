@@ -3,13 +3,16 @@
 []啟用帳戶功能
 []建立起用帳戶viewpage
 
+
+7/2接續做memberactive的功能
+[][ ]帳號停權的商業邏輯
+
 ----------
 6/30 
 [√]建立 Member-RegisterPage
 [√]連結到RegisterPage
 [√]建立 Confirmpage
-[√]密碼雜湊11:39，
-[ ]帳號停權的商業邏輯
+[√]密碼雜湊
 
 
 ------完成member三層式，先不用裡面的商業邏輯
@@ -19,7 +22,7 @@ Register
 []修改圖片與修改會員資料分開
 []密碼雜湊步驟---此步驟不應該在viewModel或是Repository，應該在service層!
   1.加上Hashutility.cs, EmailHelper.cs
-  2.
+ 
 
 Edit 06120049
 []

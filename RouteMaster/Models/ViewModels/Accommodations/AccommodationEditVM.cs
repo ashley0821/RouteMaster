@@ -32,6 +32,7 @@ namespace RouteMaster.Models.ViewModels
         [Display(Name = "地址")]
 		public string Address { get; set; }
 
+		[Required]
 		[StringLength(20)]
         [Display(Name = "聯絡手機或市話")]
 		public string PhoneNumber { get; set; }
@@ -39,6 +40,7 @@ namespace RouteMaster.Models.ViewModels
         [Display(Name = "官方網站")]
 		public string Website { get; set; }
 
+		[Required]
 		[StringLength(255)]
         [Display(Name = "聯絡Email")]
 		public string IndustryEmail { get; set; }
