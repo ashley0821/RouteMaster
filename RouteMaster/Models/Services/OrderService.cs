@@ -12,17 +12,18 @@ namespace RouteMaster.Models.Services
 	{
 
 
-		private IOrderRepository _repo;
+        private IOrderRepository _repo;
 
-		public OrderService(IOrderRepository repo)
-		{
-			_repo = repo;
-		}
+        public OrderService(IOrderRepository repo)
+        {
+            _repo = repo;
+        }
+        
 
-		public IEnumerable<OrderIndexDto> Search(OrderCriteria criteria)
-		{
-			return _repo.Search(criteria);
-		}
-
-	}
+        public IEnumerable<OrderIndexDto> Search(OrderCriteria criteria)
+        {
+            return _repo.Search(criteria);
+        }
+        
+    }
 }

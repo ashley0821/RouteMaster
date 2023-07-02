@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace RouteMaster.Models.Interfaces
 {
-	public interface IOrderRepository
-	{
-		IEnumerable<OrderIndexDto> Search(OrderCriteria criteria);
-	}
+    public interface IOrderRepository
+    {
+        IEnumerable<OrderIndexDto> Search(OrderCriteria criteria);
+    }
+    
 }
