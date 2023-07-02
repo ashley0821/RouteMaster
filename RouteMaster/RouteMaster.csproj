@@ -405,13 +405,10 @@
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\Orders\_ExtraServicesDetailsPartialView.cshtml" />
     <Content Include="Views\Orders\_AccomodationDetailsPartialView.cshtml" />
-
     <Content Include="Views\Attractions\Index.cshtml" />
-
     <Content Include="Views\Member\Register.cshtml" />
     <Content Include="Views\Member\ConfirmRegister.cshtml" />
-
-
+    <Content Include="Views\PackageTours\_AttractionsListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
