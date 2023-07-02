@@ -1,3 +1,9 @@
+7/1
+[]建造Login ViewPage
+[]啟用帳戶功能
+[]建立起用帳戶viewpage
+
+----------
 6/30 
 [√]建立 Member-RegisterPage
 [√]連結到RegisterPage

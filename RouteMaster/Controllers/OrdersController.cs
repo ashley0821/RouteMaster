@@ -1,5 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.DapperRepositories;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
@@ -20,21 +21,26 @@ namespace RouteMaster.Controllers
 	{
 		private readonly AppDbContext db = new AppDbContext();
 		// GET: Orders
-		public ActionResult Index()
+		public ActionResult Index(OrderCriteria criteria)
 		{
-			IEnumerable<OrderIndexVM> orders = (IEnumerable<OrderIndexVM>)GetOrders();
+			ViewBag.Criteria = criteria;
+
+		
+			PreparePaymentStatusDataSource(null);
+			PrepareMemberNameDataSource(null);
+			IEnumerable<OrderIndexVM> orders = (IEnumerable<OrderIndexVM>)GetOrders(criteria);
 
 			return View(orders);
 
 
 		}
 		//Order
-		private IEnumerable<OrderIndexVM> GetOrders()
+		private IEnumerable<OrderIndexVM> GetOrders(OrderCriteria criteria)
 		{
 			IOrderRepository repo = new OrderEFRepository();
 			OrderService service = new OrderService(repo);
 
-			return service.Search()
+			return service.Search(criteria)
 				   .ToList()
 				   .Select(o => o.ToIndexVM());
 		}
@@ -122,9 +128,6 @@ namespace RouteMaster.Controllers
 			return PartialView("_ExtraServicesDetailsPartialView", extraServicesDetails);
 		}
 
-
-
-
 		public ActionResult AccomodationDetailsPartialView(int orderId)
 		{
 			AccomodationDetailsDapperRepository repo = new AccomodationDetailsDapperRepository();
@@ -133,11 +136,31 @@ namespace RouteMaster.Controllers
 			return PartialView("_AccomodationDetailsPartialView", accomodationDetails);
 		}
 
+		private void PreparePaymentStatusDataSource(int? PaymentStatus)
+		{
 
-
-
-
+			IEnumerable<SelectListItem> paymentStatusList = new List<SelectListItem>
+			{
+				new SelectListItem { Value = "0", Text = "" }, 
+        new SelectListItem { Value = "1", Text = "已付款" },
+        new SelectListItem { Value = "2", Text = "未付款" },
+        new SelectListItem { Value = "3", Text = "已取消" },
+			};
+			ViewBag.paymentStatus = new SelectList(paymentStatusList, "Value", "Text", PaymentStatus);
+		}
+		private void PrepareMemberNameDataSource(int? MemberId)
+		{
+			var member = db.Orders.ToList().Prepend(new Order());
+			ViewBag.MemberId = new SelectList(member, "Id", "Name", MemberId);
+		}
 		
+
+
+
+
+
+
+
 	}
 
 		

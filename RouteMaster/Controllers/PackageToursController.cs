@@ -115,10 +115,6 @@ namespace RouteMaster.Controllers
                 return RedirectToAction("Index");
             }
 
-
-
-
-
             PrepareCouponDataSource(vm.CouponId);
             return View(vm);
         }
