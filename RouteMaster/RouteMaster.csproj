@@ -67,7 +67,6 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
@@ -132,16 +131,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccommodationsController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
-    <Compile Include="Controllers\ActivitiesDetailsController.cs" />
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
     <Compile Include="Controllers\AdministratorsController.cs" />
     <Compile Include="Controllers\AttractionsController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
     <Compile Include="Controllers\FAQsController.cs" />
-    <Compile Include="Controllers\ExtraServicesDetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PackageToursController.cs" />
     <Compile Include="Controllers\PartnersController.cs" />
     <Compile Include="Controllers\TravelPlansController.cs" />
@@ -150,6 +147,7 @@
     </Compile>
     <Compile Include="Models\Dto\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\AccommodationDetailsDto.cs" />
+    <Compile Include="Models\Dto\AccommodationEditDto.cs" />
     <Compile Include="Models\Dto\AccommodationIndexDto.cs" />
     <Compile Include="Models\Dto\ActivitiesCreateDetailsDto.cs" />
     <Compile Include="Models\Dto\ActivitiesDetailsDto.cs" />
@@ -158,6 +156,7 @@
     <Compile Include="Models\Dto\ActivityEditDto.cs" />
     <Compile Include="Models\Dto\ActivityIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionCreateDto.cs" />
+    <Compile Include="Models\Dto\AttractionDetailDto.cs" />
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
@@ -172,6 +171,7 @@
     <Compile Include="Models\Dto\PackageTourCreateDto.cs" />
     <Compile Include="Models\Dto\PackageTourEditDto.cs" />
     <Compile Include="Models\Dto\PackageTourIndexDto.cs" />
+    <Compile Include="Models\Dto\RoomCreateDto.cs" />
     <Compile Include="Models\Dto\TravelPlanCreateDto.cs" />
     <Compile Include="Models\Dto\TravelPlanEditDto.cs" />
     <Compile Include="Models\Dto\TravelPlanIndexDto.cs" />
@@ -220,6 +220,7 @@
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
     <Compile Include="Models\Infra\Criterias\ActivityIndexCriteria.cs" />
+    <Compile Include="Models\Infra\Criterias\OrderCriteria.cs" />
     <Compile Include="Models\Infra\DapperRepositories\AccomodationDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ActivitiesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServiceDapperRepository.cs" />
@@ -264,16 +265,19 @@
     <Compile Include="Models\Services\ExtraServiceService.cs" />
     <Compile Include="Models\Services\PackageTourService.cs" />
     <Compile Include="Models\Services\TravelPlanService.cs" />
-    <Compile Include="Models\ViewModels\AccommodationCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\AccommodationCreateVM.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
-    <Compile Include="Models\ViewModels\AccommodationEditVM.cs" />
-    <Compile Include="Models\ViewModels\AccommodationIndexVM.cs" />
-    <Compile Include="Models\ViewModels\AccomodationDetailsVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\AccommodationEditVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\AccommodationIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\AccomodationDetailsVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\Room\RoomCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\Room\RoomType.cs" />
     <Compile Include="Models\ViewModels\ActivitiesDetailsIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
     <Compile Include="Models\ViewModels\ActivityIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionCreateVM.cs" />
+    <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
     <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
@@ -286,7 +290,7 @@
     <Compile Include="Models\ViewModels\ExtraServicesDetailsVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
-    <Compile Include="Models\ViewModels\MemberLogin.cs" />
+    <Compile Include="Models\ViewModels\MemberLoginVM.cs" />
     <Compile Include="Models\ViewModels\MemberRegisterVM.cs" />
     <Compile Include="Models\ViewModels\OrderInvdexVM.cs" />
     <Compile Include="Models\ViewModels\MemberIndexVM.cs" />
@@ -378,7 +382,6 @@
     <Content Include="Views\Accommodations\_AccommodationCardPartial.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Orders\_IndexDapper.cshtml" />
-    <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\TravelPlans\Create.cshtml" />
     <Content Include="Views\TravelPlans\Delete.cshtml" />
     <Content Include="Views\TravelPlans\Details.cshtml" />
@@ -386,7 +389,6 @@
     <Content Include="Views\TravelPlans\Index.cshtml" />
     <Content Include="Views\PackageTours\_ActivitiesListPartial.cshtml" />
     <Content Include="Views\PackageTours\_ExtraServicesListPartial.cshtml" />
-    <Content Include="Views\Member\EditMember.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
     <Content Include="Views\Partners\Create.cshtml" />
     <Content Include="Views\Partners\Delete.cshtml" />
@@ -405,10 +407,24 @@
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\Orders\_ExtraServicesDetailsPartialView.cshtml" />
     <Content Include="Views\Orders\_AccomodationDetailsPartialView.cshtml" />
-    <Content Include="Views\Attractions\Index.cshtml" />
-    <Content Include="Views\Member\Register.cshtml" />
-    <Content Include="Views\Member\ConfirmRegister.cshtml" />
+
+
     <Content Include="Views\PackageTours\_AttractionsListPartial.cshtml" />
+
+    <Content Include="Views\Accommodations\CreateRoom.cshtml" />
+    <Content Include="Views\Attractions\Index.cshtml" />
+    <Content Include="Views\Attractions\Create.cshtml" />
+    <Content Include="Views\Attractions\Details.cshtml" />
+    <Content Include="Views\Members\Create.cshtml" />
+    <Content Include="Views\Members\Delete.cshtml" />
+    <Content Include="Views\Members\Details.cshtml" />
+    <Content Include="Views\Members\Edit.cshtml" />
+    <Content Include="Views\Members\Index.cshtml" />
+    <Content Include="Views\Members\ActiveRegister.cshtml" />
+    <Content Include="Views\Members\ConfirmRegister.cshtml" />
+    <Content Include="Views\Members\Login.cshtml" />
+    <Content Include="Views\Members\Register.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

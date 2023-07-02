@@ -1,5 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.DapperRepositories;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
@@ -19,29 +20,35 @@ namespace RouteMaster.Controllers
 
 	{
 		private readonly AppDbContext db = new AppDbContext();
-		// GET: Orders
-		public ActionResult Index()
+		//GET: Orders
+		public ActionResult Index(OrderCriteria criteria)
 		{
-			IEnumerable<OrderIndexVM> orders = (IEnumerable<OrderIndexVM>)GetOrders();
+			ViewBag.Criteria = criteria;
+
+
+			PreparePaymentStatusDataSource(null);
+			PrepareMemberNameDataSource(null);
+			IEnumerable<OrderIndexVM> orders = (IEnumerable<OrderIndexVM>)GetOrders(criteria);
 
 			return View(orders);
 
 
 		}
-		//Order
-		private IEnumerable<OrderIndexVM> GetOrders()
+		//Order 
+		private IEnumerable<OrderIndexVM> GetOrders(OrderCriteria criteria)
 		{
 			IOrderRepository repo = new OrderEFRepository();
 			OrderService service = new OrderService(repo);
 
-			return service.Search()
+			return service.Search(criteria)
 				   .ToList()
 				   .Select(o => o.ToIndexVM());
 		}
+		
 
 		public ActionResult Details(int id)
 		{
-			
+
 			Order order = db.Orders.Find(id);
 			if (order == null)
 			{
@@ -80,17 +87,17 @@ namespace RouteMaster.Controllers
 		public ActionResult IndexDapper(int orderId)
 
 		{
-			ActivitiesDetailsDapperRepository repo= new ActivitiesDetailsDapperRepository();
+			ActivitiesDetailsDapperRepository repo = new ActivitiesDetailsDapperRepository();
 			List<ActivitiesDetailsIndexVM> activitiesdetails = repo.GetActivitiesDetails(orderId);
 			return PartialView("_IndexDapper", activitiesdetails);
 
 		}
 
 
-        //ExtraServiceDetails (EF)
-  //      public ActionResult ExtraServicesDetailsPartialView(int id)
+		//ExtraServiceDetails (EF)
+		//      public ActionResult ExtraServicesDetailsPartialView(int id)
 		//{
-			
+
 
 		//	var viewModelItems = db.ExtraServicesDetails
 		//						.ToList()
@@ -111,27 +118,51 @@ namespace RouteMaster.Controllers
 		//}
 
 		//AccomodationDetails (Dapper)
-		
-		
-		
+
+
+
 		public ActionResult ExtraServicesDetailsPartialView(int orderId)
 		{
-			ExtraServicesDetailsDapperRepository repo= new ExtraServicesDetailsDapperRepository();
+			ExtraServicesDetailsDapperRepository repo = new ExtraServicesDetailsDapperRepository();
 			List<ExtraServicesDetailsVM> extraServicesDetails = repo.GetExtraServicesDetails(orderId);
 
-            return PartialView("_ExtraServicesDetailsPartialView", extraServicesDetails);
-        } 
+			return PartialView("_ExtraServicesDetailsPartialView", extraServicesDetails);
+		}
 
+		public ActionResult AccomodationDetailsPartialView(int orderId)
+		{
+			AccomodationDetailsDapperRepository repo = new AccomodationDetailsDapperRepository();
+			List<AccomodationDetailsVM> accomodationDetails = repo.GetAccomodationDetails(orderId);
 
+			return PartialView("_AccomodationDetailsPartialView", accomodationDetails);
+		}
 
+		private void PreparePaymentStatusDataSource(int? PaymentStatus)
+		{
 
-        public ActionResult AccomodationDetailsPartialView(int orderId)
+			IEnumerable<SelectListItem> paymentStatusList = new List<SelectListItem>
 			{
-				AccomodationDetailsDapperRepository repo = new AccomodationDetailsDapperRepository();
-				List<AccomodationDetailsVM> accomodationDetails = repo.GetAccomodationDetails(orderId);
+				new SelectListItem { Value = "0", Text = "" }, 
+        new SelectListItem { Value = "1", Text = "已付款" },
+        new SelectListItem { Value = "2", Text = "未付款" },
+        new SelectListItem { Value = "3", Text = "已取消" },
+			};
+			ViewBag.paymentStatus = new SelectList(paymentStatusList, "Value", "Text", PaymentStatus);
+		}
+		private void PrepareMemberNameDataSource(int? MemberId)
+		{
+			var member = db.Orders.ToList().Prepend(new Order());
+			ViewBag.MemberId = new SelectList(member, "Id", "Name", MemberId);
+		}
+		
 
-				return PartialView("_AccomodationDetailsPartialView", accomodationDetails);
-			}
+
+
+
+
+
 
 	}
+
+		
 }

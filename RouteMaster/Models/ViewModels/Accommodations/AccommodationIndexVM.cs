@@ -16,7 +16,9 @@ namespace RouteMaster.Models.ViewModels
 		[Required]
 		[StringLength(850)]
 		public string Name { get; set; }
+		[Required]
 		public string Address { get; set; }
+		[Required]
 		public string AccommodationImage { get; set; }
 	}
 }

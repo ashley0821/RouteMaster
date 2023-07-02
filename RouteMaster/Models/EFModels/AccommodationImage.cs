@@ -15,7 +15,7 @@ namespace RouteMaster.Models.EFModels
         [Required]
         public string Name { get; set; }
 
-        [Required]
+        //[Required]
         public string Image { get; set; }
 
         public virtual Accommodation Accommodation { get; set; }

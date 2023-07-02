@@ -29,6 +29,9 @@ namespace RouteMaster.Models.Services
 				// 丟出異常,或者傳回 Result
 				return Result.Fail($"帳號 {dto.Account} 已存在, 請更換後再試一次");
 			}
+			
+			//判斷性別
+			//if(dto.Gender == )
 
 			// 將密碼進行雜湊
 			var salt = HashUtility.GetSalt();
