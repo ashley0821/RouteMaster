@@ -116,14 +116,6 @@ namespace RouteMaster.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
 
         public ActionResult Index()
@@ -186,12 +178,10 @@ namespace RouteMaster.Controllers
             return service.Register(vm.ToDto());
         }
 
-
         public ActionResult ConfirmRegister()
         {
             return View();
         }
-
 
         public ActionResult ActiveRegister(int Id, string confirmCode)
         {
@@ -294,5 +284,21 @@ namespace RouteMaster.Controllers
                 ? Result.Success()
                 : Result.Fail("帳密有誤");
         }
+
+        public ActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+ 
     }
 }

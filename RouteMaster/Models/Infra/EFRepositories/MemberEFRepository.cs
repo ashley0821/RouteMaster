@@ -37,8 +37,8 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				Gender = dto.Gender,
 				Image = "false",
 				CreateDate = DateTime.Now,
-				IsConfirmed = dto.IsConfirmed,
-				ConfirmCode = Guid.NewGuid().ToString("N"),
+				IsConfirmed = true,
+				ConfirmCode = "0",
 				Birthday = dto.Birthday,
 				IsSuspended = null
 			};
