@@ -21,5 +21,7 @@ namespace RouteMaster.Models.Interfaces
 		
 		void Delete(int id);	
 
+		ExtraService GetExtraServiceById(int id);
+
 	}
 }

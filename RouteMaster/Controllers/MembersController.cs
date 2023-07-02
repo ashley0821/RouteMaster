@@ -204,7 +204,7 @@ namespace RouteMaster.Controllers
             return Result.Success();
         }
 
-        public ActionResult EditMember()
+        public ActionResult MemberEdit()
         {
             return View();
         }
@@ -238,6 +238,13 @@ namespace RouteMaster.Controllers
             Response.Cookies.Add(processResult.cookie);
 
             return Redirect(processResult.returnUrl);
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            FormsAuthentication.SignOut();
+            return Redirect("/Members/Login");
         }
 
         private (string returnUrl, HttpCookie cookie) ProcessLogin(string account, bool rememberMe)
@@ -290,6 +297,36 @@ namespace RouteMaster.Controllers
             return View();
         }
 
+        private Result ChangePassword(string account, MemberEditPasswordVM vm)
+        {
+            var salt = HashUtility.GetSalt();
+            var hashOrigPassword = HashUtility.ToSHA256(vm.OldPassword, salt);
+
+            var db = new AppDbContext();
+
+            var memberInDb = db.Members.FirstOrDefault(m => m.Account == account && m.EncryptedPassword == hashOrigPassword);
+            if (memberInDb == null) return Result.Fail("找不到要修改的會員記錄");
+
+            var hashPassword = HashUtility.ToSHA256(vm.NewPassword, salt);
+
+            // 更新密碼
+            memberInDb.EncryptedPassword = hashPassword;
+            db.SaveChanges();
+
+            return Result.Success();
+        }
+
+        public ActionResult EditPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditPassword(MemberEditPasswordVM vm)
+        {
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -299,6 +336,6 @@ namespace RouteMaster.Controllers
             base.Dispose(disposing);
         }
 
- 
+        
     }
 }

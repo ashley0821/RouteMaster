@@ -99,6 +99,7 @@ namespace RouteMaster.Models.Infra.Extensions
 		{
 			return new ExtraServiceEditDto
 			{				
+				Id = entity.Id,
 				AttractionId = entity.AttractionId,
 				Name = entity.Name,		
 				Price = entity.Price,	
@@ -110,8 +111,8 @@ namespace RouteMaster.Models.Infra.Extensions
 		public static ExtraServiceEditVM ToEditVM(this ExtraServiceEditDto dto)
 		{
 			return new ExtraServiceEditVM
-			{
-	
+			{		
+				Id= dto.Id,
 				AttractionId = dto.AttractionId,
 				Name = dto.Name,
 				Price = dto.Price,
@@ -123,7 +124,8 @@ namespace RouteMaster.Models.Infra.Extensions
 		public static ExtraServiceEditDto ToEditDto(this ExtraServiceEditVM vm)
 		{
 			return new ExtraServiceEditDto
-			{	
+			{
+				Id = vm.Id,
 				AttractionId = vm.AttractionId,
 				Name = vm.Name,
 				Price = vm.Price,

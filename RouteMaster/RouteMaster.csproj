@@ -270,6 +270,7 @@
     <Compile Include="Models\ViewModels\Accommodations\AccommodationIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccomodationDetailsVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\Room\RoomType.cs" />
     <Compile Include="Models\ViewModels\ActivitiesDetailsIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
@@ -287,6 +288,7 @@
     <Compile Include="Models\ViewModels\FAQIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServicesDetailsVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
+    <Compile Include="Models\ViewModels\MemberEditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVM.cs" />
     <Compile Include="Models\ViewModels\MemberRegisterVM.cs" />
@@ -418,6 +420,7 @@
     <Content Include="Views\Members\ConfirmRegister.cshtml" />
     <Content Include="Views\Members\Login.cshtml" />
     <Content Include="Views\Members\Register.cshtml" />
+    <Content Include="Views\Members\EditPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

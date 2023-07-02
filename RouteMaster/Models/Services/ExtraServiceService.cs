@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.ViewModels;
@@ -42,6 +43,12 @@ namespace RouteMaster.Models.Services
             return Result.Success();
         }
 
+
+       public ExtraService GetExtraServiceById(int id)
+        {
+            var extraServiceInDb= _repo.GetExtraServiceById(id);
+            return extraServiceInDb;
+        }
 
 
 
