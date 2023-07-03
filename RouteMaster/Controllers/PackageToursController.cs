@@ -73,18 +73,13 @@ namespace RouteMaster.Controllers
 
         public ActionResult Create()
         {
-
-
-            ViewBag.Attractions=db.Attractions.ToList().Select(x=>x.ToAttractionListDto().ToAttractionListVM());
+            ViewBag.Attractions=db.Attractions.ToList().Select(x=>x.ToAttractionListIndexDto().ToAttractionListIndexVM());
             ViewBag.Activities = db.Activities.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
-            ViewBag.ExtraServices=db.ExtraServices.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
-            
+            ViewBag.ExtraServices=db.ExtraServices.ToList().Select(x=>x.ToIndexDto().ToIndexVM());          
+
 
             PrepareCouponDataSource(null);
             return View();
-
-
-
         }
 
 
@@ -97,10 +92,47 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
 
-        public ActionResult Create(PackageTourCreateVM vm, List<Activity> arrOfActivities, List<ExtraService> arrOfExtraServices, List<Attraction> arrOfAttractions) 
+        public ActionResult Create(PackageTourCreateVM vm) 
 		{
             IPackageTourRepository repo = new PackageTourEFRepository();
             PackageTourService service = new PackageTourService(repo);
+
+
+
+            //根據接收到的活動Id獲取完整的活動對象           
+            List<Activity> selectedActivities = new List<Activity>();
+            foreach (var activityId in vm.Activities.Select(a => a.Id))
+            {
+                var activity = db.Activities.Find(activityId);
+                selectedActivities.Add(activity);
+            }
+            //將完整的活動物件添加到Activities列表當中
+            vm.Activities = selectedActivities.Select(a => a.ToIndexDto().ToIndexVM()).ToList();
+         
+
+
+            List<ExtraService> selectedExtraService=new List<ExtraService>();
+            foreach(var ectraServiceId in vm.ExtraServices.Select(e => e.Id))
+            {
+                var extraService = db.ExtraServices.Find(ectraServiceId);
+                selectedExtraService.Add(extraService);
+            }
+            vm.ExtraServices=selectedExtraService.Select(e=>e.ToIndexDto().ToIndexVM()).ToList();   
+
+
+
+
+            List<Attraction> selectedAttractions=new List<Attraction>();
+            foreach(var attractionId in vm.Attractions.Select(a => a.Id))
+            {
+                var attraction = db.Attractions.Find(attractionId);
+                selectedAttractions.Add(attraction);
+            }
+            vm.Attractions=selectedAttractions.Select(a=>a.ToAttractionListIndexDto().ToAttractionListIndexVM()).ToList();
+
+
+
+
 
 
             if (ModelState.IsValid == false)
@@ -110,31 +142,15 @@ namespace RouteMaster.Controllers
             }
 
             if (ModelState.IsValid)
-            {
-                for(int i= 0;i< arrOfActivities.Count; i++)
-                {
-                    vm.Activities.Add(arrOfActivities[i].ToIndexDto().ToIndexVM());
-                }
-
-                for(int i=0; i< arrOfExtraServices.Count; i++)
-                {
-                    vm.ExtraServices.Add(arrOfExtraServices[i].ToIndexDto().ToIndexVM());
-                }
-
-
-                for(int i=0;i< arrOfAttractions.Count; i++)
-                {
-                    vm.Attractions.Add(arrOfAttractions[i].ToAttractionListDto().ToAttractionListVM()); 
-                }
-
-
-           
+            {           
                 service.Create(vm.ToCreateDto());
                 return RedirectToAction("Index");
             }
 
             PrepareCouponDataSource(vm.CouponId);
-            return View(vm);
+
+
+            return View("Index");
         }
 
 

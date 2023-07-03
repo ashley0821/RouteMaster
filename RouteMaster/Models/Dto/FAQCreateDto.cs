@@ -5,11 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Xml.Linq;
 
-namespace RouteMaster.Models.ViewModels
+namespace RouteMaster.Models.Dto
 {
-	public class FAQCreateVM
+	public class FAQCreateDto
 	{
-
 		[Display(Name = "問題類別")]
 		[Required]
 		public int CategoryId { get; set; }
@@ -25,8 +24,5 @@ namespace RouteMaster.Models.ViewModels
 
 		[Display(Name = "有效幫助分數")]
 		public int? Helpful { get; set; }
-
-		[Display(Name = "說明圖示")]
-		public string FAQImage { get; set; }
 	}
 }

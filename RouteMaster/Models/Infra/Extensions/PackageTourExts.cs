@@ -65,9 +65,7 @@ namespace RouteMaster.Models.Infra.Extensions
                 Description = dto.Description,
                 Status = dto.Status,
                 CouponId = dto.CouponId,
-                Activities = dto.Activities.Select(x => x.ToIndexDto().ToEntity()).ToList(),
-                ExtraServices = dto.ExtraServices.Select(x => x.ToIndexDto().ToEntity()).ToList(),
-				Attractions=dto.Attractions.Select(x=>x.ToAttractionListDto().ToAttractionListEntity()).ToList()
+     
 			};
         }
 
@@ -124,108 +122,7 @@ namespace RouteMaster.Models.Infra.Extensions
 
 
 
-        public static AttractionIndexDto ToAttractionListDto(this Attraction entity)
-        {
-            AppDbContext _db = new AppDbContext();
-
-
-            return new AttractionIndexDto
-            {
-                Id = entity.Id,
-                Category = entity.AttractionCategory.Name,
-                Region = entity.Region.Name,
-                Town = entity.Town.Name,
-                Name = entity.Name,
-                Description = entity.Description,
-                AverageScore = _db.Comments_Attractions
-                .Where(c => c.AttractionId == entity.Id)
-                .Select(c => c.Score)
-				.DefaultIfEmpty()
-				.Average(),
-                
-               
-
-
-                AverageStayHours = _db.Comments_Attractions
-                .Where(c => c.AttractionId == entity.Id)
-                .Select(c => c.StayHours)
-                .DefaultIfEmpty()
-				.Average(),
-
-                AveragePrice =(int)Math.Round(_db.Comments_Attractions
-                .Where(c => c.AttractionId == entity.Id)
-                .Select(c => c.Price)
-				.DefaultIfEmpty()
-				.Average()??0),
-            };
-        }
-
-
-        public static AttractionIndexVM ToAttractionListVM(this AttractionIndexDto dto)
-        {
-            return new AttractionIndexVM
-            {
-                Id= dto.Id,
-                Category=dto.Category,
-                Region= dto.Region,
-                Town= dto.Town,
-                Name = dto.Name,
-                DescriptionText = dto.DescriptionText,
-                AverageScoreText = dto.AverageScoreText,
-                AverageStayHoursText = dto.AverageStayHoursText,
-                AveragePriceText = dto.AveragePriceText,
-            };
-        }
-
-
-		public static AttractionIndexDto ToAttractionListDto(this AttractionIndexVM vm)
-		{
-			return new AttractionIndexDto
-			{
-				Id = vm.Id,
-				Category = vm.Category,
-				Region = vm.Region,
-				Town = vm.Town,
-				Name = vm.Name,				
-			};
-		}
-
-
-		public static Attraction ToAttractionListEntity(this AttractionIndexDto dto)
-		{
-			return new Attraction
-			{
-				Id = dto.Id,
-				AttractionCategoryId = GetAttractionCategoryIdById(dto.Id),
-				RegionId=GetAttractionRegionIdById(dto.Id), 
-				TownId = GetAttractionTownIdById(dto.Id),
-				Name = dto.Name,
-			};
-		}
-
-
-
-        public static int GetAttractionCategoryIdById(int id)
-        {
-            AppDbContext db=new AppDbContext();
-            var result = db.Attractions.Find(id).AttractionCategoryId;
-            return result;
-        }
-
-		public static int GetAttractionRegionIdById(int id)
-		{
-			AppDbContext db = new AppDbContext();
-			var result = db.Attractions.Find(id).RegionId;
-			return result;
-		}
-
-		public static int GetAttractionTownIdById(int id)
-		{
-			AppDbContext db = new AppDbContext();
-			var result = db.Attractions.Find(id).TownId;
-			return result;
-		}
-
+  
 	}
 
 }
