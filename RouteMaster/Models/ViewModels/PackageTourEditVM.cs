@@ -22,18 +22,18 @@ namespace RouteMaster.Models.ViewModels
         [Display(Name = "優惠券")]
         public int? CouponId { get; set; }
 
-        [Required]
+       
         [Display(Name = "活動列表")]
 
         public List<ActivityIndexVM> Activities { get; set; }
 
-        [Required]
+        
         [Display(Name = "額外服務列表")]
         public List<ExtraServiceIndexVM> ExtraServices { get; set; }
 
 
-        //[Required]
-        //[Display(Name = "景點列表")]
-        //public List<AttractionIndexVM> Attractions { get; set; }
+        
+        [Display(Name = "景點列表")]
+        public List<AttractionIndexVM> Attractions { get; set; }
     }
 }
