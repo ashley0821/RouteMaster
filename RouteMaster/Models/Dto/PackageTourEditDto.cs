@@ -17,9 +17,9 @@ namespace RouteMaster.Models.Dto
 
         public int? CouponId { get; set; }
 
-        public List<ActivityIndexVM> Activities { get; set; }
-        public List<ExtraServiceIndexVM> ExtraServices { get; set; }
+        public List<ActivityEditVM> Activities { get; set; }
+        public List<ExtraServiceEditVM> ExtraServices { get; set; }
 
-        public List<AttractionIndexVM> Attractions { get; set; }
+        public List<AttractionListEditVM> Attractions { get; set; }
     }
 }
