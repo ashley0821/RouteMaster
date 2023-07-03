@@ -6,17 +6,14 @@ using System.Web;
 
 namespace RouteMaster.Models.Dto
 {
-	public class FAQDto
+	public class FAQIndexDto
 	{
-		
 		public int Id { get; set; }
 
-		public int CategoryId { get; set; }
+		public string CategoryName { get; set; }
 
-		[Required]
 		public string Question { get; set; }
 
-		[Required]
 		public string Answer { get; set; }
 
 		public int? Helpful { get; set; }

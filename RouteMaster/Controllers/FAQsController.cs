@@ -6,9 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Criterias;
+using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
+using RouteMaster.Models.Interfaces;
+using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
 
 namespace RouteMaster.Controllers
@@ -18,10 +23,30 @@ namespace RouteMaster.Controllers
         private AppDbContext db = new AppDbContext();
 
         // GET: FAQs
-        public ActionResult Index()
+        public ActionResult Index(FAQCriteria criteria)
         {
-            var fAQs = db.FAQs.Include(q => q.FAQCategory).ToList().Select(q => q.ToFAQIndexVM());
-            return View(fAQs);
+            PrepareFAQCategoryDataSource(criteria.CategoryId);
+
+            var mannerList = new List<FAQSortManner>()
+            {
+                new FAQSortManner(){Id = 0, Name=""},
+                new FAQSortManner(){Id = 1, Name="幫助分數由高到低"},
+                new FAQSortManner(){Id = 2, Name="最新建立"},
+                new FAQSortManner(){Id = 3, Name="最新修改"}
+            };
+
+            ViewBag.SortId= new SelectList(mannerList,"Id", "Name", criteria.SortId);
+
+            ViewBag.Criteria= criteria;
+
+            IFAQRepository repo = new FAQEFRepository();
+            FAQService service = new FAQService(repo);
+
+            var info = service.Search(criteria)
+                .ToList()
+                .Select(q => q.ToIndexVM());
+           
+            return View(info);
         }
 
         // GET: FAQs/Details/5
@@ -42,9 +67,8 @@ namespace RouteMaster.Controllers
         // GET: FAQs/Create
         public ActionResult Create()
         {
-			var cate = db.FAQCategories.ToList().Prepend(new FAQCategory());
-			ViewBag.CategoryId = new SelectList(cate, "Id", "Name", string.Empty);
-            return View();
+			PrepareFAQCategoryDataSource(null);
+			return View();
         }
 
         // POST: FAQs/Create
@@ -53,13 +77,14 @@ namespace RouteMaster.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-		public ActionResult Create(FAQCreateVM vm, HttpPostedFileBase file1)
+		public ActionResult Create(FAQCreateVM vm, HttpPostedFileBase[] file1)
 		{
 			if (!ModelState.IsValid) return View(vm);
 
 			Result result = ProcessCreate(vm, file1);
-			var cate = db.FAQCategories.ToList().Prepend(new FAQCategory());
-			ViewBag.CategoryId = new SelectList(cate, "Id", "Name", vm.CategoryId);
+
+			PrepareFAQCategoryDataSource(vm.CategoryId);
+
 
 			if (result.IsSuccess)
 			{
@@ -73,42 +98,15 @@ namespace RouteMaster.Controllers
 
 		}
 
-		private Result ProcessCreate(FAQCreateVM vm, HttpPostedFileBase file1)
+		private Result ProcessCreate(FAQCreateVM vm, HttpPostedFileBase[] file1)
 		{
-			var text = new FAQ
-			{
-				CategoryId = vm.CategoryId,
-				Question = vm.Question,
-				Answer = vm.Answer,
-				Helpful = vm.Helpful,
-				CreateDate = DateTime.Now,
-				ModifiedDate = DateTime.Now
-
-			};
-			db.FAQs.Add(text);
-
-			//將HttpPostedFileBase 集合化
-			//var files = Request.Files;
-			FAQImage img = new FAQImage();
-			img.FAQId = vm.Id;
-
 			string path = Server.MapPath("~/Uploads");
+			FAQCreateDto dto = vm.ToCreateDto();
+			IFAQRepository repo = new FAQEFRepository();
 
-			foreach (string i in Request.Files)
-			{
-				var imgItems = Request.Files[i];
-				if (imgItems.ContentLength > 0)
-				{
-					string fileName = SaveUploadedFile(path, imgItems);
+			FAQService service = new FAQService(repo);
+			return service.Create(dto, file1, path);
 
-					img.Image = fileName;
-					db.FAQImages.Add(img);
-				}
-
-			}
-			db.SaveChanges();
-
-			return Result.Success();
 		}
 
 		private string SaveUploadedFile(string path, HttpPostedFileBase file1)
@@ -141,13 +139,17 @@ namespace RouteMaster.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FAQ fAQ = db.FAQs.Find(id);
-            if (fAQ == null)
+            FAQ detail  = db.FAQs.Find(id);
+            if (detail == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryId = new SelectList(db.FAQCategories, "Id", "Name", fAQ.CategoryId);
-            return View(fAQ);
+
+            FAQEditVM vm= detail.ToEditDto().ToEditVM();
+
+			PrepareFAQCategoryDataSource(vm.CategoryId);
+
+			return View(vm);
         }
 
         // POST: FAQs/Edit/5
@@ -155,20 +157,51 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CategoryId,Question,Answer,Helpful,CreateDate,ModifiedDate")] FAQ fAQ)
+        public ActionResult Edit(FAQEditVM vm)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(fAQ).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.CategoryId = new SelectList(db.FAQCategories, "Id", "Name", fAQ.CategoryId);
-            return View(fAQ);
+            if (!ModelState.IsValid) return View(vm);
+
+            Result result = UpdateFAQ(vm);
+			if (result.IsFalse)
+			{
+				ModelState.AddModelError(string.Empty, errorMessage: result.ErrorMessage);
+				return View(vm);
+			}
+			PrepareFAQCategoryDataSource(vm.CategoryId);
+
+            return RedirectToAction("Index");
         }
 
-        // GET: FAQs/Delete/5
-        public ActionResult Delete(int? id)
+		private Result UpdateFAQ(FAQEditVM vm)
+		{
+			IFAQRepository repo = new FAQEFRepository();
+			FAQService service = new FAQService(repo);
+
+			return service.Update(vm.ToEditDto());
+		}
+
+		// GET: FAQImages
+		public ActionResult EditImgIndex(int? id)
+        {
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			ViewBag.Id = id;
+
+			var imgShow = db.FAQImages.Where(i => i.FAQId == id);
+
+			if (imgShow == null)
+			{
+				return HttpNotFound();
+			}
+			var vm = imgShow.ToList().Select(i => i.ToEditImgIndexVM());
+			return View(vm);
+
+		}
+
+		// GET: FAQs/Delete/5
+		public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -193,7 +226,13 @@ namespace RouteMaster.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+		private void PrepareFAQCategoryDataSource(int? categoryId)
+		{
+			var cate = db.FAQCategories.ToList().Prepend(new FAQCategory());
+			ViewBag.CategoryId = new SelectList(cate, "Id", "Name", categoryId);
+		}
+
+		protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
