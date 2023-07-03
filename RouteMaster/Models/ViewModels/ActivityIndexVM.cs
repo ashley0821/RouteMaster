@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RouteMaster.Models.EFModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -64,6 +65,8 @@ namespace RouteMaster.Models.ViewModels
 				return Status == true ? "上架中" : "已下架";
 			}
 		}
+
+	
 
 	}
 }

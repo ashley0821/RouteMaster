@@ -180,7 +180,9 @@ namespace RouteMaster.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult CreateRoom(RoomCreateVM vm, HttpPostedFileBase[] files)
 		{
-			
+            PrepareRoomTypeViewBag();
+			return View(vm);
+
 			if (!ModelState.IsValid) return View(vm);
             //建立新會員
 

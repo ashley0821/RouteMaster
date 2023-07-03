@@ -39,11 +39,11 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 
             //todo Attractions
-            //foreach (var attractionDto in dto.Attractions)
-            //{
-            //    Attraction attraction = attractionDto.ToEntity();
-            //    packageTour.Attractions.Add(attraction);
-            //}
+            foreach (var attractionDto in dto.Attractions)
+            {
+                Attraction attraction = attractionDto.ToAttractionListDto().ToAttractionListEntity();
+                packageTour.Attractions.Add(attraction);
+            }
 
 
 
