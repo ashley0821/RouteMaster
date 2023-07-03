@@ -31,19 +31,16 @@ namespace RouteMaster.Models.Infra.EFRepositories
             PackageTour packageTour= dto.ToEntity();
             _db.PackageTours.Add(packageTour);
 
-            foreach(var vm in dto.Activities)
+            _db.SaveChanges();
+
+
+            foreach (var vm in dto.Activities)
             {
                 Activity activity=vm.ToIndexDto().ToEntity();
                 packageTour.Activities.Add(activity);
             }
 
-
-            //todo Attractions
-            foreach (var attractionDto in dto.Attractions)
-            {
-                Attraction attraction = attractionDto.ToAttractionListDto().ToAttractionListEntity();
-                packageTour.Attractions.Add(attraction);
-            }
+            _db.SaveChanges();
 
 
 
@@ -55,6 +52,21 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
             _db.SaveChanges();
 
+
+            
+          
+            foreach (var vm in dto.Attractions)
+            {
+                //Attraction attraction = vm.ToAttractionListIndexDto().ToAttractionListIndexEntity();
+
+                Attraction attraction = _db.Attractions.Find(vm.Id);
+                packageTour.Attractions.Add(attraction);
+            }
+            _db.SaveChanges();
+
+
+
+          
         }
 
         public void Delete(int id)
