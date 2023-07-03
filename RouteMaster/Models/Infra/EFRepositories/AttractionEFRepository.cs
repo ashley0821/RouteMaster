@@ -109,5 +109,43 @@ namespace RouteMaster.Models.Infra.EFRepositories
 								.Average(),
 				}).FirstOrDefault();
 		}
+
+		public AttractionEditDto GetEditDto (int id)
+		{
+			return _db.Attractions
+				.Where(p => p.Id == id)
+				.Select(p => new AttractionEditDto
+				{
+					Id = p.Id,
+					AttractionCategoryId = p.AttractionCategoryId,
+					RegionId = p.RegionId,
+					TownId = p.TownId,
+					Name = p.Name,
+					Address = p.Address,
+					PositionX = p.PositionX,
+					PositionY = p.PositionY,
+					Description = p.Description,
+					Website = p.Website,
+				}).FirstOrDefault();
+		}
+
+
+		public void Edit(AttractionEditDto dto)
+		{
+			Attraction att = _db.Attractions.Find(dto.Id);
+			att.AttractionCategoryId = dto.AttractionCategoryId;
+			att.RegionId = dto.RegionId;
+			att.TownId = dto.TownId;
+			att.Name = dto.Name;
+			att.Address = dto.Address;
+			att.PositionX = dto.PositionX;
+			att.PositionY = dto.PositionY;
+			att.Description = dto.Description;
+			att.Website = dto.Website;
+
+
+			// 將它存到db
+			_db.SaveChanges();
+		}
 	}
 }

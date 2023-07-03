@@ -27,9 +27,14 @@ namespace RouteMaster.Models.Services
 			return _repo.Get(id);
 		}
 
+		public AttractionEditDto GetEditDto(int id)
+		{
+			return _repo.GetEditDto(id);
+		}
+
 		public Result Create(AttractionCreateDto dto)
 		{
-			// 判斷帳號是否已被用過
+			// 判斷名稱是否已被用過
 			if (_repo.ExistAttraction(dto.Name))
 			{
 				// 丟出異常，或者回傳 Result
@@ -39,6 +44,12 @@ namespace RouteMaster.Models.Services
 			// 新增一筆紀錄
 			_repo.Create(dto);
 
+			return Result.Success();
+		}
+
+		public Result Edit(AttractionEditDto dto)
+		{
+			_repo.Edit(dto);
 			return Result.Success();
 		}
 	}

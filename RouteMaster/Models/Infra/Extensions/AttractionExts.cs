@@ -60,5 +60,40 @@ namespace RouteMaster.Models.Infra.Extensions
 				AverageStayHoursText = dto.AverageStayHoursText,
 			};
 		}
+
+
+		public static AttractionEditVM ToEditVM (this AttractionEditDto dto)
+		{
+			return new AttractionEditVM
+			{
+				Id = dto.Id,
+				AttractionCategoryId = dto.AttractionCategoryId,
+				RegionId = dto.RegionId,
+				TownId = dto.TownId,
+				Name = dto.Name,
+				Address = dto.Address,
+				PositionX = dto.PositionX,
+				PositionY = dto.PositionY,
+				Description = dto.Description,
+				Website = dto.Website,
+			};
+		}
+
+		public static AttractionEditDto ToEditDto (this AttractionEditVM vm)
+		{
+			return new AttractionEditDto
+			{
+				Id = vm.Id,
+				AttractionCategoryId = vm.AttractionCategoryId,
+				RegionId = vm.RegionId,
+				TownId = vm.TownId,
+				Name = vm.Name,
+				Address = vm.Address,
+				PositionX = vm.PositionX,
+				PositionY = vm.PositionY,
+				Description = vm.Description,
+				Website = vm.Website,
+			};
+		}
 	}
 }

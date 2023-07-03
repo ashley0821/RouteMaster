@@ -19,6 +19,8 @@ namespace RouteMaster.Controllers
 {
 	public class AttractionsController : Controller
 	{
+		
+
 		// GET: Attractions
 		public ActionResult Index()
 		{
@@ -67,6 +69,59 @@ namespace RouteMaster.Controllers
 			}
 		}
 
+		public ActionResult Edit(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			else
+			{
+				IAttractionRepository repo = new AttractionEFRepository();
+				AttractionService service = new AttractionService(repo);
+
+				AttractionEditDto dto = service.GetEditDto(id.Value);
+				if (dto == null)
+				{
+					return HttpNotFound();
+				}
+
+				AppDbContext _db = new AppDbContext();
+
+				ViewBag.AttractionCategories = _db.AttractionCategories.ToList();
+				ViewBag.Regions = _db.Regions.ToList();
+				ViewBag.Towns = _db.Towns.Where(t=>t.RegionId == dto.RegionId).ToList();
+
+				return View(dto.ToEditVM());
+			}
+		}
+
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(AttractionEditVM vm)
+		{
+			if (ModelState.IsValid == false) { return View(vm); }
+
+			IAttractionRepository repo = new AttractionEFRepository();
+			AttractionService service = new AttractionService(repo);
+
+			Result result = service.Edit(vm.ToEditDto());
+
+			if (result.IsSuccess)
+			{
+				return RedirectToAction("Index");
+			}
+
+			AppDbContext _db = new AppDbContext();
+
+			ViewBag.AttractionCategories = _db.AttractionCategories.ToList();
+			ViewBag.Regions = _db.Regions.ToList();
+			ViewBag.Towns = _db.Towns.Where(t => t.RegionId == vm.RegionId).ToList();
+
+			return View(vm);
+		}
+
 		public ActionResult Details(int? id)
 		{
 			
@@ -91,7 +146,6 @@ namespace RouteMaster.Controllers
 		public JsonResult LoadTowns(int regionId)
 		{
 			AppDbContext _db = new AppDbContext();
-
 			// 从数据库中获取与地区Id相关的城镇数据
 			var towns = _db.Towns.Where(t => t.RegionId == regionId).ToList();
 
