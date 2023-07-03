@@ -1,0 +1,121 @@
+﻿@model RouteMaster.Models.ViewModels.AttractionDetailVM
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>AttractionDetailVM</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" }) <!--放錯誤訊息用的-->
+        <dt>
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Region)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Region)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Town)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Town)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PositionX)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PositionX)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PositionY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PositionY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Website)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AverageScoreText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AverageScoreText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AverageStayHoursText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AverageStayHoursText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AveragePriceText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AveragePriceText)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
