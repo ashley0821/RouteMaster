@@ -153,10 +153,24 @@ namespace RouteMaster.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(MemberRegisterVM vm)
+        public ActionResult Register(MemberRegisterVM vm, HttpPostedFileBase facePhoto1)
         {
-            if (!ModelState.IsValid) return View(vm);
+            if (ModelState.IsValid)
+            {
+				// 將 file1存檔, 並取得最後存檔的檔案名稱
+				string path = Server.MapPath("/Uploads"); // 檔案要存放的資料夾位置
+				string fileName = SaveUploadedFile(path, facePhoto1);
 
+				// 將檔名存入 vm裡
+				vm.Image = fileName; // ****
+
+			}
+            else
+            {
+                return View(vm);
+            }
+
+            
             Result result = RegisterMember(vm);
 
             if (result.IsSuccess)
@@ -170,7 +184,32 @@ namespace RouteMaster.Controllers
             }
         }
 
-        public Result RegisterMember(MemberRegisterVM vm)
+		
+
+		private string SaveUploadedFile(string path, HttpPostedFileBase facePhoto1)
+		{
+			// 如果沒有上傳檔案或檔案是空的,就不處理, 傳回 string.empty
+			if (facePhoto1 == null || facePhoto1.ContentLength == 0) return string.Empty;
+
+			// 取得上傳檔案的副檔名
+			string ext = System.IO.Path.GetExtension(facePhoto1.FileName); // ".jpg" 而不是 "jpg"
+
+			// 如果副檔名不在允許的範圍裡,表示上傳不合理的檔案類型, 就不處理, 傳回 string.empty
+			string[] allowedExts = new string[] { ".jpg", ".jpeg", ".png", ".tif" };
+			if (allowedExts.Contains(ext.ToLower()) == false) return string.Empty;
+
+			// 生成一個不會重複的檔名
+			string newFileName = Guid.NewGuid().ToString("N") + ext; // 生成 er534263454r45636t34534sfggtwer6563462343.jpg
+			string fullName = System.IO.Path.Combine(path, newFileName);
+
+			// 將上傳檔案存放到指定位置
+			facePhoto1.SaveAs(fullName);
+
+			// 傳回存放的檔名
+			return newFileName;
+		}
+
+		public Result RegisterMember(MemberRegisterVM vm)
         {
             IMemberRepository repo = new MemberEFRepository();
 

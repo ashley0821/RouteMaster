@@ -72,7 +72,7 @@ namespace RouteMaster.Models.ViewModels
 
 
 		[Display(Name = "大頭貼")]
-		[Required]
+		//[Required]
 		public string Image { get; set; }
 
 	}
