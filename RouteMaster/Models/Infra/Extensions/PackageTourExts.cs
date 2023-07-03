@@ -24,6 +24,7 @@ namespace RouteMaster.Models.Infra.Extensions
                 CouponId = dto.CouponId,
                 Activities = dto.Activities,
                 ExtraServices = dto.ExtraServices,
+                Attractions=dto.Attractions
 
             };
         }
@@ -39,7 +40,8 @@ namespace RouteMaster.Models.Infra.Extensions
                 Status = entity.Status,
                 CouponId = entity.CouponId,
                 Activities = entity.Activities.Select(x => x.ToIndexDto().ToIndexVM()).ToList(),
-                ExtraServices = entity.ExtraServices.Select(x => x.ToIndexDto().ToIndexVM()).ToList()
+                ExtraServices = entity.ExtraServices.Select(x => x.ToIndexDto().ToIndexVM()).ToList(),
+                Attractions=entity.Attractions.Select(x=>x.ToAttractionListIndexDto().ToAttractionListIndexVM()).ToList()            
             };
         }
 

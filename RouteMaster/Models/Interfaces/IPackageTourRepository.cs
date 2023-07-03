@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.EFModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace RouteMaster.Models.Interfaces
 		void Edit(PackageTourEditDto dto);
 
 		void Delete(int id);
+
+		PackageTour GetPackageTourById(int id);	
     }
 }
