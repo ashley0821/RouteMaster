@@ -20,11 +20,6 @@ namespace RouteMaster.Models.ViewModels
 		[StringLength(50)]
 		public string LastName { get; set; }
 
-		[Display(Name = "帳號")]
-		[Required]
-		[StringLength(30)]
-		public string Account { get; set; }
-
 		//[Required]
 		//[StringLength(255)]
 		//public string EncryptedPassword { get; set; }
@@ -49,18 +44,6 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "生日")]
 		public DateTime Birthday { get; set; }
 
-		[Display(Name = "創建日期")]
-		public DateTime CreateDate { get; set; }
 
-		//[Required]
-		//public string Image { get; set; }
-
-		[Display(Name = "已驗證")]
-		public bool IsConfirmed { get; set; }
-
-		//public string ConfirmCode { get; set; }
-
-		[Display(Name = "已被停帳")]
-		public bool? IsSuspended { get; set; }
 	}
 }

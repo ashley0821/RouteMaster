@@ -2,12 +2,54 @@
 
 @{
     ViewBag.Title = "Index";
+    var categories = ViewBag.CategoryId as SelectList;
+    var sorts = ViewBag.SortId as SelectList;
+    var criteria = (RouteMaster.Models.Infra.Criterias.FAQCriteria)ViewBag.Criteria;
+    string s_categoryId = criteria.CategoryId.HasValue ? criteria.CategoryId.Value.ToString() : "";
+    string s_sortId = criteria.SortId.HasValue ? criteria.SortId.Value.ToString() : "";
 }
 
 <h2>Index</h2>
+<section class="container">
+    <form method="get">
+        <div class="row">
+            <div class="mb-3 col">
+                <label for="s_categoryId">問題分類</label>
+                <select name="categoryId" id="s_categoryId" class="form-select">
+                    @foreach (var item in categories)
+                    {
+                        <option value="@item.Value" @(s_categoryId == item.Value ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
 
+            </div>
+
+            <div class="mb-3 col">
+
+                <label for="s_name">方法關鍵字</label>
+                <input type="text" class="form-control" name="Answer" id="s_name" value="@criteria.Answer">
+
+            </div>
+
+            <div class="mb-3 col">
+                <label for="s_sortId">排序條件</label>
+                <select name="sortId" id="s_sortId" class="form-select">
+                    @foreach (var item in sorts)
+                    {
+                        <option value="@item.Value" @(s_sortId == item.Value ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+
+            </div>
+
+            <div class="mb-3 col-2 align-self-end">
+                <button class="btn btn-dark">Search</button>
+            </div>
+        </div>
+    </form>
+</section>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("新增常見問題", "Create", new { id = "" }, new { @class = "btn btn-outline-success" })
 </p>
 <table class="table">
     <tr>
@@ -16,7 +58,7 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Question)
-        </th>   
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.AnswerText)
         </th>
@@ -53,9 +95,9 @@
             @Html.DisplayFor(modelItem => item.ModifiedDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("圖片庫", "EditImgIndex", new { id=item.Id }, new { @class = "btn btn-outline-secondary" }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }
