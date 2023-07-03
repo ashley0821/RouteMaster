@@ -158,6 +158,7 @@
     <Compile Include="Models\Dto\AttractionCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionDetailDto.cs" />
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
+    <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceIndexDto.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Models\Infra\Extensions\AccomodationDetailsExts.cs" />
     <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
     <Compile Include="Models\Infra\Extensions\AccommodationExts.cs" />
+    <Compile Include="Models\Infra\Extensions\AttractionListExts.cs" />
     <Compile Include="Models\Infra\Extensions\ExtraServiceExts.cs" />
     <Compile Include="Models\Infra\Extensions\FAQExts.cs" />
     <Compile Include="Models\Infra\Extensions\MemberExts.cs" />
@@ -279,6 +281,7 @@
     <Compile Include="Models\ViewModels\AttractionCreateVM.cs" />
     <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
     <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
+    <Compile Include="Models\ViewModels\AttractionListIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceIndexVM.cs" />
@@ -407,10 +410,7 @@
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\Orders\_ExtraServicesDetailsPartialView.cshtml" />
     <Content Include="Views\Orders\_AccomodationDetailsPartialView.cshtml" />
-
-
     <Content Include="Views\PackageTours\_AttractionsListPartial.cshtml" />
-
     <Content Include="Views\Accommodations\CreateRoom.cshtml" />
     <Content Include="Views\Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\Create.cshtml" />
@@ -424,7 +424,6 @@
     <Content Include="Views\Members\ConfirmRegister.cshtml" />
     <Content Include="Views\Members\Login.cshtml" />
     <Content Include="Views\Members\Register.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

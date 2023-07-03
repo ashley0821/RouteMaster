@@ -254,8 +254,7 @@ namespace RouteMaster.Controllers
             }
 
 
-
-            // 构建一个包含景点ID和名称的列表，用于返回给Ajax请求
+            //構建一個包含景點Id和名稱的列表，用於返回給Ajax請求
             var attractionList = attractions.Select(a => new
             {
                 Value = a.Id,
