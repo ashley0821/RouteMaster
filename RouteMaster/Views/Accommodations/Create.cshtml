@@ -30,8 +30,9 @@
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="">
-        @Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "form-label col-md-2" })
+    <div>
+        @*@Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "form-label col-md-2" })*@
+        <label class="form-label col-md-2 m-0">貴住宿的地址</label>
         <div class="d-flex row">
             <div class="mb-3 col-xl-1 col-sm-2 pe-0 ">
                     @Html.DropDownList("RegionId", null, htmlAttributes: new { @class = "form-control text-center", @id = "region"})
@@ -124,7 +125,7 @@
 
                         // 遍历返回的 Town 数据并添加到 DropDownList
                         $.each(data, function (index, town) {
-                            $("#town").append($('<option></option>').val(town.regionId).text(town.name));
+                            $("#town").append($('<option></option>').val(town.townId).text(town.name));
                         });
                     }).fail(err => {
                         $("#town").empty().append($('<option></option>').val("").text("請選擇"));

@@ -4,12 +4,12 @@
     @*@html.actionlink("create new", "create")*@
 </p>
 
-@foreach (var orderGroup in Model.GroupBy(item => item.OrderId))
+@*@foreach (var orderGroup in Model.GroupBy(item => item.OrderId))
 {
     var orderId = orderGroup.Key;
-    var orderDetails = orderGroup.ToList();
+    var orderDetails = orderGroup.ToList();*@
 
-    <h3>Order ID: @orderId</h3>
+    @*<h3>Order ID: @orderId</h3>*@
     <table class="table">
         <tr>
             <th>
@@ -68,5 +68,5 @@
             </tr>
         }
     </table>
-}
+@*}*@
 

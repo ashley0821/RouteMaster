@@ -1,4 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.Criterias;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace RouteMaster.Models.Interfaces
 {
 	public interface IActivityRepository
 	{
-		IEnumerable<ActivityIndexDto> Search();
+		IEnumerable<ActivityIndexDto> Search(ActivityIndexCriteria criteria);
 
 		void Create(ActivityCreateDto dto);
 
@@ -21,5 +23,7 @@ namespace RouteMaster.Models.Interfaces
 		void Edit(ActivityEditDto dto);
 
 		void Delete(int id);
+
+		Activity GetActivityById(int id);
 	}
 }

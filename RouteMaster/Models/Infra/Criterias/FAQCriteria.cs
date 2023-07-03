@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace RouteMaster.Models.ViewModels
+namespace RouteMaster.Models.Infra.Criterias
 {
-	public class FAQCriteriaVM
+	public class FAQCriteria
 	{
 		public int? CategoryId { get; set; }
 
+
 		public string Answer { get; set; }
 
-		public int? OrderId { get; set; }
+		public int? SortId { get; set; }
 	}
 }

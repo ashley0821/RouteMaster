@@ -1,5 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace RouteMaster.Models.Interfaces
 		void Edit(ExtraServiceEditDto dto);
 		
 		void Delete(int id);	
+
+		ExtraService GetExtraServiceById(int id);
 
 	}
 }

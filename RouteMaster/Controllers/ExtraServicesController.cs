@@ -37,18 +37,13 @@ namespace RouteMaster.Controllers
 		}
 
 		// GET: ExtraServices/Details/5
-		public ActionResult Details(int? id)
+		public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ExtraService extraService = db.ExtraServices.Find(id);
-            if (extraService == null)
-            {
-                return HttpNotFound();
-            }
-            return View(extraService);
+            IExtraServiceRepository repo=new ExtraServiceDapperRepository();
+            ExtraServiceService service = new ExtraServiceService(repo);
+
+            var extraService= service.GetExtraServiceById(id);     
+            return View(extraService.ToIndexDto().ToIndexVM());
         }
 
         // GET: ExtraServices/Create
@@ -81,20 +76,19 @@ namespace RouteMaster.Controllers
 
 
         // GET: ExtraServices/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ExtraService extraService = db.ExtraServices.Find(id);
+        public ActionResult Edit(int id)
+        {          
+            IExtraServiceRepository repo=new ExtraServiceDapperRepository();
+            ExtraServiceService service=new ExtraServiceService(repo);
+            var extraService = service.GetExtraServiceById(id);
+
             if (extraService == null)
             {
                 return HttpNotFound();
-            } 
-            
+            }             
             
             PrepareAttractionDataSource(extraService.AttractionId);
+
             return View(extraService.ToEditDto().ToEditVM());
         }
 
@@ -120,19 +114,14 @@ namespace RouteMaster.Controllers
         }
 
         // GET: ExtraServices/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ExtraService extraService = db.ExtraServices.Find(id);
-            if (extraService == null)
-            {
-                return HttpNotFound();
-            }
-            return View(extraService);
-        }
+			IExtraServiceRepository repo = new ExtraServiceDapperRepository();
+			ExtraServiceService service = new ExtraServiceService(repo);
+
+			var extraService = service.GetExtraServiceById(id);
+			return View(extraService.ToIndexDto().ToIndexVM());
+		}
 
         // POST: ExtraServices/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -157,8 +146,11 @@ namespace RouteMaster.Controllers
 
         private void PrepareAttractionDataSource(int? attractionId)
         {
-            var attractions = db.Attractions.ToList().Prepend(new Attraction());
-            ViewBag.AttractionId = new SelectList(attractions, "Id", "Name", attractionId);
-        }
+			var attractions = db.Attractions
+                .OrderBy(x => x.Id)
+                .ToList()
+                .Prepend(new Attraction { Id = 0, Name = "全部景點" });
+			ViewBag.AttractionId = new SelectList(attractions, "Id", "Name", attractionId);
+		}
     }
 }

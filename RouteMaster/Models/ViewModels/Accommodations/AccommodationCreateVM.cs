@@ -19,19 +19,23 @@ namespace RouteMaster.Models.ViewModels
         [StringLength(850)]
         public string Name { get; set; }
 
-        [Display(Name = "貴住宿的地址")]
+        [Required]
+        [Display(Name = "縣市")]
         public int RegionId { get; set; }
 
+        [Required]
         [Display(Name = "鄉鎮市區")]
         public int TownId { get; set; }
 
         [Required]
-        [Display(Name = "貴住宿的地址")]
+        [Display(Name = "地址")]
         public string Address { get; set; }
 
+        [Required]
         [Display(Name = "聯絡手機或市話")]
         public string PhoneNumber { get; set; }
 
+        [Required]
         [Display(Name = "聯絡Email")]
         public string IndustryEmail { get; set; }
     }

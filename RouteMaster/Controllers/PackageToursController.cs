@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
@@ -36,6 +38,8 @@ namespace RouteMaster.Controllers
            
             IPackageTourRepository repo =new PackageTourEFRepository();
             PackageTourService service = new PackageTourService(repo);
+
+
             return View(service.Search().ToList().Select(x => x.ToIndexVM()));
 
 
@@ -69,7 +73,12 @@ namespace RouteMaster.Controllers
 
         public ActionResult Create()
         {
-            //ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Id");
+
+
+            ViewBag.Attractions=db.Attractions.ToList().Select(x=>x.ToAttractionListDto().ToAttractionListVM());
+            ViewBag.Activities = db.Activities.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
+            ViewBag.ExtraServices=db.ExtraServices.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
+            
 
             PrepareCouponDataSource(null);
             return View();
@@ -79,32 +88,62 @@ namespace RouteMaster.Controllers
         }
 
 
+
+
+
+
         // POST: PackageTours/Create
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(PackageTourCreateVM vm)
-        {
-            IPackageTourRepository repo=new PackageTourEFRepository();
-            PackageTourService service=new PackageTourService(repo);
+
+        public ActionResult Create(PackageTourCreateVM vm, List<Activity> arrOfActivities, List<ExtraService> arrOfExtraServices, List<Attraction> arrOfAttractions) 
+		{
+            IPackageTourRepository repo = new PackageTourEFRepository();
+            PackageTourService service = new PackageTourService(repo);
 
 
             if (ModelState.IsValid == false)
             {
-                return View();
+                PrepareCouponDataSource(vm.CouponId);
+                return View(vm);
             }
 
             if (ModelState.IsValid)
             {
+                for(int i= 0;i< arrOfActivities.Count; i++)
+                {
+                    vm.Activities.Add(arrOfActivities[i].ToIndexDto().ToIndexVM());
+                }
+
+                for(int i=0; i< arrOfExtraServices.Count; i++)
+                {
+                    vm.ExtraServices.Add(arrOfExtraServices[i].ToIndexDto().ToIndexVM());
+                }
+
+
+                for(int i=0;i< arrOfAttractions.Count; i++)
+                {
+                    vm.Attractions.Add(arrOfAttractions[i].ToAttractionListDto().ToAttractionListVM()); 
+                }
+
+
+           
                 service.Create(vm.ToCreateDto());
                 return RedirectToAction("Index");
             }
 
-            //ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Id", packageTour.CouponId);
             PrepareCouponDataSource(vm.CouponId);
             return View(vm);
         }
+
+
+
+
+
+
+
+
 
         // GET: PackageTours/Edit/5
         public ActionResult Edit(int? id)
@@ -118,7 +157,7 @@ namespace RouteMaster.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Id", packageTour.CouponId);
+            ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Discount", packageTour.CouponId);
             return View(packageTour);
         }
 
@@ -135,7 +174,7 @@ namespace RouteMaster.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Id", packageTour.CouponId);
+            ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Discount", packageTour.CouponId);
             return View(packageTour);
         }
 
@@ -165,6 +204,38 @@ namespace RouteMaster.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public ActionResult ActivitiesList()
+        {
+            var model=db.Activities.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
+            //取得模型
+
+            return this.PartialView("_ActivitiesListPartial", model);
+        }
+
+        public ActionResult ExtraServicesList()
+        {
+            var model = db.ExtraServices.ToList().Select(x => x.ToIndexDto().ToIndexVM());
+            //取得模型
+
+            return this.PartialView("_ExtraServicesListPartial", model);
+        }
+
+
+        public ActionResult AttractionsList()
+        {
+            var model = db.Attractions.ToList();                
+             
+            //取得模型
+
+            return this.PartialView("_AttractionsListPartial", model);
+        }
+
+
+
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -176,10 +247,9 @@ namespace RouteMaster.Controllers
 
 
 
-
         private void PrepareCouponDataSource(int? couponId)
         {
-            var coupons = db.Coupons.ToList().Prepend(new Coupon());
+            var coupons = db.Coupons.ToList().Prepend(new Coupon() {Discount=1 });
             ViewBag.CouponId = new SelectList(coupons, "Id", "Discount", couponId);
         }
     }
