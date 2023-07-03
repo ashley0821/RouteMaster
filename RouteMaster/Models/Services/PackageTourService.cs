@@ -43,5 +43,11 @@ namespace RouteMaster.Models.Services
             return Result.Success();
         }
 
+        public Result Edit(PackageTourEditDto dto)
+        {
+            _repo.Edit(dto);
+            return Result.Success();
+        }
+
     }
 }

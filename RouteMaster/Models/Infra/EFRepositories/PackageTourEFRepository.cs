@@ -66,27 +66,23 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
             packageInDb.Description = dto.Description;
             packageInDb.Status= dto.Status;
-            packageInDb.CouponId = dto.CouponId;
-
-            //packageInDb.Activities.Add(dto.Activities);
-            //packageInDb.ExtraServices = dto.ExtraServices;
+            packageInDb.CouponId = dto.CouponId;   
 
 
 
             packageInDb.Activities.Clear();
             foreach (var vm in dto.Activities)
             {
-                var activity = vm.ToIndexDto().ToEntity();
+                var activity = _db.Activities.Find(vm.Id);
                 packageInDb.Activities.Add(activity);  
             }
 
       
             packageInDb.Attractions.Clear();
             foreach (var vm in dto.Attractions)
-            {//todo
-
-                //var attraction = vm.ToIndexDto().ToEntity();
-                //packageInDb.Attractions.Add(attraction);
+            {
+                var attraction = _db.Attractions.Find(vm.Id);
+                packageInDb.Attractions.Add(attraction);
             }
 
 
@@ -95,9 +91,11 @@ namespace RouteMaster.Models.Infra.EFRepositories
             packageInDb.ExtraServices.Clear();
             foreach (var vm in dto.ExtraServices)
             {
-                var extraService = vm.ToIndexDto().ToEntity();
+                var extraService =_db.ExtraServices.Find(vm.Id);
                 packageInDb.ExtraServices.Add(extraService);
             }
+
+
             _db.SaveChanges();              
 
         }
