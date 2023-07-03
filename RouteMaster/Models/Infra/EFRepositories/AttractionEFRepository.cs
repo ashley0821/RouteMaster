@@ -147,5 +147,22 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			// 將它存到db
 			_db.SaveChanges();
 		}
+
+		public void Delete(int id)
+		{
+			Attraction att = _db.Attractions.Find(id);
+
+			try
+			{
+				_db.Attractions.Remove(att);
+				// 將它存到db
+				_db.SaveChanges();
+			}
+			catch(Exception ex)
+			{
+				throw new Exception("無法刪除", ex);
+			}
+
+		}
 	}
 }

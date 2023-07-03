@@ -122,6 +122,46 @@ namespace RouteMaster.Controllers
 			return View(vm);
 		}
 
+		public ActionResult Delete(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			IAttractionRepository repo = new AttractionEFRepository();
+			AttractionService service = new AttractionService(repo);
+
+			var dto = service.Get(id.Value);
+
+			if (dto == null)
+			{
+				return HttpNotFound();
+			}
+
+			return View(dto.ToDetailVM());
+		}
+
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteConfirmed(int id)
+		{
+			IAttractionRepository repo = new AttractionEFRepository();
+			AttractionService service = new AttractionService(repo);
+
+			var result = service.Delete(id);
+
+			if (result.IsSuccess)
+			{
+				return RedirectToAction("Index");
+			}
+
+			var dto = service.Get(id);
+			ModelState.AddModelError(string.Empty, result.ErrorMessage);
+
+			return View(dto.ToDetailVM());
+		}
+
 		public ActionResult Details(int? id)
 		{
 			

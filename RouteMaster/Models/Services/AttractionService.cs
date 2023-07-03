@@ -52,5 +52,19 @@ namespace RouteMaster.Models.Services
 			_repo.Edit(dto);
 			return Result.Success();
 		}
+
+		public Result Delete(int id)
+		{
+			try {
+				_repo.Delete(id);
+
+				return Result.Success();
+			}
+			catch
+			{ 
+				return Result.Fail("無法刪除"); 
+			}
+			
+		}
 	}
 }
