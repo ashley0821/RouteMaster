@@ -16,5 +16,11 @@ namespace RouteMaster.Models.Interfaces
 		void Create(AttractionCreateDto dto);
 
 		AttractionDetailDto Get(int id);
+
+		AttractionEditDto GetEditDto (int id);
+
+		void Edit(AttractionEditDto dto);
+
+		void Delete(int id);
 	}
 }

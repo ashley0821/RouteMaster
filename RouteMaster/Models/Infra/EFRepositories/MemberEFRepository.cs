@@ -4,6 +4,7 @@ using RouteMaster.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 
 namespace RouteMaster.Models.Infra.EFRepositories
@@ -35,7 +36,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				CellPhoneNumber = dto.CellPhoneNumber,
 				Address = dto.Address,
 				Gender = dto.Gender,
-				Image = "false",
+				Image = dto.Image,
 				CreateDate = DateTime.Now,
 				IsConfirmed = true,
 				ConfirmCode = "0",
@@ -43,9 +44,20 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				IsSuspended = null
 			};
 
-			//存到DB
 			_db.Members.Add(member);
+			
+
+			MemberImage memberImage = new MemberImage
+			{
+				Image = dto.Image,
+				Name = "未命名",
+			};
+			//存到DB
+			
+
+			_db.MemberImages.Add(memberImage);
 			_db.SaveChanges();
+
 		}
 
 		public IEnumerable<MemberIndexDto> Seacrh()
@@ -70,5 +82,6 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 				});
 		}
+
 	}
 }

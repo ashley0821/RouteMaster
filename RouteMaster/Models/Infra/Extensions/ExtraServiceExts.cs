@@ -44,7 +44,7 @@ namespace RouteMaster.Models.Infra.Extensions
 		public static int GetAttractionIdFromId(this int id)
 		{
 			AppDbContext db = new AppDbContext();
-			int result = db.Activities.FirstOrDefault(a => a.Id == id).AttractionId;
+			int result = db.ExtraServices.FirstOrDefault(e=>e.Id==id).AttractionId;
 			return result;
 		}
 
