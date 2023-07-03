@@ -16,6 +16,7 @@ using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
+using RouteMaster.Models.ViewModels.Accommodations.Room;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace RouteMaster.Controllers
@@ -150,22 +151,40 @@ namespace RouteMaster.Controllers
 			
         }
 
-		public ActionResult CreateRoom()
-		{
-			return View();
+		public ActionResult CreateRoom(int? id)
+        {
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			AccommodationEditVM model = GetAccommodationProfile(id);
+
+			if (model == null)
+			{
+				return HttpNotFound();
+			}
+
+            RoomCreateVM vm = new RoomCreateVM
+            {
+                AccommodationId = model.Id
+            };
+            ViewBag.AccommodationId = model.Id;
+            PrepareRoomTypeViewBag();
+            
+			return View(vm);
 		}
+
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult CreateRoom(AccommodationCreateVM vm)
+		public ActionResult CreateRoom(RoomCreateVM vm, HttpPostedFileBase[] files)
 		{
-			ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
-
-			ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", vm.TownId);
+			
 			if (!ModelState.IsValid) return View(vm);
-			//建立新會員
+            //建立新會員
 
-			Result result = CreateAccommodation(vm);
+            Result result = CreateRoomAndImage(vm, files);
 
 			if (result.IsSuccess)
 			{
@@ -180,6 +199,38 @@ namespace RouteMaster.Controllers
 			//ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
 			//ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", vm.TownId);
 			//return View(vm);
+		}
+
+		private Result CreateRoomAndImage(RoomCreateVM vm, HttpPostedFileBase[] files)
+		{
+			string path = Server.MapPath("~/Uploads");
+			IAccommodationRepository repo = new AccommodationEFRepository();
+            AccommodationService service = new AccommodationService(repo) ;
+
+			return service.CreateRoomAndImages(vm.ToDto(), files, path);
+        }
+		private void PrepareRoomTypeViewBag()
+		{
+            var roomTypes = new List<RoomType>{
+                new RoomType(1,"單人房"),
+                new RoomType(2,"雙人房"),
+                new RoomType(3,"雙床房"),
+                new RoomType(4,"三人房"),
+                new RoomType(5,"四人房"),
+                new RoomType(6,"家庭房"),
+                new RoomType(7,"套房"),
+                new RoomType(8,"雅房"),
+                new RoomType(9,"膠囊床位")
+            };
+
+            ViewBag.RoomType = new SelectList(roomTypes, "Type", "Type", "請選擇")
+				.Prepend(new SelectListItem
+				{
+					Disabled = true,
+					Selected = true,
+					Text = "請選擇",
+					Value = ""
+				});
 		}
 
 		private Result EditAccommodationProfile(AccommodationEditVM vm)
@@ -230,9 +281,7 @@ namespace RouteMaster.Controllers
 			IAccommodationRepository repo = new AccommodationEFRepository();
 			//IProductRepository repo = new ProductDapperRepository();
 			AccommodationService service = new AccommodationService(repo);
-            return service.GetEditInfo(id).ToVM();
-
-			
+            return service.GetEditInfo(id)?.ToVM();
 		}
 
         private Result CreateAccommodation(AccommodationCreateVM vm)

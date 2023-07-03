@@ -10,9 +10,9 @@
     Html.RenderAction("ExtraServicesList");
 }
 
-@*@{
-        Html.RenderAction("AttractionsList");
-    }*@
+@{
+    Html.RenderAction("AttractionsList");
+ }
 
 <h2>建立套裝行程</h2>
 
@@ -58,6 +58,14 @@
 
 
         </div>
+
+
+        <h2>景點列表</h2>
+        <div id="attractionContainer">
+
+
+        </div>
+          
 
 
 
@@ -106,17 +114,13 @@
         var extContainer = document.querySelector("#extraServiceContainer");
         var addExtBtns = document.querySelectorAll(".addExtraService");
         var arrOfExtraServices = [];
-
-        
-
-
         for (let i = 0; i < addExtBtns.length; i++) {
-            addExtBtns[i].addEventListener('click', () => {              
+            addExtBtns[i].addEventListener('click', () => {
 
 
                 var id = parseInt(addExtBtns[i].getAttribute('data-id'));
 
-               
+
 
 
                 var newExtraService = document.createElement("div");
@@ -127,24 +131,40 @@
                 for (let j = 0; j < extraServices.length; j++) {
                     if (extraServices[j].Id === id) {
                         console.log("找到符合條件的元素: ", extraServices[j])
-                        arrOfExtraServices.push(extraServices[j]);                        
+                        arrOfExtraServices.push(extraServices[j]);
                         newExtraService.textContent = extraServices[j].Name;
-                        break;                     
+                        break;
                     }
                 }
             });
         }
 
-        
+
+        var attractions = @Html.Raw(Json.Encode(ViewBag.Attractions));
+        var attsContainer = document.querySelector("#attractionContainer");
+        var addAttBtns = document.querySelectorAll(".addAttraction");
+        var arrOfAttractions =[];
+        for (let i = 0; i < addAttBtns.length; i++) {
+            addAttBtns[i].addEventListener('click', () => {
+                //todo
+                var id = parseInt(addAttBtns[i].getAttribute('data-id'));
+                var newAttraction = document.createElement("div");
+                attsContainer.appendChild(newAttraction);
+                addAttBtns[i].disabled = true;
 
 
+                //console.log(activities)
 
-
-
-
-        
-
-
+                for (let j = 0; j < attractions.length; j++) {
+                    if (attractions[j].Id === id) {
+                        //console.log("找到符合條件的元素: ", activities[j]);
+                        arrOfAttractions.push(attractions[j]);
+                        newAttraction.textContent = attractions[j].Name;
+                        break;
+                    }
+                }
+            });
+        }
 
 
 
@@ -168,12 +188,13 @@
                 //xhr.setRequestHeader('RequestVerificationToken', $('input[name="__RequestVerificationToken"]').val());
 
 
-       
+
 
                 var data = JSON.stringify(
-                    {
-                     arrOfActivities: arrOfActivities,
-                     arrOfExtraServices: arrOfExtraServices
+                    {                       
+                        arrOfActivities: arrOfActivities,
+                        arrOfExtraServices: arrOfExtraServices,
+                        arrOfAttractions: arrOfAttractions
                          //todo其他欲傳送資料
                     });
 
@@ -181,9 +202,11 @@
                 // 回應處理
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 200) {                            
-                            console.log('請求成功');                     
-                        } else {                    
+                        if (xhr.status === 200) {
+                            console.log('請求成功');
+                            form.submit();
+                          
+                        } else {
                             console.log('請求失敗');
                         }
                     }
@@ -192,7 +215,7 @@
                 // 發送請求
                 xhr.send(data);
             });
-  
+
 
     </script>
 }

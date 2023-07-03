@@ -61,7 +61,7 @@ Name, AttractionId, Price, Description, Status
 			using(var conn=new SqlConnection(_connstr))
 			{
 				string sql = @"DELETE FROM ExtraServices WHERE Id=@Id";
-				conn.Execute(sql, id);
+				conn.Execute(sql, new{id});
 			}
 		}
 
@@ -72,9 +72,12 @@ Name, AttractionId, Price, Description, Status
 			using(var conn =new SqlConnection(_connstr))
 			{
 
-				string sql = @"Update ExtraService SET 
-[Name]=@Name, AttractionId=@AttractionId, 
-Price=@Price, [Description]=@Description 
+				string sql = @"Update ExtraServices SET 
+[Name]=@Name, 
+AttractionId=@AttractionId, 
+Price=@Price, 
+[Description]=@Description, 
+[Status]=@Status
 WHERE Id=@Id" ;
 
 				conn.Execute(sql,dto);
@@ -94,6 +97,16 @@ WHERE Id=@Id" ;
             
 		}
 
+		public  ExtraService GetExtraServiceById(int id)
+		{
+			using (var conn = new SqlConnection(_connstr))
+			{
 
+				string sql = @"select[Id], [Name], [AttractionId], 
+[Price], [Description] ,[Status] 
+from ExtraServices  WHERE Id=@id";
+				return conn.QuerySingleOrDefault<ExtraService>(sql,new { id });
+			}
+		}
 	}
 }

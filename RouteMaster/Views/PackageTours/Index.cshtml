@@ -19,11 +19,11 @@
             @Html.DisplayNameFor(model => model.Status)
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.Attractions)*@
-            景點列表
+            @Html.DisplayNameFor(model => model.Attractions)           
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Activities)
+            
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ExtraServices)
@@ -44,10 +44,10 @@
         </td>
 
         <td>
-            @*@foreach(var attraction in item.Attractions)
+            @foreach(var attraction in item.Attractions)
                 {
                     <div>@attraction.Name</div>
-                }*@
+                }
         </td>
 
         <td>
@@ -55,7 +55,7 @@
             {
                 <div >
                     <div>@activity.Name</div>
-                    @*<div>@activity.Attraction.Name</div>*@
+                    <div>@activity.AttractionName</div>
                     <div>@activity.StartTime</div>
                     <div>@activity.EndTime</div>
                     <div>@activity.Price</div>
@@ -69,7 +69,7 @@
             {
                 <div>
                     <div>@extraService.Name</div>
-                    @*<div>@extraService.Attraction.Name</div>*@
+                    <div>@extraService.AttractionName</div>
                     <div>@extraService.Price</div>
                 </div>         
             }

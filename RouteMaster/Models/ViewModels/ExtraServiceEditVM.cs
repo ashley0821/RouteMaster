@@ -8,7 +8,9 @@ namespace RouteMaster.Models.ViewModels
 {
 	public class ExtraServiceEditVM
 	{
-		[Required]
+        public int Id { get; set; }
+
+        [Required]
 		public string Name { get; set; }
 
 		public int AttractionId { get; set; }
