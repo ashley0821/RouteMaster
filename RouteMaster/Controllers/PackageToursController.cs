@@ -75,7 +75,7 @@ namespace RouteMaster.Controllers
         {
 
 
-
+            ViewBag.Attractions=db.Attractions.ToList().Select(x=>x.ToAttractionListDto().ToAttractionListVM());
             ViewBag.Activities = db.Activities.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
             ViewBag.ExtraServices=db.ExtraServices.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
             
@@ -96,12 +96,12 @@ namespace RouteMaster.Controllers
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        
-        public ActionResult Create(PackageTourCreateVM vm,List<Activity> arrOfActivities,List<ExtraService> arrOfExtraServices)
-        {
+
+        public ActionResult Create(PackageTourCreateVM vm, List<Activity> arrOfActivities, List<ExtraService> arrOfExtraServices, List<Attraction> arrOfAttractions) 
+		{
             IPackageTourRepository repo = new PackageTourEFRepository();
             PackageTourService service = new PackageTourService(repo);
-            
+
 
             if (ModelState.IsValid == false)
             {
@@ -111,13 +111,27 @@ namespace RouteMaster.Controllers
 
             if (ModelState.IsValid)
             {
+                for(int i= 0;i< arrOfActivities.Count; i++)
+                {
+                    vm.Activities.Add(arrOfActivities[i].ToIndexDto().ToIndexVM());
+                }
+
+                for(int i=0; i< arrOfExtraServices.Count; i++)
+                {
+                    vm.ExtraServices.Add(arrOfExtraServices[i].ToIndexDto().ToIndexVM());
+                }
+
+
+                for(int i=0;i< arrOfAttractions.Count; i++)
+                {
+                    vm.Attractions.Add(arrOfAttractions[i].ToAttractionListDto().ToAttractionListVM()); 
+                }
+
+
+           
                 service.Create(vm.ToCreateDto());
                 return RedirectToAction("Index");
             }
-
-
-
-
 
             PrepareCouponDataSource(vm.CouponId);
             return View(vm);
@@ -208,13 +222,14 @@ namespace RouteMaster.Controllers
         }
 
 
-        //public ActionResult AttractionsList()
-        //{
-        //    var model = db.Attractions.ToList().Select(x => x.ToIndexDto().ToIndexVM());
-        //    //取得模型
+        public ActionResult AttractionsList()
+        {
+            var model = db.Attractions.ToList();                
+             
+            //取得模型
 
-        //    return this.PartialView("_AttractionsListListPartial", model);
-        //}
+            return this.PartialView("_AttractionsListPartial", model);
+        }
 
 
 

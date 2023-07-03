@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.Extensions;
@@ -52,6 +53,12 @@ namespace RouteMaster.Models.Services
             return Result.Success();
         }
 
+
+        public Activity GetActivityById(int id)
+        {
+            return _repo.GetActivityById(id);
+            
+        }
 
     }
 }

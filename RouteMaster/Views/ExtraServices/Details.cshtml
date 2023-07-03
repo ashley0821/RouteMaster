@@ -1,4 +1,4 @@
-﻿@model RouteMaster.Models.EFModels.ExtraService
+﻿@model RouteMaster.Models.ViewModels.ExtraServiceIndexVM
 
 @{
     ViewBag.Title = "Details";
@@ -7,23 +7,23 @@
 <h2>Details</h2>
 
 <div>
-    <h4>ExtraService</h4>
+    <h4>ExtraServiceIndexVM</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Attraction.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Attraction.Name)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AttractionId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AttractionId)
         </dd>
 
         <dt>

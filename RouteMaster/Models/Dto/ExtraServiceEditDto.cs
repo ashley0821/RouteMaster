@@ -7,7 +7,8 @@ namespace RouteMaster.Models.Dto
 {
 	public class ExtraServiceEditDto
 	{
-		public string Name { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
 
 		public int AttractionId { get; set; }
 

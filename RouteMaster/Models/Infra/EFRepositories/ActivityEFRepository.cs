@@ -83,7 +83,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 
 
-
+	
 
 
 
@@ -96,14 +96,14 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 		public void Delete(int id)
 		{
-			var activity = _db.Activities.Find(id);
+			var activity = _db.Activities.FirstOrDefault(x=>x.Id==id);
 			_db.Activities.Remove(activity);
 			_db.SaveChanges();
 		}
 
 		public void Edit(ActivityEditDto dto)
 		{
-			var activityInDb=_db.Activities.Find(dto.Id);
+			var activityInDb=_db.Activities.FirstOrDefault(x => x.Id == dto.Id);
 
 			activityInDb.ActivityCategoryId = dto.ActivityCategoryId;
 			activityInDb.AttractionId = dto.AttractionId;
@@ -129,6 +129,10 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				&& a.EndTime == endTime);
 		}
 
-		
-	}
+        public Activity GetActivityById(int id)
+        {
+			Activity activityInDb= _db.Activities.FirstOrDefault(x=>x.Id==id);
+			return activityInDb;
+        }
+    }
 }
