@@ -4,13 +4,20 @@
     <style>
 
         .drop-zone {
+            position: relative; /* 添加相对定位 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border: 2px dashed #ccc;
-            padding: 20px;
             text-align: center;
-            cursor: pointer;
+            min-height: 100px;
         }
 
         .drop-zone p {
+            /*position: absolute;*/ /* 添加绝对定位 */
+            /*top: 50%;*/ /* 将文本置于父元素中央 */
+            /*left: 50%;*/ /* 将文本置于父元素中央 */
+            /*transform: translate(-50%, -50%);*/ /* 使用transform属性调整文本位置 */
             margin: 0;
         }
 
@@ -28,7 +35,34 @@
             border: 1px solid #ccc;
         }
         #files{
-            /*display:none;*/
+            display:none;
+        }
+        #fileLabel {
+            display:block;
+            position: absolute; /* 添加绝对定位 */
+            top: 50%; /* 将文本置于父元素中央 */
+            left: 50%; /* 将文本置于父元素中央 */
+            transform: translate(-50%, -50%); /* 使用transform属性调整文本位置 */
+            cursor: pointer;
+            margin: 0;
+        }
+        .small {
+            font-size: 14px;
+            color: #bdbdbd;
+            margin: 20px;
+        }
+        i{
+            margin:0 10px;
+        }
+        .progress-bar-div{
+            height: 20px;
+            margin-right: 32px;
+            border-radius: 5px;
+            border:solid 1px black;
+        }
+        .progress-bar {
+            border-radius: 5px;
+            background-color: #1E90FF;
         }
     </style>
 }
@@ -47,7 +81,7 @@
         <hr />
 
         <div class="row">
-            <div class="col-2">
+            <div class="col-4">
 
                 <div class="mb-3">
                     @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
@@ -90,7 +124,7 @@
                 </div>
                 <div class="mb-3" style="margin-top: 20px;">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input id="submit-btn" type="submit" value="Create" class="btn btn-primary" />
                     </div>
                 </div>
                 <div>
@@ -98,17 +132,27 @@
                 </div>
             </div>
 
-            <div class="col-10">
+            <div class="col-8">
                 <div class="drop-zone" id="dropZone">
-                    <label for="files" class="d-block w-100 h-100">點擊這裡選擇或拖曳照片</label>
+                    <label for="files" class="d-block w-100 h-100" id="fileLabel">
+                        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                            <botton class="btn btn-primary"><i class="fa-solid fa-image"></i>新增照片</botton>
+                            <span class="small d-block">或</span>
+                            <p>拖曳照片到這裡</p>
+                        </div>
+                    </label>
                 </div>
-                    <input id="files" type="file" name="files" class="form-control" multiple="multiple" accept="image/*" />
+                <input id="files" type="file" name="files" class="form-control" multiple="multiple" accept="image/*" />
+                @*@Html.TextBoxFor(model => model.Files, new { type = "file", id = "files", multiple = "multiple", accept = "image/*", style = "display: none;" })*@
                 <div class="image-preview" id="imagePreview"></div>
+                <div class="d-flex justify-content-end">
+                    <p class="small m-0" id="uploadContent"></p>
+                </div>
+                    <div class="progress-bar-div w-25 ms-auto">
+                        <div class="progress-bar h-100"></div>
+                </div>
             </div>
-
-
         </div>
-        
     </div>
 }
 
@@ -119,51 +163,75 @@
         const dropZone = document.getElementById('dropZone');
         const imagePreview = document.getElementById('imagePreview');
         const fileInput = document.getElementById('files');
+        const fileLabel = document.getElementById('fileLabel');
+        const uploadContent = document.getElementById('uploadContent');
+        $(".progress-bar-div").hide();
+        $(".progress-bar").hide();
 
         dropZone.addEventListener('dragover', (event) => {
             event.preventDefault();
             dropZone.classList.add('drag-over');
         });
-
         dropZone.addEventListener('dragleave', () => {
             dropZone.classList.remove('drag-over');
         });
-
         dropZone.addEventListener('drop', (event) => {
             event.preventDefault();
             dropZone.classList.remove('drag-over');
 
-            const files = event.dataTransfer.files;
+            var files = event.dataTransfer.files;
+            fileInput.files = files; // 将拖放的文件赋值给文件输入元素
+
             handleFiles(files);
         });
 
         fileInput.addEventListener('change', (event) => {
             const files = event.target.files;
+            
             handleFiles(files);
-            //event.target.value = ''; // 清空文件選擇，以便重複選擇同一張圖片
         });
-
         function handleFiles(files) {
+            imagePreview.innerHTML = ''; // 清空预览区域
+            const filesAry = Object.entries(files);
+            let size = 0;
+
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-
                 if (file.type.startsWith('image/')) {
                     const reader = new FileReader();
-
                     reader.onload = (event) => {
                         const imageUrl = event.target.result;
                         const imageElement = document.createElement('img');
                         imageElement.src = imageUrl;
                         imageElement.classList.add('preview-image');
 
-                        const imageName = `files`;
-                        imageElement.setAttribute('name', imageName);
-
                         imagePreview.appendChild(imageElement);
                     };
 
                     reader.readAsDataURL(file);
                 }
+            }
+
+            filesAry.forEach(file => size += file[1].size);
+
+            var TotalSize = +(Math.round((size / 1024000) + "e+2") + "e-2");
+            document.querySelector("#uploadContent").textContent = `已上傳的照片大小:${TotalSize} / 4MB`;
+            $(".progress-bar-div").show();
+            $(".progress-bar").show();
+            if (TotalSize < 4) {
+                document.querySelector("#uploadContent").innerHTML += `<i class="fa-solid fa-check"></i>`;
+                document.querySelector("#uploadContent").classList.add('text-primary');
+                document.querySelector("#uploadContent").classList.remove('text-danger');
+                document.querySelector(".progress-bar").style.width = `${TotalSize / 4 * 100}%`;
+                document.querySelector(".progress-bar").classList.remove('bg-danger');
+                document.querySelector("#submit-btn").removeAttribute('disabled');
+            }
+            else {
+                document.querySelector("#uploadContent").innerHTML += `<i class="fa-solid fa-xmark"></i>`;
+                document.querySelector("#uploadContent").classList.add('text-danger');
+                document.querySelector(".progress-bar").style.width = `100%`;
+                document.querySelector(".progress-bar").classList.add('bg-danger');
+                document.querySelector("#submit-btn").setAttribute('disabled','disabled');
             }
         }
     </script>
