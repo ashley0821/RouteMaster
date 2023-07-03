@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
         <h4>AttractionCreateVM</h4>
         <hr />
@@ -18,7 +18,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AttractionCategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(m => m.AttractionCategoryId, ViewBag.CategorySelectList as SelectList, "-- Select Category --", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.AttractionCategoryId, new SelectList(ViewBag.AttractionCategories, "Id", "Name"), "Please select", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AttractionCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -26,7 +26,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(m => m.RegionId, ViewBag.RegionSelectList as SelectList, "-- Select Region --", new { id = "regionDropdown", @class = "form-control" })
+                @Html.DropDownListFor(model => model.RegionId, new SelectList(ViewBag.Regions, "Id", "Name"), "Please select a region", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TownId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(m => m.TownId, ViewBag.TownSelectList as SelectList, "-- Select Town --", new { id = "townDropdown", @class = "form-control" })
+                @Html.DropDownListFor(model => model.TownId, Enumerable.Empty<SelectListItem>(), "Please select a town", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TownId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -101,25 +101,36 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            // 监听地区下拉选单的变化
+            $('#RegionId').change(function () {
+                var regionId = $(this).val(); // 获取选中的地区Id
+                var townDropdown = $('#TownId'); // 城镇下拉选单
 
-<script>
-    $(document).ready(function () {
-        // 監聽 Region 下拉選單的變化事件
-        $('#regionDropdown').change(function () {
-            // 獲取所選 Region 的 ID
-            var regionId = $(this).val();
+                // 清空城镇下拉选单的选项
+                townDropdown.empty();
 
-            // 清空並更新 Town 下拉選單的選項
-            $('#townDropdown').empty();
-
-            // 發送 Ajax 請求取得對應的 Town 資料
-            $.getJSON("/Attractions/GetTownsByRegion", { regionId: regionId }, function (result) {
-                $.each(result, function (index, item) {
-                    var townOption = $('<option>').text(item.Name).val(item.Id);
-                    $('#townDropdown').append(townOption);
-                });
+                // 如果选择了有效的地区Id
+                if (regionId !== '') {
+                    // 发送AJAX请求获取相应地区的城镇数据
+                    $.ajax({
+                        url: '/Attractions/LoadTowns', // 替换成对应的控制器和方法
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { regionId: regionId },
+                        success: function (response) {
+                            // 根据返回的城镇数据，动态添加选项到城镇下拉选单
+                            $.each(response, function (index, town) {
+                                townDropdown.append($('<option></option>').val(town.Id).text(town.Name));
+                            });
+                        },
+                        error: function () {
+                            console.error('Failed to load towns.');
+                        }
+                    });
+                }
             });
         });
-    });
-</script>
+    </script>
 }

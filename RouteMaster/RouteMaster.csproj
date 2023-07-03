@@ -237,6 +237,7 @@
     <Compile Include="Models\Infra\Extensions\AccomodationDetailsExts.cs" />
     <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
     <Compile Include="Models\Infra\Extensions\AccommodationExts.cs" />
+    <Compile Include="Models\Infra\Extensions\AttractionExts.cs" />
     <Compile Include="Models\Infra\Extensions\ExtraServiceExts.cs" />
     <Compile Include="Models\Infra\Extensions\FAQExts.cs" />
     <Compile Include="Models\Infra\Extensions\MemberExts.cs" />
@@ -408,10 +409,7 @@
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\Orders\_ExtraServicesDetailsPartialView.cshtml" />
     <Content Include="Views\Orders\_AccomodationDetailsPartialView.cshtml" />
-
-
     <Content Include="Views\PackageTours\_AttractionsListPartial.cshtml" />
-
     <Content Include="Views\Accommodations\CreateRoom.cshtml" />
     <Content Include="Views\Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\Create.cshtml" />
@@ -425,9 +423,7 @@
     <Content Include="Views\Members\ConfirmRegister.cshtml" />
     <Content Include="Views\Members\Login.cshtml" />
     <Content Include="Views\Members\Register.cshtml" />
-
     <Content Include="Views\Members\EditPassword.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
