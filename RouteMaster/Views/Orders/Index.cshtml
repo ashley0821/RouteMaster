@@ -8,14 +8,14 @@
     var criteria = ViewBag.Criteria as RouteMaster.Models.Infra.Criterias.OrderCriteria;
     string s_paymentstatus = criteria.PaymentStatus.HasValue ? criteria.PaymentStatus.Value.ToString() : "";
 }
-<h2>訂單明細</h2>
+<h2>訂單管理</h2>
 
 <p>
     @*@Html.ActionLink("Create New", "Create")*@
 
 </p>
 <section class="container">
-    <form method="get">
+    <form method="get"> 
         <div class="row">
             <div class="mb-2 col-md-3">
                 <label for="MemberName">訂購人</label>
@@ -38,7 +38,7 @@
             </div>
 
 
-            <div class="mb-2 col-md-2 align-self-end">
+            <div class="mb-3 col-md-2 align-self-end">
                 <button class="btn btn-primary">搜尋</button>
             </div>
 
@@ -82,6 +82,7 @@
 
     @foreach (var item in Model)
     {
+
         <tr>
             <td class="control-label col-md-1" style="text-align: center;">
                 @Html.DisplayFor(modelItem => item.Id)
@@ -99,7 +100,7 @@
                 @Html.DisplayFor(modelItem => item.PaymentMethodName)
             </td>
 
-            <td class="control-label col-md-3" style="text-align: left;">
+            <td class="control-label col-md-3" style="text-align: center;">
                 @Html.DisplayFor(modelItem => item.CreateDate)
             </td>
             <td class="control-label col-md-1" style="text-align: center;">
@@ -123,9 +124,7 @@
 
 
     <script>
-    ;
-       
-        });
+  
     </script>
 
     <div>

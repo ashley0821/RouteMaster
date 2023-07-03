@@ -9,6 +9,7 @@ using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.EnterpriseServices;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -128,6 +129,40 @@ namespace RouteMaster.Controllers
 
 			return PartialView("_ExtraServicesDetailsPartialView", extraServicesDetails);
 		}
+
+		public ActionResult ExtraServicesDetailsEdit(int id)
+		{
+			IExtraServiceDetailsRepository repo = new ExtraServicesDetailsDapperRepository();
+			ExtraServicesDetailsService service = new ExtraServicesDetailsService(repo);
+
+			
+			ExtraServicesDetailsVM editVM = service.GetExtraServicesDetails(id);
+
+			if (editVM == null)
+			{
+				return HttpNotFound();
+			}
+			
+
+			return View("_ExtraServicesDetailsEdit", editVM);
+		}
+
+		[HttpPost]
+		public ActionResult ExtraServicesDetailsEdit(ExtraServicesDetailsEditVM editvm)
+		{
+			IExtraServiceDetailsRepository repo = new ExtraServicesDetailsDapperRepository();
+			ExtraServicesDetailsService service = new ExtraServicesDetailsService(repo);
+
+			if (ModelState.IsValid)
+			{
+				service.ExtraServicesDetailsEdit(editvm.ToEditDto());
+				return RedirectToAction("Index");
+			}
+
+			return View(editvm);
+		}
+
+
 
 		public ActionResult AccomodationDetailsPartialView(int orderId)
 		{
