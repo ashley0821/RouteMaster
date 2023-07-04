@@ -150,16 +150,49 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,Status,CouponId")] PackageTour packageTour)
+        public ActionResult Edit(PackageTourEditVM vm)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(packageTour).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Discount", packageTour.CouponId);
-            return View(packageTour);
+            IPackageTourRepository repo=new PackageTourEFRepository();  
+            PackageTourService service=new PackageTourService(repo);
+
+			//根據接收到的活動Id獲取完整的活動對象           
+			List<Activity> selectedActivities = new List<Activity>();
+			foreach (var activityId in vm.Activities.Select(a => a.Id))
+			{
+				var activity = db.Activities.Find(activityId);
+				selectedActivities.Add(activity);
+			}
+			//將完整的活動物件添加到Activities列表當中
+			vm.Activities = selectedActivities.Select(a=>a.ToEditDto().ToEditVM()).ToList();
+
+
+			List<ExtraService> selectedExtraService = new List<ExtraService>();
+			foreach (var ectraServiceId in vm.ExtraServices.Select(e => e.Id))
+			{
+				var extraService = db.ExtraServices.Find(ectraServiceId);
+				selectedExtraService.Add(extraService);
+			}
+			vm.ExtraServices = selectedExtraService.Select(e => e.ToEditDto().ToEditVM()).ToList();
+
+
+
+
+			List<Attraction> selectedAttractions = new List<Attraction>();
+			foreach (var attractionId in vm.Attractions.Select(a => a.Id))
+			{
+				var attraction = db.Attractions.Find(attractionId);
+				selectedAttractions.Add(attraction);
+			}
+			vm.Attractions = selectedAttractions.Select(a => a.ToAttractionListEditDto().ToAttractionListEditVM()).ToList();
+
+
+
+
+
+			service.Edit(vm.ToEditDto());        
+
+            PrepareCouponDataSource(vm.CouponId);            
+            return View(vm);
         }
 
         // GET: PackageTours/Delete/5
