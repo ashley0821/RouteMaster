@@ -22,11 +22,77 @@ namespace RouteMaster.Controllers
 		
 
 		// GET: Attractions
-		public ActionResult Index()
+		public ActionResult Index(AttractionCriteria criteria)
 		{
-			IEnumerable<AttractionIndexVM> products = GetAttractions();
+			AppDbContext _db = new AppDbContext();
 
-			return View(products);
+			ViewBag.Criteria = criteria;
+
+			var categories = _db.AttractionCategories.ToList().Prepend(new AttractionCategory());
+			ViewBag.AttractionCategories = new SelectList(categories, "Id", "Name");
+
+			var regions = _db.Regions.ToList().Prepend(new Region());
+			ViewBag.Regions = new SelectList(regions, "Id", "Name");
+
+			var towns = _db.Towns.ToList().Prepend(new Town());
+			ViewBag.Towns = new SelectList(towns, "Id", "Name");
+
+
+			// 查詢紀錄，由於第一次進到網頁時，criteria是沒有值的
+			var query = GetAttractions();
+
+			#region where
+			if (string.IsNullOrEmpty(criteria.Category) == false)
+			{
+				query = query.Where(p => p.Category == criteria.Category);
+			}
+			if (string.IsNullOrEmpty(criteria.Region) == false)
+			{
+				query = query.Where(p => p.Region == criteria.Region);
+			}
+			if (string.IsNullOrEmpty(criteria.Town) == false)
+			{
+				query = query.Where(p => p.Town == criteria.Town);
+			}
+
+			if (string.IsNullOrEmpty(criteria.Name) == false)
+			{
+				query = query.Where(p => p.Name.Contains(criteria.Name));
+			}
+
+			if (criteria.MinScore.HasValue)
+			{
+
+				query = query.Where(p => double.TryParse(p.AverageScoreText, out double averageScore) && averageScore >= criteria.MinScore.Value);
+			}
+			if (criteria.MaxScore.HasValue)
+			{
+				query = query.Where(p => double.TryParse(p.AverageScoreText, out double averageScore) && averageScore <= criteria.MaxScore.Value);
+			}
+
+			if (criteria.MinHours.HasValue)
+			{
+
+				query = query.Where(p => double.TryParse(p.AverageStayHoursText, out double averageHours) && averageHours >= criteria.MinHours.Value);
+			}
+			if (criteria.MaxHours.HasValue)
+			{
+				query = query.Where(p => double.TryParse(p.AverageStayHoursText, out double averageHours) && averageHours <= criteria.MaxHours.Value);
+			}
+
+			if (criteria.MinPrice.HasValue)
+			{
+				query = query.Where(p => double.TryParse(p.AveragePriceText, out double averagePrice) && averagePrice >= criteria.MinPrice.Value);
+			}
+			if (criteria.MaxPrice.HasValue)
+			{
+				query = query.Where(p => double.TryParse(p.AveragePriceText, out double averagePrice) && averagePrice <= criteria.MaxPrice.Value);
+			}
+			#endregion
+
+			// IEnumerable<AttractionIndexVM> products = GetAttractions();
+
+			return View(query);
 		}
 
 		public ActionResult Create()
@@ -49,12 +115,12 @@ namespace RouteMaster.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(AttractionCreateVM vm)
+		public ActionResult Create(AttractionCreateVM vm, HttpPostedFileBase[] files )
 		{
 			if (ModelState.IsValid == false) return View(vm);
 
 			// 建立新會員
-			Result result = CreateAttraction(vm);
+			Result result = CreateAttraction(vm,files);
 
 			if (result.IsSuccess)
 			{
@@ -205,14 +271,14 @@ namespace RouteMaster.Controllers
 
 		
 
-		private Result CreateAttraction(AttractionCreateVM vm)
+		private Result CreateAttraction(AttractionCreateVM vm, HttpPostedFileBase[] files)
 		{
+			string path = Server.MapPath("~/Uploads");
+
 			IAttractionRepository repo = new AttractionEFRepository();
 			AttractionService service = new AttractionService(repo);
 
-			AttractionCreateDto dto = vm.ToCreateDto();
-
-			return service.Create(dto);
+			return service.Create(vm.ToCreateDto(), files, path);
 			
 		}
 

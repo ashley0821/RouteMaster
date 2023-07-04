@@ -1,6 +1,7 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.ViewModels;
+using RouteMaster.Models.ViewModels.Accommodations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace RouteMaster.Models.Interfaces
 		void EditAccommodationProfile(AccommodationEditDto dto);
 		bool IsOriginalName(AccommodationEditDto dto);
 		void CreateRoomAndImages(RoomCreateDto dto, HttpPostedFileBase[] files, String path);
+		void EditService(ServiceInfoVM vm);
 	}
 }

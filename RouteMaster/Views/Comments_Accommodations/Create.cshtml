@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>建立住宿評論</h2>
 
 
 @using (Html.BeginForm("Create", "Comments_Accommodations", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -12,14 +12,12 @@
     @Html.AntiForgeryToken()
     
 <div class="row">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+   
 
-    <hr />
+    
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.MemberAccount)
 
-    <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.AccomodationId)
 
@@ -50,7 +48,7 @@
     <div class="mb-3">
         @Html.LabelFor(model => model.Score, htmlAttributes: new { @class = "form-label col-md-2" })
 
-        @Html.EditorFor(model => model.Score, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.Score, new { htmlAttributes = new { @class = "form-control",@type = "number", @min = "0", @step = "0.5", @value = "0" ,@max="100" } })
         @Html.ValidationMessageFor(model => model.Score, "", new { @class = "text-danger" })
     </div>
 
