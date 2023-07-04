@@ -24,6 +24,7 @@ namespace RouteMaster.Models.Infra.Extensions
                 CouponId = dto.CouponId,
                 Activities = dto.Activities,
                 ExtraServices = dto.ExtraServices,
+                Attractions=dto.Attractions
 
             };
         }
@@ -39,7 +40,8 @@ namespace RouteMaster.Models.Infra.Extensions
                 Status = entity.Status,
                 CouponId = entity.CouponId,
                 Activities = entity.Activities.Select(x => x.ToIndexDto().ToIndexVM()).ToList(),
-                ExtraServices = entity.ExtraServices.Select(x => x.ToIndexDto().ToIndexVM()).ToList()
+                ExtraServices = entity.ExtraServices.Select(x => x.ToIndexDto().ToIndexVM()).ToList(),
+                Attractions=entity.Attractions.Select(x=>x.ToAttractionListIndexDto().ToAttractionListIndexVM()).ToList()            
             };
         }
 
@@ -83,7 +85,24 @@ namespace RouteMaster.Models.Infra.Extensions
                 Description = entity.Description,
                 Status = entity.Status,
                 CouponId = entity.CouponId,
-            };
+				Activities = entity.Activities
+                .Select(x => x
+                .ToEditDto()
+                .ToEditVM())
+                .ToList(),
+
+				ExtraServices = entity.ExtraServices
+                .Select(x => x
+                .ToEditDto()
+                .ToEditVM())
+                .ToList(),
+
+				Attractions = entity.Attractions
+                .Select(x =>x
+                .ToAttractionListEditDto()
+                .ToAttractionListEditVM())
+                .ToList(),
+			};
         }
 
         public static PackageTourEditVM ToEditVM(this PackageTourEditDto dto)
@@ -91,20 +110,27 @@ namespace RouteMaster.Models.Infra.Extensions
             return new PackageTourEditVM
             {
 
-                Description = dto.Description,
-                Status = dto.Status,
-                CouponId = dto.CouponId,
-            };
+				Id = dto.Id,
+				Description = dto.Description,
+				Status = dto.Status,
+				CouponId = dto.CouponId,
+				Activities = dto.Activities,
+				ExtraServices = dto.ExtraServices,
+				Attractions = dto.Attractions
+			};
         }
 
         public static PackageTourEditDto ToEditDto(this PackageTourEditVM vm)
         {
             return new PackageTourEditDto
             {
-
+                Id= vm.Id,                
                 Description = vm.Description,
                 Status = vm.Status,
                 CouponId = vm.CouponId,
+                Activities= vm.Activities,
+                ExtraServices = vm.ExtraServices,
+                Attractions = vm.Attractions
             };
         }
 

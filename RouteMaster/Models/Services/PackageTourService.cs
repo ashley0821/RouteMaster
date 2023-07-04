@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Interfaces;
 using System;
@@ -25,8 +26,26 @@ namespace RouteMaster.Models.Services
 
         public Result Create(PackageTourCreateDto dto)
         {
-
             _repo.Create(dto);
+            return Result.Success();
+        }
+
+
+        public PackageTour GetPackageTourById(int id)
+        {
+            var packageTour= _repo.GetPackageTourById(id);
+            return packageTour;
+        }
+
+        public Result Delete(int id)
+        {
+            _repo.Delete(id);
+            return Result.Success();
+        }
+
+        public Result Edit(PackageTourEditDto dto)
+        {
+            _repo.Edit(dto);
             return Result.Success();
         }
 

@@ -29,44 +29,26 @@ namespace RouteMaster.Models.Infra.EFRepositories
         public void Create(PackageTourCreateDto dto)
         {
             PackageTour packageTour= dto.ToEntity();
-            _db.PackageTours.Add(packageTour);
-
-            _db.SaveChanges();
-
+            _db.PackageTours.Add(packageTour);         
 
             foreach (var vm in dto.Activities)
             {
-                Activity activity=vm.ToIndexDto().ToEntity();
+                Activity activity=_db.Activities.Find(vm.Id);
                 packageTour.Activities.Add(activity);
-            }
-
-            _db.SaveChanges();
-
-
+            }      
 
             foreach (var vm in dto.ExtraServices)
             {
-                ExtraService extraService = vm.ToIndexDto().ToEntity();
+                ExtraService extraService = _db.ExtraServices.Find(vm.Id);
                 packageTour.ExtraServices.Add(extraService);
-            }
-
-            _db.SaveChanges();
-
-
-            
+            }                  
           
             foreach (var vm in dto.Attractions)
-            {
-                //Attraction attraction = vm.ToAttractionListIndexDto().ToAttractionListIndexEntity();
-
+            {     
                 Attraction attraction = _db.Attractions.Find(vm.Id);
                 packageTour.Attractions.Add(attraction);
             }
-            _db.SaveChanges();
-
-
-
-          
+            _db.SaveChanges();          
         }
 
         public void Delete(int id)
@@ -84,27 +66,24 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
             packageInDb.Description = dto.Description;
             packageInDb.Status= dto.Status;
-            packageInDb.CouponId = dto.CouponId;
-
-            //packageInDb.Activities.Add(dto.Activities);
-            //packageInDb.ExtraServices = dto.ExtraServices;
+            packageInDb.CouponId = dto.CouponId;   
 
 
 
             packageInDb.Activities.Clear();
             foreach (var vm in dto.Activities)
             {
-                var activity = vm.ToIndexDto().ToEntity();
+                var activity = _db.Activities.Find(vm.Id);
                 packageInDb.Activities.Add(activity);  
             }
 
-            //todo Attractions
-            //packageInDb.Attractions.Clear();
-            //foreach (var vm in dto.Attractions)
-            //{
-            //    var attraction = vm.ToIndexDto().ToEntity();
-            //    packageInDb.Attractions.Add(attraction);
-            //}
+      
+            packageInDb.Attractions.Clear();
+            foreach (var vm in dto.Attractions)
+            {
+                var attraction = _db.Attractions.Find(vm.Id);
+                packageInDb.Attractions.Add(attraction);
+            }
 
 
 
@@ -112,13 +91,19 @@ namespace RouteMaster.Models.Infra.EFRepositories
             packageInDb.ExtraServices.Clear();
             foreach (var vm in dto.ExtraServices)
             {
-                var extraService = vm.ToIndexDto().ToEntity();
+                var extraService =_db.ExtraServices.Find(vm.Id);
                 packageInDb.ExtraServices.Add(extraService);
             }
+
+
             _db.SaveChanges();              
 
         }
 
-   
+        public PackageTour GetPackageTourById(int id)
+        {
+            var packageTourInDb= _db.PackageTours.Find(id);
+            return packageTourInDb;
+        }
     }
 }
