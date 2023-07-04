@@ -18,6 +18,8 @@ namespace RouteMaster.Models.ViewModels
 
 		public string Name { get; set; }
 
+		public string Image { get; set; }
+
 		public string DescriptionText { get; set; }
 
 		public string AverageScoreText { get; set; }

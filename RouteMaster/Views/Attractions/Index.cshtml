@@ -94,6 +94,9 @@
 <table class="table">
     <tr>
         <th>
+           
+        </th>
+        <th>
             類別 @*@Html.DisplayNameFor(model => model.Category)*@
         </th>
         <th>
@@ -122,6 +125,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            <img src="~/Uploads/@Html.DisplayFor(modelItem => item.Image)" width="100px" />
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Category)
         </td>

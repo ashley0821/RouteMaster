@@ -54,6 +54,7 @@ namespace RouteMaster.Models.Infra.Extensions
 				Region = dto.Region,
 				Town = dto.Town,
 				Name = dto.Name,
+				Image = dto.Image,
 				DescriptionText = dto.DescriptionText,
 				AverageScoreText = dto.AverageScoreText,
 				AveragePriceText = dto.AveragePriceText,
