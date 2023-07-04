@@ -1,0 +1,47 @@
+﻿@model RouteMaster.Models.ViewModels.FAQUploadImgVM
+
+@{
+    ViewBag.Title = "UploadImg";
+    var parentId = ViewBag.Id;
+}
+
+<h2>新增圖片</h2>
+
+
+@using (Html.BeginForm("UploadImg", "FAQs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+<div class="row">
+
+    @*<hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="mb-3">
+            @Html.LabelFor(model => model.FAQId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FAQId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FAQId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+
+        <input type="file" name="file1" class="form-control" multiple="multiple" accept="image/*" />
+        @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <input type="submit" value="上傳" class="btn btn-success" />
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("返回圖片庫", "EditImgIndex", new { id = parentId })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
