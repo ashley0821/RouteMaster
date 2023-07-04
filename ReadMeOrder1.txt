@@ -34,3 +34,6 @@ AccomodationDetails partial view (useDapper)
 
 [v] Add querycreatedatedata on OrderEFRepository
 [v] Add datepick
+
+7/4
+[V] add extraservice edit
