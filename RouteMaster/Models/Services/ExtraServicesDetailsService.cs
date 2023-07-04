@@ -49,15 +49,20 @@ namespace RouteMaster.Models.Services
 		}
 
 
-		public Result Delete(int id)
+		public Result ExtraServicesDetailsDelete(int id)
 		{
-			_repo.Delete(id);
+			_repo.ExtraServicesDetailsDelete(id);
 			return Result.Success();
 		}
 		public ExtraServicesDetailsEditVM GetExtraServicesEditDetails(int id)
 		{
 
 			return _repo.GetExtraServicesEditDetails(id).ToEditVM();
+		}
+		public ExtraServicesDetailsVM GetExtraServicesDetailsById(int id)
+		{
+			var extraServicesDetailsInDb = _repo.GetExtraServicesDetailsById(id);
+			return extraServicesDetailsInDb;
 		}
 
 
