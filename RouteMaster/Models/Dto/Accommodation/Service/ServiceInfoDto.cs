@@ -8,7 +8,8 @@ namespace RouteMaster.Models.Dto.Accommodation.Service
 {
 	public class ServiceInfoDto
 	{
-        public int AccommodationId { get; set; }
-        public List<ServiceInfo> ServiceInfoList { get; set; }
-    }
+		public int Id { get; set; }
+		public string Name { get; set; }
+		public bool Selected { get; set; }
+	}
 }

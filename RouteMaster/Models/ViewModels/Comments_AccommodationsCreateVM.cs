@@ -9,7 +9,6 @@ namespace RouteMaster.Models.ViewModels
 {
 	public class Comments_AccommodationsCreateVM
 	{
-        public int Id { get; set; }	
         [Display(Name = "帳號名稱")]
 		public string MemberAccount { get; set; }
 
@@ -17,6 +16,7 @@ namespace RouteMaster.Models.ViewModels
 		public int AccomodationId { get; set; }
 
 		[Display(Name = "評論標題")]
+		[Required]
 		public string Title { get; set; }
 
 		[Display(Name = "優點")]
@@ -26,6 +26,7 @@ namespace RouteMaster.Models.ViewModels
 		public string Cons { get; set; }
 
 		[Display(Name = "評分")]
+		[Required]
 		public float Score { get; set; }
 
 		[Display(Name = "評論照片")]

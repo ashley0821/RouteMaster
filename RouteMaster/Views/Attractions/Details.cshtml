@@ -83,6 +83,18 @@
         </dd>
 
         <dt>
+            圖片
+        </dt>
+
+        @foreach (string image in Model.Images)
+        {
+            <dd>
+                <img src="@Url.Content("~/Uploads/" + image)" />
+            </dd>
+        }
+
+
+        <dt>
             @Html.DisplayNameFor(model => model.AverageScoreText)
         </dt>
 
