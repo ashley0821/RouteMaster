@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
@@ -232,13 +233,34 @@ namespace RouteMaster.Controllers
 
 
 
-        public ActionResult ActivitiesList()
-        {
-            var model=db.Activities.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
-            //取得模型
+        public ActionResult ActivitiesList(ActivityIndexCriteria actCriteria)
+        {       
+            ViewBag.ActCriteria = actCriteria;
+            PrepareActivityCategoryDataSource(actCriteria.ActivityCategoryId);
+            PrepareRegionDataSource(actCriteria.RegionId);
+            PrepareAttractionDataSource(actCriteria.AttractionId);
 
-            return this.PartialView("_ActivitiesListPartial", model);
+
+
+            IEnumerable<ActivityIndexVM> activities = GetActivities(actCriteria);
+
+
+            return this.PartialView("_ActivitiesListPartial", activities);
         }
+
+
+
+        private IEnumerable<ActivityIndexVM> GetActivities(ActivityIndexCriteria actCriteria)
+        {
+            IActivityRepository repo = new ActivityEFRepository();
+            ActivityService service = new ActivityService(repo);
+
+            return service.Search(actCriteria)
+                   .Select(a => a.ToIndexVM());
+        }
+
+
+
 
         public ActionResult ExtraServicesList()
         {
@@ -278,6 +300,31 @@ namespace RouteMaster.Controllers
         {
             var coupons = db.Coupons.ToList().Prepend(new Coupon() {Discount=1 });
             ViewBag.CouponId = new SelectList(coupons, "Id", "Discount", couponId);
+        }
+
+        private void PrepareActivityCategoryDataSource(int? categoryId)
+        {
+            var categories = db.ActivityCategories
+                .OrderBy(x => x.Id)
+                .ToList()
+                .Prepend(new ActivityCategory { Id = 0, Name = "全部活動種類" });
+            ViewBag.ActivityCategoryId = new SelectList(categories, "Id", "Name", categoryId);
+        }
+        private void PrepareAttractionDataSource(int? attractionId)
+        {
+            var attractions = db.Attractions
+                .OrderBy(x => x.Id)
+                .ToList()
+                .Prepend(new Attraction { Id = 0, Name = "全部景點" });
+            ViewBag.AttractionId = new SelectList(attractions, "Id", "Name", attractionId);
+        }
+        private void PrepareRegionDataSource(int? regionId)
+        {
+            var regions = db.Regions
+                .OrderBy(x => x.Id)
+                .ToList()
+                .Prepend(new Region { Id = 0, Name = "全部區域" });
+            ViewBag.RegionId = new SelectList(regions, "Id", "Name", regionId);
         }
     }
 }

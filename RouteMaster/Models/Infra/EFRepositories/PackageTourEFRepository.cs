@@ -53,6 +53,8 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
         public void Delete(int id)
         {
+
+
             var packageTour = _db.PackageTours.Find(id);
             _db.PackageTours.Remove(packageTour);
             _db.SaveChanges();
