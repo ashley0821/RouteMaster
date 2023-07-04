@@ -7,21 +7,18 @@ using System.Xml.Linq;
 
 namespace RouteMaster.Models.Dto
 {
-	public class Comments_AccommodationsCreateDto
+	public class Comments_AccommodationsEditDto
 	{
 		public int Id { get; set; }
-		public string MemberAccount { get; set; }
 
-		public int AccomodationId { get; set; }
-
+		[Required]
 		public string Title { get; set; }
 
 		public string Pros { get; set; }
 
 		public string Cons { get; set; }
 
+		[Required]
 		public float Score { get; set; }
-
-
 	}
 }
