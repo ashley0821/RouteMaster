@@ -29,32 +29,26 @@ namespace RouteMaster.Models.Infra.EFRepositories
         public void Create(PackageTourCreateDto dto)
         {
             PackageTour packageTour= dto.ToEntity();
-            _db.PackageTours.Add(packageTour);
+            _db.PackageTours.Add(packageTour);         
 
-            foreach(var vm in dto.Activities)
+            foreach (var vm in dto.Activities)
             {
-                Activity activity=vm.ToIndexDto().ToEntity();
+                Activity activity=_db.Activities.Find(vm.Id);
                 packageTour.Activities.Add(activity);
-            }
-
-
-            //todo Attractions
-            foreach (var attractionDto in dto.Attractions)
-            {
-                Attraction attraction = attractionDto.ToAttractionListDto().ToAttractionListEntity();
-                packageTour.Attractions.Add(attraction);
-            }
-
-
+            }      
 
             foreach (var vm in dto.ExtraServices)
             {
-                ExtraService extraService = vm.ToIndexDto().ToEntity();
+                ExtraService extraService = _db.ExtraServices.Find(vm.Id);
                 packageTour.ExtraServices.Add(extraService);
+            }                  
+          
+            foreach (var vm in dto.Attractions)
+            {     
+                Attraction attraction = _db.Attractions.Find(vm.Id);
+                packageTour.Attractions.Add(attraction);
             }
-
-            _db.SaveChanges();
-
+            _db.SaveChanges();          
         }
 
         public void Delete(int id)
@@ -86,13 +80,14 @@ namespace RouteMaster.Models.Infra.EFRepositories
                 packageInDb.Activities.Add(activity);  
             }
 
-            //todo Attractions
-            //packageInDb.Attractions.Clear();
-            //foreach (var vm in dto.Attractions)
-            //{
-            //    var attraction = vm.ToIndexDto().ToEntity();
-            //    packageInDb.Attractions.Add(attraction);
-            //}
+      
+            packageInDb.Attractions.Clear();
+            foreach (var vm in dto.Attractions)
+            {//todo
+
+                //var attraction = vm.ToIndexDto().ToEntity();
+                //packageInDb.Attractions.Add(attraction);
+            }
 
 
 
@@ -107,6 +102,10 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
         }
 
-   
+        public PackageTour GetPackageTourById(int id)
+        {
+            var packageTourInDb= _db.PackageTours.Find(id);
+            return packageTourInDb;
+        }
     }
 }

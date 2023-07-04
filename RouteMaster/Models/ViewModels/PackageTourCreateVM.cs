@@ -31,6 +31,6 @@ namespace RouteMaster.Models.ViewModels
         public List<ExtraServiceIndexVM> ExtraServices { get; set; }
 
         [Display(Name = "景點列表")]
-        public List<AttractionIndexVM> Attractions { get; set; }
+        public List<AttractionListIndexVM> Attractions { get; set; }
     }
 }

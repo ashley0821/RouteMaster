@@ -9,7 +9,6 @@ namespace RouteMaster.Models.ViewModels
 {
 	public class FAQCreateVM
 	{
-		public int Id { get; set; }
 
 		[Display(Name = "問題類別")]
 		[Required]
