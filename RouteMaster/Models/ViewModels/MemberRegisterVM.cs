@@ -69,7 +69,7 @@ namespace RouteMaster.Models.ViewModels
 
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "註冊日期")]
-		public DateTime CreateDate { get; set; }
+		public DateTime? CreateDate { get; set; }
 
 
 		[Display(Name = "大頭貼")]

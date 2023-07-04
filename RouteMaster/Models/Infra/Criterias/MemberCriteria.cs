@@ -11,6 +11,8 @@ namespace RouteMaster.Models.Infra.Criterias
 
         public string FirstName { get; set; }
 
+        public string Account { get; set; }
+
         public string Email { get; set; }
 
         public string CellPhoneNumber { get; set; }
