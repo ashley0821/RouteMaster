@@ -84,8 +84,42 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			}
 		}
 
+		public void Update(FAQEditDto dto)
+		{
+			var questionDb= _db.FAQs.Find(dto.Id);
+
+			questionDb.CategoryId = dto.CategoryId;
+			questionDb.Question=dto.Question;
+			questionDb.Answer=dto.Answer;
+			questionDb.Helpful=dto.Helpful;
+			questionDb.ModifiedDate = DateTime.Now;
+
+			_db.SaveChanges();
+		}
+
+		public bool ExistImgWithinFAQ(int id)
+		{
+			return _db.FAQImages.Any(i => i.FAQId == id);
+		}
+
+		public void ClearImg(int id)
+		{
+			var imgList = _db.FAQImages.Where(i => i.FAQId == id).ToList();
+			foreach (var i in imgList)
+			{
+				_db.FAQImages.Remove(i);
+				_db.SaveChanges();
+			}
+		}
+
+		public void DeleteFAQ(int id)
+		{
+			FAQ detail = _db.FAQs.Find(id);
+			_db.FAQs.Remove(detail);
+			_db.SaveChanges();
+		}
 		private string SaveUploadedFile(string path, HttpPostedFileBase file1)
-		{	
+		{
 			// 如果沒有上傳檔案或檔案是空的,就不處理, 傳回 string.empty
 			if (file1 == null || file1.ContentLength == 0) return string.Empty;
 
@@ -105,19 +139,6 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			// 傳回存放的檔名
 			return newFileName;
-		}
-
-		public void Update(FAQEditDto dto)
-		{
-			var questionDb= _db.FAQs.Find(dto.Id);
-
-			questionDb.CategoryId = dto.CategoryId;
-			questionDb.Question=dto.Question;
-			questionDb.Answer=dto.Answer;
-			questionDb.Helpful=dto.Helpful;
-			questionDb.ModifiedDate = DateTime.Now;
-
-			_db.SaveChanges();
 		}
 	}
 }

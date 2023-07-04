@@ -6,13 +6,11 @@ using System.Web;
 
 namespace RouteMaster.Models.ViewModels
 {
-	public class FAQChangeImgVM
+	public class MemberImageEditVM
 	{
-		public int ImgId { get; set; }
+		public int Id { get; set; }
 
-        public int FAQId { get; set; }	
-
-        [Display(Name = "上傳新圖")]
+		[StringLength(70)]
 		public string Image { get; set; }
 	}
 }
