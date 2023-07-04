@@ -9,7 +9,8 @@ namespace RouteMaster.Models.ViewModels
 {
 	public class Comments_AccommodationsCreateVM
 	{
-		[Display(Name = "帳號名稱")]
+        public int Id { get; set; }	
+        [Display(Name = "帳號名稱")]
 		public string MemberAccount { get; set; }
 
 		[Display(Name = "住宿名稱")]
@@ -27,5 +28,9 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "評分")]
 		public float Score { get; set; }
 
-	}
+		[Display(Name = "評論照片")]
+		public string CommentImg { get; set; }		
+		//VM有CommentImg純粹為了呈現與收file1資料,Dto不用此欄位
+
+    }
 }

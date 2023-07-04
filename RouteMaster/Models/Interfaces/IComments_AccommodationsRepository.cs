@@ -13,5 +13,7 @@ namespace RouteMaster.Models.Interfaces
 		IEnumerable<Comments_AccommodationsIndexDto> Search	();
 
 		void Create(Comments_AccommodationsCreateDto dto, HttpPostedFileBase[] file1, string path);
+
+		void Update(Comments_AccommodationsEditDto dto);
 	}
 }
