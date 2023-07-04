@@ -161,11 +161,8 @@
     <Compile Include="Models\Dto\AttractionDetailDto.cs" />
     <Compile Include="Models\Dto\AttractionEditDto.cs" />
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
-
     <Compile Include="Models\Dto\AttractionListEditDto.cs" />
-
     <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
-
     <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
@@ -295,6 +292,7 @@
     <Compile Include="Models\ViewModels\Accommodations\RoomIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomCreateVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomType.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\ServiceInfoVM.cs" />
     <Compile Include="Models\ViewModels\ActivitiesDetailsIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
@@ -303,12 +301,9 @@
     <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
     <Compile Include="Models\ViewModels\AttractionEditVM.cs" />
     <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
-
     <Compile Include="Models\ViewModels\AttractionListEditVM.cs" />
-
     <Compile Include="Models\ViewModels\Comments_AccommodationsCreateVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsIndexVM.cs" />
-
     <Compile Include="Models\ViewModels\AttractionListIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
@@ -502,7 +497,6 @@
     <Content Include="Views\Attractions\Delete.cshtml" />
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\FAQs\EditImgIndex.cshtml" />
-
     <Content Include="Views\Comments_Accommodations\Create.cshtml" />
     <Content Include="Views\Comments_Accommodations\Delete.cshtml" />
     <Content Include="Views\Comments_Accommodations\Details.cshtml" />
@@ -510,7 +504,6 @@
     <Content Include="Views\Comments_Accommodations\Index.cshtml" />
     <Content Include="Views\Accommodations\RoomsIndex.cshtml" />
     <Content Include="Views\Accommodations\EditServiceInfo.cshtml" />
-
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
