@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.EFModels;
 using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,15 @@ namespace RouteMaster.Models.Interfaces
 
 			IEnumerable<AccommodationDetailsDto> Search(int orderId);
 
+			
+		    void AccomodationDetailsEdit (AccomodationDetailsEditDto dto);
 
-			void Create(AccommodationDetailsDto dto);
+		    List<AccomodationDetailsVM> GetAccomodationDetails(int id);
+			AccomodationDetailsEditDto GetAccomodationDetailsEditDetails(int id);
 
-			void Edit(AccommodationDetailsDto dto);
 
-			void Delete(int id);
-       
-    }
+			void AccomodationDetailsDelete(int id);
+		    AccomodationDetailsVM GetAccomodationDetailsById(int id);
+
+	}
 }
