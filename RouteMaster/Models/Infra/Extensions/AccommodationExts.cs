@@ -83,12 +83,10 @@ namespace RouteMaster.Models.Infra.Extensions
 		{
 			return new RoomCreateDto
 			{
-<<<<<<< HEAD
-				//Id = vm.Id,
-=======
 
->>>>>>> b754eddd94153df6b9b64d88577fd492904f2a72
-				AccommodationId = vm.AccommodationId,
+                Id = vm.Id,
+                AccommodationId = vm.AccommodationId,
+
 				Type = vm.Type,
 				Name = vm.Name,
 				Quantity = vm.Quantity,

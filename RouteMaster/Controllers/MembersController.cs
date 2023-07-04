@@ -14,6 +14,7 @@ using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.Dto;
+using RouteMaster.Models.Infra.Criterias;
 
 namespace RouteMaster.Controllers
 {
@@ -22,7 +23,7 @@ namespace RouteMaster.Controllers
         private AppDbContext db = new AppDbContext();
      
         // GET: Members/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id) 
         {
             if (id == null)
             {
@@ -118,10 +119,17 @@ namespace RouteMaster.Controllers
 
 
 
-        public ActionResult Index()
+        public ActionResult Index(MemberCriteria criteria)
         {
+            ViewBag.Criteria = criteria;
+
             IEnumerable<MemberIndexVM> members = GetMembers();
             return View(members);
+
+            #region where這裡寫篩選條件
+
+            //這裡寫篩選條件
+            #endregion
         }
 
         public IEnumerable<MemberIndexVM> GetMembers()
@@ -365,6 +373,13 @@ namespace RouteMaster.Controllers
         {
             return View();
         }
+
+        //[Authorize(Roles ="VIP")]
+        //public ActionResult Sample()
+        //{
+        //    AuthorizeAttribute
+        //    return View();
+        //}
 
         protected override void Dispose(bool disposing)
         {
