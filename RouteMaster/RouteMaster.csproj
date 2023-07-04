@@ -512,7 +512,6 @@
     <Content Include="Views\Members\ConfirmRegister.cshtml" />
     <Content Include="Views\Members\Login.cshtml" />
     <Content Include="Views\Members\Register.cshtml" />
-    <Content Include="Views\Members\EditPassword.cshtml" />
     <Content Include="Views\Orders\_ExtraServicesDetailsEdit.cshtml" />
     <Content Include="Views\Attractions\Edit.cshtml" />
     <Content Include="Views\Attractions\Delete.cshtml" />
@@ -534,7 +533,11 @@
     <Content Include="Views\FAQs\ChangeImg.cshtml" />
     <Content Include="Views\FAQs\UploadImg.cshtml" />
     <Content Include="Views\Comments_Accommodations\Comments.cshtml" />
+
+    <Content Include="Views\Members\EditPassword.cshtml" />
+
     <Content Include="Views\Comments_Accommodations\ImgIndex.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
