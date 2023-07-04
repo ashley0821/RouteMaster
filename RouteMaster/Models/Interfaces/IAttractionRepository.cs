@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace RouteMaster.Models.Interfaces
 {
@@ -13,7 +14,7 @@ namespace RouteMaster.Models.Interfaces
 
 		bool ExistAttraction(string Name);
 
-		void Create(AttractionCreateDto dto);
+		void Create(AttractionCreateDto dto, HttpPostedFileBase[] files, String path);
 
 		AttractionDetailDto Get(int id);
 
