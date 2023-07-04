@@ -41,5 +41,19 @@ namespace RouteMaster.Models.Infra.Extensions
 			};
 		}
 
+		public static Comments_AccommodationsCreateDto ToCreateDto(this Comments_AccommodationsCreateVM vm)
+		{
+			return new Comments_AccommodationsCreateDto
+			{
+				MemberAccount = vm.MemberAccount,
+				AccomodationId = vm.AccomodationId,
+				Title = vm.Title,
+				Pros = vm.Pros,
+				Cons = vm.Cons,
+				Score = vm.Score
+			};
+		}
+
+		
 	}
 }
