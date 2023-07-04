@@ -53,6 +53,67 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 		//			}
 		//		}
 
+		
+
+
+		void IExtraServiceDetailsRepository.ExtraServicesDetailsEdit(ExtraServicesDetailsEditDto dto)
+		{
+			using (var conn = new SqlConnection(_connStr))
+			{
+
+				string sql = @"Update ExtraServicesDetails SET 
+[OrderId]=@OrderId, 
+[ExtraServiceId]=@ExtraServiceId, 
+[ExtraServiceName]=@ExtraServiceName, 
+[Price]=@Price, 
+[Quantity]=@Quantity
+WHERE Id=@Id";
+
+				conn.Execute(sql, dto);
+			}
+		}
+		
+
+		ExtraServicesDetailsEditDto IExtraServiceDetailsRepository.GetExtraServicesEditDetails(int id)
+		{
+			string sql = @"SELECT [Id]
+      ,[OrderId]
+      ,[ExtraServiceId]
+      ,[ExtraServiceName]
+      ,[Price]
+      ,[Quantity]
+
+  FROM [ExtraServicesDetails]Where id=@id";
+			IEnumerable<ExtraServicesDetailsEditDto> extraServicesDetails = new SqlConnection(_connStr).Query<ExtraServicesDetailsEditDto>(sql, new { id });
+			return extraServicesDetails.ToList().FirstOrDefault();
+		}
+
+		void IExtraServiceDetailsRepository.ExtraServicesDetailsDelete(int id)
+		{
+			using (var conn= new SqlConnection(_connStr))
+			{
+					string sql=@"DELETE FROM ExtraServicesDetails WHERE Id=@Id";
+				conn.Execute(sql, new { id });
+				
+			}
+		}
+
+		ExtraServicesDetailsVM IExtraServiceDetailsRepository.GetExtraServicesDetailsById(int id)
+		{
+			using (var conn = new SqlConnection(_connStr))
+			{
+
+				string sql = @"SELECT [Id]
+      ,[OrderId]
+      ,[ExtraServiceId]
+      ,[ExtraServiceName]
+      ,[Price]
+      ,[Quantity]
+  FROM [ExtraServicesDetails]Where id=@id";
+				return conn.QuerySingleOrDefault<ExtraServicesDetailsVM>(sql, new { id });
+			}
+		}
+
 		public IEnumerable<ExtraServicesDetailsDto> Search()
 		{
 			using (var conn = new SqlConnection(_connStr))
@@ -72,45 +133,6 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 		public void Create(ExtraServicesDetailsDto dto)
 		{
 			throw new NotImplementedException();
-		}
-
-		public void Delete(int id)
-		{
-			throw new NotImplementedException();
-		}
-
-		void IExtraServiceDetailsRepository.ExtraServicesDetailsEdit(ExtraServicesDetailsEditDto dto)
-		{
-			using (var conn = new SqlConnection(_connStr))
-			{
-
-				string sql = @"Update ExtraServicesDetails SET 
-[OrderId]=@OrderId, 
-[ExtraServiceId]=@ExtraServiceId, 
-[ExtraServiceName]=@ExtraServiceName, 
-[Price]=@Price, 
-[Quantity]=@Quantity
-WHERE Id=@Id";
-
-				conn.Execute(sql, dto);
-			}
-		}
-
-
-
-		
-
-		ExtraServicesDetailsEditDto IExtraServiceDetailsRepository.GetExtraServicesEditDetails(int id)
-		{
-			string sql = @"SELECT [Id]
-		    ,[OrderId]
-		    ,[ExtraServiceId]
-		    ,[ExtraServiceName]
-		    ,[Price]
-		    ,[Quantity]
-		       FROM ExtraServicesDetails WHERE id = @id";
-			IEnumerable<ExtraServicesDetailsEditDto> extraServicesDetails = new SqlConnection(_connStr).Query<ExtraServicesDetailsEditDto>(sql, new { id });
-			return extraServicesDetails.ToList().FirstOrDefault();
 		}
 	}
 

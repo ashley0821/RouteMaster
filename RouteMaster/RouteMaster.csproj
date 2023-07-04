@@ -146,11 +146,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ActivitiesDetailsEditDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationIndexDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Service\ServiceInfoDto.cs" />
+    <Compile Include="Models\Dto\AccomodationDetailsEditDto.cs" />
     <Compile Include="Models\Dto\ActivitiesCreateDetailsDto.cs" />
     <Compile Include="Models\Dto\ActivitiesDetailsDto.cs" />
     <Compile Include="Models\Dto\ActivitiesEditDetailsDto.cs" />
@@ -176,6 +178,7 @@
     <Compile Include="Models\Dto\FAQIndexDto.cs" />
     <Compile Include="Models\Dto\MemberEditDto.cs" />
     <Compile Include="Models\Dto\MemberImageCreateDto.cs" />
+    <Compile Include="Models\Dto\MemberImageEditDto.cs" />
     <Compile Include="Models\Dto\MemberRegisterDto.cs" />
     <Compile Include="Models\Dto\OrderIndexDto.cs" />
     <Compile Include="Models\Dto\MemberCreateDto.cs" />
@@ -251,6 +254,7 @@
     <Compile Include="Models\Infra\EFRepositories\PackageTourEFRepository.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\Extensions\AccomodationDetailsExts.cs" />
+    <Compile Include="Models\Infra\Extensions\ActivitiesDetailsExts.cs" />
     <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
     <Compile Include="Models\Infra\Extensions\AccommodationExts.cs" />
     <Compile Include="Models\Infra\Extensions\Comments_AccommodationsExts.cs" />
@@ -298,6 +302,8 @@
     <Compile Include="Models\ViewModels\Accommodations\RoomIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomCreateVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomType.cs" />
+    <Compile Include="Models\ViewModels\AccomodationDetailsEditVM.cs" />
+    <Compile Include="Models\ViewModels\ActivitiesDetailsEditVM.cs" />
     <Compile Include="Models\ViewModels\ActivitiesDetailsIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
@@ -327,6 +333,7 @@
     <Compile Include="Models\ViewModels\MemberEditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
     <Compile Include="Models\ViewModels\MemberImageCreateVM.cs" />
+    <Compile Include="Models\ViewModels\MemberImageEditVM.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVM.cs" />
     <Compile Include="Models\ViewModels\MemberRegisterVM.cs" />
     <Compile Include="Models\ViewModels\OrderInvdexVM.cs" />
@@ -514,9 +521,21 @@
     <Content Include="Views\Comments_Accommodations\Index.cshtml" />
     <Content Include="Views\Accommodations\RoomsIndex.cshtml" />
     <Content Include="Views\Accommodations\EditServiceInfo.cshtml" />
+
+    <Content Include="Views\Orders\_AccomodationDetailsEdit.cshtml" />
+    <Content Include="Views\Orders\_ActivitiesDetailsEdit.cshtml" />
+    <Content Include="Views\Orders\AccomodationDetailsDelete.cshtml" />
+    <Content Include="Views\Orders\ExtraServicesDetailsDelete.cshtml" />
+    <Content Include="Views\Orders\ActivitiesDetailsDelete.cshtml" />
+
+
+    <Content Include="Views\Members\EditMemberImgae.cshtml" />
+
     <Content Include="Views\FAQs\ChangeImg.cshtml" />
     <Content Include="Views\FAQs\UploadImg.cshtml" />
+
     <Content Include="Views\Comments_Accommodations\Comments.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
