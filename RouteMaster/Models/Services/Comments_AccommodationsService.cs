@@ -28,5 +28,11 @@ namespace RouteMaster.Models.Services
 			_repo.Create(dto, file1, path);
 			return Result.Success();
 		}
+
+		public Result Update(Comments_AccommodationsEditDto dto)
+		{
+			_repo.Update(dto);
+			return Result.Success();
+		}
 	}
 }

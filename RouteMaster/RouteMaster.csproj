@@ -163,6 +163,7 @@
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionListEditDto.cs" />
+    <Compile Include="Models\Dto\Comments_AccommodationsEditDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
@@ -307,6 +308,7 @@
     <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionListEditVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AccommodationsEditVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionListIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
@@ -514,6 +516,7 @@
     <Content Include="Views\Accommodations\EditServiceInfo.cshtml" />
     <Content Include="Views\FAQs\ChangeImg.cshtml" />
     <Content Include="Views\FAQs\UploadImg.cshtml" />
+    <Content Include="Views\Comments_Accommodations\Comments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
