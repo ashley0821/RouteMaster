@@ -162,7 +162,10 @@
     <Compile Include="Models\Dto\AttractionEditDto.cs" />
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
 
+    <Compile Include="Models\Dto\Comments_AccommodationsCreateDto.cs" />
+
     <Compile Include="Models\Dto\AttractionListEditDto.cs" />
+
 
     <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
 
