@@ -161,19 +161,15 @@
     <Compile Include="Models\Dto\AttractionDetailDto.cs" />
     <Compile Include="Models\Dto\AttractionEditDto.cs" />
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
-
     <Compile Include="Models\Dto\Comments_AccommodationsCreateDto.cs" />
-
     <Compile Include="Models\Dto\AttractionListEditDto.cs" />
-
-
     <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
-
     <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServicesDetailsDto.cs" />
+    <Compile Include="Models\Dto\ExtraServicesDetailsEditDto.cs" />
     <Compile Include="Models\Dto\FAQCreateDto.cs" />
     <Compile Include="Models\Dto\FAQEditDto.cs" />
     <Compile Include="Models\Dto\FAQIndexDto.cs" />
@@ -237,6 +233,7 @@
     <Compile Include="Models\Infra\Criterias\ActivityIndexCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQSortManner.cs" />
+    <Compile Include="Models\Infra\Criterias\MemberCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\OrderCriteria.cs" />
     <Compile Include="Models\Infra\DapperRepositories\AccomodationDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ActivitiesDetailsDapperRepository.cs" />
@@ -259,6 +256,7 @@
     <Compile Include="Models\Infra\Extensions\AttractionExts.cs" />
     <Compile Include="Models\Infra\Extensions\AttractionListExts.cs" />
     <Compile Include="Models\Infra\Extensions\ExtraServiceExts.cs" />
+    <Compile Include="Models\Infra\Extensions\ExtraServicesDetailsExts.cs" />
     <Compile Include="Models\Infra\Extensions\FAQExts.cs" />
     <Compile Include="Models\Infra\Extensions\MemberExts.cs" />
     <Compile Include="Models\Infra\Extensions\OrderExts.cs" />
@@ -280,6 +278,7 @@
     <Compile Include="Models\Services\AccomodationDetailsService.cs" />
     <Compile Include="Models\Services\ActivitiesDetailsService.cs" />
     <Compile Include="Models\Services\AttractionService.cs" />
+    <Compile Include="Models\Services\ExtraServicesDetailsService.cs" />
     <Compile Include="Models\Services\Comments_AccommodationsService.cs" />
     <Compile Include="Models\Services\FAQService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
@@ -306,16 +305,14 @@
     <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
     <Compile Include="Models\ViewModels\AttractionEditVM.cs" />
     <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
-
     <Compile Include="Models\ViewModels\AttractionListEditVM.cs" />
-
     <Compile Include="Models\ViewModels\Comments_AccommodationsCreateVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsIndexVM.cs" />
-
     <Compile Include="Models\ViewModels\AttractionListIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceIndexVM.cs" />
+    <Compile Include="Models\ViewModels\ExtraServicesDetailsEditVM.cs" />
     <Compile Include="Models\ViewModels\FAQChangeImgVM.cs" />
     <Compile Include="Models\ViewModels\FAQCreateVM.cs" />
     <Compile Include="Models\ViewModels\FAQEditImgIndexVM.cs" />
@@ -357,6 +354,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -414,6 +412,7 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -501,11 +500,11 @@
     <Content Include="Views\Members\Login.cshtml" />
     <Content Include="Views\Members\Register.cshtml" />
     <Content Include="Views\Members\EditPassword.cshtml" />
+    <Content Include="Views\Orders\_ExtraServicesDetailsEdit.cshtml" />
     <Content Include="Views\Attractions\Edit.cshtml" />
     <Content Include="Views\Attractions\Delete.cshtml" />
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\FAQs\EditImgIndex.cshtml" />
-
     <Content Include="Views\Comments_Accommodations\Create.cshtml" />
     <Content Include="Views\Comments_Accommodations\Delete.cshtml" />
     <Content Include="Views\Comments_Accommodations\Details.cshtml" />
@@ -513,7 +512,8 @@
     <Content Include="Views\Comments_Accommodations\Index.cshtml" />
     <Content Include="Views\Accommodations\RoomsIndex.cshtml" />
     <Content Include="Views\Accommodations\EditServiceInfo.cshtml" />
-
+    <Content Include="Views\FAQs\ChangeImg.cshtml" />
+    <Content Include="Views\FAQs\UploadImg.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

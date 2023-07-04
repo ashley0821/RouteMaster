@@ -9,7 +9,7 @@ namespace RouteMaster.Models.Infra.Extensions
 {
 	public static class AccomodationDetailsExts
 	{
-
+			
 		public static AccomodationDetailsVM ToIndexVM(this AccommodationDetailsDto dto)
 		{
 			return new AccomodationDetailsVM

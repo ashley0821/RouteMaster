@@ -17,5 +17,10 @@ namespace RouteMaster.Models.Interfaces
 		void Create(FAQCreateDto dto, HttpPostedFileBase[] file1, string path);
 
 		void Update(FAQEditDto dto);
+
+		bool ExistImgWithinFAQ(int id);
+
+		void ClearImg(int id);
+		void DeleteFAQ(int id);
 	}
 }

@@ -13,6 +13,7 @@ namespace RouteMaster.Models.ViewModels
 		public int FAQId { get; set; }
 
 		[Display(Name = "上傳新圖")]
+		
 		public string Image { get; set; }
 	}
 }

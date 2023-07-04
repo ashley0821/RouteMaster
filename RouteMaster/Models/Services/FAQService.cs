@@ -39,5 +39,15 @@ namespace RouteMaster.Models.Services
 			return Result.Success();
 		}
 
+		public void DeleteFAQ(int id)
+		{
+			if (_repo.ExistImgWithinFAQ(id))
+			{
+				_repo.ClearImg(id);
+			}
+
+			_repo.DeleteFAQ(id);
+		}
+
 	}
 }
