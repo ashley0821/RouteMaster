@@ -125,34 +125,34 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td class="align-middle">
             <img src="~/Uploads/@Html.DisplayFor(modelItem => item.Image)" width="100px" />
         </td>
-        <td>
+        <td class="align-middle">
             @Html.DisplayFor(modelItem => item.Category)
         </td>
-        <td>
+        <td class="align-middle">
             @Html.DisplayFor(modelItem => item.Region)
         </td>
-        <td>
+        <td class="align-middle">
             @Html.DisplayFor(modelItem => item.Town)
         </td>
-        <td>
+        <td class="align-middle">
             @Html.DisplayFor(modelItem => item.Name)
         </td>
-        <td>
+        <td class="align-middle">
             @Html.DisplayFor(modelItem => item.DescriptionText)
         </td>
-        <td>
+        <td class="align-middle">
             @Html.DisplayFor(modelItem => item.AverageScoreText)
         </td>
-        <td>
+        <td class="align-middle">
             @Html.DisplayFor(modelItem => item.AverageStayHoursText)
         </td>
-        <td>
+        <td class="align-middle">
             @Html.DisplayFor(modelItem => item.AveragePriceText)
         </td>
-        <td>
+        <td class="align-middle">
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })

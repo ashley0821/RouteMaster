@@ -103,7 +103,8 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				.Include(p => p.AttractionCategory) // 避免N+1 Query
 				.Include(p => p.Region)
 				.Include(p => p.Town)
-				.Where(p=>p.Id == id)
+				.Include(p => p.AttractionImages)
+				.Where(p => p.Id == id)
 				.Select(p => new AttractionDetailDto
 				{
 					Id = p.Id,
@@ -115,7 +116,11 @@ namespace RouteMaster.Models.Infra.EFRepositories
 					PositionX = p.PositionX,
 					PositionY = p.PositionY,
 					Description = p.Description,
-					Website= p.Website,
+					Website = p.Website,
+					Images = _db.AttractionImages
+								.Where(i => i.AttractionId == p.Id)
+								.Select(i => i.Image)
+								.ToList(),
 					AverageScore = _db.Comments_Attractions
 								.Where(c => c.AttractionId == p.Id)
 								.Select(c => c.Score)

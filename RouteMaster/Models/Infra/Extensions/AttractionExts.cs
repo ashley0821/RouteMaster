@@ -23,9 +23,11 @@ namespace RouteMaster.Models.Infra.Extensions
 				PositionY = dto.PositionY,
 				Description = dto.Description,
 				Website = dto.Website,
+				Images = dto.Images,
 				AverageScoreText = dto.AverageScoreText,
 				AverageStayHoursText = dto.AverageStayHoursText,
 				AveragePriceText = dto.AveragePriceText
+				
 			};
 		}
 
