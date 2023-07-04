@@ -42,7 +42,20 @@ namespace RouteMaster.Models.ViewModels
 				}
 			}
 		}
-
+		//private string GetPaymentStatusText(int paymentStatus)
+		//{
+		//	switch (paymentStatus)
+		//	{
+		//		case 1:
+		//			return "已付款";
+		//		case 2:
+		//			return "未付款";
+		//		case 3:
+		//			return "已取消";
+		//		default:
+		//			return "未知狀態";
+		//	}
+		//}
 
 		[Display(Name = "訂購日期")]
 		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
