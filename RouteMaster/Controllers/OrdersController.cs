@@ -7,6 +7,7 @@ using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
+using RouteMaster.Models.ViewModels.Accommodations;
 using System;
 using System.Collections.Generic;
 using System.EnterpriseServices;
@@ -93,7 +94,53 @@ namespace RouteMaster.Controllers
 			return PartialView("_IndexDapper", activitiesdetails);
 
 		}
+		public ActionResult ActivitiesDetailsEdit(int id)
+		{
+			IActivitiesDetailsRepository repo = new ActivitiesDetailsDapperRepository();
+			ActivitiesDetailsService service = new ActivitiesDetailsService(repo);
 
+			ActivitiesDetailsEditVM editVM= service.GetActivitiesDetailsEditDetails(id);
+
+			if (editVM == null)
+			{
+				return HttpNotFound();
+			}
+			return View("_ActivitiesDetailsEdit", editVM);
+
+		}
+		[HttpPost]
+		public ActionResult ActivitiesDetailsEdit(ActivitiesDetailsEditVM editvm)
+		{
+			IActivitiesDetailsRepository repo = new ActivitiesDetailsDapperRepository();
+			ActivitiesDetailsService service= new ActivitiesDetailsService(repo);
+
+			if (ModelState.IsValid)
+			{
+				service.ActivitiesDetailsEdit(editvm.ToEditDto());
+				return RedirectToAction("Index");
+			}
+			return View(editvm);
+		}
+
+		public ActionResult ActivitiesDetailsDelete(int id)
+		{
+			IActivitiesDetailsRepository repo=new ActivitiesDetailsDapperRepository();
+			ActivitiesDetailsService service=new ActivitiesDetailsService(repo);
+
+			var activitiesDetails = service.GetActivitiesDetailsById(id);
+			return View(activitiesDetails.ToIndexDto().ToIndexVM());
+		}
+
+		[HttpPost, ActionName("ActivitiesDetailsDelete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult ActivitiesDetailsDeleteConfirm(int id)
+		{
+			IActivitiesDetailsRepository repo=new ActivitiesDetailsDapperRepository();
+			ActivitiesDetailsService service= new ActivitiesDetailsService(repo);
+
+			service.ActivitiesDetailsDelete(id);
+			return RedirectToAction("Index");
+		}
 
 		//ExtraServiceDetails (EF)
 		//      public ActionResult ExtraServicesDetailsPartialView(int id)
@@ -148,6 +195,7 @@ namespace RouteMaster.Controllers
 		}
 
 		[HttpPost]
+
 		public ActionResult ExtraServicesDetailsEdit(ExtraServicesDetailsEditVM editvm)
 		{
 			IExtraServiceDetailsRepository repo = new ExtraServicesDetailsDapperRepository();
@@ -162,6 +210,26 @@ namespace RouteMaster.Controllers
 			return View(editvm);
 		}
 
+		public ActionResult ExtraServicesDetailsDelete(int id)
+		{
+			IExtraServiceDetailsRepository repo=new ExtraServicesDetailsDapperRepository();
+			ExtraServicesDetailsService service=new ExtraServicesDetailsService(repo);
+
+			var extraServicesDetails=service.GetExtraServicesDetailsById(id);
+			return View(extraServicesDetails.ToIndexDto().ToIndexVm());
+		}
+		
+		[HttpPost, ActionName("ExtraServicesDetailsDelete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult ExtraServicesDetailsDeleteConfirm(int id)
+		{
+			IExtraServiceDetailsRepository repo=new ExtraServicesDetailsDapperRepository();
+			ExtraServicesDetailsService service=new ExtraServicesDetailsService(repo);
+
+			service.ExtraServicesDetailsDelete(id);
+			return RedirectToAction("index");
+		}
+
 
 
 		public ActionResult AccomodationDetailsPartialView(int orderId)
@@ -172,6 +240,51 @@ namespace RouteMaster.Controllers
 			return PartialView("_AccomodationDetailsPartialView", accomodationDetails);
 		}
 
+		public ActionResult AccomodationDetailsEdit(int id)
+		{
+			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
+			AccomodationDetailsService service=new AccomodationDetailsService(repo);
+
+			AccomodationDetailsEditVM editVM = service.GetAccomodationDetailsEditDetails(id);
+			if (editVM == null)
+			{
+				return HttpNotFound();
+			}
+			return View("_AccomodationDetailsEdit",editVM);
+
+		}
+
+		[HttpPost]
+		public ActionResult AccomodationDetailsEdit(AccomodationDetailsEditVM editVM)
+		{
+			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
+			AccomodationDetailsService service=new AccomodationDetailsService(repo);
+			if (ModelState.IsValid)
+			{
+				service.AccomodationDetailsEdit(editVM.ToEditDto());
+				return RedirectToAction("Index");
+			}
+			return View(editVM);
+		}
+
+		public ActionResult AccomodationDetailsDelete(int id)
+		{
+			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
+			AccomodationDetailsService service = new AccomodationDetailsService(repo);
+
+			var accomodationdetail = service.GetAccomodationDetailsById(id);
+			return View(accomodationdetail.ToIndexDto().ToIndexVM());
+		}
+		[HttpPost, ActionName("AccomodationDetailsDelete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult AccomodationDetailsDeleteConfirmed(int id)
+		{
+			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
+			AccomodationDetailsService service = new AccomodationDetailsService(repo);
+			service.AccomodationDetailsDelete(id);
+
+			return RedirectToAction("Index");
+		}
 		private void PreparePaymentStatusDataSource(int? PaymentStatus)
 		{
 

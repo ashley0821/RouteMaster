@@ -18,8 +18,8 @@ namespace RouteMaster.Models.Interfaces
 
 		void ExtraServicesDetailsEdit(ExtraServicesDetailsEditDto dto);
 
-		void Delete(int id);
-
+		void ExtraServicesDetailsDelete(int id);
+		ExtraServicesDetailsVM GetExtraServicesDetailsById(int id);
 		List<ExtraServicesDetailsVM> GetExtraServicesDetails(int id);
 		ExtraServicesDetailsEditDto GetExtraServicesEditDetails(int id);
 	}

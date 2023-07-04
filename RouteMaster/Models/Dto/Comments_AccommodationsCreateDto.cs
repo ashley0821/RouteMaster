@@ -9,6 +9,7 @@ namespace RouteMaster.Models.Dto
 {
 	public class Comments_AccommodationsCreateDto
 	{
+		public int Id { get; set; }
 		public string MemberAccount { get; set; }
 
 		public int AccomodationId { get; set; }
@@ -20,6 +21,7 @@ namespace RouteMaster.Models.Dto
 		public string Cons { get; set; }
 
 		public float Score { get; set; }
+
 
 	}
 }
