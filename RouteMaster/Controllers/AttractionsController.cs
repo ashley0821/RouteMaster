@@ -1,12 +1,15 @@
-﻿using RouteMaster.Models.Dto;
+﻿using Microsoft.Ajax.Utilities;
+using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.EFRepositories;
+using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -16,6 +19,8 @@ namespace RouteMaster.Controllers
 {
 	public class AttractionsController : Controller
 	{
+		
+
 		// GET: Attractions
 		public ActionResult Index()
 		{
@@ -28,20 +33,15 @@ namespace RouteMaster.Controllers
 		{
 			AppDbContext _db = new AppDbContext();
 
-			// 取得 Towns 資料並建立 SelectList 物件
-			var towns = _db.Towns.ToList();
-			SelectList townSelectList = new SelectList(towns, "Id", "Name");
-			ViewBag.TownSelectList = townSelectList;
+			// 获取AttractionCategories表中的Id和Name数据
+			var attractionCategories = _db.AttractionCategories.ToList();
+			// 将数据传递给视图
+			ViewBag.AttractionCategories = attractionCategories;
 
-			// 取得 Regions 資料並建立 SelectList 物件
+			// 获取Regions表格的数据
 			var regions = _db.Regions.ToList();
-			SelectList regionSelectList = new SelectList(regions, "Id", "Name");
-			ViewBag.RegionSelectList = regionSelectList;
-
-			var categories = _db.AttractionCategories.ToList();
-			SelectList categorySelectList = new SelectList(categories, "Id", "Name");
-			ViewBag.CategorySelectList = categorySelectList;
-
+			// 将Regions数据传递给视图
+			ViewBag.Regions = regions;
 
 			return View();
 		}
@@ -69,6 +69,99 @@ namespace RouteMaster.Controllers
 			}
 		}
 
+		public ActionResult Edit(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			else
+			{
+				IAttractionRepository repo = new AttractionEFRepository();
+				AttractionService service = new AttractionService(repo);
+
+				AttractionEditDto dto = service.GetEditDto(id.Value);
+				if (dto == null)
+				{
+					return HttpNotFound();
+				}
+
+				AppDbContext _db = new AppDbContext();
+
+				ViewBag.AttractionCategories = _db.AttractionCategories.ToList();
+				ViewBag.Regions = _db.Regions.ToList();
+				ViewBag.Towns = _db.Towns.Where(t=>t.RegionId == dto.RegionId).ToList();
+
+				return View(dto.ToEditVM());
+			}
+		}
+
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(AttractionEditVM vm)
+		{
+			if (ModelState.IsValid == false) { return View(vm); }
+
+			IAttractionRepository repo = new AttractionEFRepository();
+			AttractionService service = new AttractionService(repo);
+
+			Result result = service.Edit(vm.ToEditDto());
+
+			if (result.IsSuccess)
+			{
+				return RedirectToAction("Index");
+			}
+
+			AppDbContext _db = new AppDbContext();
+
+			ViewBag.AttractionCategories = _db.AttractionCategories.ToList();
+			ViewBag.Regions = _db.Regions.ToList();
+			ViewBag.Towns = _db.Towns.Where(t => t.RegionId == vm.RegionId).ToList();
+
+			return View(vm);
+		}
+
+		public ActionResult Delete(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			IAttractionRepository repo = new AttractionEFRepository();
+			AttractionService service = new AttractionService(repo);
+
+			var dto = service.Get(id.Value);
+
+			if (dto == null)
+			{
+				return HttpNotFound();
+			}
+
+			return View(dto.ToDetailVM());
+		}
+
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteConfirmed(int id)
+		{
+			IAttractionRepository repo = new AttractionEFRepository();
+			AttractionService service = new AttractionService(repo);
+
+			var result = service.Delete(id);
+
+			if (result.IsSuccess)
+			{
+				return RedirectToAction("Index");
+			}
+
+			var dto = service.Get(id);
+			ModelState.AddModelError(string.Empty, result.ErrorMessage);
+
+			return View(dto.ToDetailVM());
+		}
+
 		public ActionResult Details(int? id)
 		{
 			
@@ -89,59 +182,38 @@ namespace RouteMaster.Controllers
 			
 		}
 
+		[HttpPost]
+		public JsonResult LoadTowns(int regionId)
+		{
+			AppDbContext _db = new AppDbContext();
+			// 从数据库中获取与地区Id相关的城镇数据
+			var towns = _db.Towns.Where(t => t.RegionId == regionId).ToList();
+
+			// 构造包含城镇Id和名称的匿名对象列表
+			var townData = towns.Select(t => new { Id = t.Id, Name = t.Name }).ToList();
+
+			return Json(townData);
+		}
+
 		private AttractionDetailVM GetAttractipnDetail(int id)
 		{
 			IAttractionRepository repo = new AttractionEFRepository();
 			AttractionService service = new AttractionService(repo);
 
-			AttractionDetailDto dto = service.Get(id);
-
-			return new AttractionDetailVM
-			{
-				Id = dto.Id,
-				Category = dto.Category,
-				Region = dto.Region,
-				Town = dto.Town,
-				Name = dto.Name,
-				Address = dto.Address,
-				PositionX = dto.PositionX,
-				PositionY = dto.PositionY,
-				Description = dto.Description,
-				Website = dto.Website,
-				AverageScoreText = dto.AverageScoreText,
-				AverageStayHoursText = dto.AverageStayHoursText,
-				AveragePriceText = dto.AveragePriceText,
-			};
-			
+			return service.Get(id).ToDetailVM();
 		}
 
-		[HttpGet]
-		public ActionResult GetTownsByRegion(int regionId)
-		{
-			AppDbContext _db = new AppDbContext();
-
-			var towns = _db.Towns.Where(t => t.RegionId == regionId).ToList();
-			return Json(towns, JsonRequestBehavior.AllowGet);
-		}
+		
 
 		private Result CreateAttraction(AttractionCreateVM vm)
 		{
 			IAttractionRepository repo = new AttractionEFRepository();
 			AttractionService service = new AttractionService(repo);
 
-			AttractionCreateDto dto = new AttractionCreateDto
-			{
-				AttractionCategoryId = vm.AttractionCategoryId,
-				RegionId = vm.RegionId,
-				TownId = vm.TownId,
-				Name = vm.Name,
-				Address = vm.Address,
-				PositionX = vm.PositionX,
-				PositionY = vm.PositionY,
-				Description = vm.Description,
-				Website = vm.Website,
-			};
+			AttractionCreateDto dto = vm.ToCreateDto();
+
 			return service.Create(dto);
+			
 		}
 
 		private IEnumerable<AttractionIndexVM> GetAttractions()
@@ -150,18 +222,7 @@ namespace RouteMaster.Controllers
 			AttractionService service = new AttractionService(repo);
 
 			return service.Search()
-				.Select(dto => new AttractionIndexVM
-				{
-					Id = dto.Id,
-					Category = dto.Category,
-					Region = dto.Region,
-					Town = dto.Town,
-					Name = dto.Name,
-					DescriptionText = dto.DescriptionText,
-					AverageScoreText = dto.AverageScoreText,
-					AveragePriceText = dto.AveragePriceText,
-					AverageStayHoursText = dto.AverageStayHoursText,
-				});
+				.Select(dto => dto.ToIndexVM());
 		}
 	}
 }

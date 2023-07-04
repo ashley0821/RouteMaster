@@ -134,6 +134,7 @@
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
     <Compile Include="Controllers\AdministratorsController.cs" />
     <Compile Include="Controllers\AttractionsController.cs" />
+    <Compile Include="Controllers\Comments_AccommodationsController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
     <Compile Include="Controllers\FAQsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -157,7 +158,9 @@
     <Compile Include="Models\Dto\ActivityIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionDetailDto.cs" />
+    <Compile Include="Models\Dto\AttractionEditDto.cs" />
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
+    <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
@@ -226,6 +229,7 @@
     <Compile Include="Models\Infra\Criterias\ActivityIndexCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQSortManner.cs" />
+    <Compile Include="Models\Infra\Criterias\MemberCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\OrderCriteria.cs" />
     <Compile Include="Models\Infra\DapperRepositories\AccomodationDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ActivitiesDetailsDapperRepository.cs" />
@@ -235,6 +239,7 @@
     <Compile Include="Models\Infra\DapperRepositories\TravelPlanDapperRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\AccommodationEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\AttractionEFRepository.cs" />
+    <Compile Include="Models\Infra\EFRepositories\Comments_AccommodationsEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\FAQEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\MemberEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\ActivityEFRepository.cs" />
@@ -244,6 +249,8 @@
     <Compile Include="Models\Infra\Extensions\AccomodationDetailsExts.cs" />
     <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
     <Compile Include="Models\Infra\Extensions\AccommodationExts.cs" />
+    <Compile Include="Models\Infra\Extensions\Comments_AccommodationsExts.cs" />
+    <Compile Include="Models\Infra\Extensions\AttractionExts.cs" />
     <Compile Include="Models\Infra\Extensions\AttractionListExts.cs" />
     <Compile Include="Models\Infra\Extensions\ExtraServiceExts.cs" />
     <Compile Include="Models\Infra\Extensions\FAQExts.cs" />
@@ -258,6 +265,7 @@
     <Compile Include="Models\Interfaces\IActivitiesDetailsRepository.cs" />
     <Compile Include="Models\Interfaces\IActivityRepository.cs" />
     <Compile Include="Models\Interfaces\IAttractionRepository.cs" />
+    <Compile Include="Models\Interfaces\IComments_AccommodationsRepository.cs" />
     <Compile Include="Models\Interfaces\IExtraServiceDetailsRepository.cs" />
     <Compile Include="Models\Interfaces\IFAQRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
@@ -266,6 +274,7 @@
     <Compile Include="Models\Services\AccomodationDetailsService.cs" />
     <Compile Include="Models\Services\ActivitiesDetailsService.cs" />
     <Compile Include="Models\Services\AttractionService.cs" />
+    <Compile Include="Models\Services\Comments_AccommodationsService.cs" />
     <Compile Include="Models\Services\FAQService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Interfaces\IExtraServiceRepository.cs" />
@@ -288,7 +297,10 @@
     <Compile Include="Models\ViewModels\ActivityIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionCreateVM.cs" />
     <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
+    <Compile Include="Models\ViewModels\AttractionEditVM.cs" />
     <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AccommodationsCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AccommodationsIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionListIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
@@ -334,6 +346,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -349,6 +362,7 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -436,10 +450,15 @@
     <Content Include="Views\Members\Login.cshtml" />
     <Content Include="Views\Members\Register.cshtml" />
     <Content Include="Views\Members\EditPassword.cshtml" />
-
+    <Content Include="Views\Attractions\Edit.cshtml" />
+    <Content Include="Views\Attractions\Delete.cshtml" />
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\FAQs\EditImgIndex.cshtml" />
-
+    <Content Include="Views\Comments_Accommodations\Create.cshtml" />
+    <Content Include="Views\Comments_Accommodations\Delete.cshtml" />
+    <Content Include="Views\Comments_Accommodations\Details.cshtml" />
+    <Content Include="Views\Comments_Accommodations\Edit.cshtml" />
+    <Content Include="Views\Comments_Accommodations\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

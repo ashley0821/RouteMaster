@@ -30,6 +30,6 @@ namespace RouteMaster.Models.ViewModels.Accommodations.Room
 		public int Price { get; set; }
 
 		//[Display(Name = "房間照片")]
-		//public HttpPostedFileBase[] Files { get; set; }
+		public HttpPostedFileBase[] Files { get; set; }
 	}
 }
