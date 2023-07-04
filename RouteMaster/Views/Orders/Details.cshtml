@@ -5,24 +5,53 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-<div>
-    <h3>Accomodation Details</h3>
-    @{Html.RenderAction("AccomodationDetailsPartialView", new { orderId = Model.Id }); }
+<h2>訂單明細</h2>
+<style>
+    .block{
+        border:1px solid #CCC;
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+    .collapsed{
+        display:none;
+
+    }
+    .toggle{
+        cursor:pointer;
+    }
+</style>
+<div class="block">
+    <h3 class="toggle">住宿明細</h3>
+    <div class="content">
+        @{Html.RenderAction("AccomodationDetailsPartialView", new { orderId = Model.Id }); }
+    </div>
+    
     <br />
 </div>
-<div>
+<div class="block">
+    <h3 class="toggle">活動明細</h3>
+    <div class="content">
+        @{Html.RenderAction("IndexDapper", new { orderId = Model.Id }); }
+        @*@{Html.RenderAction("IndexDapper", new { orderId = Model.OrderId });}*@
 
-    <h3>Activities Details</h3>
-
-    @{Html.RenderAction("IndexDapper", new { orderId = Model.Id }); }
-    @*@{Html.RenderAction("IndexDapper", new { orderId = Model.OrderId });}*@
-
-    <br />
+    </div>
+</div>
+<div class="block">
+    <h3 class="toggle">額外服務明細</h3>
+    <div class="content">
+        @{Html.RenderAction("ExtraServicesDetailsPartialView", new { orderId = Model.Id });}
+    </div>
+  
 
 </div>
-<div>
-    <h3>ExtraService Details</h3>
-    @{Html.RenderAction("ExtraServicesDetailsPartialView", new { orderId = Model.Id });}
 
-</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script> 
+    $(document).ready(function () {
+        $('.toggle').click(function () {
+            var content = $(this).next('.content');
+            content.toggleClass('collapsed');
+        });
+    });
+        
+</script>
