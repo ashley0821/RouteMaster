@@ -1,6 +1,7 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.ViewModels;
 using System;
@@ -26,23 +27,27 @@ namespace RouteMaster.Models.Services
             return _repo.Search(orderId);
         }
 
-        public Result Create(AccommodationDetailsDto dto)
+      
+		public Result AccomodationDetailsEdit(AccomodationDetailsEditDto dto)
 		{
-			_repo.Create(dto);
+			_repo.AccomodationDetailsEdit(dto);
 			return Result.Success();
 		}
 
-		public Result Edit(AccommodationDetailsDto dto)
+		public Result AccomodationDetailsDelete(int id)
 		{
-			_repo.Edit(dto);
+			_repo.AccomodationDetailsDelete(id);
 			return Result.Success();
-
 		}
 
-		public Result Delete(int id)
+		public AccomodationDetailsEditVM GetAccomodationDetailsEditDetails(int id)
 		{
-			_repo.Delete(id);
-			return Result.Success();
+			return _repo.GetAccomodationDetailsEditDetails(id).ToEditVM();
+		}
+		public AccomodationDetailsVM GetAccomodationDetailsById(int id)
+		{
+			var accommodationDetailInDb = _repo.GetAccomodationDetailsById(id);
+			return accommodationDetailInDb;
 		}
 	}
 }
