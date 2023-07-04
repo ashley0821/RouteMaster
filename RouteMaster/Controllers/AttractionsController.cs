@@ -115,12 +115,12 @@ namespace RouteMaster.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(AttractionCreateVM vm)
+		public ActionResult Create(AttractionCreateVM vm, HttpPostedFileBase[] files )
 		{
 			if (ModelState.IsValid == false) return View(vm);
 
 			// 建立新會員
-			Result result = CreateAttraction(vm);
+			Result result = CreateAttraction(vm,files);
 
 			if (result.IsSuccess)
 			{
@@ -271,14 +271,14 @@ namespace RouteMaster.Controllers
 
 		
 
-		private Result CreateAttraction(AttractionCreateVM vm)
+		private Result CreateAttraction(AttractionCreateVM vm, HttpPostedFileBase[] files)
 		{
+			string path = Server.MapPath("~/Uploads");
+
 			IAttractionRepository repo = new AttractionEFRepository();
 			AttractionService service = new AttractionService(repo);
 
-			AttractionCreateDto dto = vm.ToCreateDto();
-
-			return service.Create(dto);
+			return service.Create(vm.ToCreateDto(), files, path);
 			
 		}
 

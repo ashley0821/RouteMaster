@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Attractions", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>AttractionCreateVM</h4>
         <hr />
@@ -87,6 +87,14 @@
             </div>
         </div>
 
+        <div class="form-group" >
+            <div class="drop-zone" id="dropZone">
+                    <label for="files" class="d-block w-100 h-100">點擊這裡選擇或拖曳照片</label>
+            </div>
+            <input id="files" type="file" name="files" class="form-control" multiple="multiple" accept="image/*" />
+            <div class="image-preview" id="imagePreview"></div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -101,36 +109,36 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script>
-    $(document).ready(function () {
-        // 监听地区下拉选单的变化
-        $('#RegionId').change(function () {
-            var regionId = $(this).val(); // 获取选中的地区Id
-            var townDropdown = $('#TownId'); // 城镇下拉选单
+    <script>
+        $(document).ready(function () {
+            // 监听地区下拉选单的变化
+            $('#RegionId').change(function () {
+                var regionId = $(this).val(); // 获取选中的地区Id
+                var townDropdown = $('#TownId'); // 城镇下拉选单
 
-            // 清空城镇下拉选单的选项
-            townDropdown.empty();
+                // 清空城镇下拉选单的选项
+                townDropdown.empty();
 
-            // 如果选择了有效的地区Id
-            if (regionId !== '') {
-                // 发送AJAX请求获取相应地区的城镇数据
-                $.ajax({
-                    url: '/Attractions/LoadTowns', // 替换成对应的控制器和方法
-                    type: 'POST',
-                    dataType: 'json',
-                    data: { regionId: regionId },
-                    success: function (response) {
-                        // 根据返回的城镇数据，动态添加选项到城镇下拉选单
-                        $.each(response, function (index, town) {
-                            townDropdown.append($('<option></option>').val(town.Id).text(town.Name));
-                        });
-                    },
-                    error: function () {
-                        console.error('Failed to load towns.');
-                    }
-                });
-            }
+                // 如果选择了有效的地区Id
+                if (regionId !== '') {
+                    // 发送AJAX请求获取相应地区的城镇数据
+                    $.ajax({
+                        url: '/Attractions/LoadTowns', // 替换成对应的控制器和方法
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { regionId: regionId },
+                        success: function (response) {
+                            // 根据返回的城镇数据，动态添加选项到城镇下拉选单
+                            $.each(response, function (index, town) {
+                                townDropdown.append($('<option></option>').val(town.Id).text(town.Name));
+                            });
+                        },
+                        error: function () {
+                            console.error('Failed to load towns.');
+                        }
+                    });
+                }
+            });
         });
-    });
-</script>
+    </script>
 }
