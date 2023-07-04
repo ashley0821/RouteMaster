@@ -13,9 +13,13 @@ namespace RouteMaster.Models.Interfaces
 
 		void Create(ActivitiesDetailsDto dto);
 
-		void Edit(ActivitiesDetailsDto dto);
+		void ActivitiesDetailsEdit(ActivitiesDetailsEditDto dto);
 
-		void Delete(int id);
+		void ActivitiesDetailsDelete(int id);
+		ActivitiesDetailsIndexVM GetActivitiesDetailsById(int id);
+		ActivitiesDetailsEditDto GetActivitiesDetailsEditDetails(int id);
+		
+        List<ActivitiesDetailsIndexVM>GetActivitiesDetails(int id);
 
 	}
 }

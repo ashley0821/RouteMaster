@@ -11,11 +11,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="~/Content//jquery-ui.css">
+
     <style>
         body{
             background-color:#f5f5f588
         }
     </style>
+
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
@@ -37,6 +41,7 @@
                     <li>@Html.ActionLink("會員管理", "Index", "Members", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("常見問題", "Index", "FAQs", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("景點", "Index", "Attractions", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("評論區", "Comments", "Comments_Accommodations", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
             </div>
         </div>
@@ -51,6 +56,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery-ui.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

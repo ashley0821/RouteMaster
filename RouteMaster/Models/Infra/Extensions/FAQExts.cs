@@ -111,12 +111,13 @@ namespace RouteMaster.Models.Infra.Extensions
 		{
 			return new FAQChangeImgVM
 			{
-				FAQId = entity.FAQId,
 				ImgId = entity.Id,
+				FAQId=entity.FAQId,
 				Image = entity.Image
 
 			};
 		}
+
 
 
 	}
