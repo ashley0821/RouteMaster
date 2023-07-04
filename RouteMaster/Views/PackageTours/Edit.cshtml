@@ -46,6 +46,8 @@
             <p>@Model.Attractions[i].Name</p>
             <input type="checkbox" name="Attractions[@i].Selected" value="@Model.Attractions[i].Id" checked="checked" onchange="toggleAtHidden(this, @i)"/>
             <input type="hidden" name="Attractions[@i].Id" value="@Model.Attractions[i].Id" />
+
+            @*<input type="checkbox" name="Attractions[@i].Id" value="@Model.Attractions[i].Id" />*@          
         }
     </div>
 
@@ -56,7 +58,7 @@
         @for (int i = 0; i < Model.Activities.Count; i++)
         {
             <p>@Model.Activities[i].Name</p>
-            <input type="checkbox" name="Activities[@i].Selected" value="@Model.Activities[i].Id" checked="checked" onchange="toggleAcHidden(this, @i)"/>
+            <input type="checkbox" name="Activities[@i].Selected" value="@Model.Activities[i].Id" checked="checked" onchange="toggleAcHidden(this, @i)"/>  
             <input type="hidden" name="Activities[@i].Id" value="@Model.Activities[i].Id"  />
         }
     </div>
