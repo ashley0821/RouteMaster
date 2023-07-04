@@ -19,7 +19,7 @@ namespace RouteMaster.Models.Dto
         public List<ActivityIndexVM> Activities { get; set; }
         public List<ExtraServiceIndexVM> ExtraServices { get; set; }
 
-        public List<AttractionIndexVM> Attractions { get; set; }
+        public List<AttractionListIndexVM> Attractions { get; set; }
 
     }
 }

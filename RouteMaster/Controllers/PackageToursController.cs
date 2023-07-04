@@ -25,15 +25,6 @@ namespace RouteMaster.Controllers
         // GET: PackageTours
         public ActionResult Index()
         {
-        
-            //test使用導覽屬性直接改動中介表
-            //int id = 5;
-            //Activity activity = db.Activities.Find(id);
-            //List<PackageTour> packageTours = db.PackageTours.ToList();
-            //packageTours.ForEach(pt => pt.Activities.Add(activity));
-            //db.SaveChanges();
-
-
 
            
             IPackageTourRepository repo =new PackageTourEFRepository();
@@ -42,49 +33,25 @@ namespace RouteMaster.Controllers
 
             return View(service.Search().ToList().Select(x => x.ToIndexVM()));
 
-
-
-
-            //var packageTours = db.PackageTours.Include(p => p.Coupon);
-            //return View(packageTours.ToList().Select(x=>x.ToIndexDto().ToIndexVM()));
         }
 
 
 
         
 
-        // GET: PackageTours/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PackageTour packageTour = db.PackageTours.Find(id);
-            if (packageTour == null)
-            {
-                return HttpNotFound();
-            }
-            return View(packageTour);
-        }
 
         // GET: PackageTours/Create
 
 
         public ActionResult Create()
         {
-
-
-            ViewBag.Attractions=db.Attractions.ToList().Select(x=>x.ToAttractionListDto().ToAttractionListVM());
+            ViewBag.Attractions=db.Attractions.ToList().Select(x=>x.ToAttractionListIndexDto().ToAttractionListIndexVM());
             ViewBag.Activities = db.Activities.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
-            ViewBag.ExtraServices=db.ExtraServices.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
-            
+            ViewBag.ExtraServices=db.ExtraServices.ToList().Select(x=>x.ToIndexDto().ToIndexVM());          
+
 
             PrepareCouponDataSource(null);
             return View();
-
-
-
         }
 
 
@@ -97,10 +64,47 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
 
-        public ActionResult Create(PackageTourCreateVM vm, List<Activity> arrOfActivities, List<ExtraService> arrOfExtraServices, List<Attraction> arrOfAttractions) 
+        public ActionResult Create(PackageTourCreateVM vm) 
 		{
             IPackageTourRepository repo = new PackageTourEFRepository();
             PackageTourService service = new PackageTourService(repo);
+
+
+
+            //根據接收到的活動Id獲取完整的活動對象           
+            List<Activity> selectedActivities = new List<Activity>();
+            foreach (var activityId in vm.Activities.Select(a => a.Id))
+            {
+                var activity = db.Activities.Find(activityId);
+                selectedActivities.Add(activity);
+            }
+            //將完整的活動物件添加到Activities列表當中
+            vm.Activities = selectedActivities.Select(a => a.ToIndexDto().ToIndexVM()).ToList();
+         
+
+
+            List<ExtraService> selectedExtraService=new List<ExtraService>();
+            foreach(var ectraServiceId in vm.ExtraServices.Select(e => e.Id))
+            {
+                var extraService = db.ExtraServices.Find(ectraServiceId);
+                selectedExtraService.Add(extraService);
+            }
+            vm.ExtraServices=selectedExtraService.Select(e=>e.ToIndexDto().ToIndexVM()).ToList();   
+
+
+
+
+            List<Attraction> selectedAttractions=new List<Attraction>();
+            foreach(var attractionId in vm.Attractions.Select(a => a.Id))
+            {
+                var attraction = db.Attractions.Find(attractionId);
+                selectedAttractions.Add(attraction);
+            }
+            vm.Attractions=selectedAttractions.Select(a=>a.ToAttractionListIndexDto().ToAttractionListIndexVM()).ToList();
+
+
+
+
 
 
             if (ModelState.IsValid == false)
@@ -110,56 +114,36 @@ namespace RouteMaster.Controllers
             }
 
             if (ModelState.IsValid)
-            {
-                for(int i= 0;i< arrOfActivities.Count; i++)
-                {
-                    vm.Activities.Add(arrOfActivities[i].ToIndexDto().ToIndexVM());
-                }
-
-                for(int i=0; i< arrOfExtraServices.Count; i++)
-                {
-                    vm.ExtraServices.Add(arrOfExtraServices[i].ToIndexDto().ToIndexVM());
-                }
-
-
-                for(int i=0;i< arrOfAttractions.Count; i++)
-                {
-                    vm.Attractions.Add(arrOfAttractions[i].ToAttractionListDto().ToAttractionListVM()); 
-                }
-
-
-           
+            {           
                 service.Create(vm.ToCreateDto());
                 return RedirectToAction("Index");
             }
 
             PrepareCouponDataSource(vm.CouponId);
-            return View(vm);
+
+
+            return View("Index");
         }
-
-
-
-
 
 
 
 
 
         // GET: PackageTours/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PackageTour packageTour = db.PackageTours.Find(id);
-            if (packageTour == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.CouponId = new SelectList(db.Coupons, "Id", "Discount", packageTour.CouponId);
-            return View(packageTour);
+            IPackageTourRepository repo = new PackageTourEFRepository();
+            PackageTourService service = new PackageTourService(repo);
+
+
+            var packageTour= service.GetPackageTourById(id);
+            PrepareCouponDataSource(packageTour.CouponId);
+            
+            return View(packageTour.ToEditDto().ToEditVM());
         }
+
+
+
 
         // POST: PackageTours/Edit/5
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
@@ -179,18 +163,13 @@ namespace RouteMaster.Controllers
         }
 
         // GET: PackageTours/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PackageTour packageTour = db.PackageTours.Find(id);
-            if (packageTour == null)
-            {
-                return HttpNotFound();
-            }
-            return View(packageTour);
+            IPackageTourRepository repo = new PackageTourEFRepository();
+            PackageTourService service = new PackageTourService(repo);
+
+            return View(service.GetPackageTourById(id).ToIndexDto().ToIndexVM());
+            
         }
 
         // POST: PackageTours/Delete/5
@@ -198,11 +177,26 @@ namespace RouteMaster.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            PackageTour packageTour = db.PackageTours.Find(id);
-            db.PackageTours.Remove(packageTour);
-            db.SaveChanges();
+            IPackageTourRepository repo = new PackageTourEFRepository();
+            PackageTourService service = new PackageTourService(repo);
+
+            service.Delete(id);
+
             return RedirectToAction("Index");
         }
+
+
+
+
+        // GET: PackageTours/Details/5
+        public ActionResult Details(int id)
+        {
+            IPackageTourRepository repo = new PackageTourEFRepository();
+            PackageTourService service = new PackageTourService(repo);
+
+            return View(service.GetPackageTourById(id).ToIndexDto().ToIndexVM());
+        }
+
 
 
         public ActionResult ActivitiesList()
