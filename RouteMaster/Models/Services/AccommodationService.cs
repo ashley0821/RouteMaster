@@ -2,8 +2,10 @@
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.ViewModels;
+using RouteMaster.Models.ViewModels.Accommodations;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -66,6 +68,13 @@ namespace RouteMaster.Models.Services
 			
 			// 新增一筆紀錄
 			_repo.CreateRoomAndImages(dto, files, path);
+
+			return Result.Success();
+		}
+
+		internal Result EditService(ServiceInfoVM vm)
+		{
+			_repo.EditService(vm);
 
 			return Result.Success();
 		}
