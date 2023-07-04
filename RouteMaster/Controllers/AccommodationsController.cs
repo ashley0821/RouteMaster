@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Antlr.Runtime;
 using Newtonsoft.Json.Linq;
 using RouteMaster.Models.Dto;
+using RouteMaster.Models.Dto.Accommodation.Service;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.EFRepositories;
@@ -25,13 +26,14 @@ namespace RouteMaster.Controllers
     {
         private readonly AppDbContext db = new AppDbContext();
 
-        // GET: Accommodations
+        // 還沒做
         public ActionResult Index()
         {
 			var accommodations = db.Accommodations.Include(a => a.Partner).Include(a => a.Region).Include(a => a.Town);
             return View(accommodations.ToList());
         }
         
+        // 合夥人的住宿列表
         public ActionResult MyAccommodationIndex()
         {
 			IEnumerable<AccommodationIndexVM> accommodations = GetAccommodations();
@@ -41,7 +43,7 @@ namespace RouteMaster.Controllers
             return View(accommodations);//.ToList());
         }
 
-        // GET: Accommodations/Details/5
+        // 還沒做
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -56,7 +58,7 @@ namespace RouteMaster.Controllers
             return View(accommodation);
         }
 
-        // GET: Accommodations/Create
+        // 新增住宿
         public ActionResult Create()
         {
             //ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName");
@@ -72,9 +74,6 @@ namespace RouteMaster.Controllers
             return View();
         }
 
-        // POST: Accommodations/Create
-        // 若要免於大量指派 (overposting) 攻擊，請啟用您要繫結的特定屬性，
-        // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(AccommodationCreateVM vm)
@@ -102,9 +101,8 @@ namespace RouteMaster.Controllers
             //return View(vm);
         }
 
-
-        // GET: Accommodations/Edit/5
-        public ActionResult Edit(int? id)
+		// 編輯住宿資訊
+		public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -125,10 +123,6 @@ namespace RouteMaster.Controllers
             return View(model);
         }
 
-
-		// POST: Accommodations/Edit/5
-		// 若要免於大量指派 (overposting) 攻擊，請啟用您要繫結的特定屬性，
-		// 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
 		[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(AccommodationEditVM vm)
@@ -151,6 +145,7 @@ namespace RouteMaster.Controllers
 			
         }
 
+		// 新增客房
 		public ActionResult CreateRoom(int? id)
         {
 			if (id == null)
@@ -175,12 +170,11 @@ namespace RouteMaster.Controllers
 			return View(vm);
 		}
 
-
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult CreateRoom(RoomCreateVM vm, HttpPostedFileBase[] files)
 		{
-			
+
 			if (!ModelState.IsValid) return View(vm);
             //建立新會員
 
@@ -193,6 +187,7 @@ namespace RouteMaster.Controllers
 			else
 			{
 				ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                PrepareRoomTypeViewBag();
 				return View(vm);
 			}
 			//ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName", accommodation.PartnerId);
@@ -201,6 +196,63 @@ namespace RouteMaster.Controllers
 			//return View(vm);
 		}
 
+		// 客房列表
+        public ActionResult RoomsIndex(int? id)
+        {
+            var rooms = db.Rooms.Where(r => r.AccommodationId == id).Include(a => a.RoomImages);
+
+            return View(rooms.ToList().Select(r => r.ToVM()));
+        }
+
+
+		// 編輯公共設施
+		public ActionResult EditServiceInfo(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			ServiceInfoDto dto = new ServiceInfoDto
+            {
+				AccommodationId = (int)id,
+                ServiceInfoList = db.ServiceInfos.ToList()
+            };
+
+
+			return View(dto);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditServiceInfo(AccommodationEditVM vm)
+		{
+			ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
+			ViewBag.TownId = new SelectList(db.Towns.Where(t => t.RegionId == vm.RegionId), "Id", "Name", vm.TownId);
+			if (!ModelState.IsValid) return View(vm);
+
+			Result result = EditAccommodationProfile(vm);
+
+			if (result.IsSuccess)
+			{
+				return RedirectToAction("MyAccommodationIndex");
+			}
+			else
+			{
+				ModelState.AddModelError(string.Empty, result.ErrorMessage);
+				return View(vm);
+			}
+
+		}
+
+
+
+
+
+
+
+
+		#region:方法
 		private Result CreateRoomAndImage(RoomCreateVM vm, HttpPostedFileBase[] files)
 		{
 			string path = Server.MapPath("~/Uploads");
@@ -209,6 +261,7 @@ namespace RouteMaster.Controllers
 
 			return service.CreateRoomAndImages(vm.ToDto(), files, path);
         }
+
 		private void PrepareRoomTypeViewBag()
 		{
             var roomTypes = new List<RoomType>{
@@ -241,7 +294,6 @@ namespace RouteMaster.Controllers
 			return service.EditAccommodationProfile(vm.ToDto());
 		}
 
-		// GET: Accommodations/Delete/5
 		public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -256,7 +308,6 @@ namespace RouteMaster.Controllers
             return View(accommodation);
         }
 
-        // POST: Accommodations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -317,5 +368,7 @@ namespace RouteMaster.Controllers
 			//return townList;
 			return Json(townData, JsonRequestBehavior.AllowGet);
         }
+		#endregion
+
 	}
 }

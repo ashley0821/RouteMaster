@@ -1,5 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,9 @@ namespace RouteMaster.Models.Services
 		{
 			_repo = repo;
 		}
-		public IEnumerable<MemberIndexDto> Seacrh()
+		public IEnumerable<MemberIndexDto> Seacrh(MemberCriteria criteria)
 		{
-			return _repo.Seacrh();
+			return _repo.Seacrh(criteria);
 		}
 
 		public Result Register(MemberRegisterDto dto)
@@ -49,5 +50,6 @@ namespace RouteMaster.Models.Services
 
 			return Result.Success();
 		}
+
 	}
 }

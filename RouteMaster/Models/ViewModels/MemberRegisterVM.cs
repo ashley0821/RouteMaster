@@ -63,16 +63,17 @@ namespace RouteMaster.Models.ViewModels
 		public bool Gender { get; set; }
 
 
+		[DisplayFormat(DataFormatString ="{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
 		[Display(Name = "生日")]
 		public DateTime Birthday { get; set; }
 
-
-		[Display(Name = "註冊日期")]
-		public DateTime CreateDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "註冊日期")]
+		public DateTime? CreateDate { get; set; }
 
 
 		[Display(Name = "大頭貼")]
-		[Required]
+		//[Required]
 		public string Image { get; set; }
 
 	}

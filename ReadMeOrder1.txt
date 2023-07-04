@@ -34,3 +34,9 @@ AccomodationDetails partial view (useDapper)
 
 [v] Add querycreatedatedata on OrderEFRepository
 [v] Add datepick
+
+7/4
+[v] add extraservice edit
+[v] add accomodation edit (dto,interface,services,dapper,exts,view)
+[v] add activity edit(dto,interface,service,dapper,exts,view)
+[v] add  delete function on accomodationdetails

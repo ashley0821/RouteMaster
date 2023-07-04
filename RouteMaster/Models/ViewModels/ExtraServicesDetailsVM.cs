@@ -19,6 +19,7 @@ namespace RouteMaster.Models.ViewModels
 		[Required]
 		public string ExtraServiceName { get; set; }
 		[Display(Name = "金額")]
+		[DisplayFormat(DataFormatString = "${0:#,#}" )]
 		public int Price { get; set; }
 		[Display(Name = "數量")]
 		public int Quantity { get; set; }

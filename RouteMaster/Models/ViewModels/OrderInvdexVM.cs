@@ -13,8 +13,9 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "訂單編號")]
 		public int Id { get; set; }
 
-		[Display(Name = "訂購人")]
+		[Display(Name = "訂購人編號")]
 		public int MemberId { get; set; }
+		[Display(Name = "訂購人")]
 		public string MemberName { get; set; }
 		[Display(Name = "付款方式")]
 		//public int PaymentMethodId { get; set; }
@@ -44,6 +45,7 @@ namespace RouteMaster.Models.ViewModels
 
 
 		[Display(Name = "訂購日期")]
+		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
 		public DateTime? CreateDate { get; set; }
 		
 		[Display(Name = "金額")]

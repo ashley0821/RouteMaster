@@ -9,7 +9,7 @@ namespace RouteMaster.Models.Infra.Extensions
 {
 	public static class AccomodationDetailsExts
 	{
-
+			
 		public static AccomodationDetailsVM ToIndexVM(this AccommodationDetailsDto dto)
 		{
 			return new AccomodationDetailsVM
@@ -43,6 +43,39 @@ namespace RouteMaster.Models.Infra.Extensions
 				CheckIn = vm.CheckIn,
 				CheckOut = vm.CheckOut,
 				RoomPrice = vm.RoomPrice,
+			};
+		}
+
+
+		public static AccomodationDetailsEditDto ToEditDto(this AccomodationDetailsEditVM vm)
+		{
+			return new AccomodationDetailsEditDto
+			{
+				Id = vm.Id,
+				OrderId = vm.OrderId,
+				AccommodationId = vm.AccommodationId,
+				AccommodationName = vm.AccommodationName,
+				RoomName = vm.RoomName,
+				RoomType = vm.RoomType,
+				CheckIn = vm.CheckIn,
+				CheckOut = vm.CheckOut,
+				RoomPrice = vm.RoomPrice,
+			};
+		}
+
+		public static AccomodationDetailsEditVM ToEditVM(this AccomodationDetailsEditDto dto)
+		{
+			return new AccomodationDetailsEditVM
+			{
+				Id = dto.Id,
+				OrderId = dto.OrderId,
+				AccommodationId = dto.AccommodationId,
+				AccommodationName = dto.AccommodationName,
+				RoomName = dto.RoomName,
+				RoomType = dto.RoomType,
+				CheckIn = dto.CheckIn,
+				CheckOut = dto.CheckOut,
+				RoomPrice = dto.RoomPrice,
 			};
 		}
 	}

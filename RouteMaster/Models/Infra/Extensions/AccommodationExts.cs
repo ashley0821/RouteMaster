@@ -1,6 +1,7 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.ViewModels;
+using RouteMaster.Models.ViewModels.Accommodations;
 using RouteMaster.Models.ViewModels.Accommodations.Room;
 using System;
 using System.Collections.Generic;
@@ -82,8 +83,9 @@ namespace RouteMaster.Models.Infra.Extensions
 		{
 			return new RoomCreateDto
 			{
-				//Id = vm.Id,
-				AccommodationId = vm.AccommodationId,
+
+                AccommodationId = vm.AccommodationId,
+
 				Type = vm.Type,
 				Name = vm.Name,
 				Quantity = vm.Quantity,
@@ -141,6 +143,7 @@ namespace RouteMaster.Models.Infra.Extensions
                 CreateDate = DateTime.Now
             };
 		}
+		#region
 		//public static Accommodation ToEditEntity(this AccommodationEditDto dto)
 		//{
 		//	string address = GetFullAddress(dto);
@@ -160,11 +163,24 @@ namespace RouteMaster.Models.Infra.Extensions
 		//		CreateDate = DateTime.Now
 		//	};
 		//}
+		#endregion
+		//entity 轉vm
+		public static RoomIndexVM ToVM(this Room entity)
+		{
+			return new RoomIndexVM
+			{
+				Id = entity.Id,
+				AccommodationId = entity.AccommodationId,
+				Name = entity.Name,
+				Quantity = entity.Quantity,
+			};
+		}
+
 		public static Room ToRoomCreateEntity(this RoomCreateDto dto)
 		{
 			return new Room
 			{
-				AccommodationId = dto.Id,//dto.PartnerId,
+				AccommodationId = dto.AccommodationId,//dto.PartnerId,
 				Type = dto.Type,
 				Name = dto.Name,
 				Quantity = dto.Quantity,

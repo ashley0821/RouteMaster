@@ -14,6 +14,8 @@ using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.Dto;
+using RouteMaster.Models.Infra.Criterias;
+using System.Data.Entity.Migrations;
 
 namespace RouteMaster.Controllers
 {
@@ -22,7 +24,7 @@ namespace RouteMaster.Controllers
         private AppDbContext db = new AppDbContext();
      
         // GET: Members/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id) 
         {
             if (id == null)
             {
@@ -117,18 +119,19 @@ namespace RouteMaster.Controllers
         }
 
 
-
-        public ActionResult Index()
+        public ActionResult Index(MemberCriteria criteria)
         {
-            IEnumerable<MemberIndexVM> members = GetMembers();
+			ViewBag.Criteria = criteria;
+           
+			IEnumerable<MemberIndexVM> members = GetMembers(criteria);
             return View(members);
-        }
+		}
 
-        public IEnumerable<MemberIndexVM> GetMembers()
+        public IEnumerable<MemberIndexVM> GetMembers(MemberCriteria criteria)
         {
             IMemberRepository repo = new MemberEFRepository();
             MemberService service = new MemberService(repo);
-            return service.Seacrh()
+            return service.Seacrh(criteria)
                 .Select(dto => new MemberIndexVM
                 {
                     Id = dto.Id,
@@ -153,9 +156,23 @@ namespace RouteMaster.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(MemberRegisterVM vm)
+        public ActionResult Register(MemberRegisterVM vm, HttpPostedFileBase facePhoto1)
         {
-            if (!ModelState.IsValid) return View(vm);
+            if (ModelState.IsValid)
+            {
+				// 將 file1存檔, 並取得最後存檔的檔案名稱
+				string path = Server.MapPath("/Uploads"); // 檔案要存放的資料夾位置
+				string fileName = SaveUploadedFile(path, facePhoto1);
+
+				// 將檔名存入 vm裡
+				vm.Image = fileName; // ****
+
+            }
+                     else
+                     {
+            return View(vm);
+            }
+
 
             Result result = RegisterMember(vm);
 
@@ -170,7 +187,31 @@ namespace RouteMaster.Controllers
             }
         }
 
-        public Result RegisterMember(MemberRegisterVM vm)
+
+		private string SaveUploadedFile(string path, HttpPostedFileBase facePhoto1)
+		{
+			// 如果沒有上傳檔案或檔案是空的,就不處理, 傳回 string.empty
+			if (facePhoto1 == null || facePhoto1.ContentLength == 0) return string.Empty;
+
+			// 取得上傳檔案的副檔名
+			string ext = System.IO.Path.GetExtension(facePhoto1.FileName); // ".jpg" 而不是 "jpg"
+
+			// 如果副檔名不在允許的範圍裡,表示上傳不合理的檔案類型, 就不處理, 傳回 string.empty
+			string[] allowedExts = new string[] { ".jpg", ".jpeg", ".png", ".tif" };
+			if (allowedExts.Contains(ext.ToLower()) == false) return string.Empty;
+
+			// 生成一個不會重複的檔名
+			string newFileName = Guid.NewGuid().ToString("N") + ext; // 生成 er534263454r45636t34534sfggtwer6563462343.jpg
+			string fullName = System.IO.Path.Combine(path, newFileName);
+
+			// 將上傳檔案存放到指定位置
+			facePhoto1.SaveAs(fullName);
+
+			// 傳回存放的檔名
+			return newFileName;
+		}
+
+		public Result RegisterMember(MemberRegisterVM vm)
         {
             IMemberRepository repo = new MemberEFRepository();
 
@@ -327,7 +368,65 @@ namespace RouteMaster.Controllers
             return View();
         }
 
-        protected override void Dispose(bool disposing)
+
+        public  ActionResult EditMemberImgae(int? id)
+        {
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+            Member member = db.Members.Find(id);
+
+			if (member == null)
+			{
+				return HttpNotFound();
+			}
+			return View(member.ToMemberImageVM());
+		}
+
+        [HttpPost]
+        public ActionResult EditMemberImage(MemberImageEditVM vm, HttpPostedFileBase newFacePhoto)
+        {
+			string path = Server.MapPath("/Uploads");
+			var savedFileName = SaveUploadedFile(path, newFacePhoto);
+			vm.Image = savedFileName;
+
+			if (savedFileName == null) ModelState.AddModelError("Image", "請選擇檔案");
+
+			if (ModelState.IsValid)
+			{
+				var MemberInDb = db.Members.Find(vm.Id);
+				MemberInDb.Image = vm.Image;
+
+
+				MemberImage memberImage = new MemberImage
+				{
+					Image = vm.Image,
+					Name = "未命名",
+				};
+				//存到DB
+
+
+				db.MemberImages.AddOrUpdate(memberImage);
+
+				db.SaveChanges();
+
+				return RedirectToAction("Index");
+			}
+
+			return View(vm);
+
+		}
+
+
+		//[Authorize(Roles ="VIP")]
+		//public ActionResult Sample()
+		//{
+		//    AuthorizeAttribute
+		//    return View();
+		//}
+
+		protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
