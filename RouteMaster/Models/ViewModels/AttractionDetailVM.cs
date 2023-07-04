@@ -28,10 +28,14 @@ namespace RouteMaster.Models.ViewModels
 
 		public string Website { get; set; }
 
+		public List<string> Images { get; set; }
+
 		public string AverageScoreText { get; set; }
 
 		public string AverageStayHoursText { get; set; }
 
 		public string AveragePriceText { get; set; }
+
+		
 	}
 }

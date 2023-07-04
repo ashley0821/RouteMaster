@@ -28,7 +28,7 @@ namespace RouteMaster.Models.Dto
 
 		public string Website { get; set; }
 
-		
+		public List<string> Images { get; set; }
 
 		public double? AverageScore { get; set; }
 

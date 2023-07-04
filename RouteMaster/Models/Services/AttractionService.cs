@@ -32,7 +32,7 @@ namespace RouteMaster.Models.Services
 			return _repo.GetEditDto(id);
 		}
 
-		public Result Create(AttractionCreateDto dto)
+		public Result Create(AttractionCreateDto dto, HttpPostedFileBase[] files, String path)
 		{
 			// 判斷名稱是否已被用過
 			if (_repo.ExistAttraction(dto.Name))
@@ -42,7 +42,7 @@ namespace RouteMaster.Models.Services
 			}
 
 			// 新增一筆紀錄
-			_repo.Create(dto);
+			_repo.Create(dto, files, path);
 
 			return Result.Success();
 		}

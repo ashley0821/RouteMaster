@@ -1,23 +1,16 @@
-﻿@model RouteMaster.Models.EFModels.PackageTour
+﻿@model RouteMaster.Models.ViewModels.PackageTourIndexVM
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>詳細資料</h2>
 
 <div>
-    <h4>PackageTour</h4>
+
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Coupon.Id)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Coupon.Id)
-        </dd>
-
+    <dl class="dl-row">
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -33,6 +26,68 @@
         <dd>
             @Html.DisplayFor(model => model.Status)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CouponId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CouponId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Attractions)
+        </dt>
+        @foreach (var attraction in Model.Attractions)
+        {
+            <dd>@attraction.CategoryName</dd>
+            <dd>@attraction.Name</dd>
+            <dd>@attraction.Region</dd>
+            <dd>@attraction.Address</dd>
+            <dd>@attraction.Description</dd>
+            <dd>@attraction.Website</dd>
+            <dd>@attraction.AverageScore</dd>
+            <dd>@attraction.AveragePrice</dd>
+            <dd>@attraction.AverageStayHours</dd>
+            <dd>@attraction.PositionX</dd>
+            <dd>@attraction.PositionY</dd>
+        }
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activities)
+        </dt>
+        @foreach (var activity in Model.Activities)
+        {
+            <dd>@activity.ActivityCategoryName</dd>
+            <dd>@activity.AttractionName</dd>
+            <dd>@activity.Description</dd>
+            <dd>@activity.StartTime</dd>
+            <dd>@activity.EndTime</dd>
+            <dd>@activity.Price</dd>
+            <dd>@activity.Status</dd>
+        }
+
+
+
+        <dt>
+            @Html.DisplayNameFor(Model => Model.ExtraServices)
+        </dt>
+        @foreach (var extraService in Model.ExtraServices)
+        {
+            <dd>@extraService.AttractionName</dd>
+            <dd>@extraService.Name</dd>
+            <dd>@extraService.Description</dd>
+            <dd>@extraService.Price</dd>
+            <dd>@extraService.Status</dd>
+            
+        }
+
+
+
+
+
+
 
     </dl>
 </div>

@@ -1,0 +1,79 @@
+﻿@model RouteMaster.Models.ViewModels.Comments_AccommodationsCreateVM
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm("Create", "Comments_Accommodations", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+<div class="row">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.MemberAccount)
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.AccomodationId)
+
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "form-label col-md-2" })
+
+        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Pros, htmlAttributes: new { @class = "form-label col-md-2" })
+
+        @Html.EditorFor(model => model.Pros, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Pros, "", new { @class = "text-danger" })
+
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Cons, htmlAttributes: new { @class = "form-label col-md-2" })
+
+        @Html.EditorFor(model => model.Cons, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Cons, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Score, htmlAttributes: new { @class = "form-label col-md-2" })
+
+        @Html.EditorFor(model => model.Score, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Score, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.CommentImg, htmlAttributes: new { @class = "form-label col-md-2" })
+
+        <input type="file" name="file1" class="form-control" multiple="multiple" accept="image/*" />
+        @Html.ValidationMessageFor(model => model.CommentImg, "", new { @class = "text-danger" })
+    </div>
+
+
+
+
+    <div class="mb-3">
+        <input type="submit" value="送出" class="btn btn-success" />
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

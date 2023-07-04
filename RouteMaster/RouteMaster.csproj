@@ -134,6 +134,7 @@
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
     <Compile Include="Controllers\AdministratorsController.cs" />
     <Compile Include="Controllers\AttractionsController.cs" />
+    <Compile Include="Controllers\Comments_AccommodationsController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
     <Compile Include="Controllers\FAQsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -145,10 +146,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Dto\AccommodationCreateDto.cs" />
-    <Compile Include="Models\Dto\AccommodationDetailsDto.cs" />
-    <Compile Include="Models\Dto\AccommodationEditDto.cs" />
-    <Compile Include="Models\Dto\AccommodationIndexDto.cs" />
+    <Compile Include="Models\ActivitiesDetailsEditDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\AccommodationIndexDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\Service\ServiceInfoDto.cs" />
+    <Compile Include="Models\Dto\AccomodationDetailsEditDto.cs" />
     <Compile Include="Models\Dto\ActivitiesCreateDetailsDto.cs" />
     <Compile Include="Models\Dto\ActivitiesDetailsDto.cs" />
     <Compile Include="Models\Dto\ActivitiesEditDetailsDto.cs" />
@@ -159,16 +163,22 @@
     <Compile Include="Models\Dto\AttractionDetailDto.cs" />
     <Compile Include="Models\Dto\AttractionEditDto.cs" />
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
+    <Compile Include="Models\Dto\Comments_AccommodationsCreateDto.cs" />
+    <Compile Include="Models\Dto\AttractionListEditDto.cs" />
+    <Compile Include="Models\Dto\Comments_AccommodationsEditDto.cs" />
+    <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServicesDetailsDto.cs" />
+    <Compile Include="Models\Dto\ExtraServicesDetailsEditDto.cs" />
     <Compile Include="Models\Dto\FAQCreateDto.cs" />
     <Compile Include="Models\Dto\FAQEditDto.cs" />
     <Compile Include="Models\Dto\FAQIndexDto.cs" />
     <Compile Include="Models\Dto\MemberEditDto.cs" />
     <Compile Include="Models\Dto\MemberImageCreateDto.cs" />
+    <Compile Include="Models\Dto\MemberImageEditDto.cs" />
     <Compile Include="Models\Dto\MemberRegisterDto.cs" />
     <Compile Include="Models\Dto\OrderIndexDto.cs" />
     <Compile Include="Models\Dto\MemberCreateDto.cs" />
@@ -176,7 +186,7 @@
     <Compile Include="Models\Dto\PackageTourCreateDto.cs" />
     <Compile Include="Models\Dto\PackageTourEditDto.cs" />
     <Compile Include="Models\Dto\PackageTourIndexDto.cs" />
-    <Compile Include="Models\Dto\RoomCreateDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\Room\RoomCreateDto.cs" />
     <Compile Include="Models\Dto\TravelPlanCreateDto.cs" />
     <Compile Include="Models\Dto\TravelPlanEditDto.cs" />
     <Compile Include="Models\Dto\TravelPlanIndexDto.cs" />
@@ -227,15 +237,16 @@
     <Compile Include="Models\Infra\Criterias\ActivityIndexCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQSortManner.cs" />
+    <Compile Include="Models\Infra\Criterias\MemberCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\OrderCriteria.cs" />
     <Compile Include="Models\Infra\DapperRepositories\AccomodationDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ActivitiesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServiceDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServicesDetailsDapperRepository.cs" />
-    <Compile Include="Models\Infra\DapperRepositories\PackageTourDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\TravelPlanDapperRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\AccommodationEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\AttractionEFRepository.cs" />
+    <Compile Include="Models\Infra\EFRepositories\Comments_AccommodationsEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\FAQEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\MemberEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\ActivityEFRepository.cs" />
@@ -243,14 +254,14 @@
     <Compile Include="Models\Infra\EFRepositories\PackageTourEFRepository.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\Extensions\AccomodationDetailsExts.cs" />
+    <Compile Include="Models\Infra\Extensions\ActivitiesDetailsExts.cs" />
     <Compile Include="Models\Infra\Extensions\ActivittyExts.cs" />
     <Compile Include="Models\Infra\Extensions\AccommodationExts.cs" />
-
+    <Compile Include="Models\Infra\Extensions\Comments_AccommodationsExts.cs" />
     <Compile Include="Models\Infra\Extensions\AttractionExts.cs" />
-
     <Compile Include="Models\Infra\Extensions\AttractionListExts.cs" />
-
     <Compile Include="Models\Infra\Extensions\ExtraServiceExts.cs" />
+    <Compile Include="Models\Infra\Extensions\ExtraServicesDetailsExts.cs" />
     <Compile Include="Models\Infra\Extensions\FAQExts.cs" />
     <Compile Include="Models\Infra\Extensions\MemberExts.cs" />
     <Compile Include="Models\Infra\Extensions\OrderExts.cs" />
@@ -263,6 +274,7 @@
     <Compile Include="Models\Interfaces\IActivitiesDetailsRepository.cs" />
     <Compile Include="Models\Interfaces\IActivityRepository.cs" />
     <Compile Include="Models\Interfaces\IAttractionRepository.cs" />
+    <Compile Include="Models\Interfaces\IComments_AccommodationsRepository.cs" />
     <Compile Include="Models\Interfaces\IExtraServiceDetailsRepository.cs" />
     <Compile Include="Models\Interfaces\IFAQRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
@@ -271,6 +283,8 @@
     <Compile Include="Models\Services\AccomodationDetailsService.cs" />
     <Compile Include="Models\Services\ActivitiesDetailsService.cs" />
     <Compile Include="Models\Services\AttractionService.cs" />
+    <Compile Include="Models\Services\ExtraServicesDetailsService.cs" />
+    <Compile Include="Models\Services\Comments_AccommodationsService.cs" />
     <Compile Include="Models\Services\FAQService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Interfaces\IExtraServiceRepository.cs" />
@@ -285,20 +299,29 @@
     <Compile Include="Models\ViewModels\Accommodations\AccommodationEditVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccomodationDetailsVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\RoomIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomCreateVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomType.cs" />
+    <Compile Include="Models\ViewModels\AccomodationDetailsEditVM.cs" />
+    <Compile Include="Models\ViewModels\ActivitiesDetailsEditVM.cs" />
     <Compile Include="Models\ViewModels\ActivitiesDetailsIndexVM.cs" />
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
     <Compile Include="Models\ViewModels\ActivityIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionCreateVM.cs" />
+    <Compile Include="Models\ViewModels\AttractionCriteria.cs" />
     <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
     <Compile Include="Models\ViewModels\AttractionEditVM.cs" />
     <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
+    <Compile Include="Models\ViewModels\AttractionListEditVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AccommodationsCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AccommodationsEditVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AccommodationsIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionListIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceIndexVM.cs" />
+    <Compile Include="Models\ViewModels\ExtraServicesDetailsEditVM.cs" />
     <Compile Include="Models\ViewModels\FAQChangeImgVM.cs" />
     <Compile Include="Models\ViewModels\FAQCreateVM.cs" />
     <Compile Include="Models\ViewModels\FAQEditImgIndexVM.cs" />
@@ -311,6 +334,7 @@
     <Compile Include="Models\ViewModels\MemberEditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
     <Compile Include="Models\ViewModels\MemberImageCreateVM.cs" />
+    <Compile Include="Models\ViewModels\MemberImageEditVM.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVM.cs" />
     <Compile Include="Models\ViewModels\MemberRegisterVM.cs" />
     <Compile Include="Models\ViewModels\OrderInvdexVM.cs" />
@@ -340,21 +364,65 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="lib\datatables\css\dataTables.bootstrap.css" />
+    <Content Include="lib\datatables\css\dataTables.bootstrap.min.css" />
+    <Content Include="lib\datatables\css\dataTables.bootstrap4.css" />
+    <Content Include="lib\datatables\css\dataTables.bootstrap4.min.css" />
+    <Content Include="lib\datatables\css\dataTables.foundation.css" />
+    <Content Include="lib\datatables\css\dataTables.foundation.min.css" />
+    <Content Include="lib\datatables\css\dataTables.jqueryui.css" />
+    <Content Include="lib\datatables\css\dataTables.jqueryui.min.css" />
+    <Content Include="lib\datatables\css\dataTables.material.css" />
+    <Content Include="lib\datatables\css\dataTables.material.min.css" />
+    <Content Include="lib\datatables\css\dataTables.semanticui.css" />
+    <Content Include="lib\datatables\css\dataTables.semanticui.min.css" />
+    <Content Include="lib\datatables\css\dataTables.uikit.css" />
+    <Content Include="lib\datatables\css\dataTables.uikit.min.css" />
+    <Content Include="lib\datatables\css\jquery.dataTables.css" />
+    <Content Include="lib\datatables\css\jquery.dataTables.min.css" />
+    <Content Include="lib\datatables\css\jquery.dataTables_themeroller.css" />
+    <Content Include="lib\datatables\css\jquery.dataTables_themeroller.min.css" />
+    <Content Include="lib\datatables\images\sort_asc.png" />
+    <Content Include="lib\datatables\images\sort_asc_disabled.png" />
+    <Content Include="lib\datatables\images\sort_both.png" />
+    <Content Include="lib\datatables\images\sort_desc.png" />
+    <Content Include="lib\datatables\images\sort_desc_disabled.png" />
+    <Content Include="lib\datatables\js\dataTables.bootstrap.js" />
+    <Content Include="lib\datatables\js\dataTables.bootstrap.min.js" />
+    <Content Include="lib\datatables\js\dataTables.bootstrap4.js" />
+    <Content Include="lib\datatables\js\dataTables.bootstrap4.min.js" />
+    <Content Include="lib\datatables\js\dataTables.dataTables.js" />
+    <Content Include="lib\datatables\js\dataTables.dataTables.min.js" />
+    <Content Include="lib\datatables\js\dataTables.foundation.js" />
+    <Content Include="lib\datatables\js\dataTables.foundation.min.js" />
+    <Content Include="lib\datatables\js\dataTables.jqueryui.js" />
+    <Content Include="lib\datatables\js\dataTables.jqueryui.min.js" />
+    <Content Include="lib\datatables\js\dataTables.material.js" />
+    <Content Include="lib\datatables\js\dataTables.material.min.js" />
+    <Content Include="lib\datatables\js\dataTables.semanticui.js" />
+    <Content Include="lib\datatables\js\dataTables.semanticui.min.js" />
+    <Content Include="lib\datatables\js\dataTables.uikit.js" />
+    <Content Include="lib\datatables\js\dataTables.uikit.min.js" />
+    <Content Include="lib\datatables\js\jquery.dataTables.js" />
+    <Content Include="lib\datatables\js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -442,14 +510,32 @@
     <Content Include="Views\Members\Login.cshtml" />
     <Content Include="Views\Members\Register.cshtml" />
     <Content Include="Views\Members\EditPassword.cshtml" />
-
+    <Content Include="Views\Orders\_ExtraServicesDetailsEdit.cshtml" />
     <Content Include="Views\Attractions\Edit.cshtml" />
     <Content Include="Views\Attractions\Delete.cshtml" />
-
-
     <Content Include="Views\FAQs\Index.cshtml" />
     <Content Include="Views\FAQs\EditImgIndex.cshtml" />
+    <Content Include="Views\Comments_Accommodations\Create.cshtml" />
+    <Content Include="Views\Comments_Accommodations\Delete.cshtml" />
+    <Content Include="Views\Comments_Accommodations\Details.cshtml" />
+    <Content Include="Views\Comments_Accommodations\Edit.cshtml" />
+    <Content Include="Views\Comments_Accommodations\Index.cshtml" />
+    <Content Include="Views\Accommodations\RoomsIndex.cshtml" />
+    <Content Include="Views\Accommodations\EditServiceInfo.cshtml" />
 
+    <Content Include="Views\Orders\_AccomodationDetailsEdit.cshtml" />
+    <Content Include="Views\Orders\_ActivitiesDetailsEdit.cshtml" />
+    <Content Include="Views\Orders\AccomodationDetailsDelete.cshtml" />
+    <Content Include="Views\Orders\ExtraServicesDetailsDelete.cshtml" />
+    <Content Include="Views\Orders\ActivitiesDetailsDelete.cshtml" />
+
+
+    <Content Include="Views\Members\EditMemberImgae.cshtml" />
+
+    <Content Include="Views\FAQs\ChangeImg.cshtml" />
+    <Content Include="Views\FAQs\UploadImg.cshtml" />
+
+    <Content Include="Views\Comments_Accommodations\Comments.cshtml" />
 
   </ItemGroup>
   <ItemGroup>
