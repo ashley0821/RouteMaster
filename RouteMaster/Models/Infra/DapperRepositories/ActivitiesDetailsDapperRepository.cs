@@ -20,7 +20,7 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 				["AppDbContext"].ConnectionString;
 		}
 
-		public List<ActivitiesDetailsIndexVM>GetActivitiesDetails(int orderId)
+		public List<ActivitiesDetailsIndexVM>GetActivitiesDetails(int id)
 		{
 			
 			string sql = @"SELECT 
@@ -31,8 +31,8 @@ namespace RouteMaster.Models.Infra.DapperRepositories
       ,[EndTime]
       ,[Price]
       ,[Quantity]
-  FROM ActivitiesDetails where orderId = @orderId order by orderId";
-			IEnumerable<ActivitiesDetailsIndexVM>activitiesDetails=new SqlConnection(_connStr).Query<ActivitiesDetailsIndexVM>(sql, new { orderid = orderId });
+  FROM ActivitiesDetails where id = @id order by orderId";
+			IEnumerable<ActivitiesDetailsIndexVM>activitiesDetails=new SqlConnection(_connStr).Query<ActivitiesDetailsIndexVM>(sql, new { id });
             return activitiesDetails.ToList();
         }
 

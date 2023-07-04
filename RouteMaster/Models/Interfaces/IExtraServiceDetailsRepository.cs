@@ -20,6 +20,8 @@ namespace RouteMaster.Models.Interfaces
 
 		void Delete(int id);
 
-		List<ExtraServicesDetailsVM> GetExtraServicesDetails(int orderId);
+		List<ExtraServicesDetailsVM> GetExtraServicesDetails(int id);
+		ExtraServicesDetailsEditDto GetExtraServicesEditDetails(int id);
 	}
+
 }

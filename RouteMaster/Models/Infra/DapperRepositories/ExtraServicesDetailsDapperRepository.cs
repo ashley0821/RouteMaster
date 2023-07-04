@@ -22,7 +22,7 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 		}
 
 
-		public List<ExtraServicesDetailsVM> GetExtraServicesDetails(int orderId)
+		public List<ExtraServicesDetailsVM> GetExtraServicesDetails(int orderid)
 		{
 
 			string sql = @"SELECT [Id]
@@ -32,26 +32,26 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 		    ,[Price]
 		    ,[Quantity]
 		       FROM ExtraServicesDetails WHERE orderid = @orderid";
-			IEnumerable<ExtraServicesDetailsVM> extraServicesDetails = new SqlConnection(_connStr).Query<ExtraServicesDetailsVM>(sql, new { orderid = orderId });
+			IEnumerable<ExtraServicesDetailsVM> extraServicesDetails = new SqlConnection(_connStr).Query<ExtraServicesDetailsVM>(sql, new { orderid });
 			return extraServicesDetails.ToList();
 		}
 
-//		public void Edit(ExtraServicesDetailsDto dto)
-//		{
-//			using (var conn = new SqlConnection(_connStr))
-//			{
+		//		public void Edit(ExtraServicesDetailsDto dto)
+		//		{
+		//			using (var conn = new SqlConnection(_connStr))
+		//			{
 
-//				string sql = @"Update ExtraServicesDetails SET 
-//[OrderId]=@OrderId, 
-//[ExtraServiceId]=@ExtraServiceId, 
-//[ExtraServiceName]=@ExtraServiceName, 
-//[Price]=@Price, 
-//[Quantity]=@Quantity
-//WHERE Id=@Id";
+		//				string sql = @"Update ExtraServicesDetails SET 
+		//[OrderId]=@OrderId, 
+		//[ExtraServiceId]=@ExtraServiceId, 
+		//[ExtraServiceName]=@ExtraServiceName, 
+		//[Price]=@Price, 
+		//[Quantity]=@Quantity
+		//WHERE Id=@Id";
 
-//				conn.Execute(sql, dto);
-//			}
-//		}
+		//				conn.Execute(sql, dto);
+		//			}
+		//		}
 
 		public IEnumerable<ExtraServicesDetailsDto> Search()
 		{
@@ -96,21 +96,22 @@ WHERE Id=@Id";
 			}
 		}
 
-	
 
-		//ExtraServicesDetailsDto GetExtraServicesDetails(int id)
-		//{
-		//	string sql = @"SELECT [Id]
-		//    ,[OrderId]
-		//    ,[ExtraServiceId]
-		//    ,[ExtraServiceName]
-		//    ,[Price]
-		//    ,[Quantity]
-		//       FROM ExtraServicesDetails WHERE orderid = @orderid";
-		//	IEnumerable<ExtraServicesDetailsDto> extraServicesDetails = new SqlConnection(_connStr).Query<ExtraServicesDetailsDto>(sql, new { orderid = id });
-		//	return extraServicesDetails.ToList().FirstOrDefault();
 
-		//}
+		
+
+		ExtraServicesDetailsEditDto IExtraServiceDetailsRepository.GetExtraServicesEditDetails(int id)
+		{
+			string sql = @"SELECT [Id]
+		    ,[OrderId]
+		    ,[ExtraServiceId]
+		    ,[ExtraServiceName]
+		    ,[Price]
+		    ,[Quantity]
+		       FROM ExtraServicesDetails WHERE id = @id";
+			IEnumerable<ExtraServicesDetailsEditDto> extraServicesDetails = new SqlConnection(_connStr).Query<ExtraServicesDetailsEditDto>(sql, new { id });
+			return extraServicesDetails.ToList().FirstOrDefault();
+		}
 	}
 
 }

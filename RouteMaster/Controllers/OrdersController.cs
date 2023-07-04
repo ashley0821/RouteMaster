@@ -136,7 +136,7 @@ namespace RouteMaster.Controllers
 			ExtraServicesDetailsService service = new ExtraServicesDetailsService(repo);
 
 			
-			ExtraServicesDetailsVM editVM = service.GetExtraServicesDetails(id);
+			ExtraServicesDetailsEditVM editVM = service.GetExtraServicesEditDetails(id);
 
 			if (editVM == null)
 			{

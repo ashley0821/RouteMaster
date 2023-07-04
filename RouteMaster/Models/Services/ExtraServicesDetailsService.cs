@@ -1,6 +1,7 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.ViewModels;
 using System;
@@ -53,10 +54,10 @@ namespace RouteMaster.Models.Services
 			_repo.Delete(id);
 			return Result.Success();
 		}
-		public ExtraServicesDetailsVM GetExtraServicesDetails(int id)
+		public ExtraServicesDetailsEditVM GetExtraServicesEditDetails(int id)
 		{
-			var extraServicesDetailsInDb = _repo.GetExtraServicesDetails(id);
-			return extraServicesDetailsInDb.FirstOrDefault();
+
+			return _repo.GetExtraServicesEditDetails(id).ToEditVM();
 		}
 
 
