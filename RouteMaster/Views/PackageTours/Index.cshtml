@@ -44,35 +44,61 @@
         </td>
 
         <td>
-            @foreach(var attraction in item.Attractions)
+            @if (item.Attractions != null)
+            {
+                foreach (var attraction in item.Attractions)
                 {
                     <div>@attraction.Name</div>
                 }
-        </td>
-
-        <td>
-            @foreach (var activity in item.Activities)
+            }
+            else
             {
-                <div >
-                    <div>@activity.Name</div>
-                    <div>@activity.AttractionName</div>
-                    <div>@activity.StartTime</div>
-                    <div>@activity.EndTime</div>
-                    <div>@activity.Price</div>
-                </div>        
+                <div>No attractions available.</div>
             }
         </td>
 
+        <td>
+            @if (item.Activities != null)
+            {
+                foreach (var activity in item.Activities)
+                {
+                    <div>
+                        <div>@activity.Name</div>
+                        <div>@activity.AttractionName</div>
+                        <div>@activity.StartTime</div>
+                        <div>@activity.EndTime</div>
+                        <div>@activity.Price</div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div>No activities available.</div>
+            }
+
+
+
+
+        </td>
+
 
         <td>
-            @foreach (var extraService in item.ExtraServices)
+            @if (item.ExtraServices != null)
             {
-                <div>
-                    <div>@extraService.Name</div>
-                    <div>@extraService.AttractionName</div>
-                    <div>@extraService.Price</div>
-                </div>         
+                foreach (var extraService in item.ExtraServices)
+                {
+                    <div>
+                        <div>@extraService.Name</div>
+                        <div>@extraService.AttractionName</div>
+                        <div>@extraService.Price</div>
+                    </div>
+                }
             }
+            else
+            {
+                <div>No extraServices  available.</div>
+            }
+
         </td>
 
 

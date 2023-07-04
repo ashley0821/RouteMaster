@@ -35,6 +35,6 @@ namespace RouteMaster.Models.ViewModels
 
      
         [Display(Name = "景點列表")]
-        public List<AttractionIndexVM> Attractions { get; set; }
+        public List<AttractionListIndexVM> Attractions { get; set; }
     }
 }

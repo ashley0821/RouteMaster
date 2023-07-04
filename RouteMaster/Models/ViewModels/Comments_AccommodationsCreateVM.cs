@@ -10,13 +10,10 @@ namespace RouteMaster.Models.ViewModels
 	public class Comments_AccommodationsCreateVM
 	{
 		[Display(Name = "帳號名稱")]
-		public string Account { get; set; }
+		public string MemberAccount { get; set; }
 
 		[Display(Name = "住宿名稱")]
 		public int AccomodationId { get; set; }
-
-		[Display(Name = "評分")]
-		public float Score { get; set; }
 
 		[Display(Name = "評論標題")]
 		public string Title { get; set; }
@@ -27,8 +24,8 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "缺點")]
 		public string Cons { get; set; }
 
-		[Display(Name = "評論建立時間")]
-		[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}")]
-		public DateTime? CreateDate { get; set; }
+		[Display(Name = "評分")]
+		public float Score { get; set; }
+
 	}
 }

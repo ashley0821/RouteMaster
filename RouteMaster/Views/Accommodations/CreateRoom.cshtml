@@ -59,6 +59,7 @@
             margin-right: 32px;
             border-radius: 5px;
             border:solid 1px black;
+            width: 185px;
         }
         .progress-bar {
             border-radius: 5px;
@@ -148,7 +149,7 @@
                 <div class="d-flex justify-content-end">
                     <p class="small m-0" id="uploadContent"></p>
                 </div>
-                    <div class="progress-bar-div w-25 ms-auto">
+                    <div class="progress-bar-div ms-auto">
                         <div class="progress-bar h-100"></div>
                 </div>
             </div>
@@ -215,7 +216,7 @@
             filesAry.forEach(file => size += file[1].size);
 
             var TotalSize = +(Math.round((size / 1024000) + "e+2") + "e-2");
-            document.querySelector("#uploadContent").textContent = `已上傳的照片大小:${TotalSize} / 4MB`;
+            document.querySelector("#uploadContent").textContent = `已上傳的照片大小：${TotalSize} / 4MB`;
             $(".progress-bar-div").show();
             $(".progress-bar").show();
             if (TotalSize < 4) {

@@ -7,10 +7,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
+using RouteMaster.Models.ViewModels;
 
 namespace RouteMaster.Controllers
 {
@@ -45,11 +47,19 @@ namespace RouteMaster.Controllers
         }
 
         // GET: Comments_Accommodations/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id=1)
         {
-            ViewBag.AccommodationId = new SelectList(db.Accommodations, "Id", "Name");
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "FirstName");
-            return View();
+            //住宿id由特定住宿網址連接至Create，Autolink 其住宿id
+            if(id == null)
+            {
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+            Comments_AccommodationsCreateVM vm = new Comments_AccommodationsCreateVM();
+
+			vm.MemberAccount = User.Identity.Name;
+            vm.AccomodationId = (int)id;
+            
+            return View(vm);
         }
 
         // POST: Comments_Accommodations/Create
@@ -57,22 +67,31 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,MemberId,AccommodationId,Score,Title,Pros,Cons,CreateDate")] Comments_Accommodations comments_Accommodations)
+        public ActionResult Create(Comments_AccommodationsCreateVM vm, HttpPostedFileBase [] file1)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(vm);
+
+            Result result= ProcessCreate(vm, file1);
+
+            if (result.IsSuccess)
             {
-                db.Comments_Accommodations.Add(comments_Accommodations);
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.AccommodationId = new SelectList(db.Accommodations, "Id", "Name", comments_Accommodations.AccommodationId);
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "FirstName", comments_Accommodations.MemberId);
-            return View(comments_Accommodations);
+            else
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
+           
         }
 
-        // GET: Comments_Accommodations/Edit/5
-        public ActionResult Edit(int? id)
+		private Result ProcessCreate(Comments_AccommodationsCreateVM vm, HttpPostedFileBase[] file1)
+		{
+			throw new NotImplementedException();
+		}
+
+		// GET: Comments_Accommodations/Edit/5
+		public ActionResult Edit(int? id)
         {
             if (id == null)
             {
