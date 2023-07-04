@@ -15,6 +15,7 @@ using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.Dto;
 using RouteMaster.Models.Infra.Criterias;
+using System.Data.Entity.Migrations;
 
 namespace RouteMaster.Controllers
 {
@@ -118,25 +119,19 @@ namespace RouteMaster.Controllers
         }
 
 
-
         public ActionResult Index(MemberCriteria criteria)
         {
-            ViewBag.Criteria = criteria;
-
-            IEnumerable<MemberIndexVM> members = GetMembers();
+			ViewBag.Criteria = criteria;
+           
+			IEnumerable<MemberIndexVM> members = GetMembers(criteria);
             return View(members);
+		}
 
-            #region where這裡寫篩選條件
-
-            //這裡寫篩選條件
-            #endregion
-        }
-
-        public IEnumerable<MemberIndexVM> GetMembers()
+        public IEnumerable<MemberIndexVM> GetMembers(MemberCriteria criteria)
         {
             IMemberRepository repo = new MemberEFRepository();
             MemberService service = new MemberService(repo);
-            return service.Seacrh()
+            return service.Seacrh(criteria)
                 .Select(dto => new MemberIndexVM
                 {
                     Id = dto.Id,
@@ -172,13 +167,13 @@ namespace RouteMaster.Controllers
 				// 將檔名存入 vm裡
 				vm.Image = fileName; // ****
 
-			}
-            else
-            {
-                return View(vm);
+            }
+                     else
+                     {
+            return View(vm);
             }
 
-            
+
             Result result = RegisterMember(vm);
 
             if (result.IsSuccess)
@@ -192,7 +187,6 @@ namespace RouteMaster.Controllers
             }
         }
 
-		
 
 		private string SaveUploadedFile(string path, HttpPostedFileBase facePhoto1)
 		{
@@ -374,14 +368,65 @@ namespace RouteMaster.Controllers
             return View();
         }
 
-        //[Authorize(Roles ="VIP")]
-        //public ActionResult Sample()
-        //{
-        //    AuthorizeAttribute
-        //    return View();
-        //}
 
-        protected override void Dispose(bool disposing)
+        public  ActionResult EditMemberImgae(int? id)
+        {
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+            Member member = db.Members.Find(id);
+
+			if (member == null)
+			{
+				return HttpNotFound();
+			}
+			return View(member.ToMemberImageVM());
+		}
+
+        [HttpPost]
+        public ActionResult EditMemberImage(MemberImageEditVM vm, HttpPostedFileBase newFacePhoto)
+        {
+			string path = Server.MapPath("/Uploads");
+			var savedFileName = SaveUploadedFile(path, newFacePhoto);
+			vm.Image = savedFileName;
+
+			if (savedFileName == null) ModelState.AddModelError("Image", "請選擇檔案");
+
+			if (ModelState.IsValid)
+			{
+				var MemberInDb = db.Members.Find(vm.Id);
+				MemberInDb.Image = vm.Image;
+
+
+				MemberImage memberImage = new MemberImage
+				{
+					Image = vm.Image,
+					Name = "未命名",
+				};
+				//存到DB
+
+
+				db.MemberImages.AddOrUpdate(memberImage);
+
+				db.SaveChanges();
+
+				return RedirectToAction("Index");
+			}
+
+			return View(vm);
+
+		}
+
+
+		//[Authorize(Roles ="VIP")]
+		//public ActionResult Sample()
+		//{
+		//    AuthorizeAttribute
+		//    return View();
+		//}
+
+		protected override void Dispose(bool disposing)
         {
             if (disposing)
             {

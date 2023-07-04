@@ -15,36 +15,29 @@
     <form method="get">
         <div class="row">
             <div class="mb-3 col-md-3">
-                <label for="s_name">姓名</label>
-                <input type="text" class="form-control" name="FirstName" id="s_name" value="@criteria.FirstName">
-
+                <label for="s_firstname">名</label>
+                <input type="text" class="form-control" name="FirstName" id="s_firstname" value="@criteria.FirstName">
             </div>
             <div class="mb-3 col-md-3">
-                <label for="s_name">帳號</label>
-                <input type="text" class="form-control" name="name" id="s_name">
-
+                <label for="s_lastname">姓</label>
+                <input type="text" class="form-control" name="LastName" id="s_lastname" value="@criteria.LastName">
             </div>
             <div class="mb-3 col-md-3">
-                <label for="s_name">信箱</label>
-                <input type="text" class="form-control" name="name" id="s_name">
-
+                <label for="s_account">帳號</label>
+                <input type="text" class="form-control" name="Account" id="s_account" value="@criteria.Account">
             </div>
             <div class="mb-3 col-md-3">
-                <label for="s_name">手機號碼</label>
-                <input type="text" class="form-control" name="name" id="s_name">
-
+                <label for="s_email">信箱</label>
+                <input type="text" class="form-control" name="Email" id="s_email" value="@criteria.Email">
             </div>
             <div class="mb-3 col-md-3">
-                <label for="s_categoryId">商品分類</label>
-                <select name="categoryId" id="s_categoryId" class="form-select">
-                </select>
-
+                <label for="s_cellPhoneNumber">手機號碼</label>
+                <input type="text" class="form-control" name="CellPhoneNumber" id="s_cellPhoneNumber" value="@criteria.CellPhoneNumber">
             </div>
             <div class="mb-3 col-md-4">
-                <label for="s_minPrice" style="display: block">創建日期</label>
-                <input type="datetime" class="form-control" name="createDateBegin" id="s_minPrice" style="width: 40%; display: inline" value="@criteria.CreateDateBegin"> ~
-                <input type="datetime" class="form-control" name="createDateEnd" id="s_maxPrice" style="width: 40%; display: inline" value="@criteria.CreateDateEnd">
-
+                <label for="s_createDate" style="display: block">創建日期</label>
+                <input type="text" class="form-control" name="createDateBegin" id="createDateBegin" style="width: 40%; display: inline" value="@(criteria.CreateDateBegin.HasValue?criteria.CreateDateBegin.Value.ToString("yyyy'/'MM'/'dd"):"")"> ~
+                <input type="text" class="form-control" name="createDateEnd" id="createDateEnd" style="width: 40%; display: inline" value="@(criteria.CreateDateEnd.HasValue?criteria.CreateDateEnd.Value.ToString("yyyy'/'MM'/'dd"):"")">
             </div>
             <div class="mb-3 col-md-2 align-self-end">
                 <button class="btn btn-primary">Search</button>
@@ -129,10 +122,24 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("變更圖片", "Details", new { id = item.Id }) |
+                @Html.ActionLink("變更圖片", "EditMemberImgae", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </td>
         </tr>
     }
 
 </table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+    
+    $(document).ready(function () {
+        $("#createDateBegin").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd' }
+        $("#createDateEnd").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd' }
+
+    });
+
+
+    </script>
+}

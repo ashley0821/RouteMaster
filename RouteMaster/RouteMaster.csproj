@@ -161,13 +161,8 @@
     <Compile Include="Models\Dto\AttractionDetailDto.cs" />
     <Compile Include="Models\Dto\AttractionEditDto.cs" />
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
-
-
     <Compile Include="Models\Dto\Comments_AccommodationsCreateDto.cs" />
-
     <Compile Include="Models\Dto\AttractionListEditDto.cs" />
-
-
     <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
@@ -179,6 +174,7 @@
     <Compile Include="Models\Dto\FAQIndexDto.cs" />
     <Compile Include="Models\Dto\MemberEditDto.cs" />
     <Compile Include="Models\Dto\MemberImageCreateDto.cs" />
+    <Compile Include="Models\Dto\MemberImageEditDto.cs" />
     <Compile Include="Models\Dto\MemberRegisterDto.cs" />
     <Compile Include="Models\Dto\OrderIndexDto.cs" />
     <Compile Include="Models\Dto\MemberCreateDto.cs" />
@@ -307,10 +303,7 @@
     <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
     <Compile Include="Models\ViewModels\AttractionEditVM.cs" />
     <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
-
     <Compile Include="Models\ViewModels\AttractionListEditVM.cs" />
-
-
     <Compile Include="Models\ViewModels\Comments_AccommodationsCreateVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionListIndexVM.cs" />
@@ -329,6 +322,7 @@
     <Compile Include="Models\ViewModels\MemberEditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
     <Compile Include="Models\ViewModels\MemberImageCreateVM.cs" />
+    <Compile Include="Models\ViewModels\MemberImageEditVM.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVM.cs" />
     <Compile Include="Models\ViewModels\MemberRegisterVM.cs" />
     <Compile Include="Models\ViewModels\OrderInvdexVM.cs" />
@@ -513,10 +507,9 @@
     <Content Include="Views\Comments_Accommodations\Details.cshtml" />
     <Content Include="Views\Comments_Accommodations\Edit.cshtml" />
     <Content Include="Views\Comments_Accommodations\Index.cshtml" />
-
     <Content Include="Views\Accommodations\RoomsIndex.cshtml" />
     <Content Include="Views\Accommodations\EditServiceInfo.cshtml" />
-
+    <Content Include="Views\Members\EditMemberImgae.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
