@@ -412,29 +412,10 @@ namespace RouteMaster.Controllers
 				var MemberInDb = db.Members.Find(vm.Id);
 				MemberInDb.Image = vm.Image;
 
-                var MemberImageIndb = db.MemberImages.Find(vm.Id);
+                db.SaveChanges();
+
+                var MemberImageIndb = db.MemberImages.FirstOrDefault(m => m.MemberId == vm.Id);
                 MemberImageIndb.Image = vm.Image;
-
-
-                //_db.Members.Add(member);
-                //MemberImage memberImage = new MemberImage
-                //{
-                //    Image = dto.Image,
-                //    Name = "未命名",
-                //};
-                ////存到DB
-                //_db.MemberImages.Add(memberImage);
-                //_db.SaveChanges();
-
-                //比較分界點
-
-                //            MemberImage memberImage = new MemberImage
-                //{
-                //	Image = vm.Image,
-                //	Name = "未命名",
-                //};
-                ////存到DB
-
 
                 db.SaveChanges();
 

@@ -63,14 +63,12 @@
 
 
     <div class="mb-3">
-        <input type="submit" value="送出" class="btn btn-success" />
+        <input type="submit" value="送出" class="btn btn-success me-3" />
+        @Html.ActionLink("返回清單頁", "Index", new { id = "" }, new { @class = "btn btn-outline-dark" })
     </div>
 </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

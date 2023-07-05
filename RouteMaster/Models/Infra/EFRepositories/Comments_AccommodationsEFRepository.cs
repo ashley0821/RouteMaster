@@ -95,5 +95,27 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			_db.SaveChanges();
 		}
+
+		public bool ExistImgWithinComment(int id)
+		{
+			return _db.Comments_AccommodationImages.Any(i =>i.Comments_AccommodationId == id);
+		}
+
+		public void ClearImg(int id)
+		{
+			var imgList=_db.Comments_AccommodationImages.Where(i => i.Comments_AccommodationId==id).ToList();
+			foreach (var img in imgList)
+			{
+				_db.Comments_AccommodationImages.Remove(img);
+				_db.SaveChanges();
+			}
+		}
+
+		public void DeleteComment(int id)
+		{
+			Comments_Accommodations comment = _db.Comments_Accommodations.Find(id);
+			_db.Comments_Accommodations.Remove(comment);
+			_db.SaveChanges();	
+		}
 	}
 }

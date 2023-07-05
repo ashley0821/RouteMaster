@@ -20,7 +20,7 @@
                     <div class="card-body mt3 bg-dark">
 
                         @Html.ActionLink("變更", "ChangeImg", new { ImgId = item.Id }, new { @class = "btn btn-warning me-2" })
-                        @Html.ActionLink("刪除", "DeleteFAQImg", new { id = item.Id }, new { @class = "btn btn-danger" })
+                        @Html.ActionLink("刪除", "DeleteFAQImg", new { ImgId = item.Id, faqId= parentId }, new { @class = "btn btn-danger" })
                     </div>
                 </div>
             </div>
