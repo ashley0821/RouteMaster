@@ -1,15 +1,12 @@
-﻿@model RouteMaster.Models.ViewModels.ExtraServiceIndexVM
+﻿@model RouteMaster.Models.ViewModels.ExtraServiceEditVM
 
-@{
-    ViewBag.Title = "Details";
-}
 
-<h2>Details</h2>
+<h2>額外服務項目詳細資訊</h2>
 
 <div>
-    <h4>ExtraServiceIndexVM</h4>
+   
     <hr />
-    <dl class="dl-horizontal">
+    <dl class="row">
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -52,7 +49,6 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+<p>  
+    <a href="@Url.Action("Index")" class="btn btn-primary">返回清單頁面</a>
 </p>
