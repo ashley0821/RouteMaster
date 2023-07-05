@@ -10,9 +10,9 @@ namespace RouteMaster.Models.Dto
 	public class ExtraServiceIndexDto
 	{
         public int Id { get; set; }	
-        public string Name { get; set; }
 
-        //public int AttractionId { get; set; }
+        public string Name { get; set; }
+     
         public string AttractionName { get; set; }	
 
         public int Price { get; set; }

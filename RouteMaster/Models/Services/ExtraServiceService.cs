@@ -27,15 +27,35 @@ namespace RouteMaster.Models.Services
 
         public Result Create(ExtraServiceCreateDto dto)
         {
-            _repo.Create(dto);
-            return Result.Success();
+
+            if (_repo.ExistExtraService(dto.Name, dto.AttractionId))
+            {
+                return Result.Fail("該景點已存在此額外服務項目");
+            }
+            else
+            {
+                _repo.Create(dto);
+                return Result.Success();
+            }
+            
         }
 
         public Result Edit(ExtraServiceEditDto dto)
         {
-            _repo.Edit(dto);
-            return Result.Success();    
+
+            if (_repo.ExistExtraService(dto.Name, dto.AttractionId))
+            {
+                return Result.Fail("該景點已存在此額外服務項目");
+            }
+            else
+            {
+                _repo.Edit(dto);
+                return Result.Success();
+            }
+           
         }
+
+
 
         public Result Delete(int id)
         {
@@ -44,7 +64,8 @@ namespace RouteMaster.Models.Services
         }
 
 
-       public ExtraService GetExtraServiceById(int id)
+
+       public ExtraServiceEditDto GetExtraServiceById(int id)
         {
             var extraServiceInDb= _repo.GetExtraServiceById(id);
             return extraServiceInDb;

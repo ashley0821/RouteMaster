@@ -20,13 +20,13 @@
                     <div class="card-body mt3 bg-dark">
 
                         @Html.ActionLink("變更", "ChangeImg", new { ImgId = item.Id }, new { @class = "btn btn-warning me-2" })
-                        @Html.ActionLink("刪除", "DeleteImg", new { id = item.Id }, new { @class = "btn btn-danger" })
+                        @Html.ActionLink("刪除", "DeleteImg", new { ImgId = item.Id, CommentId = item.CommentId}, new { @class = "btn btn-danger" })
                     </div>
                 </div>
-            </div>
+            </div>  
         }
 
-    </div>
+    </div>      
 </div>
 <div class="mt-3">
     @Html.ActionLink("上傳新圖", "UploadImg", new { id = parentId }, new { @class = "btn btn-success ms-3" })

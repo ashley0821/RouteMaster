@@ -27,7 +27,7 @@
 </table>
 <div class="d-flex justify-content-end row">
     <p class="btn btn-lg btn-outline-dark col-2">
-        @Html.ActionLink("新增另一間客房資訊", "CreateRoom", new { id = Model.FirstOrDefault().AccommodationId })
+        @Html.ActionLink("新增另一間客房資訊", "CreateRoom", new { id = ViewBag.Id })
     </p>
     <div class="col-2"></div>
 </div>

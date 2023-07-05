@@ -36,9 +36,9 @@ namespace RouteMaster.Controllers
         }
         
         // 合夥人的住宿列表
-        public ActionResult MyAccommodationIndex()
+        public ActionResult MyAccommodationIndex(int? id)
         {
-			IEnumerable<AccommodationIndexVM> accommodations = GetAccommodations();
+			IEnumerable<AccommodationIndexVM> accommodations = GetAccommodations(id);
 
             //var accommodations = db.Accommodations.Include(a => a.Partner).Include(a => a.Region).Include(a => a.Town);
 
@@ -84,7 +84,6 @@ namespace RouteMaster.Controllers
                 
             ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", vm.TownId);
             if (!ModelState.IsValid) return View(vm);
-            //建立新會員
 
             Result result = CreateAccommodation(vm);
 
@@ -127,13 +126,13 @@ namespace RouteMaster.Controllers
 
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AccommodationEditVM vm)
+        public ActionResult Edit(AccommodationEditVM vm, HttpPostedFileBase[] files)
         {
 			ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
 			ViewBag.TownId = new SelectList(db.Towns.Where(t => t.RegionId == vm.RegionId), "Id", "Name", vm.TownId);
 			if (!ModelState.IsValid) return View(vm);
 
-			Result result = EditAccommodationProfile(vm);
+			Result result = EditAccommodationProfile(vm, files);
 
 			if (result.IsSuccess)
 			{
@@ -199,10 +198,11 @@ namespace RouteMaster.Controllers
 		}
 
 		// 客房列表
-        public ActionResult RoomsIndex(int? id)
+        public ActionResult RoomsIndex(int id)
         {
             var rooms = db.Rooms.Where(r => r.AccommodationId == id).Include(a => a.RoomImages);
 
+            ViewBag.Id = id;
             return View(rooms.ToList().Select(r => r.ToVM()));
         }
 
@@ -301,12 +301,13 @@ namespace RouteMaster.Controllers
 				});
 		}
 
-		private Result EditAccommodationProfile(AccommodationEditVM vm)
+		private Result EditAccommodationProfile(AccommodationEditVM vm, HttpPostedFileBase[] files)
 		{
+			string path = Server.MapPath("~/Uploads");
 			IAccommodationRepository repo = new AccommodationEFRepository();
 			AccommodationService service = new AccommodationService(repo);
 
-			return service.EditAccommodationProfile(vm.ToDto());
+			return service.EditAccommodationProfile(vm.ToDto(), files, path);
 		}
 
 		public ActionResult Delete(int? id)
@@ -359,12 +360,12 @@ namespace RouteMaster.Controllers
             return service.Create(vm.ToDto());
         }
 
-		private IEnumerable<AccommodationIndexVM> GetAccommodations()
+		private IEnumerable<AccommodationIndexVM> GetAccommodations(int? id)
 		{
 			IAccommodationRepository repo = new AccommodationEFRepository();
 			//IProductRepository repo = new ProductDapperRepository();
 			AccommodationService service = new AccommodationService(repo);
-			return service.Search().
+			return service.Search(id).
 				Select(dto => dto.ToVM()).OrderByDescending(dto=>dto.Id);
 		}
 

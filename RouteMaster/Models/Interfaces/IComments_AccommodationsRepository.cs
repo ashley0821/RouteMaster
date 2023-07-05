@@ -15,5 +15,11 @@ namespace RouteMaster.Models.Interfaces
 		void Create(Comments_AccommodationsCreateDto dto, HttpPostedFileBase[] file1, string path);
 
 		void Update(Comments_AccommodationsEditDto dto);
+
+		bool ExistImgWithinComment(int id);
+
+		void ClearImg(int id);
+
+		void DeleteComment(int id);
 	}
 }

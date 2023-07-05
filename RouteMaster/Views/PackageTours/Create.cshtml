@@ -18,6 +18,12 @@
             height: 30px;
         }
     </style>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
+    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
+
+
+
 }
 
 <div id="actPartialView">
@@ -108,12 +114,50 @@
 
 @section Scripts {
 
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+
+
+
+    <script>
+
+
+        new DataTable('#attractionTable', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+            },
+            responsive: true
+        });
+
+
+        new DataTable('#extraServiceTable', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+            },
+            responsive: true
+        });
+
+
+
+        new DataTable('#activitiyTable', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+            },
+            responsive: true
+        });
+        
+
+    </script>
+
+
+
+
+
     <script>
         const activities = @Html.Raw(Json.Encode(ViewBag.Activities));
         const actsContainer = document.querySelector("#activityContainer");
-        bindingSelectAct();
-
-        console.log(activities);
         function bindingSelectAct() {
             let addActBtns = document.querySelectorAll(".addActivity");
 
@@ -125,31 +169,38 @@
                     actsContainer.appendChild(newActivity);
                     addActBtns[i].disabled = true;
 
-                    //var nameExists = false;
+                    var nameExists = false;
 
                     for (let j = 0; j < activities.length; j++) {
                         if (activities[j].Id == id) {
 
-                            //let children = actsContainer.childNodes;              
+                            //console.log(typeof (activities[j].Name))
+                            //console.log((activities[j].Name))
 
-                            //for (let k = 0; k < children.length; k++) {                              
+                            let children = actsContainer.childNodes;
+                            //console.log(children);
 
-                            //    if (children[k].textContent == activities[j].name) {
+                            for (let k = 0; k < children.length; k++) {
 
-                            //        nameExists = true;
-                                    
-                            //        break;
-                            //    }
-                            //}
+                                //console.log(typeof (children[k].textContent))
 
+                                //console.log(children[k].textContent)
 
-                            //if (nameExists)
-                            //{
-                            //    return;
-                            //}
+                                if (children[k].textContent == activities[j].Name) {
+
+                                    nameExists = true;
+                                    //console.log(nameExists);
+
+                                    break;
+                                }
+                            }
+
+                            if (nameExists)
+                            {
+                                return;
+                            }
 
                             newActivity.textContent = activities[j].Name;
-
 
 
                             // 生成複選框
@@ -175,10 +226,7 @@
             }
 
         }
-
-
-
-
+        bindingSelectAct();
 
 
 
@@ -329,38 +377,7 @@
 
 
 
-        //document.querySelector('#actSearch').addEventListener('click', function () {
-        //    var criteria = getSearchCriteria();
 
-
-
-        //    var url = '/PackageTours/ActivitiesList?name='
-        //        + encodeURIComponent(criteria.name)
-        //        + '&activityCategoryId=' + encodeURIComponent(criteria.activityCategoryId)
-        //        + '&attractionId=' + encodeURIComponent(criteria.attractionId)
-        //        + '&regionId=' + encodeURIComponent(criteria.regionId)
-        //        + '&minPrice=' + encodeURIComponent(criteria.minPrice)
-        //        + '&maxPrice=' + encodeURIComponent(criteria.maxPrice)
-        //        + '&startDate=' + encodeURIComponent(criteria.startDate)
-        //        + '&endDate=' + encodeURIComponent(criteria.endDate)
-        //        + '&ShowAvailableOnly=' + encodeURIComponent(criteria.showAvailableOnly)
-        //        + '&random=';
-
-
-
-        //    var xhr = new XMLHttpRequest();
-        //    xhr.open('GET', url, true);
-
-        //    xhr.onreadystatechange = function () {
-        //        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        //            let response = xhr.responseText;
-        //            let partialViewContainer = document.querySelector('#ActivityPartial');
-        //            partialViewContainer.innerHTML = response;
-        //            bindEventHandlers();
-        //        }
-        //    };
-        //    xhr.send();
-        //});
 
 
 
@@ -368,9 +385,9 @@
 
 
         document.querySelector('#ActivityPartial').addEventListener('click', function (event) {
-            // 检查被点击的元素是否是目标按钮
+            // 檢查被點擊的目標是否是目標按鍵
             if (event.target && event.target.id === 'actSearch') {
-                // 处理按钮点击事件的逻辑
+                // 處理按鈕事件的邏輯
                 var criteria = getSearchCriteria();
 
                 var url = '/PackageTours/ActivitiesList?name='
@@ -392,7 +409,7 @@
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                         let response = xhr.responseText;
                         let partialViewContainer = document.querySelector('#ActivityPartial');
-                        partialViewContainer.innerHTML = response; 
+                        partialViewContainer.innerHTML = response;
 
                         //重新綁定事件
                         bindingSelectAct();

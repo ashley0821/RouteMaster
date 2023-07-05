@@ -8,13 +8,13 @@ namespace RouteMaster.Models.ViewModels
 {
 	public class ExtraServiceIndexVM
 	{
+
+        [Display(Name = "額外服務項目編號")]
         public int Id { get; set; }
 
 
-		[Display(Name="額外活動名稱")]
-		public string Name { get; set; }
-
-		//public int AttractionId { get; set; }
+		[Display(Name="額外活動名稱")]      
+        public string Name { get; set; }	
 
 
 		[Display(Name = "附屬景點")]
@@ -24,10 +24,13 @@ namespace RouteMaster.Models.ViewModels
 
 		public int Price { get; set; }
 
-		[Display(Name = "服務項目說明")]
-		public string Description { get; set; }
 
-		public string DescriptionText
+        [Display(Name = "服務項目說明")]
+        public string Description { get; set; }
+
+
+        [Display(Name = "服務項目說明")]
+        public string DescriptionText
 		{
 			get
 			{
@@ -38,10 +41,13 @@ namespace RouteMaster.Models.ViewModels
 		}
 
 
-		[Display(Name = "上架狀態")]
-		public bool Status { get; set; }
+        [Display(Name = "上架狀態")]
+        public bool Status { get; set; }
 
-		public string StatusText
+
+
+        [Display(Name = "上架狀態")]
+        public string StatusText
 		{
 			get
 			{

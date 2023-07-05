@@ -12,13 +12,28 @@
 }
 
 
+@section Styles{
 
-<style>
+    <style>
+        thead {
+            background-color: lightblue;
+            color: black;
+        }
+    </style>
 
-    .addActivity {
-        background-color: lightcoral
-    }
-</style>
+
+
+    <style>
+
+
+        .addActivity {
+            background-color: lightcoral
+        }
+    </style>
+
+
+
+}
 
 
 
@@ -95,99 +110,100 @@
     </script>
 
 
-
-
-
-
-
-
-
-
-
-
-    <table class="table" id="actTable">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ActivityCategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AttractionName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RegionName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DescriptionText)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StatusText)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    <h2>活動一覽</h2>
+    <table class="table" id="activitiyTable">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ActivityCategoryName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AttractionName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RegionName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DescriptionText)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StatusText)
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-primary addActivity" data-id="@item.Id">Add</button>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActivityCategoryName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AttractionName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RegionName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DescriptionText)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StatusText)
+                </th>
+                <th></th>
             </tr>
-        }
-
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActivityCategoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AttractionName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegionName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DescriptionText)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StatusText)
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-primary addActivity" data-id="@item.Id">Add</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 
- </div>
+
+
+
+
+   
+      
+
+
+</div>
 
 
 
@@ -197,7 +213,7 @@
 
 
 
-  
+
 
 
 }
