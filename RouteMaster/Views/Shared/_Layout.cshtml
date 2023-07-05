@@ -9,6 +9,8 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("styles", required: false)
+    <link rel="stylesheet" href="~/Content/UploadImage.css" />
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="~/assets/img/favicon/favicon.ico" />
 
@@ -52,23 +54,22 @@
                 margin-right: 0 !important;
                 margin-left: 0 !important;
                 z-index: 1080;
-                
                 overscroll-behavior: none;
             }
 
             .layout-page {
                 margin-left: 16.25rem;
             }
-            .menu-inner{
-                overflow-y:auto;
-                overscroll-behavior:none;
-            }
-            .menu-inner::-webkit-scrollbar {
-                display: none;
+
+            .menu-inner {
+                overflow-y: auto;
+                overscroll-behavior: none;
             }
 
+                .menu-inner::-webkit-scrollbar {
+                    display: none;
+                }
         }
-        
     </style>
 
 </head>
@@ -444,8 +445,8 @@
     <script src="~/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="~/assets/vendor/js/bootstrap.js"></script>
     <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
     <script src="~/assets/vendor/js/menu.js"></script>
+    <script src="~/Scripts/UploadImage.js"></script>
     <!-- endbuild -->
     <!-- Vendors JS -->
     <!-- Main JS -->
@@ -455,17 +456,6 @@
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script>
-
-        function shrinkWindow() {
-            // 设置要缩小的窗口大小（这里设置为宽度和高度的一半）
-            var width = window.innerWidth / 10;
-            var height = window.innerHeight / 10;
-
-            // 缩小窗口
-            window.resizeTo(width, height);
-            console.log(123);
-        }
-        shrinkWindow();
 
     </script>
 </body>
