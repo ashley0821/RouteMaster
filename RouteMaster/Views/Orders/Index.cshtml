@@ -154,7 +154,7 @@
         $(document).ready(function () {
             $("#orderTable").dataTable({
                 ajax: {
-                    type: "GET",
+                    type: "POST",
                     url: `${baseAddress}/Orders/GetOrders/`,
                     dataSrc: function (data) {
                         console.log(data);

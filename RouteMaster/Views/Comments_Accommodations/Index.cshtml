@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("新增評論", "Create", new { id = "" }, new { @class = "btn btn-outline-success" })
 </p>
-<table class="table">
+<table class="table table-light table-bordered border-primary align-middle">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Account)
@@ -32,7 +32,9 @@
         <th>
             @Html.DisplayNameFor(model => model.CreateDate)
         </th>
-        <th></th>
+        <th class="text-center">
+            管理功能
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -58,9 +60,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.CreateDate)
         </td>
-        <td>
+        <td class="text-center">
             @Html.ActionLink("修改", "Edit", new { id=item.Id }, new { @class = "btn btn-warning" }) |
-            @Html.ActionLink("圖片庫", "ImgIndex", new { id=item.Id }, new { @class = "btn btn-outline-secondary" }) |
+            @Html.ActionLink("圖片庫", "ImgIndex", new { id=item.Id }, new { @class = "btn btn-outline-secondary ms-1 me-1" }) |
             @Html.ActionLink("刪除", "Delete", new { id=item.Id }, new { @class = "btn btn-danger" })
         </td>
     </tr>

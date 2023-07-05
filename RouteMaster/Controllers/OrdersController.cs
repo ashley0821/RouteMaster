@@ -305,7 +305,8 @@ namespace RouteMaster.Controllers
 			ViewBag.MemberId = new SelectList(member, "Id", "Name", MemberId);
 		}
 
-		public async Task<IEnumerable<OrderIndexVM>> GetOrders()
+		[HttpPost]
+		public ActionResult GetOrders()
 		{
 			if (db.Orders == null)
 			{
@@ -313,21 +314,21 @@ namespace RouteMaster.Controllers
 			}
 			//DbSet是紀錄的集合，他是可以列舉的，所以我們把ToList刪除掉
 
-			return db.Orders.Select(order => new OrderIndexVM
+			IEnumerable<OrderIndexVM> data = db.Orders.Select(order => new OrderIndexVM
 			{
 				Id = order.Id,
-				MemberId = order.MemberId,
 				MemberName = order.Member.FirstName,
 				PaymentMethodName = order.PaymentMethod.Name,
-				PaymentStatus =order.PaymentStatus,
 				CreateDate = order.CreateDate,
 				Total = order.Total
-			});
+			}).ToList();
+			return Json(data, JsonRequestBehavior.AllowGet);
+
 		}
 		public ActionResult GetOrdersData()
 		{
 			var orders = GetOrders(); // 调用你的 GetOrders() 方法获取订单数据
-			return Json(orders, JsonRequestBehavior.AllowGet);
+			return Json(orders);
 		}
 
 
