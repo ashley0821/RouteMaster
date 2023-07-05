@@ -154,7 +154,7 @@
                 </td>
                 <td>
                     @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-light" }) 
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-light" })
                     @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                 </td>
             </tr>
@@ -193,50 +193,52 @@
             responsive: true
         });
     </script>
-    @*<script>
+  
+   <script>
+       const generateExcel = (data) => {
+          
+           const csvContent = "data:text/csv;charset=utf-8," + data.map(row => Object.values(row).join(",")).join("\n");
 
-        function exportExcel() {
-            var criteria = {
-                MemberName: $('#MemberName').val(),
-                PaymentStatus: parseInt($('#s_PaymentStatus').val()),
-                CreateStartDate: $('#s_CreateStartDate').val(),
-                CreateEndDate: $('#s_CreateEndDate').val()
-            };
+           const downloadLink = document.createElement("a");
+           downloadLink.href = encodeURI(csvContent);
+           downloadLink.download = "data.xlsx"; 
+
+           downloadLink.click();
+       };
+
+       const exportExcel = () => {
+           let list = []; 
+
+          
+           const table = document.getElementById("orderTable"); 
+           const tbody = table.getElementsByTagName("tbody")[0];
+           const rows = tbody.getElementsByTagName("tr");
+
+           for (let i = 0; i < rows.length; i++) {
+               const row = rows[i];
+               const cells = row.getElementsByTagName("td");
 
             
-            for (var prop in criteria) {
-                if (criteria.hasOwnProperty(prop) && (criteria[prop] === null || criteria[prop] === "")) {
-                    delete criteria[prop];
-                }
-            }
+               const obj = {
+                   Id: cells[0].innerText,
+                   MemberName: cells[1].innerText,
+                   PaymentMethodName: cells[2].innerText,
+                   CreateDate: cells[3].innerText,
+                   Total: cells[4].innerText,
+                   PaymentStatusText: cells[5].innerText,
+               };
 
-            var data = { criteria: criteria };
+             
+               list.push(obj);
+           }
+           /*console.log(list);*/
+           
+           generateExcel(list);
 
-            $.ajax({
-                url: 'http://localhost:44371/Orders/GetOrders',
-                method: 'POST',
-                data: data,
-                xhrFields: {
-                    responseType: 'blob'
-                },
-                success: function (response) {
-                    var downloadLink = document.createElement("a");
-                    var fileURL = URL.createObjectURL(response);
-                    downloadLink.href = fileURL;
-                    downloadLink.download = "Orders.xlsx"; 
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    document.body.removeChild(downloadLink);
-                    URL.revokeObjectURL(fileURL); 
-                },
-                error: function (xhr, status, error) {
-                    
-                    console.log(error);
-                }
-            });
-        }
-    </script>*@
-
+          
+          
+       };
+    </script>
 
 
 
