@@ -142,6 +142,7 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PackageToursController.cs" />
     <Compile Include="Controllers\PartnersController.cs" />
+    <Compile Include="Controllers\PaymentMethodsController.cs" />
     <Compile Include="Controllers\TravelPlansController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -187,6 +188,10 @@
     <Compile Include="Models\Dto\PackageTourEditDto.cs" />
     <Compile Include="Models\Dto\PackageTourIndexDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Room\RoomCreateDto.cs" />
+    <Compile Include="Models\Dto\PaymentMethodCreateDto.cs" />
+    <Compile Include="Models\Dto\PaymentMethodDeleteDto.cs" />
+    <Compile Include="Models\Dto\PaymentMethodDto.cs" />
+    <Compile Include="Models\Dto\PaymentMethodEditDto.cs" />
     <Compile Include="Models\Dto\TravelPlanCreateDto.cs" />
     <Compile Include="Models\Dto\TravelPlanEditDto.cs" />
     <Compile Include="Models\Dto\TravelPlanIndexDto.cs" />
@@ -252,6 +257,7 @@
     <Compile Include="Models\Infra\EFRepositories\ActivityEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\OrderEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\PackageTourEFRepository.cs" />
+    <Compile Include="Models\Infra\EFRepositories\PaymentMethodEFRepository.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\Extensions\AccomodationDetailsExts.cs" />
     <Compile Include="Models\Infra\Extensions\ActivitiesDetailsExts.cs" />
@@ -266,6 +272,7 @@
     <Compile Include="Models\Infra\Extensions\MemberExts.cs" />
     <Compile Include="Models\Infra\Extensions\OrderExts.cs" />
     <Compile Include="Models\Infra\Extensions\PackageTourExts.cs" />
+    <Compile Include="Models\Infra\Extensions\PaymentMethodExts.cs" />
     <Compile Include="Models\Infra\Extensions\TravelPlanExts.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\Result.cs" />
@@ -279,6 +286,7 @@
     <Compile Include="Models\Interfaces\IFAQRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
     <Compile Include="Models\Interfaces\IPackageTourRepository.cs" />
+    <Compile Include="Models\Interfaces\IPaymentMethod.cs" />
     <Compile Include="Models\Interfaces\ITravelPlanRepository.cs" />
     <Compile Include="Models\Services\AccomodationDetailsService.cs" />
     <Compile Include="Models\Services\ActivitiesDetailsService.cs" />
@@ -293,6 +301,7 @@
     <Compile Include="Models\Services\ActivityService.cs" />
     <Compile Include="Models\Services\ExtraServiceService.cs" />
     <Compile Include="Models\Services\PackageTourService.cs" />
+    <Compile Include="Models\Services\PaymentMethodService.cs" />
     <Compile Include="Models\Services\TravelPlanService.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationCreateVM.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
@@ -345,6 +354,9 @@
     <Compile Include="Models\ViewModels\PackageTourCreateVM.cs" />
     <Compile Include="Models\ViewModels\PackageTourEditVM.cs" />
     <Compile Include="Models\ViewModels\PackageTourIndexVM.cs" />
+    <Compile Include="Models\ViewModels\PaymentMethodCreateVM.cs" />
+    <Compile Include="Models\ViewModels\PaymentMethodEditVM.cs" />
+    <Compile Include="Models\ViewModels\PaymentMethodIndexVM.cs" />
     <Compile Include="Models\ViewModels\TravelPlanCreateVM.cs" />
     <Compile Include="Models\ViewModels\TravelPlanEditVM.cs" />
     <Compile Include="Models\ViewModels\TravelPlanIndexVM.cs" />
@@ -614,6 +626,11 @@
     <Content Include="Views\Comments_Accommodations\Comments.cshtml" />
     <Content Include="Views\Members\EditPassword.cshtml" />
     <Content Include="Views\Comments_Accommodations\ImgIndex.cshtml" />
+    <Content Include="Views\PaymentMethods\Create.cshtml" />
+    <Content Include="Views\PaymentMethods\Delete.cshtml" />
+    <Content Include="Views\PaymentMethods\Details.cshtml" />
+    <Content Include="Views\PaymentMethods\Edit.cshtml" />
+    <Content Include="Views\PaymentMethods\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
