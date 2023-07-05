@@ -21,5 +21,6 @@ namespace RouteMaster.Models.Dto
 
 		public float Score { get; set; }
 
+
 	}
 }

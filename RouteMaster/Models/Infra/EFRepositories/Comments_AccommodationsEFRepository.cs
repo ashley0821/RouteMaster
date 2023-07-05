@@ -41,17 +41,15 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			_db.Comments_Accommodations.Add(commAccDb);
 
-			Comments_AttractionImages img = new Comments_AttractionImages();
+			Comments_AccommodationImages img = new Comments_AccommodationImages();
 
-			if(file1.Length > 0)
-			{
 				foreach(var i in file1)
 				{
 					if (i != null)
 					{
 						string fileName = SaveUploadedFile(path, i);
 						img.Image = fileName;
-						_db.Comments_AttractionImages.Add(img);
+						_db.Comments_AccommodationImages.Add(img);
 						_db.SaveChanges();
 					}
 					else
@@ -59,7 +57,6 @@ namespace RouteMaster.Models.Infra.EFRepositories
 						_db.SaveChanges();
 					}
 				}
-			}
 			
 		}
 
@@ -85,6 +82,18 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			// 傳回存放的檔名
 			return newFileName;
+		}
+
+		public void Update(Comments_AccommodationsEditDto dto)
+		{
+			var commAccDb = _db.Comments_Accommodations.Find(dto.Id);
+
+			commAccDb.Title = dto.Title;
+			commAccDb.Pros=dto.Pros;
+			commAccDb.Cons=dto.Cons;
+			commAccDb.Score=dto.Score;
+
+			_db.SaveChanges();
 		}
 	}
 }

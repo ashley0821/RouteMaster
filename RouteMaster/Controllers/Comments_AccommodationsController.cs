@@ -56,7 +56,7 @@ namespace RouteMaster.Controllers
 			}
             Comments_AccommodationsCreateVM vm = new Comments_AccommodationsCreateVM();
 
-			vm.MemberAccount = User.Identity.Name;
+            vm.MemberAccount = "Allen"; //之後串接完成改User.Identity.Name########
             vm.AccomodationId = (int)id;
             
             return View(vm);
@@ -67,7 +67,7 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Comments_AccommodationsCreateVM vm, HttpPostedFileBase [] file1)
+        public ActionResult Create(Comments_AccommodationsCreateVM vm, HttpPostedFileBase[] file1)
         {
             if (!ModelState.IsValid) return View(vm);
 
@@ -87,7 +87,12 @@ namespace RouteMaster.Controllers
 
 		private Result ProcessCreate(Comments_AccommodationsCreateVM vm, HttpPostedFileBase[] file1)
 		{
-			throw new NotImplementedException();
+			string path = Server.MapPath("~/Uploads");
+			IComments_AccommodationsRepository repo = new Comments_AccommodationsEFRepository();
+            Comments_AccommodationsService service = new Comments_AccommodationsService(repo);
+
+             return service.Create(vm.ToCreateDto(), file1, path);
+
 		}
 
 		// GET: Comments_Accommodations/Edit/5
@@ -97,14 +102,14 @@ namespace RouteMaster.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comments_Accommodations comments_Accommodations = db.Comments_Accommodations.Find(id);
-            if (comments_Accommodations == null)
+            Comments_Accommodations commAccDb = db.Comments_Accommodations.Find(id);
+            if (commAccDb == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AccommodationId = new SelectList(db.Accommodations, "Id", "Name", comments_Accommodations.AccommodationId);
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "FirstName", comments_Accommodations.MemberId);
-            return View(comments_Accommodations);
+            Comments_AccommodationsEditVM vm = commAccDb.ToEditDto().ToEditVM();
+
+			return View(vm);
         }
 
         // POST: Comments_Accommodations/Edit/5
@@ -112,21 +117,60 @@ namespace RouteMaster.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,MemberId,AccommodationId,Score,Title,Pros,Cons,CreateDate")] Comments_Accommodations comments_Accommodations)
+        public ActionResult Edit(Comments_AccommodationsEditVM vm)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(vm);
+
+            Result result = UpdateComment(vm);
+
+            if(result.IsFalse)
             {
-                db.Entry(comments_Accommodations).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+				ModelState.AddModelError(string.Empty, errorMessage: result.ErrorMessage);
+				return View(vm);
+			}
+			return RedirectToAction("Index");
+		}
+
+		private Result UpdateComment(Comments_AccommodationsEditVM vm)
+		{
+            IComments_AccommodationsRepository repo = new Comments_AccommodationsEFRepository();
+            Comments_AccommodationsService service = new Comments_AccommodationsService(repo);
+
+            return service.Update(vm.ToEditDto());
+		}
+
+		//GET:Comments_AccommodationImages
+        public ActionResult ImgIndex(int? id)
+        {
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+            ViewBag.Id = id;
+
+            var imgShow= db.Comments_AccommodationImages.Where(i => i.Comments_AccommodationId == id);
+            if(imgShow == null)
+            {
+                return HttpNotFound();
+			}
+
+            var vm = imgShow.ToList().Select(i => i.ToImgIndexVM());
+            return View(vm);
+		}
+
+        public ActionResult ChangeImg(int? imgId)
+        {
+            Comments_AccommodationImages img = db.Comments_AccommodationImages.Find(imgId);
+            if (img == null)
+            {
+                return HttpNotFound();
             }
-            ViewBag.AccommodationId = new SelectList(db.Accommodations, "Id", "Name", comments_Accommodations.AccommodationId);
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "FirstName", comments_Accommodations.MemberId);
-            return View(comments_Accommodations);
+            Comments_AccommodationsChangeImgVM vm= img.ToChangeImgVM();
+            return View(vm);
         }
 
-        // GET: Comments_Accommodations/Delete/5
-        public ActionResult Delete(int? id)
+		// GET: Comments_Accommodations/Delete/5
+		public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -149,6 +193,11 @@ namespace RouteMaster.Controllers
             db.Comments_Accommodations.Remove(comments_Accommodations);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Comments()
+        {
+            return View();
         }
 
         protected override void Dispose(bool disposing)
