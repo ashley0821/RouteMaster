@@ -25,7 +25,7 @@
 
 <p>
     @*@Html.ActionLink("Create New", "Create")*@
-
+    <button id="exportButton" class="btn btn-primary" onclick="exportExcel()">匯出Excel</button>
 </p>
 <section class="container">
     <form method="get">
@@ -193,6 +193,49 @@
             responsive: true
         });
     </script>
+    @*<script>
+
+        function exportExcel() {
+            var criteria = {
+                MemberName: $('#MemberName').val(),
+                PaymentStatus: parseInt($('#s_PaymentStatus').val()),
+                CreateStartDate: $('#s_CreateStartDate').val(),
+                CreateEndDate: $('#s_CreateEndDate').val()
+            };
+
+            
+            for (var prop in criteria) {
+                if (criteria.hasOwnProperty(prop) && (criteria[prop] === null || criteria[prop] === "")) {
+                    delete criteria[prop];
+                }
+            }
+
+            var data = { criteria: criteria };
+
+            $.ajax({
+                url: 'http://localhost:44371/Orders/GetOrders',
+                method: 'POST',
+                data: data,
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (response) {
+                    var downloadLink = document.createElement("a");
+                    var fileURL = URL.createObjectURL(response);
+                    downloadLink.href = fileURL;
+                    downloadLink.download = "Orders.xlsx"; 
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+                    URL.revokeObjectURL(fileURL); 
+                },
+                error: function (xhr, status, error) {
+                    
+                    console.log(error);
+                }
+            });
+        }
+    </script>*@
 
 
 
