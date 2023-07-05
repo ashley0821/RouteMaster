@@ -84,13 +84,15 @@ namespace RouteMaster.Models.Infra.Extensions
 			return new RoomCreateDto
 			{
 
-				AccommodationId = vm.AccommodationId,
+                AccommodationId = vm.AccommodationId,
+
 				Type = vm.Type,
 				Name = vm.Name,
 				Quantity = vm.Quantity,
 				Price = vm.Price
 			};
 		}
+		
 
 
 		//entity轉dto
@@ -174,6 +176,8 @@ namespace RouteMaster.Models.Infra.Extensions
 				Quantity = entity.Quantity,
 			};
 		}
+
+		//vm 轉 entity
 
 		public static Room ToRoomCreateEntity(this RoomCreateDto dto)
 		{

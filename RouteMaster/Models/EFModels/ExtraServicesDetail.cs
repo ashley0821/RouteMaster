@@ -1,6 +1,7 @@
 namespace RouteMaster.Models.EFModels
 {
-    using System;
+	using RouteMaster.Models.ViewModels;
+	using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -24,5 +25,10 @@ namespace RouteMaster.Models.EFModels
         public virtual ExtraService ExtraService { get; set; }
 
         public virtual Order Order { get; set; }
-    }
+
+		internal object Select(Func<object, ExtraServicesDetailsEditVM> value)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

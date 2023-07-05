@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Interfaces;
 using System;
@@ -20,6 +21,18 @@ namespace RouteMaster.Models.Services
 		public IEnumerable<Comments_AccommodationsIndexDto> Search()
 		{
 			return _repo.Search();
+		}
+
+		public Result Create (Comments_AccommodationsCreateDto dto, HttpPostedFileBase[] file1 , string path)
+		{
+			_repo.Create(dto, file1, path);
+			return Result.Success();
+		}
+
+		public Result Update(Comments_AccommodationsEditDto dto)
+		{
+			_repo.Update(dto);
+			return Result.Success();
 		}
 	}
 }

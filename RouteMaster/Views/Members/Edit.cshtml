@@ -10,7 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Member</h4>
         <hr />
@@ -149,4 +149,12 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(document).ready(function () {
+        $("#Birthday").datepicker({ dateFormat: 'yy/mm/dd' });
+    });
+    $(document).ready(function () {
+        $("#CreateDate").datepicker({ dateFormat: 'yy/mm/dd' });
+    });
+</script>
 }

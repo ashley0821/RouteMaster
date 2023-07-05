@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,6 +18,7 @@ using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
+using RouteMaster.Models.ViewModels.Accommodations;
 using RouteMaster.Models.ViewModels.Accommodations.Room;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -213,37 +215,43 @@ namespace RouteMaster.Controllers
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			ServiceInfoDto dto = new ServiceInfoDto
-            {
+			ServiceInfoVM vm = new ServiceInfoVM
+			{
 				AccommodationId = (int)id,
-                ServiceInfoList = db.ServiceInfos.ToList()
+                ServiceInfoList = db.ServiceInfos.Select(s => new ServiceInfoDto
+                {
+                    Id = s.Id,
+                    Name = s.Name
+
+                })
+				.OrderBy(s => s.Name.Length).ToList()
             };
 
-
-			return View(dto);
+            ViewBag.ServiceInfoIds = db.Accommodations.FirstOrDefault(a => a.Id == id)?.ServiceInfos.Select(s => s.Id);
+			return View(vm);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult EditServiceInfo(AccommodationEditVM vm)
+		public ActionResult EditServiceInfo(ServiceInfoVM vm)
 		{
-			ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
-			ViewBag.TownId = new SelectList(db.Towns.Where(t => t.RegionId == vm.RegionId), "Id", "Name", vm.TownId);
-			if (!ModelState.IsValid) return View(vm);
 
-			Result result = EditAccommodationProfile(vm);
+			ViewBag.ServiceInfoIds = db.Accommodations.FirstOrDefault(a => a.Id == vm.AccommodationId)?.ServiceInfos.Select(s => s.Id);
+            if (!ModelState.IsValid) return View(vm);
 
-			if (result.IsSuccess)
-			{
-				return RedirectToAction("MyAccommodationIndex");
-			}
-			else
-			{
-				ModelState.AddModelError(string.Empty, result.ErrorMessage);
-				return View(vm);
-			}
+            Result result = EditService(vm);
 
-		}
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("MyAccommodationIndex");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
+
+        }
 
 
 
@@ -253,6 +261,13 @@ namespace RouteMaster.Controllers
 
 
 		#region:方法
+		private Result EditService(ServiceInfoVM vm)
+		{
+			IAccommodationRepository repo = new AccommodationEFRepository();
+			AccommodationService service = new AccommodationService(repo);
+
+			return service.EditService(vm);
+		}
 		private Result CreateRoomAndImage(RoomCreateVM vm, HttpPostedFileBase[] files)
 		{
 			string path = Server.MapPath("~/Uploads");
