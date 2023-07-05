@@ -40,3 +40,6 @@ AccomodationDetails partial view (useDapper)
 [v] add accomodation edit (dto,interface,services,dapper,exts,view)
 [v] add activity edit(dto,interface,service,dapper,exts,view)
 [v] add  delete function on accomodationdetails,activitiesDetails,ExtraServicesDetails
+
+7/5
+[v] add paymentmethod CRUD function
