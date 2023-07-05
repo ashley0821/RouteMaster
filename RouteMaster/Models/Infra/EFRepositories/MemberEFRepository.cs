@@ -65,18 +65,22 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		public IEnumerable<MemberIndexDto> Seacrh(MemberCriteria criteria)
 		{
 
-			//var query = _db.Members;
+			
 			var query = _db.Members.AsEnumerable();
 
 
-			if (string.IsNullOrEmpty(criteria.FirstName) == false)
+			//if (string.IsNullOrEmpty(criteria.FirstName) == false)
+			//{
+			//	query = query.Where(m => m.FirstName.Contains(criteria.FirstName));
+			//}
+			//         if (string.IsNullOrEmpty(criteria.LastName) == false)
+			//         {
+			//	query = query.Where(m => m.LastName.Contains(criteria.LastName));
+			//         }
+			if (string.IsNullOrEmpty(criteria.FirstName) == false && string.IsNullOrEmpty(criteria.LastName) == false)
 			{
-				query = query.Where(m => m.FirstName.Contains(criteria.FirstName));
+				query = query.Where(m => m.FirstName.Contains(criteria.FirstName) && m.LastName.Contains(criteria.LastName));
 			}
-            if (string.IsNullOrEmpty(criteria.LastName) == false)
-            {
-				query = query.Where(m => m.LastName.Contains(criteria.LastName));
-            }
 			if (string.IsNullOrEmpty(criteria.Account) == false)
 			{
 				query = query.Where(m => m.Account.Contains(criteria.Account));
@@ -122,6 +126,23 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		{
 		}
 
+		private string GetFullName(MemberCriteria criteria)
+		{
+			if (!string.IsNullOrEmpty(criteria.FirstName) && !string.IsNullOrEmpty(criteria.LastName))
+			{
+				return criteria.FirstName + " " + criteria.LastName;
+			}
+			else if (!string.IsNullOrEmpty(criteria.FirstName))
+			{
+				return criteria.FirstName;
+			}
+			else if (!string.IsNullOrEmpty(criteria.LastName))
+			{
+				return criteria.LastName;
+			}
+
+			return string.Empty;
+		}
 
 	}
 }
