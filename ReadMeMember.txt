@@ -7,7 +7,10 @@
 [√]searchfunction 
 [working]edit圖片存進member，但尚未存進MemberImage
 
-
+[]忘記密碼
+[]啟用帳號
+[先修這個]edit圖片存進member
+[]先做權限管理
 ----------
 7/3 (上傳前更正回來-- RouteMaster.Models.Infra.Extensions的 public static RoomCreateDto ToDto(this RoomCreateVM vm)補回去Id = vm.Id,)
 []確認各功能運作 
@@ -20,13 +23,8 @@
 [√]<link rel="stylesheet" href="~/Content//jquery-ui.css"> 加到layout
 
 ----------
-7/2接續做memberactive的功能
-[]再layout那使用權限來做登入才能顯示的畫面
-
-----------
 7/1
 [√]建造Login ViewPage
-[  ]啟用帳戶功能
 
 ----------
 6/30 
@@ -69,13 +67,17 @@
 6.權限管理的crud
   1.屬性網址 -- https://learn.microsoft.com/zh-tw/dotnet/api/system.web.mvc.authorizeattribute?view=aspnet-mvc-5.2
   2.參考網址:
-    *https://dotblogs.com.tw/ricochen/2010/03/19/14113
+     *https://dotblogs.com.tw/ricochen/2010/03/19/14113
      *https://ithelp.ithome.com.tw/articles/10308230
      *https://dotblogs.com.tw/JesperLai/2018/03/20/170705
      *https://ithelp.ithome.com.tw/questions/10193367
      *https://exfast.me/2016/07/c-asp-net-mvc5-inherit-authorizeattribute-to-implement-custom-validation/
 
-      3.Filter:
+  3.Filter:
      *https://dotblogs.com.tw/Jamis/2016/01/09/125624
      *https://ithelp.ithome.com.tw/articles/10206966
      *https://ithelp.ithome.com.tw/articles/10198206
+
+權限的作法:
+1.先寫一個public class xxxxxx : AuthorizeAttribute <== 繼承
+2.再覆寫裡面的 AuthorizeCore // protected override bool AuthorizeCore(HttpContextBase httpContext)

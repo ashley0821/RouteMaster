@@ -139,6 +139,36 @@ namespace RouteMaster.Controllers
             return service.Update(vm.ToEditDto());
 		}
 
+		//GET:Comments_AccommodationImages
+        public ActionResult ImgIndex(int? id)
+        {
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+            ViewBag.Id = id;
+
+            var imgShow= db.Comments_AccommodationImages.Where(i => i.Comments_AccommodationId == id);
+            if(imgShow == null)
+            {
+                return HttpNotFound();
+			}
+
+            var vm = imgShow.ToList().Select(i => i.ToImgIndexVM());
+            return View(vm);
+		}
+
+        public ActionResult ChangeImg(int? imgId)
+        {
+            Comments_AccommodationImages img = db.Comments_AccommodationImages.Find(imgId);
+            if (img == null)
+            {
+                return HttpNotFound();
+            }
+            Comments_AccommodationsChangeImgVM vm= img.ToChangeImgVM();
+            return View(vm);
+        }
+
 		// GET: Comments_Accommodations/Delete/5
 		public ActionResult Delete(int? id)
         {
