@@ -31,6 +31,24 @@ namespace RouteMaster.Models.Infra.Extensions
 			};
 		}
 
+		public static AttractionImageIndexVM ToImageIndexVM (this AttractionImageIndexDto dto)
+		{
+			return new AttractionImageIndexVM
+			{
+				Id = dto.Id,
+				Image = dto.Image,
+			};
+		}
+
+		public static AttractionImageIndexDto ToImageIndexDto(this AttractionImageIndexVM vm)
+		{
+			return new AttractionImageIndexDto
+			{
+				Id = vm.Id,
+				Image = vm.Image,
+			};
+		}
+
 		public static AttractionCreateDto ToCreateDto(this AttractionCreateVM vm)
 		{
 			return new AttractionCreateDto

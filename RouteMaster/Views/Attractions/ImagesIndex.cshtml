@@ -1,0 +1,29 @@
+﻿@model IEnumerable<RouteMaster.Models.ViewModels.AttractionImageIndexVM>
+
+@{
+    ViewBag.Title = "ImagesIndex";
+    var attractionId = ViewBag.AttractionId;
+}
+
+<h2>ImagesIndex</h2>
+
+<div class="container mt-5">
+    <div class="row row-cols-4 g-4">
+
+        @foreach (var item in Model)
+        {
+            <div class="col me-3">
+                <div class="card" style="width: 18rem;">
+                    
+                        <img class="card-img-top" src="~/Uploads/@item.Image" >
+                   
+                    <div class="card-body">
+                        @Html.ActionLink("變更", "EditImage", new { imageId = item.Id, attractionId = attractionId }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("刪除", "DeleteImage", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

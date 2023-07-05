@@ -162,6 +162,7 @@
     <Compile Include="Models\Dto\AttractionCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionDetailDto.cs" />
     <Compile Include="Models\Dto\AttractionEditDto.cs" />
+    <Compile Include="Models\Dto\AttractionImageIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionListEditDto.cs" />
@@ -313,6 +314,7 @@
     <Compile Include="Models\ViewModels\AttractionCriteria.cs" />
     <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
     <Compile Include="Models\ViewModels\AttractionEditVM.cs" />
+    <Compile Include="Models\ViewModels\AttractionImageIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionListEditVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsChangeImgVM.cs" />
@@ -533,11 +535,10 @@
     <Content Include="Views\FAQs\ChangeImg.cshtml" />
     <Content Include="Views\FAQs\UploadImg.cshtml" />
     <Content Include="Views\Comments_Accommodations\Comments.cshtml" />
-
     <Content Include="Views\Members\EditPassword.cshtml" />
-
     <Content Include="Views\Comments_Accommodations\ImgIndex.cshtml" />
-
+    <Content Include="Views\Attractions\ImagesIndex.cshtml" />
+    <Content Include="Views\Attractions\EditImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
