@@ -46,6 +46,10 @@ namespace RouteMaster.Controllers
 
         public ActionResult Create()
         {
+
+            //todo 頁面太長 收合
+            //fetch
+            //DataTable 改 ajax形式
             ViewBag.Attractions=db.Attractions.ToList().Select(x=>x.ToAttractionListIndexDto().ToAttractionListIndexVM());
             ViewBag.Activities = db.Activities.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
             ViewBag.ExtraServices=db.ExtraServices.ToList().Select(x=>x.ToIndexDto().ToIndexVM());          
@@ -268,6 +272,16 @@ namespace RouteMaster.Controllers
             //取得模型
 
             return this.PartialView("_ExtraServicesListPartial", model);
+        }
+
+
+
+        //測試Fetch
+        [HttpPost]
+        public ActionResult SearchExtraService(string searchKeyword)
+		{
+			searchKeyword = searchKeyword+DateTime.Now.ToString();
+            return Json(searchKeyword);
         }
 
 
