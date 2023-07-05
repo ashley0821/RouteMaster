@@ -1,9 +1,10 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8 " />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -42,25 +43,52 @@
     <link rel="stylesheet" href="~/Content//jquery-ui.css">
 
     <style>
-        body {
-            background-color: #f5f5f588
+        @@media (min-width: 1200px) {
+            .layout-menu {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                margin-right: 0 !important;
+                margin-left: 0 !important;
+                z-index: 1080;
+                
+                overscroll-behavior: none;
+            }
+
+            .layout-page {
+                margin-left: 16.25rem;
+            }
+            .menu-inner{
+                overflow-y:auto;
+                overscroll-behavior:none;
+            }
+            .menu-inner::-webkit-scrollbar {
+                display: none;
+            }
+
         }
+        
     </style>
 
 </head>
 <body>
+
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             <!-- Menu -->
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-
+                    <a href="/" class="menu-link h-100 w-100 d-flex"><img src="~/Uploads/MainIcon.jpg" class="w-100 h-75" /></a>
+                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
+                        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                    </a>
                 </div>
 
                 <div class="menu-inner-shadow"></div>
 
-                <ul class="menu-inner py-1">
+                <ul class="menu-inner py-1 ps ps--active-y" style="overflow-y: auto !important;">
                     <!-- Dashboard -->
                     <li class="menu-item">
                         <a href="/" class="menu-link">
@@ -69,13 +97,13 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="/about" class="menu-link">
+                        <a href="Home/about" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">關於</div>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="/contact" class="menu-link">
+                        <a href="Home/contact" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">聯絡人</div>
                         </a>
@@ -84,7 +112,8 @@
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">住宿</span>
                     </li>
-                    <li class="menu-item"> @*active open">*@
+                    <li class="menu-item">
+                        @*active open">*@
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-layout"></i>
                             <div data-i18n="Layouts">住宿管理</div>
@@ -106,7 +135,8 @@
                                     <div data-i18n="Container">旅宿細節</div>
                                 </a>
                             </li>
-                            <li class="menu-item"> @*active">*@
+                            <li class="menu-item">
+                                @*active">*@
                                 <a href="/Accommodations/Create" class="menu-link">
                                     <div data-i18n="Fluid">建立旅宿</div>
                                 </a>
@@ -169,13 +199,15 @@
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="/Orders" class="menu-link"">
+                                <a href="/Orders" class="menu-link" >
                                     <div data-i18n="Basic">訂單</div>
                                 </a>
                             </li>
                             <li class="menu-item">
+
                                 <a href="/PaymentMethods" class="menu-link"">
                                     <div data-i18n="Basic">付款方式管理</div>
+
                                 </a>
                             </li>
                             <li class="menu-item">
@@ -304,7 +336,7 @@
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                        <img src="~/assets/img/avatars/1.png" class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -313,7 +345,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                                        <img src="~/assets/img/avatars/1.png" class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -347,15 +379,6 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <div class="dropdown-divider"></div>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="auth-login-basic.html">
-                                            <i class="bx bx-power-off me-2"></i>
-                                            <span class="align-middle">Log Out</span>
-                                        </a>
-                                    </li>
                                 </ul>
                             </li>
                             <!--/ User -->
@@ -370,6 +393,7 @@
 
                     <div class="container-fluid flex-grow-1 container-p-y">
                         <!-- Layout Demo -->
+
                         @RenderBody()
 
                         <!--/ Layout Demo -->
@@ -383,7 +407,7 @@
                                 <script>
                                     document.write(new Date().getFullYear());
                                 </script>
-                                , made with ❤️ by
+                                <span>, made with ❤️ by</span>
                                 <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
                             </div>
                             <div>
@@ -410,11 +434,11 @@
             <div class="layout-overlay layout-menu-toggle"></div>
         </div>
         <!-- / Layout wrapper -->
-        
+
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/Scripts/jquery-ui.js"></script>
+    @*<script src="~/Scripts/jquery-ui.js"></script>*@
     @RenderSection("scripts", required: false)
     <script src="~/assets/vendor/libs/popper/popper.js"></script>
     <script src="~/assets/vendor/libs/jquery/jquery.js"></script>
@@ -430,5 +454,19 @@
     <!-- Page JS -->
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script>
+
+        function shrinkWindow() {
+            // 设置要缩小的窗口大小（这里设置为宽度和高度的一半）
+            var width = window.innerWidth / 10;
+            var height = window.innerHeight / 10;
+
+            // 缩小窗口
+            window.resizeTo(width, height);
+            console.log(123);
+        }
+        shrinkWindow();
+
+    </script>
 </body>
 </html>
