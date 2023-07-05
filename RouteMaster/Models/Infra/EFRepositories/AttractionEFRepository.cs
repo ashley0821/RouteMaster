@@ -74,7 +74,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			// 將它存到db
 			_db.Attractions.Add(att);
-			
+
 			AttractionImage img = new AttractionImage();
 
 			if (files.Length > 0 && files[0] != null)
@@ -136,7 +136,18 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				}).FirstOrDefault();
 		}
 
-		public AttractionEditDto GetEditDto (int id)
+		public IEnumerable<AttractionImageIndexDto> GetImages(int id)
+		{
+			return _db.AttractionImages
+				.Where(i => i.AttractionId == id)
+				.Select(i => new AttractionImageIndexDto
+				{
+					Id = i.Id,
+					Image = i.Image
+				});
+		}
+
+		public AttractionEditDto GetEditDto(int id)
 		{
 			return _db.Attractions
 				.Where(p => p.Id == id)
@@ -153,6 +164,16 @@ namespace RouteMaster.Models.Infra.EFRepositories
 					Description = p.Description,
 					Website = p.Website,
 				}).FirstOrDefault();
+		}
+
+		public void EditImage(AttractionImageIndexDto dto, HttpPostedFileBase file, string path)
+		{
+			string fileName = SaveUploadedFile(path, file);
+
+			var img = _db.AttractionImages.Find(dto.Id);
+			img.Image = fileName;
+
+			_db.SaveChanges();
 		}
 
 
@@ -184,7 +205,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				// 將它存到db
 				_db.SaveChanges();
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				throw new Exception("無法刪除", ex);
 			}

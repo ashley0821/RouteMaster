@@ -45,7 +45,6 @@ namespace RouteMaster.Models.Infra.Extensions
 		{
 			return new Comments_AccommodationsCreateDto
 			{
-				Id = vm.Id,
 				MemberAccount = vm.MemberAccount,
 				AccomodationId = vm.AccomodationId,
 				Title = vm.Title,
@@ -81,11 +80,31 @@ namespace RouteMaster.Models.Infra.Extensions
 		{
 			return new Comments_AccommodationsEditDto
 			{
-				Id = vm.Id,
+				Id=vm.Id,
 				Title = vm.Title,	
 				Pros = vm.Pros,
 				Cons = vm.Cons,
 				Score = vm.Score
+			};
+		}
+
+		public static Comments_AccommodationsImgIndexVM ToImgIndexVM(this Comments_AccommodationImages entity)
+		{
+			return new Comments_AccommodationsImgIndexVM
+			{
+				Id = entity.Id,
+				CommentId = entity.Comments_AccommodationId,
+				Image = entity.Image
+			};
+		}
+
+		public static Comments_AccommodationsChangeImgVM ToChangeImgVM(this  Comments_AccommodationImages entity)
+		{
+			return new Comments_AccommodationsChangeImgVM
+			{
+				ImgId = entity.Id,
+				CommentId = entity.Comments_AccommodationId,
+				Image = entity.Image
 			};
 		}
 	}

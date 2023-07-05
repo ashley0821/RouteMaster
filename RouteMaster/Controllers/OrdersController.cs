@@ -10,9 +10,11 @@ using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.ViewModels.Accommodations;
 using System;
 using System.Collections.Generic;
+using System.Data.Odbc;
 using System.EnterpriseServices;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -302,15 +304,36 @@ namespace RouteMaster.Controllers
 			var member = db.Orders.ToList().Prepend(new Order());
 			ViewBag.MemberId = new SelectList(member, "Id", "Name", MemberId);
 		}
-		
 
+		[HttpPost]
+		public ActionResult GetOrders()
+		{
+			if (db.Orders == null)
+			{
+				return null;
+			}
+			//DbSet是紀錄的集合，他是可以列舉的，所以我們把ToList刪除掉
 
+			IEnumerable<OrderIndexVM> data = db.Orders.Select(order => new OrderIndexVM
+			{
+				Id = order.Id,
+				MemberName = order.Member.FirstName,
+				PaymentMethodName = order.PaymentMethod.Name,
+				CreateDate = order.CreateDate,
+				Total = order.Total
+			}).ToList();
+			return Json(data, JsonRequestBehavior.AllowGet);
 
-
+		}
+		public ActionResult GetOrdersData()
+		{
+			var orders = GetOrders(); // 调用你的 GetOrders() 方法获取订单数据
+			return Json(orders);
+		}
 
 
 
 	}
+}
 
 		
-}

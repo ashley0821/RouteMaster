@@ -11,6 +11,7 @@ using RouteMaster.Models.Infra.Extensions;
 using System.Security.Principal;
 using System.Data;
 using System.IO;
+using RouteMaster.Models.ViewModels.Accommodations;
 
 namespace RouteMaster.Models.Infra.EFRepositories
 {
@@ -116,6 +117,22 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			//傳回存放的檔名
 			return newFileName;
+		}
+
+		public void EditService(ServiceInfoVM vm)
+		{
+			var accommodationInDb = _db.Accommodations.Find(vm.AccommodationId);
+			//var service = _db.Accommodations.FirstOrDefault(a => a.Id == vm.AccommodationId)?.ServiceInfos.Select(s => s.Id);
+
+			accommodationInDb.ServiceInfos.Clear();
+			foreach(var service in vm.ServiceInfoList)
+			{
+				var serviceInfo = _db.ServiceInfos.Find(service.Id);
+				accommodationInDb.ServiceInfos.Add(serviceInfo);
+			}
+
+			_db.SaveChanges();
+
 		}
 	}
 }

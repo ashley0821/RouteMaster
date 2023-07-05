@@ -1,80 +1,107 @@
 ﻿@model RouteMaster.Models.ViewModels.PackageTourCreateVM
 
-@{
-    ViewBag.Title = "Create";
+
+@section Styles{
+    <style>
+        .attSize {
+            width: 30px;
+            height: 30px;
+        }
+
+        .extSize {
+            width: 30px;
+            height: 30px;
+        }
+
+        .actSize {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
 }
-@{
-    Html.RenderAction("ActivitiesList");
-}
+
+<div id="actPartialView">
+    @{
+        Html.RenderAction("ActivitiesList");
+    }
+</div>
+
 @{
     Html.RenderAction("ExtraServicesList");
 }
 
 @{
     Html.RenderAction("AttractionsList");
- }
+}
+
+
+
+
+
+
+
 
 <h2>建立套裝行程</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CreatePackageTour" }))
 {
     @Html.AntiForgeryToken()
 
-<div class="row">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="mb-3">
-        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label col-md-2" })
-        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-    </div>
+    <div class="row">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label col-md-2" })
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
 
-    <div class="mb-3">
-        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "form-label col-md-2" })
-        <div class="checkbox">
-            @Html.EditorFor(model => model.Status)
-            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "form-label col-md-2" })
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Status)
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(model => model.CouponId, htmlAttributes: new { @class = "form-label col-md-2" })
+            @Html.DropDownList("CouponId", null, htmlAttributes: new { @class = "form-select" })
+            @Html.ValidationMessageFor(model => model.CouponId, "", new { @class = "text-danger" })
+        </div>
+
+
+
+
+        <h2>活動列表</h2>
+        <div id="activityContainer">
+
+
+        </div>
+
+        <h2>額外服務列表</h2>
+        <div id="extraServiceContainer">
+
+
+        </div>
+
+
+        <h2>景點列表</h2>
+        <div id="attractionContainer">
+
+
+        </div>
+
+
+
+
+
+
+        <div class="mb-3">
+            <input type="submit" value="新增" class="btn btn-primary" />
         </div>
     </div>
-
-    <div class="mb-3">
-        @Html.LabelFor(model => model.CouponId, htmlAttributes: new { @class = "form-label col-md-2" })
-        @Html.DropDownList("CouponId", null, htmlAttributes: new { @class = "form-select" })
-        @Html.ValidationMessageFor(model => model.CouponId, "", new { @class = "text-danger" })
-    </div>
-
- 
-
-
-    <h2>活動列表</h2>
-    <div id="activityContainer">
-
-
-    </div>
-
-    <h2>額外服務列表</h2>
-    <div id="extraServiceContainer">
-
-
-    </div>
-
-
-    <h2>景點列表</h2>
-    <div id="attractionContainer">
-
-
-    </div>
-
-
-
-
-
-
-    <div class="mb-3">
-        <input type="submit" value="新增" class="btn btn-primary" />
-    </div>
-</div>
 
 }
 
@@ -82,54 +109,72 @@
 @section Scripts {
 
     <script>
+        const activities = @Html.Raw(Json.Encode(ViewBag.Activities));
+        const actsContainer = document.querySelector("#activityContainer");
+        bindingSelectAct();
 
-        var activities = @Html.Raw(Json.Encode(ViewBag.Activities));
-        var actsContainer = document.querySelector("#activityContainer");
-        var addActBtns = document.querySelectorAll(".addActivity");
-        var arrOfActivities =[];
-        for (let i = 0; i < addActBtns.length; i++) {
-            addActBtns[i].addEventListener('click', () => {
+        console.log(activities);
+        function bindingSelectAct() {
+            let addActBtns = document.querySelectorAll(".addActivity");
 
-                var id = parseInt(addActBtns[i].getAttribute('data-id'));
-                var newActivity = document.createElement("div");
-                var actsContainerElementsLength = actsContainer.children.length;
+            for (let i = 0; i < addActBtns.length; i++) {
+                addActBtns[i].addEventListener('click', () => {
 
-                actsContainer.appendChild(newActivity);
-                addActBtns[i].disabled = true;
+                    var id = parseInt(addActBtns[i].getAttribute('data-id'));
+                    var newActivity = document.createElement("div");
+                    actsContainer.appendChild(newActivity);
+                    addActBtns[i].disabled = true;
 
+                    //var nameExists = false;
 
-                //console.log(activities)
+                    for (let j = 0; j < activities.length; j++) {
+                        if (activities[j].Id == id) {
 
-                for (let j = 0; j < activities.length; j++) {
-                    if (activities[j].Id === id) {
-                        //console.log("找到符合條件的元素: ", activities[j]);
-                        arrOfActivities.push(activities[j]);
-                        newActivity.textContent = activities[j].Name;
+                            //let children = actsContainer.childNodes;              
 
+                            //for (let k = 0; k < children.length; k++) {                              
 
-                        // 生成複選框
-                        var checkbox = document.createElement("input");
-                        checkbox.type = "checkbox";
-                        checkbox.name = "Activities[" + actsContainerElementsLength + "].Selected";
-                        checkbox.value = activities[j].Id;
-                        checkbox.checked = true;
+                            //    if (children[k].textContent == activities[j].name) {
+
+                            //        nameExists = true;
+                                    
+                            //        break;
+                            //    }
+                            //}
 
 
-                        var hiddenField = document.createElement("input");
-                        hiddenField.type = "hidden";
-                        hiddenField.name = "Activities[" + actsContainerElementsLength + "].Id";
-                        hiddenField.value = activities[j].Id;
+                            //if (nameExists)
+                            //{
+                            //    return;
+                            //}
 
-                        // 添加到表单
+                            newActivity.textContent = activities[j].Name;
 
-                        newActivity.appendChild(checkbox);
-                        newActivity.appendChild(hiddenField);
 
-                        break;
+
+                            // 生成複選框
+                            var checkbox = document.createElement("input");
+                            checkbox.type = "checkbox";
+                            checkbox.value = activities[j].Id;
+                            checkbox.checked = true;
+                            checkbox.classList.add('actSize')
+
+                            checkbox.addEventListener('change', function () {
+                                if (!this.checked) {
+                                    this.parentNode.remove();
+                                    addActBtns[i].disabled = false;
+                                }
+                            })
+                            // 添加到表单
+
+                            newActivity.appendChild(checkbox);
+                            break;
+                        }
                     }
-                }
-            });
-        } 
+                });
+            }
+
+        }
 
 
 
@@ -143,57 +188,47 @@
 
 
 
-        var extraServices =@Html.Raw(Json.Encode(ViewBag.ExtraServices));
-        var extContainer = document.querySelector("#extraServiceContainer");
-        var addExtBtns = document.querySelectorAll(".addExtraService");
-        var arrOfExtraServices = [];
+
+
+
+
+
+
+
+
+
+        const extraServices =@Html.Raw(Json.Encode(ViewBag.ExtraServices));
+        const extContainer = document.querySelector("#extraServiceContainer");
+        const addExtBtns = document.querySelectorAll(".addExtraService");
+
         for (let i = 0; i < addExtBtns.length; i++) {
             addExtBtns[i].addEventListener('click', () => {
 
-
-                var id = parseInt(addExtBtns[i].getAttribute('data-id'));
-
-
-
-
-                var newExtraService = document.createElement("div");
-                var extContainerElementsLength = extContainer.children.length;
-
+                let id = parseInt(addExtBtns[i].getAttribute('data-id'));
+                let newExtraService = document.createElement("div");
                 extContainer.appendChild(newExtraService);
                 addExtBtns[i].disabled = true;
 
 
                 for (let j = 0; j < extraServices.length; j++) {
                     if (extraServices[j].Id === id) {
-          /*              console.log("找到符合條件的元素: ", extraServices[j])*/
-                        arrOfExtraServices.push(extraServices[j]);
                         newExtraService.textContent = extraServices[j].Name;
-
-
-
-
-
                         // 生成複選框
                         var checkbox = document.createElement("input");
                         checkbox.type = "checkbox";
-                        checkbox.name = "ExtraServices[" + extContainerElementsLength + "].Selected";
                         checkbox.value = extraServices[j].Id;
                         checkbox.checked = true;
+                        checkbox.classList.add('extSize')
 
-
-                        var hiddenField = document.createElement("input");
-                        hiddenField.type = "hidden";
-                        hiddenField.name = "ExtraServices[" + extContainerElementsLength + "].Id";
-                        hiddenField.value = extraServices[j].Id;
+                        checkbox.addEventListener('change', function () {
+                            if (!this.checked) {
+                                this.parentNode.remove();
+                                addExtBtns[i].disabled = false;
+                            }
+                        })
 
                         // 添加到表单
-
                         newExtraService.appendChild(checkbox);
-                        newExtraService.appendChild(hiddenField);
-
-
-
-
                         break;
                     }
                 }
@@ -201,58 +236,191 @@
         }
 
 
-        var attractions = @Html.Raw(Json.Encode(ViewBag.Attractions));
-        var attsContainer = document.querySelector("#attractionContainer");
-        var addAttBtns = document.querySelectorAll(".addAttraction");
-        var arrOfAttractions =[];
+        const attractions = @Html.Raw(Json.Encode(ViewBag.Attractions));
+        const attsContainer = document.querySelector("#attractionContainer");
+        const addAttBtns = document.querySelectorAll(".addAttraction");
+
+
         for (let i = 0; i < addAttBtns.length; i++) {
             addAttBtns[i].addEventListener('click', () => {
-                //todo
-                var id = parseInt(addAttBtns[i].getAttribute('data-id'));
-                var newAttraction = document.createElement("div");
-                var attractionsContainerElementsLength = attsContainer.children.length;
 
+
+                let id = parseInt(addAttBtns[i].getAttribute('data-id'));
+                let newAttraction = document.createElement("div");
                 attsContainer.appendChild(newAttraction);
                 addAttBtns[i].disabled = true;
-
-               
 
                 for (let j = 0; j < attractions.length; j++) {
                     if (attractions[j].Id === id) {
 
-                        arrOfAttractions.push(attractions[j]);
                         newAttraction.textContent = attractions[j].Name;
+                        //生成複選框
 
 
-
-
-                        // 生成複選框
-                        var checkbox = document.createElement("input");
+                        let checkbox = document.createElement("input");
                         checkbox.type = "checkbox";
-                        checkbox.name = "Attractions[" + attractionsContainerElementsLength + "].Selected";
                         checkbox.value = attractions[j].Id;
                         checkbox.checked = true;
-
-
-                        var hiddenField = document.createElement("input");
-                        hiddenField.type = "hidden";
-                        hiddenField.name = "Attractions[" + attractionsContainerElementsLength + "].Id";
-                        hiddenField.value = attractions[j].Id;
-
-                        // 添加到表单
-
+                        checkbox.classList.add('attSize')
+                        //綁定移除
+                        checkbox.addEventListener('change', function () {
+                            if (!this.checked) {
+                                this.parentNode.remove();
+                                addAttBtns[i].disabled = false;
+                            }
+                        })
                         newAttraction.appendChild(checkbox);
-                        newAttraction.appendChild(hiddenField);
-
-
-
                         break;
                     }
                 }
-                
+
             });
         }
 
-        
+        const form = document.querySelector('#CreatePackageTour');
+        form.addEventListener('submit', function () {
+
+            let attCheckBoxies = document.querySelectorAll('.attSize');
+            for (let i = 0; i < attCheckBoxies.length; i++) {
+                attCheckBoxies[i].setAttribute('name', "Attractions[" + i + "].Id");
+            }
+
+            let extCheckBoxies = document.querySelectorAll('.extSize');
+            for (let i = 0; i < extCheckBoxies.length; i++) {
+                extCheckBoxies[i].setAttribute('name', "ExtraServices["+i+"].Id")
+            }
+
+
+            let actCheckBoxies = document.querySelectorAll('.actSize');
+            for (let i = 0; i < actCheckBoxies.length; i++) {
+                actCheckBoxies[i].setAttribute('name', "Activities[" + i + "].Id")
+            }
+
+        })
+
+
+
+
+
+
     </script>
+
+
+
+    <script>
+        function getSearchCriteria() {
+            var criteria = {};
+            criteria.name = document.querySelector('input[name="name"]').value;
+            criteria.activityCategoryId = document.querySelector('#s_actCategoryId').value;
+            criteria.attractionId = document.querySelector('#s_attractionId').value;
+            criteria.regionId = document.querySelector('#s_regionId').value;
+            criteria.minPrice = document.querySelector('input[name="minPrice"]').value;
+            criteria.maxPrice = document.querySelector('input[name="maxPrice"]').value;
+            criteria.startDate = document.querySelector('input[name="startDate"]').value;
+            criteria.endDate = document.querySelector('input[name="endDate"]').value;
+            criteria.showAvailableOnly = document.querySelector('#status').checked;
+            return criteria;
+        }
+
+        const actform = document.querySelector('#ActivityPartial');
+        actform.addEventListener('submit', function (event) {
+            event.preventDefault();
+        });
+
+
+
+        //document.querySelector('#actSearch').addEventListener('click', function () {
+        //    var criteria = getSearchCriteria();
+
+
+
+        //    var url = '/PackageTours/ActivitiesList?name='
+        //        + encodeURIComponent(criteria.name)
+        //        + '&activityCategoryId=' + encodeURIComponent(criteria.activityCategoryId)
+        //        + '&attractionId=' + encodeURIComponent(criteria.attractionId)
+        //        + '&regionId=' + encodeURIComponent(criteria.regionId)
+        //        + '&minPrice=' + encodeURIComponent(criteria.minPrice)
+        //        + '&maxPrice=' + encodeURIComponent(criteria.maxPrice)
+        //        + '&startDate=' + encodeURIComponent(criteria.startDate)
+        //        + '&endDate=' + encodeURIComponent(criteria.endDate)
+        //        + '&ShowAvailableOnly=' + encodeURIComponent(criteria.showAvailableOnly)
+        //        + '&random=';
+
+
+
+        //    var xhr = new XMLHttpRequest();
+        //    xhr.open('GET', url, true);
+
+        //    xhr.onreadystatechange = function () {
+        //        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        //            let response = xhr.responseText;
+        //            let partialViewContainer = document.querySelector('#ActivityPartial');
+        //            partialViewContainer.innerHTML = response;
+        //            bindEventHandlers();
+        //        }
+        //    };
+        //    xhr.send();
+        //});
+
+
+
+
+
+
+        document.querySelector('#ActivityPartial').addEventListener('click', function (event) {
+            // 检查被点击的元素是否是目标按钮
+            if (event.target && event.target.id === 'actSearch') {
+                // 处理按钮点击事件的逻辑
+                var criteria = getSearchCriteria();
+
+                var url = '/PackageTours/ActivitiesList?name='
+                    + encodeURIComponent(criteria.name)
+                    + '&activityCategoryId=' + encodeURIComponent(criteria.activityCategoryId)
+                    + '&attractionId=' + encodeURIComponent(criteria.attractionId)
+                    + '&regionId=' + encodeURIComponent(criteria.regionId)
+                    + '&minPrice=' + encodeURIComponent(criteria.minPrice)
+                    + '&maxPrice=' + encodeURIComponent(criteria.maxPrice)
+                    + '&startDate=' + encodeURIComponent(criteria.startDate)
+                    + '&endDate=' + encodeURIComponent(criteria.endDate)
+                    + '&ShowAvailableOnly=' + encodeURIComponent(criteria.showAvailableOnly)
+                    + '&random=';
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                        let response = xhr.responseText;
+                        let partialViewContainer = document.querySelector('#ActivityPartial');
+                        partialViewContainer.innerHTML = response; 
+
+                        //重新綁定事件
+                        bindingSelectAct();
+
+                    }
+                };
+                xhr.send();
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+
 }

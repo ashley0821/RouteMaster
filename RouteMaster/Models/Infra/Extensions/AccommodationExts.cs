@@ -92,6 +92,7 @@ namespace RouteMaster.Models.Infra.Extensions
 				Price = vm.Price
 			};
 		}
+		
 
 
 		//entity轉dto
@@ -175,6 +176,8 @@ namespace RouteMaster.Models.Infra.Extensions
 				Quantity = entity.Quantity,
 			};
 		}
+
+		//vm 轉 entity
 
 		public static Room ToRoomCreateEntity(this RoomCreateDto dto)
 		{
