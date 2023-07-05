@@ -199,10 +199,11 @@ namespace RouteMaster.Controllers
 		}
 
 		// 客房列表
-        public ActionResult RoomsIndex(int? id)
+        public ActionResult RoomsIndex(int id)
         {
             var rooms = db.Rooms.Where(r => r.AccommodationId == id).Include(a => a.RoomImages);
 
+            ViewBag.Id = id;
             return View(rooms.ToList().Select(r => r.ToVM()));
         }
 
