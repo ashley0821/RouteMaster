@@ -20,9 +20,9 @@ namespace RouteMaster.Models.Services
 			this._repo = repo;
 		}
 
-		public IEnumerable<AccommodationIndexDto> Search()
+		public IEnumerable<AccommodationIndexDto> Search(int? id)
 		{
-			return _repo.Search();
+			return _repo.Search(id);
 		}
 
         public Result Create(AccommodationCreateDto dto)
@@ -46,8 +46,9 @@ namespace RouteMaster.Models.Services
 			return _repo.GetEditInfo(id);
 		}
 
-		public Result EditAccommodationProfile(AccommodationEditDto dto)
+		public Result EditAccommodationProfile(AccommodationEditDto dto, HttpPostedFileBase[] files, string path)
 		{
+			
 			if (!_repo.ExistName(dto.Name) || !_repo.IsOriginalName(dto))
 			{
 				//丟出異常,或者傳回 Result
@@ -57,7 +58,7 @@ namespace RouteMaster.Models.Services
 			if (dto.RegionId == 0 || dto.TownId == 0) return Result.Fail("請再確認欄位資料是否正確");
 
 			// 新增一筆紀錄
-			_repo.EditAccommodationProfile(dto);
+			_repo.EditAccommodationProfile(dto, files, path);
 
 			return Result.Success();
 			
