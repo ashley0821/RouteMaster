@@ -20,7 +20,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.OrderId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.OrderId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.OrderId, new { htmlAttributes = new { @class = "form-control disabled" } })
                 @Html.ValidationMessageFor(model => model.OrderId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ExtraServiceId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ExtraServiceId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.ExtraServiceId, new { htmlAttributes = new { @class = "form-control disabled" } })
                 @Html.ValidationMessageFor(model => model.ExtraServiceId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -36,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ExtraServiceName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ExtraServiceName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.ExtraServiceName, new { htmlAttributes = new { @class = "form-control disabled" } })
                 @Html.ValidationMessageFor(model => model.ExtraServiceName, "", new { @class = "text-danger" })
             </div>
         </div>

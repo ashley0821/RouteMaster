@@ -181,6 +181,7 @@
     <Compile Include="Models\Dto\MemberImageCreateDto.cs" />
     <Compile Include="Models\Dto\MemberImageEditDto.cs" />
     <Compile Include="Models\Dto\MemberRegisterDto.cs" />
+    <Compile Include="Models\Dto\OrderEditDto.cs" />
     <Compile Include="Models\Dto\OrderIndexDto.cs" />
     <Compile Include="Models\Dto\MemberCreateDto.cs" />
     <Compile Include="Models\Dto\MemberIndexDto.cs" />
