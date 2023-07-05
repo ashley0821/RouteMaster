@@ -102,7 +102,7 @@ WHERE Id=@Id" ;
             
 		}
 
-		public  ExtraService GetExtraServiceById(int id)
+		public  ExtraServiceEditDto GetExtraServiceById(int id)
 		{
 			using (var conn = new SqlConnection(_connstr))
 			{
@@ -110,7 +110,7 @@ WHERE Id=@Id" ;
 				string sql = @"select[Id], [Name], [AttractionId], 
 [Price], [Description] ,[Status] 
 from ExtraServices  WHERE Id=@id";
-				return conn.QuerySingleOrDefault<ExtraService>(sql,new { id });
+				return conn.QuerySingleOrDefault<ExtraServiceEditDto>(sql,new { id });
 			}
 		}
 	}

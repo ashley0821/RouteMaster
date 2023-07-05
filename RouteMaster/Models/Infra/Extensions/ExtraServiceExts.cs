@@ -63,14 +63,14 @@ namespace RouteMaster.Models.Infra.Extensions
 
 
 
-        public static ExtraServiceIndexDto ToIndexDto(this ExtraService entity)
+		public static ExtraServiceIndexDto ToIndexDto(this ExtraService entity)
 		{
 			return new ExtraServiceIndexDto
 			{
-				Id=entity.Id,		
-				Name = entity.Name,	
+				Id = entity.Id,
+				Name = entity.Name,
 				AttractionName = entity.Attraction.Name,
-				Price = entity.Price,	
+				Price = entity.Price,
 				Description = entity.Description,
 				Status = entity.Status,
 			};
