@@ -7,6 +7,7 @@ namespace RouteMaster.Models.Infra.Criterias
 {
     public class MemberCriteria
     {
+
         public string LastName { get; set; }
 
         public string FirstName { get; set; }

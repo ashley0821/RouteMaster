@@ -194,26 +194,20 @@ namespace RouteMaster.Controllers
 		[HttpPost]
         public ActionResult ChangeImg(FAQChangeImgVM vm, HttpPostedFileBase file1)
         {
-			if (vm.ImgId == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
 			string path = Server.MapPath("/Uploads");
 			var savedFileName = SaveUploadedFile(path, file1);
          
-
 			if (string.IsNullOrEmpty(savedFileName) == true)
 			{
 				ModelState.AddModelError("Image", "請選擇檔案");
 				return View(vm);
 			}
-			vm.Image = savedFileName;
 
 			var img = db.FAQImages.Find(vm.ImgId);
-			img.Image = vm.Image;
+			img.Image = savedFileName;
 			db.SaveChanges();
 
-			return RedirectToAction("Index");
+			return RedirectToAction("EditImgIndex", new {id= vm.FAQId});
 
 		}
 
@@ -251,7 +245,7 @@ namespace RouteMaster.Controllers
 					}
 				}
 
-				return RedirectToAction("Index");
+				return RedirectToAction("EditImgIndex", new {id=id});
 
 			
 			//ModelState.AddModelError("Image", "請選擇檔案");
@@ -259,16 +253,16 @@ namespace RouteMaster.Controllers
 
 		}
 
-		public ActionResult DeleteFAQImg(int id)
+		public ActionResult DeleteFAQImg(int imgId, int faqId)
 		{
-			var img = db.FAQImages.FirstOrDefault(i => i.Id == id);
+			var img = db.FAQImages.FirstOrDefault(i => i.Id == imgId);
 			if (img == null)
 			{
-				return HttpNotFound();
+				return HttpNotFound();	
 			}
 			db.FAQImages.Remove(img);
 			db.SaveChanges();
-			return RedirectToAction("Index"); //todo
+			return RedirectToAction("EditImgIndex", new {id= faqId }); //todo
 		}
 
 		// GET: FAQs/Delete/5
