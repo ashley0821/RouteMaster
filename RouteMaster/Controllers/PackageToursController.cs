@@ -233,7 +233,7 @@ namespace RouteMaster.Controllers
 
 
 
-        public ActionResult ActivitiesList(ActivityIndexCriteria actCriteria)
+        public PartialViewResult ActivitiesList(ActivityIndexCriteria actCriteria)
         {       
             ViewBag.ActCriteria = actCriteria;
             PrepareActivityCategoryDataSource(actCriteria.ActivityCategoryId);

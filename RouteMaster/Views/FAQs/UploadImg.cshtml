@@ -14,17 +14,6 @@
     
 <div class="row">
 
-    @*<hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="mb-3">
-            @Html.LabelFor(model => model.FAQId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FAQId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FAQId, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-
     <div class="mb-3">
         @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
 
@@ -33,14 +22,13 @@
     </div>
 
     <div class="mb-3">
-        <input type="submit" value="上傳" class="btn btn-success" />
+        <input type="submit" value="上傳" class="btn btn-success me-3"/>
+        @Html.ActionLink("返回圖片庫", "EditImgIndex", new { id = parentId }, new { @class = "btn btn-outline-dark" })
     </div>
 </div>
 }
 
-<div>
-    @Html.ActionLink("返回圖片庫", "EditImgIndex", new { id = parentId })
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

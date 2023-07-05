@@ -16,6 +16,8 @@ using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.Dto;
 using RouteMaster.Models.Infra.Criterias;
 using System.Data.Entity.Migrations;
+using Microsoft.Ajax.Utilities;
+using Member = RouteMaster.Models.EFModels.Member;
 
 namespace RouteMaster.Controllers
 {
@@ -338,6 +340,29 @@ namespace RouteMaster.Controllers
             return View();
         }
 
+        
+        public ActionResult EditPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditPassword(MemberEditPasswordVM vm)
+        {
+            if(ModelState.IsValid == false) return View(vm);
+
+            var currentUserAccount = User.Identity.Name;
+
+            Result result = ChangePassword(currentUserAccount, vm);
+
+            if(result.IsSuccess == false)
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+            return View(vm);
+            }
+            return RedirectToAction("Index");
+        }
+
         private Result ChangePassword(string account, MemberEditPasswordVM vm)
         {
             var salt = HashUtility.GetSalt();
@@ -357,19 +382,8 @@ namespace RouteMaster.Controllers
             return Result.Success();
         }
 
-        public ActionResult EditPassword()
-        {
-            return View();
-        }
 
-        [HttpPost]
-        public ActionResult EditPassword(MemberEditPasswordVM vm)
-        {
-            return View();
-        }
-
-
-        public  ActionResult EditMemberImgae(int? id)
+        public ActionResult EditMemberImgae(int? id)
         {
 			if (id == null)
 			{
@@ -398,18 +412,31 @@ namespace RouteMaster.Controllers
 				var MemberInDb = db.Members.Find(vm.Id);
 				MemberInDb.Image = vm.Image;
 
-
-				MemberImage memberImage = new MemberImage
-				{
-					Image = vm.Image,
-					Name = "未命名",
-				};
-				//存到DB
+                var MemberImageIndb = db.MemberImages.Find(vm.Id);
+                MemberImageIndb.Image = vm.Image;
 
 
-				db.MemberImages.AddOrUpdate(memberImage);
+                //_db.Members.Add(member);
+                //MemberImage memberImage = new MemberImage
+                //{
+                //    Image = dto.Image,
+                //    Name = "未命名",
+                //};
+                ////存到DB
+                //_db.MemberImages.Add(memberImage);
+                //_db.SaveChanges();
 
-				db.SaveChanges();
+                //比較分界點
+
+                //            MemberImage memberImage = new MemberImage
+                //{
+                //	Image = vm.Image,
+                //	Name = "未命名",
+                //};
+                ////存到DB
+
+
+                db.SaveChanges();
 
 				return RedirectToAction("Index");
 			}
