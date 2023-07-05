@@ -63,7 +63,7 @@ namespace RouteMaster.Controllers
         // GET: Activities/Create
 
 
-        public ActionResult Create()
+        public ActionResult Create()  
         {
             //ViewBag.ActivityCategoryId = new SelectList(db.ActivityCategories, "Id", "Name");          
             //ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name");
