@@ -28,10 +28,15 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 			using(var conn=new SqlConnection(_connstr))
 			{
 
-				string sql = @"select[Id], [Name], [AttractionId], 
-[Price], [Description] ,[Status] 
-from ExtraServices  order by Price";
-				return conn.Query<ExtraServiceIndexDto>(sql);	
+
+				string sql = @"select E.[Id], E.[Name], A.[Name] as AttractionName, 
+E.[Price], E.[Description] ,[Status] 
+from ExtraServices AS E
+JOIN Attractions AS A
+ON E.AttractionId=A.Id
+order by Price";
+
+                return conn.Query<ExtraServiceIndexDto>(sql);	
 			}
 		}
 

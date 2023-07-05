@@ -5,7 +5,7 @@ using System.Web;
 
 namespace RouteMaster.Models.Dto
 {
-	public class OrderIndexDto
+	public class OrderEditDto
 	{
 		public int Id { get; set; }
 

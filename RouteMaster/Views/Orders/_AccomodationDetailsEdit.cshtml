@@ -10,34 +10,38 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>AccomodationDetailsEditVM</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.OrderId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.OrderId, new { htmlAttributes = new { @class = "form-control" } })
+
+            <div class="col-md-10 ">
+                @Html.EditorFor(model => model.OrderId, new { htmlAttributes = new { @class = "form-control ", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.OrderId, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.OrderId)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.AccommodationId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AccommodationId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.AccommodationId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.AccommodationId, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.AccommodationId)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.AccommodationName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AccommodationName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.AccommodationName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.AccommodationName, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.AccommodationName)
             </div>
         </div>
 
@@ -49,7 +53,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             @Html.LabelFor(model => model.RoomName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.RoomName, new { htmlAttributes = new { @class = "form-control" } })
@@ -57,20 +61,24 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             @Html.LabelFor(model => model.CheckIn, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CheckIn, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CheckIn, "", new { @class = "text-danger" })
-            </div>
+            <br />
+            <input type="date" id="CheckInDate" />
+            <input type="time" id="CheckIn" />
+            @Html.EditorFor(model => model.CheckIn, new { htmlAttributes = new { @class = "form-control", @id = "CheckInEditor" } })
+            @Html.ValidationMessageFor(model => model.CheckIn, "", new { @class = "text-danger" })
+
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             @Html.LabelFor(model => model.CheckOut, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CheckOut, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CheckOut, "", new { @class = "text-danger" })
-            </div>
+            <br />
+            <input type="date" id="CheckOutDate" />
+            <input type="time" id="CheckOut" />
+            @Html.EditorFor(model => model.CheckOut, new { htmlAttributes = new { @class = "form-control", @id = "CheckOutEditor" } })
+            @Html.ValidationMessageFor(model => model.CheckOut, "", new { @class = "text-danger" })
+
         </div>
 
         <div class="form-group">
@@ -87,6 +95,7 @@
             </div>
         </div>
     </div>
+
 }
 
 <div>
@@ -95,4 +104,36 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+   
+    <script>
+
+      
+
+        // 日期選擇
+            var CheckInDateInput = document.querySelector('#CheckInDate');
+            var CheckInTimeInput = document.querySelector('#CheckIn');
+            var CheckOutDateInput = document.querySelector('#CheckOutDate');
+            var CheckOutTimeInput = document.querySelector('#CheckOut');
+            var CheckInEditor = document.querySelector('#CheckInEditor');
+            var CheckOutEditor = document.querySelector('#CheckOutEditor');
+
+            CheckInDateInput.addEventListener('change', updateCheckIn);
+            CheckInTimeInput.addEventListener('change', updateCheckIn);
+            CheckOutDateInput.addEventListener('change', updateCheckOut);
+            CheckOutTimeInput.addEventListener('change', updateCheckOut);
+
+            function updateCheckIn() {
+            var CheckInDateValue = CheckInDateInput.value;
+            var CheckInTimeValue = CheckInTimeInput.value;
+            var dateTimeValue = CheckInDateValue + " " + CheckInTimeValue;
+            CheckInEditor.value = dateTimeValue;
+        }
+
+            function updateCheckOut() {
+            var CheckOutDateValue = CheckOutDateInput.value;
+            var CheckOutTimeValue = CheckOutTimeInput.value;
+            var dateTimeValue = CheckOutDateValue + " " + CheckOutTimeValue;
+            CheckOutEditor.value = dateTimeValue;
+        }
+    </script>
 }
