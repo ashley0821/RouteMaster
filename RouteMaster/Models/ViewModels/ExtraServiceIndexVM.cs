@@ -12,9 +12,7 @@ namespace RouteMaster.Models.ViewModels
 
 
 		[Display(Name="額外活動名稱")]
-		public string Name { get; set; }
-
-		//public int AttractionId { get; set; }
+		public string Name { get; set; }	
 
 
 		[Display(Name = "附屬景點")]
