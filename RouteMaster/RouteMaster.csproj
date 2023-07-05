@@ -330,6 +330,7 @@
     <Compile Include="Models\ViewModels\Comments_AccommodationsImgIndexVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionListIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AccommodationsUploadImgVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceIndexVM.cs" />
@@ -626,11 +627,16 @@
     <Content Include="Views\Comments_Accommodations\Comments.cshtml" />
     <Content Include="Views\Members\EditPassword.cshtml" />
     <Content Include="Views\Comments_Accommodations\ImgIndex.cshtml" />
+
+    <Content Include="Views\Comments_Accommodations\ChangeImg.cshtml" />
+    <Content Include="Views\Comments_Accommodations\UploadImg.cshtml" />
+
     <Content Include="Views\PaymentMethods\Create.cshtml" />
     <Content Include="Views\PaymentMethods\Delete.cshtml" />
     <Content Include="Views\PaymentMethods\Details.cshtml" />
     <Content Include="Views\PaymentMethods\Edit.cshtml" />
     <Content Include="Views\PaymentMethods\Index.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
