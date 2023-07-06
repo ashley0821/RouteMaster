@@ -10,6 +10,7 @@ using RouteMaster.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -19,7 +20,7 @@ namespace RouteMaster.Controllers
 {
 	public class AttractionsController : Controller
 	{
-		
+
 
 		// GET: Attractions
 		public ActionResult Index(AttractionCriteria criteria)
@@ -115,12 +116,13 @@ namespace RouteMaster.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(AttractionCreateVM vm, HttpPostedFileBase[] files )
+		public ActionResult Create(AttractionCreateVM vm, HttpPostedFileBase[] files)
 		{
+
 			if (ModelState.IsValid == false) return View(vm);
 
 			// 建立新會員
-			Result result = CreateAttraction(vm,files);
+			Result result = CreateAttraction(vm, files);
 
 			if (result.IsSuccess)
 			{
@@ -156,7 +158,7 @@ namespace RouteMaster.Controllers
 
 				ViewBag.AttractionCategories = _db.AttractionCategories.ToList();
 				ViewBag.Regions = _db.Regions.ToList();
-				ViewBag.Towns = _db.Towns.Where(t=>t.RegionId == dto.RegionId).ToList();
+				ViewBag.Towns = _db.Towns.Where(t => t.RegionId == dto.RegionId).ToList();
 
 				return View(dto.ToEditVM());
 			}
@@ -186,6 +188,141 @@ namespace RouteMaster.Controllers
 			ViewBag.Towns = _db.Towns.Where(t => t.RegionId == vm.RegionId).ToList();
 
 			return View(vm);
+		}
+
+		public ActionResult UploadImg(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			else
+			{
+				ViewBag.AttractionId = id.Value;
+				return View();
+			}
+		}
+
+		[HttpPost]
+		public ActionResult UploadImg(AttractionImageIndexVM vm, HttpPostedFileBase[] files)
+		{
+			if (ModelState.IsValid == false) return View(vm);
+
+			IAttractionRepository repo = new AttractionEFRepository();
+			AttractionService service = new AttractionService(repo);
+
+			string path = Server.MapPath("~/Uploads");
+			Result result = service.UploadImage(vm.ToImageIndexDto(), files, path);
+
+			if (result.IsSuccess)
+			{
+				// 若成功，轉到ConfirmRegister頁
+				return RedirectToAction("ImagesIndex", new {id = vm.AttractionId});
+			}
+			else
+			{
+				// 在register頁最上方新增一個放錯誤的區塊
+				ModelState.AddModelError(string.Empty, result.ErrorMessage);
+				return View(vm);
+			}
+		}
+
+		public ActionResult ImagesIndex(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			else
+			{
+				var vm = GetImages(id.Value);
+
+				if (vm == null)
+				{
+					return HttpNotFound();
+				}
+
+				ViewBag.AttractionId = id.Value;
+				return View(vm);
+			}
+		}
+
+		public ActionResult EditImage(int? imageId, int attractionId)
+		{
+			if (imageId == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			else
+			{
+				AttractionImageIndexVM vm = GetImages(attractionId)
+											.Where(i => i.Id == imageId)
+											.FirstOrDefault();
+
+				if (vm == null)
+				{
+					return HttpNotFound();
+				}
+
+				vm.AttractionId = attractionId;
+				return View(vm);
+			}
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditImage(AttractionImageIndexVM vm, HttpPostedFileBase file1)
+		{
+			if (vm.Id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			if (file1 == null)
+			{
+				ModelState.AddModelError(string.Empty, "請選擇圖片檔案");
+				return View(vm);
+			}
+			
+
+			string path = Server.MapPath("/Uploads");
+
+			IAttractionRepository repo = new AttractionEFRepository();
+			AttractionService service = new AttractionService(repo);
+
+			Result result = service.EditImage(vm.ToImageIndexDto(), file1, path);
+
+			if (result.IsSuccess)
+			{
+				int attractionId = vm.AttractionId;
+				return RedirectToAction("ImagesIndex", new { id = attractionId });
+			}
+
+			return View(vm);
+		}
+
+		public ActionResult DeleteImage (int? imageId,int attractionId)
+		{
+			if (imageId == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			else
+			{
+				IAttractionRepository repo = new AttractionEFRepository();
+				AttractionService service = new AttractionService(repo);
+
+				Result result = service.DeleteImage(imageId.Value);
+
+				return RedirectToAction("ImagesIndex", new { id = attractionId });
+			}
+		}
+
+		
+
+		private IEnumerable<AttractionImageIndexVM> GetImages(int id)
+		{
+			IAttractionRepository repo = new AttractionEFRepository();
+			AttractionService service = new AttractionService(repo);
+
+			return service.GetImages(id).Select(i => i.ToImageIndexVM());
 		}
 
 		public ActionResult Delete(int? id)
@@ -230,7 +367,7 @@ namespace RouteMaster.Controllers
 
 		public ActionResult Details(int? id)
 		{
-			
+
 			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -238,14 +375,14 @@ namespace RouteMaster.Controllers
 			else
 			{
 				AttractionDetailVM vm = GetAttractipnDetail(id.Value);
-				
+
 				if (vm == null)
 				{
 					return HttpNotFound();
 				}
 				return View(vm);
 			}
-			
+
 		}
 
 		[HttpPost]
@@ -269,7 +406,7 @@ namespace RouteMaster.Controllers
 			return service.Get(id).ToDetailVM();
 		}
 
-		
+
 
 		private Result CreateAttraction(AttractionCreateVM vm, HttpPostedFileBase[] files)
 		{
@@ -279,7 +416,7 @@ namespace RouteMaster.Controllers
 			AttractionService service = new AttractionService(repo);
 
 			return service.Create(vm.ToCreateDto(), files, path);
-			
+
 		}
 
 		private IEnumerable<AttractionIndexVM> GetAttractions()

@@ -10,6 +10,8 @@ using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.ViewModels.Accommodations;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity;
 using System.Data.Odbc;
 using System.EnterpriseServices;
 using System.Linq;
@@ -17,6 +19,8 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
+using OfficeOpenXml;
 
 namespace RouteMaster.Controllers
 {
@@ -38,6 +42,7 @@ namespace RouteMaster.Controllers
 
 
 		}
+		[HttpPost]
 		//Order 
 		private IEnumerable<OrderIndexVM> GetOrders(OrderCriteria criteria)
 		{
@@ -48,7 +53,7 @@ namespace RouteMaster.Controllers
 				   .ToList()
 				   .Select(o => o.ToIndexVM());
 		}
-		
+
 
 		public ActionResult Details(int id)
 		{
@@ -101,7 +106,7 @@ namespace RouteMaster.Controllers
 			IActivitiesDetailsRepository repo = new ActivitiesDetailsDapperRepository();
 			ActivitiesDetailsService service = new ActivitiesDetailsService(repo);
 
-			ActivitiesDetailsEditVM editVM= service.GetActivitiesDetailsEditDetails(id);
+			ActivitiesDetailsEditVM editVM = service.GetActivitiesDetailsEditDetails(id);
 
 			if (editVM == null)
 			{
@@ -114,7 +119,7 @@ namespace RouteMaster.Controllers
 		public ActionResult ActivitiesDetailsEdit(ActivitiesDetailsEditVM editvm)
 		{
 			IActivitiesDetailsRepository repo = new ActivitiesDetailsDapperRepository();
-			ActivitiesDetailsService service= new ActivitiesDetailsService(repo);
+			ActivitiesDetailsService service = new ActivitiesDetailsService(repo);
 
 			if (ModelState.IsValid)
 			{
@@ -126,8 +131,8 @@ namespace RouteMaster.Controllers
 
 		public ActionResult ActivitiesDetailsDelete(int id)
 		{
-			IActivitiesDetailsRepository repo=new ActivitiesDetailsDapperRepository();
-			ActivitiesDetailsService service=new ActivitiesDetailsService(repo);
+			IActivitiesDetailsRepository repo = new ActivitiesDetailsDapperRepository();
+			ActivitiesDetailsService service = new ActivitiesDetailsService(repo);
 
 			var activitiesDetails = service.GetActivitiesDetailsById(id);
 			return View(activitiesDetails.ToIndexDto().ToIndexVM());
@@ -137,8 +142,8 @@ namespace RouteMaster.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult ActivitiesDetailsDeleteConfirm(int id)
 		{
-			IActivitiesDetailsRepository repo=new ActivitiesDetailsDapperRepository();
-			ActivitiesDetailsService service= new ActivitiesDetailsService(repo);
+			IActivitiesDetailsRepository repo = new ActivitiesDetailsDapperRepository();
+			ActivitiesDetailsService service = new ActivitiesDetailsService(repo);
 
 			service.ActivitiesDetailsDelete(id);
 			return RedirectToAction("Index");
@@ -184,14 +189,14 @@ namespace RouteMaster.Controllers
 			IExtraServiceDetailsRepository repo = new ExtraServicesDetailsDapperRepository();
 			ExtraServicesDetailsService service = new ExtraServicesDetailsService(repo);
 
-			
+
 			ExtraServicesDetailsEditVM editVM = service.GetExtraServicesEditDetails(id);
 
 			if (editVM == null)
 			{
 				return HttpNotFound();
 			}
-			
+
 
 			return View("_ExtraServicesDetailsEdit", editVM);
 		}
@@ -214,19 +219,19 @@ namespace RouteMaster.Controllers
 
 		public ActionResult ExtraServicesDetailsDelete(int id)
 		{
-			IExtraServiceDetailsRepository repo=new ExtraServicesDetailsDapperRepository();
-			ExtraServicesDetailsService service=new ExtraServicesDetailsService(repo);
+			IExtraServiceDetailsRepository repo = new ExtraServicesDetailsDapperRepository();
+			ExtraServicesDetailsService service = new ExtraServicesDetailsService(repo);
 
-			var extraServicesDetails=service.GetExtraServicesDetailsById(id);
+			var extraServicesDetails = service.GetExtraServicesDetailsById(id);
 			return View(extraServicesDetails.ToIndexDto().ToIndexVm());
 		}
-		
+
 		[HttpPost, ActionName("ExtraServicesDetailsDelete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult ExtraServicesDetailsDeleteConfirm(int id)
 		{
-			IExtraServiceDetailsRepository repo=new ExtraServicesDetailsDapperRepository();
-			ExtraServicesDetailsService service=new ExtraServicesDetailsService(repo);
+			IExtraServiceDetailsRepository repo = new ExtraServicesDetailsDapperRepository();
+			ExtraServicesDetailsService service = new ExtraServicesDetailsService(repo);
 
 			service.ExtraServicesDetailsDelete(id);
 			return RedirectToAction("index");
@@ -245,14 +250,14 @@ namespace RouteMaster.Controllers
 		public ActionResult AccomodationDetailsEdit(int id)
 		{
 			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
-			AccomodationDetailsService service=new AccomodationDetailsService(repo);
+			AccomodationDetailsService service = new AccomodationDetailsService(repo);
 
 			AccomodationDetailsEditVM editVM = service.GetAccomodationDetailsEditDetails(id);
 			if (editVM == null)
 			{
 				return HttpNotFound();
 			}
-			return View("_AccomodationDetailsEdit",editVM);
+			return View("_AccomodationDetailsEdit", editVM);
 
 		}
 
@@ -260,7 +265,7 @@ namespace RouteMaster.Controllers
 		public ActionResult AccomodationDetailsEdit(AccomodationDetailsEditVM editVM)
 		{
 			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
-			AccomodationDetailsService service=new AccomodationDetailsService(repo);
+			AccomodationDetailsService service = new AccomodationDetailsService(repo);
 			if (ModelState.IsValid)
 			{
 				service.AccomodationDetailsEdit(editVM.ToEditDto());
@@ -292,10 +297,10 @@ namespace RouteMaster.Controllers
 
 			IEnumerable<SelectListItem> paymentStatusList = new List<SelectListItem>
 			{
-				new SelectListItem { Value = "0", Text = "" }, 
-        new SelectListItem { Value = "1", Text = "已付款" },
-        new SelectListItem { Value = "2", Text = "未付款" },
-        new SelectListItem { Value = "3", Text = "已取消" },
+				new SelectListItem { Value = "0", Text = "" },
+		new SelectListItem { Value = "1", Text = "已付款" },
+		new SelectListItem { Value = "2", Text = "未付款" },
+		new SelectListItem { Value = "3", Text = "已取消" },
 			};
 			ViewBag.paymentStatus = new SelectList(paymentStatusList, "Value", "Text", PaymentStatus);
 		}
@@ -305,35 +310,56 @@ namespace RouteMaster.Controllers
 			ViewBag.MemberId = new SelectList(member, "Id", "Name", MemberId);
 		}
 
-		[HttpPost]
-		public ActionResult GetOrders()
-		{
-			if (db.Orders == null)
-			{
-				return null;
-			}
-			//DbSet是紀錄的集合，他是可以列舉的，所以我們把ToList刪除掉
 
-			IEnumerable<OrderIndexVM> data = db.Orders.Select(order => new OrderIndexVM
-			{
-				Id = order.Id,
-				MemberName = order.Member.FirstName,
-				PaymentMethodName = order.PaymentMethod.Name,
-				CreateDate = order.CreateDate,
-				Total = order.Total
-			}).ToList();
-			return Json(data, JsonRequestBehavior.AllowGet);
-
-		}
-		public ActionResult GetOrdersData()
+		private bool OrderExists(int id)
 		{
-			var orders = GetOrders(); // 调用你的 GetOrders() 方法获取订单数据
-			return Json(orders);
+			return (db.Orders?.Any(o => o.Id == id)).GetValueOrDefault();
 		}
 
 
+  //      public ActionResult ExportExcel(OrderCriteria criteria)
+		//{
+  //          IEnumerable<OrderIndexVM> orders = GetOrders(criteria);
 
-	}
-}
+  //          using (var package = new ExcelPackage())
+  //          {
+  //              var worksheet = package.Workbook.Worksheets.Add("Orders");
+
+                
+  //              worksheet.Cells[1, 1].Value = "Id";
+  //              worksheet.Cells[1, 2].Value = "MemberName";
+  //              worksheet.Cells[1, 3].Value = "PaymentMethodName";
+  //              worksheet.Cells[1, 4].Value = "CreateDate";
+  //              worksheet.Cells[1, 5].Value = "Total";
+  //              worksheet.Cells[1, 6].Value = "PaymentStatusText";
+
+              
+  //              var row = 2;
+  //              foreach (var order in orders)
+  //              {
+  //                  worksheet.Cells[row, 1].Value = order.Id;
+  //                  worksheet.Cells[row, 2].Value = order.MemberName;
+  //                  worksheet.Cells[row, 3].Value = order.PaymentMethodName;
+  //                  worksheet.Cells[row, 4].Value = order.CreateDate;
+  //                  worksheet.Cells[row, 5].Value = order.Total;
+  //                  worksheet.Cells[row, 6].Value = order.PaymentStatusText;
+
+  //                  row++;
+  //              }
+
+  //              // 设置单元格格式、样式等
+
+  //              // 保存 Excel 文件
+  //              var memoryStream = new MemoryStream(package.GetAsByteArray());
+  //              return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Orders.xlsx");
+  //          }
+  //      }
+    }
+
+
+   }
+
+       
+
 
 		
