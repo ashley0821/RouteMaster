@@ -5,67 +5,89 @@
 </p>
 
 @*@foreach (var orderGroup in Model.GroupBy(item => item.OrderId))
-{
-    var orderId = orderGroup.Key;
-    var orderDetails = orderGroup.ToList();*@
+    {
+        var orderId = orderGroup.Key;
+        var orderDetails = orderGroup.ToList();*@
 
-    @*<h3>Order ID: @orderId</h3>*@
-    <table class="table">
+@*<h3>Order ID: @orderId</h3>*@
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ActivityId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ActivityName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th></th>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td class="control-label col-md-3" style="text-align: center" id="Activitiesprice">
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td class="control-label col-md-3" style="text-align: center" id="Activitiesquantity">
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "ActivitiesDetailsEdit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "ActivitiesDetailsDelete", new { id = item.Id })
+            </td>
         </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ActivityId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ActivityName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "ActivitiesDetailsEdit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "ActivitiesDetailsDelete", new { id = item.Id })
-                </td>
-            </tr>
-        }
-    </table>
+    }
+</table>
 @*}*@
+@*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(window).on('load', function () {
+        var Activitiesprice = $('.control-label.col-md-3#Activitiesprice');
+        var Activitiesquantity = $('.control-label.col-md-3#Activitiesquantity');
+        var totalPrice = 0;
+
+        for (var i = 0; i < Activitiesprice.length; i++) {
+            var ActPrice = parseFloat($(Activitiesprice[i]).text().replace('$', '').replace(',', ''));
+            var ActQuantity = parseInt($(Activitiesquantity[i]).text());
+
+            if (!isNaN(ActPrice) && !isNaN(ActQuantity)) {
+                totalPrice += ActPrice * ActQuantity;
+            }
+        }
+
+        $('#totalPrice').val('$' + totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        console.log(totalPrice)
+    });
+
+</script>*@
 

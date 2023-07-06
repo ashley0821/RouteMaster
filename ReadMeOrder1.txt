@@ -43,3 +43,7 @@ AccomodationDetails partial view (useDapper)
 
 7/5
 [v] add paymentmethod CRUD function
+
+7/6
+[v] export file but only can export to CSV.file, can't export to xlsx, will figure it out when have more time.
+[v] Add Detail's order total price 

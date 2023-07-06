@@ -11,7 +11,7 @@ namespace RouteMaster.Models.Infra
 {
 	public class EmailHelper
 	{
-		private readonly string senderEmail = "g01.webapp@gmail.com"; // 寄件者
+		private readonly string senderEmail = "routemaster888@gmail.com"; // 寄件者
 
 		public void SendForgetPasswordEmail(string url, string name, string email)
 		{
@@ -43,16 +43,16 @@ namespace RouteMaster.Models.Infra
 		{
 			// todo 以下是開發時,測試之用, 只是建立text file, 不真的寄出信
 			//google帳號只能用第一段帳號認證的帳號
-			var path = HttpContext.Current.Server.MapPath("~/Uploads/");
-			CreateTextFile(path, from, to, subject, body);
-			return;
+			//var path = HttpContext.Current.Server.MapPath("~/Uploads/");
+			//CreateTextFile(path, from, to, subject, body);
+			
 
 			// 以下是實作程式, 可以視需要真的寄出信, 或者只是單純建立text file,供開發時使用
 			// ref https://dotblogs.com.tw/chichiblog/2018/04/20/122816
 			var smtpAccount = from;
 
 			// TODO 請在這裡填入密碼,或從web.config裡讀取
-			var smtpPassword = "";
+			var smtpPassword = "jjkdoisrtceagkdt";
 
 			var smtpServer = "smtp.gmail.com";
 			var SmtpPort = 587;

@@ -1,93 +1,95 @@
 ﻿@model RouteMaster.Models.ViewModels.AttractionCreateVM
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "新增景點";
 }
 
-<h2>Create</h2>
+<h2>新增景點</h2>
 
 
 @using (Html.BeginForm("Create", "Attractions", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>AttractionCreateVM</h4>
+    <div class="row">
+        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.AttractionCategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.AttractionCategoryId, new SelectList(ViewBag.AttractionCategories, "Id", "Name"), "Please select a category", new { @class = "form-control" })
+        <div class="mb-3">
+            類別
+          
+                @Html.DropDownListFor(model => model.AttractionCategoryId, new SelectList(ViewBag.AttractionCategories, "Id", "Name"), "", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AttractionCategoryId, "", new { @class = "text-danger" })
-            </div>
+           
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.RegionId, new SelectList(ViewBag.Regions, "Id", "Name"), "Please select a region", new { @class = "form-control" })
+        <div class="mb-3">
+            縣市
+           
+                @Html.DropDownListFor(model => model.RegionId, new SelectList(ViewBag.Regions, "Id", "Name"), "", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
-            </div>
+           
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TownId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.TownId, Enumerable.Empty<SelectListItem>(), "Please select a town", new { @class = "form-control" })
+        <div class="mb-3">
+            鄉鎮市區
+           
+                @Html.DropDownListFor(model => model.TownId, Enumerable.Empty<SelectListItem>(), "", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TownId, "", new { @class = "text-danger" })
-            </div>
+           
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="mb-3">
+            名稱
+           
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
+           
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="mb-3">
+            地址
+           
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-            </div>
+           
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PositionX, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="mb-3">
+            經度
+           
                 @Html.EditorFor(model => model.PositionX, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PositionX, "", new { @class = "text-danger" })
-            </div>
+           
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PositionY, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="mb-3">
+            緯度
+           
                 @Html.EditorFor(model => model.PositionY, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PositionY, "", new { @class = "text-danger" })
-            </div>
+           
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+        <div class="mb-3">
+            描述
+           
+                <textarea class="form-control w-100 " rows="15" id="Description" name="Description"></textarea>
+                @*@Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control"} })*@
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
+           
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Website, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="mb-3">
+            網站
+           
                 @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
-            </div>
+           
         </div>
 
-        <div class="col-8">
+        <div class="w-25 mb-3">
+            圖片
             <div class="drop-zone" id="dropZone">
                 <label for="files" class="d-block w-100 h-100" id="fileLabel">
                     <div class="w-100 h-100 d-flex justify-content-center align-items-center">
@@ -107,16 +109,16 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary"  id="submit-btn"/>
-            </div>
+        <div class="mb-3">
+            
+                <input type="submit" value="新增" class="btn btn-primary"  id="submit-btn"/>
+            
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("返回景點列表", "Index",null, new { @class = "btn btn-secondary" })
 </div>
 
 @section Scripts {
