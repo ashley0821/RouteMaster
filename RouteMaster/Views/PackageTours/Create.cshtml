@@ -20,13 +20,20 @@
     </style>
 
     @*<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
-    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />*@
+        <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />*@
 
 
 
 }
 
-`
+
+@{
+
+    Html.RenderAction("ActivitiesList");
+}
+
+
+
 @{
     Html.RenderAction("ExtraServicesList");
 }
@@ -106,10 +113,10 @@
 
 @section Scripts {
 
-    
+
     @*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>*@
+        <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>*@
 
 
 
@@ -128,21 +135,21 @@
             responsive: true,//響應式
             searching: false, // 停用搜尋功能
             sorting: false // 停用排序功能
-        });       
+        });
         new DataTable('#extraServiceTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
             responsive: true,
             searching: false,
-            sorting:false
-        });   
+            sorting: false
+        });
     </script>
 
 
 
 
-    
+
     <script>
         const activities = @Html.Raw(Json.Encode(ViewBag.Activities));
         const actsContainer = document.querySelector("#activityContainer");
@@ -160,7 +167,7 @@
 
                     for (let j = 0; j < activities.length; j++) {
                         if (activities[j].Id == id) {
-                            let children = actsContainer.childNodes;                  
+                            let children = actsContainer.childNodes;
                             for (let k = 0; k < children.length; k++) {
                                 if (children[k].textContent == activities[j].Name) {
                                     nameExists = true;
