@@ -680,6 +680,10 @@
 
     <Content Include="Views\Orders\AccomodationDetailsEdit.cshtml" />
 
+    <Content Include="Views\Orders\ExtraServicesDetailsEdit.cshtml" />
+    <Content Include="Views\Orders\ActivitiesDetailsEdit.cshtml" />
+
+
     <Content Include="Views\Members\SuspendMember.cshtml" />
 
     <Content Include="Views\Administrators\Login.cshtml" />
