@@ -1,13 +1,16 @@
+(0706 11:30 目前進度推估55%~60%)
+7/6
+[√]測試權限驗證
+[]討論權限頁面
+[]先完成AdministratorLogin完成
+[]
+[]忘記密碼
+[]啟用帳戶發送信件
 
-
-[]變更權限有值但沒有更新到資料庫
-
+----------
 (0705 09:00 目前進度推估40%)
 7/5
-[]測試權限驗證
-[]討論權限頁面
-[]設定登入，登出頁面
-[]忘記密碼
+[√]研究權限研究太久，花費太多時間
 
 ----------
 7/4
@@ -17,9 +20,6 @@
 [√]searchfunction 
 [√]edit圖片存進member，但尚未存進MemberImage
 
-[]忘記密碼
-[]啟用帳號
-[]先做權限管理
 ----------
 7/3 (上傳前更正回來-- RouteMaster.Models.Infra.Extensions的 public static RoomCreateDto ToDto(this RoomCreateVM vm)補回去Id = vm.Id,)
 []確認各功能運作 
@@ -43,7 +43,27 @@
 [√]密碼雜湊
 
 *********************************
-功能列表 (0704 00:30 目前進度推估35~40%)
+ppt報告流程: 
+   *AdministratorLogin 
+    1.login
+    2.忘記密碼
+    3.登入權限錯誤
+
+   *展示各大項功能的權限不足
+    1.權限不足的頁面
+   
+   *會員管理
+    1.搜尋
+    2.排序
+    3.停權管理
+    4.註冊帳號 - 啟用帳號
+
+   *AdministratorLogout
+    
+     
+
+
+
 1.Register
   []啟用帳戶--詢問組長技術長!!! 能做就做  
   [√]成功註冊會員
@@ -73,7 +93,7 @@
 
 --viewpage版面配置
 
-6.權限管理的crud
+6.權限管理
   1.屬性網址 -- https://learn.microsoft.com/zh-tw/dotnet/api/system.web.mvc.authorizeattribute?view=aspnet-mvc-5.2
   2.參考網址:
      *https://dotblogs.com.tw/ricochen/2010/03/19/14113
@@ -90,3 +110,12 @@
 權限的作法:
 1.先寫一個public class xxxxxx : AuthorizeAttribute <== 繼承
 2.再覆寫裡面的 AuthorizeCore // protected override bool AuthorizeCore(HttpContextBase httpContext)
+
+
+    **權限的分類:
+      1.
+  
+      2.屬於permission
+        Id 1: (使用者) : 行程管理 / 常見問題 / 景點管理 / 評論區 
+        Id 2: (管理者) : 行程管理 / 常見問題 / 景點管理 / 評論區 / 訂單管理 /帳號管理 
+        Id 3: (高級使用者) : All可視
