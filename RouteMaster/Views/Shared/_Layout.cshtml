@@ -6,16 +6,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
+
+
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @RenderSection("styles", required: false)
 
     <link rel="stylesheet" href="~/Content/UploadImage.css" />
-
-    <!--DataTableCSS-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
-    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
-
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="~/assets/img/favicon/favicon.ico" />
@@ -50,7 +47,9 @@
 
     <link rel="stylesheet" href="~/Content//jquery-ui.css">
 
-
+    <!--DataTableCSS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
+    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
 
 
 
@@ -81,6 +80,7 @@
                 }
         }
     </style>
+    @RenderSection("styles", required: false)
 
 </head>
 <body>
@@ -119,10 +119,9 @@
                             <div data-i18n="Analytics">聯絡人</div>
                         </a>
                     </li>
-
-                    <li class="menu-header small text-uppercase">
-                        <span class="menu-header-text">住宿</span>
-                    </li>
+                            <li class="menu-header small text-uppercase">
+                                <span class="menu-header-text">住宿</span>
+                            </li>
                     <li class="menu-item">
                         @*active open">*@
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -211,7 +210,9 @@
                         <ul class="menu-sub">
                             <li class="menu-item">
 
-                                <a href="/Orders" class="menu-link" >
+
+                                <a href="/Orders" class="menu-link">
+
 
                                     <div data-i18n="Basic">訂單</div>
                                 </a>
@@ -219,7 +220,10 @@
                             <li class="menu-item">
 
 
+
                                 <a href="/PaymentMethods" class="menu-link"">
+
+
                                     <div data-i18n="Basic">付款方式管理</div>
 
 
@@ -247,12 +251,12 @@
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="/Administrators" class="menu-link">
+                                <a href="/Partners" class="menu-link">
                                     <div data-i18n="Under Maintenance">旅宿夥伴</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="/Partners" class="menu-link">
+                                <a href="/Administrators" class="menu-link">
                                     <div data-i18n="Under Maintenance">平台管理員</div>
                                 </a>
                             </li>
@@ -299,12 +303,12 @@
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="/Comments_Accommodations/Comments" class="menu-link">
+                                <a href="/Comments_Accommodations/Index" class="menu-link">
                                     <div data-i18n="Perfect Scrollbar">住宿評論</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="#" class="menu-link">
+                                <a href="/Comments_Attractions/Index" class="menu-link">
                                     <div data-i18n="Text Divider">景點評論</div>
                                 </a>
                             </li>
@@ -451,21 +455,28 @@
         <!-- / Layout wrapper -->
 
     </div>
+
+
+    <!--DataTableJs注意渲染順序 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+
+
+
+
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @*<script src="~/Scripts/jquery-ui.js"></script>*@
-    @RenderSection("scripts", required: false)
+
+
     <script src="~/assets/vendor/libs/popper/popper.js"></script>
     <script src="~/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="~/assets/vendor/js/bootstrap.js"></script>
     <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
 
-
-    <!--DataTableJs-->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
 
 
 
@@ -483,5 +494,7 @@
     <script>
 
     </script>
+    @RenderSection("scripts", required: false)
+
 </body>
 </html>

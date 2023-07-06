@@ -43,7 +43,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				IsConfirmed = true,
 				ConfirmCode = "0",
 				Birthday = dto.Birthday,
-				IsSuspended = null
+				IsSuspended = false, //預設為註冊時都未停權
 			};
 
 			_db.Members.Add(member);
@@ -69,18 +69,18 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			var query = _db.Members.AsEnumerable();
 
 
-			//if (string.IsNullOrEmpty(criteria.FirstName) == false)
-			//{
-			//	query = query.Where(m => m.FirstName.Contains(criteria.FirstName));
-			//}
-			//         if (string.IsNullOrEmpty(criteria.LastName) == false)
-			//         {
-			//	query = query.Where(m => m.LastName.Contains(criteria.LastName));
-			//         }
-			if (string.IsNullOrEmpty(criteria.FirstName) == false && string.IsNullOrEmpty(criteria.LastName) == false)
+			if (string.IsNullOrEmpty(criteria.FirstName) == false)
 			{
-				query = query.Where(m => m.FirstName.Contains(criteria.FirstName) && m.LastName.Contains(criteria.LastName));
+				query = query.Where(m => m.FirstName.Contains(criteria.FirstName));
 			}
+			if (string.IsNullOrEmpty(criteria.LastName) == false)
+			{
+				query = query.Where(m => m.LastName.Contains(criteria.LastName));
+			}
+			//if (string.IsNullOrEmpty(criteria.FirstName) == false && string.IsNullOrEmpty(criteria.LastName) == false)
+			//{
+			//	query = query.Where(m => m.FirstName.Contains(criteria.FirstName) && m.LastName.Contains(criteria.LastName));
+			//}
 			if (string.IsNullOrEmpty(criteria.Account) == false)
 			{
 				query = query.Where(m => m.Account.Contains(criteria.Account));

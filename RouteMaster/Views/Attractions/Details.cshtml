@@ -1,17 +1,17 @@
 ﻿@model RouteMaster.Models.ViewModels.AttractionDetailVM
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "景點詳情";
 }
 
-<h2>Details</h2>
+<h2>景點詳情</h2>
 
 <div>
-    <h4>AttractionDetailVM</h4>
+    
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Category)
+            類別
         </dt>
 
         <dd>
@@ -19,7 +19,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Region)
+            縣市
         </dt>
 
         <dd>
@@ -27,7 +27,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Town)
+            鄉鎮市區
         </dt>
 
         <dd>
@@ -35,7 +35,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            名稱
         </dt>
 
         <dd>
@@ -43,7 +43,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Address)
+            地址
         </dt>
 
         <dd>
@@ -51,7 +51,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PositionX)
+            經度
         </dt>
 
         <dd>
@@ -59,7 +59,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PositionY)
+            緯度
         </dt>
 
         <dd>
@@ -67,7 +67,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            描述
         </dt>
 
         <dd>
@@ -75,11 +75,38 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Website)
+            網站
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Website)
+        </dd>
+
+
+
+
+        <dt>
+            平均分數
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AverageScoreText)
+        </dd>
+
+        <dt>
+            平均停留時數
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AverageStayHoursText)
+        </dd>
+
+        <dt>
+            平均花費
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AveragePriceText)
         </dd>
 
         <dt>
@@ -89,38 +116,13 @@
         @foreach (string image in Model.Images)
         {
             <dd>
-                <img src="@Url.Content("~/Uploads/" + image)" />
+                <img src="@Url.Content("~/Uploads/" + image)" class="w-50" />
             </dd>
         }
-
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AverageScoreText)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AverageScoreText)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AverageStayHoursText)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AverageStayHoursText)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AveragePriceText)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AveragePriceText)
-        </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("編輯景點", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("返回景點列表", "Index",null, new { @class = "btn btn-secondary" })
 </p>

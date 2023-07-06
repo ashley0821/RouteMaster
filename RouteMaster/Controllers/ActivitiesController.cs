@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using RouteMaster.Filter;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.EFRepositories;
@@ -13,6 +14,7 @@ using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
+using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
@@ -113,9 +115,10 @@ namespace RouteMaster.Controllers
 
 
 
-
-        // GET: Activities/Edit/5
-        public ActionResult Edit(int id)
+		[AdministratorAuthenticationFilter]
+		[CustomAuthorize("管理者")]
+		// GET: Activities/Edit/5
+		public ActionResult Edit(int id)
         {
             IActivityRepository repo=new ActivityEFRepository();
             ActivityService service = new ActivityService(repo);

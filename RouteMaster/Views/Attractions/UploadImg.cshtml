@@ -1,0 +1,56 @@
+﻿@model RouteMaster.Models.ViewModels.AttractionImageIndexVM
+
+@{
+    ViewBag.Title = "新增圖片";
+    var attractionId = ViewBag.AttractionId;
+}
+
+<h2>新增圖片</h2>
+
+
+@using (Html.BeginForm("UploadImg", "Attractions", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => attractionId)
+
+        <div class="col-8 mb-3">
+            <div class="drop-zone" id="dropZone">
+                <label for="files" class="d-block w-100 h-100" id="fileLabel">
+                    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                        <botton class="btn btn-primary"><i class="fa-solid fa-image"></i>新增照片</botton>
+                        <span class="small d-block">或</span>
+                        <p>拖曳照片到這裡</p>
+                    </div>
+                </label>
+            </div>
+            <input id="files" type="file" name="files" class="form-control" multiple="multiple" accept="image/*" />
+            <div class="image-preview" id="imagePreview"></div>
+            <div class="d-flex justify-content-end">
+                <p class="small m-0" id="uploadContent"></p>
+            </div>
+            <div class="progress-bar-div ms-auto">
+                <div class="progress-bar h-100"></div>
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            
+                <input type="submit" value="新增圖片" class="btn btn-primary" id="submit-btn"/>
+        
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("返回圖片清單", "ImagesIndex", new {id = attractionId }, new {@class="btn btn-secondary"})
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,71 @@
+﻿@model RouteMaster.Models.ViewModels.Comments_AttractionsDetailVM
+@section Styles
+{
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+}
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container mt-3">
+    <div class="row mb-5">
+        <div class="text-start">
+            <h3 >評論內文</h3>
+        </div>
+
+        <div class="row">
+            <dl class="col-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.AttractioName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.AttractioName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Content)
+                </dt>
+
+                <dd>
+                    <textarea class="form-control w-100 mb-3 col-12 " style="margin:13px" rows="15" id="Description" name="Description">@Model.Content</textarea>
+                    @*@Html.DisplayFor(model => model.Content)*@
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Score)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Score)
+                </dd>
+
+            </dl>
+            <div class="col-8">
+                <div class="row row-cols-2 g-4">
+
+                    @foreach (var item in Model.Images)
+                    {
+                        <img class="img-thumbnail" height="30%" src="~/Uploads/@item">
+
+                        @*<div class="col me-3">
+                            <div class="card" style="width: 18rem;">
+
+                                <img class="card-img-top" height="10%" src="~/Uploads/@item">
+                            </div>
+                        </div>*@
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <p>
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+        @Html.ActionLink("Back to List", "Index", new { id = "" }, new { @class = "btn btn-dark" })
+    </p>
+
+@section Scripts
+{
+<script src="~/Scripts/bootstrap.min.js"></script>
+}

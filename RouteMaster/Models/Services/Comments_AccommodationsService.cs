@@ -18,9 +18,9 @@ namespace RouteMaster.Models.Services
 			_repo = repo;
 		}
 
-		public IEnumerable<Comments_AccommodationsIndexDto> Search()
+		public IEnumerable<Comments_AccommodationsIndexDto> Search(Comments_AccommodationCriteria criteria)
 		{
-			return _repo.Search();
+			return _repo.Search(criteria);
 		}
 
 		public Result Create (Comments_AccommodationsCreateDto dto, HttpPostedFileBase[] file1 , string path)
