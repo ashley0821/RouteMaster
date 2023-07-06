@@ -21,29 +21,48 @@
     @Html.HiddenFor(model => model.AttractionId)
 
 
-    <div class="mb-3">
-        <img src="~/Uploads/@Model.Image" />
+    <div class="mb-3 img-wrap">
+        <img src="~/Uploads/@Model.Image" class="w-50" />
     </div>
 
 
     <div class="mb-3">
 
-        <input type="file" name="file1" class="form-control" />
+        <input type="file" name="file1" accept="image/*" id="fileElem" class="form-control d-none" />
 
     </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="變更圖片" class="btn btn-default" />
-        </div>
+    <div class="mb-3">
+        
+            <input type="submit" value="變更圖片" class="btn btn-primary disabled" id="saveBtn" />
+     
     </div>
 </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("取消", "ImagesIndex", new { id = Model.AttractionId }, new { @class = "btn btn-secondary" })
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(".img-wrap").on('click', () => {
+            $("#fileElem").trigger('click');
+        })
+
+        $("#fileElem").on('change', function (evt) {
+            $("#saveBtn").removeClass("disabled");
+
+            var files = evt.target.files;
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('.img-wrap>img').attr('src', e.target.result);
+                
+            };
+            reader.readAsDataURL(files[0]);
+        });
+
+        
+    </script>
 }

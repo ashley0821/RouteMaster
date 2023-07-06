@@ -27,5 +27,9 @@ namespace RouteMaster.Models.Interfaces
 		void Delete(int id);
 
 		void EditImage(AttractionImageIndexDto dto, HttpPostedFileBase file, string path);
+
+		void DeleteImage(int imageId);
+
+		void UploadImage(AttractionImageIndexDto dto, HttpPostedFileBase[] files, String path);
 	}
 }

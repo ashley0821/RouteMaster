@@ -46,6 +46,7 @@ namespace RouteMaster.Models.Infra.Extensions
 			{
 				Id = vm.Id,
 				Image = vm.Image,
+				AttractionId = vm.AttractionId,
 			};
 		}
 
