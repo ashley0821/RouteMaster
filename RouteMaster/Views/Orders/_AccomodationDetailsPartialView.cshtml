@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<RouteMaster.Models.ViewModels.AccomodationDetailsVM>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @*@Html.ActionLink("Create New", "Create")*@
 </p>
 <table class="table">
     <tr>
@@ -29,40 +29,67 @@
         <th>
             @Html.DisplayNameFor(model => model.RoomPrice)
         </th>
+
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AccommodationId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AccommodationName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RoomType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RoomName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CheckIn)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CheckOut)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RoomPrice)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "AccomodationDetailsEdit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "AccomodationDetailsDelete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccommodationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccommodationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckOut)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.RoomPrice)
+                </td>*@
+            <td class="control-label col-md-3" style="text-align: center" id="RoomPrice">
+                @Html.DisplayFor(modelItem => item.RoomPrice)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "AccomodationDetailsEdit", new { id = item.Id  } ) |
+                @Html.ActionLink("Delete", "AccomodationDetailsDelete", new { id = item.Id })
+
+            </td>
+
+        </tr>
+    }
 
 </table>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    //$(window).on('load', function () {
+    //    var roomPriceElements = $('.control-label.col-md-3#RoomPrice');
+
+    //    var totalPrice = 0;
+
+    //    for (var i = 0; i < roomPriceElements.length; i++) {
+    //        var roomPrice = parseFloat($(roomPriceElements[i]).text().replace('$', '').replace(',', ''));
+
+    //        if (!isNaN(roomPrice)) {
+    //            totalPrice += roomPrice;
+    //        }
+    //    }
+
+    //    $('#totalPrice').val('$' + totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    //});
+
+ </script>
