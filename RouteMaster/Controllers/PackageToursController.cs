@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
@@ -46,6 +47,10 @@ namespace RouteMaster.Controllers
 
         public ActionResult Create()
         {
+
+            //todo 頁面太長 收合
+            //fetch
+            //DataTable 改 ajax形式
             ViewBag.Attractions=db.Attractions.ToList().Select(x=>x.ToAttractionListIndexDto().ToAttractionListIndexVM());
             ViewBag.Activities = db.Activities.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
             ViewBag.ExtraServices=db.ExtraServices.ToList().Select(x=>x.ToIndexDto().ToIndexVM());          
@@ -271,6 +276,46 @@ namespace RouteMaster.Controllers
         }
 
 
+
+        //測試Fetch
+        [HttpPost]
+        public ActionResult SearchExtraService(string searchKeyword)
+		{
+
+            var newModel = db.ExtraServices
+                 .Where(x => searchKeyword==""?true:x.Name.Contains(searchKeyword)).ToList()
+                 .Select(x => x.ToIndexDto().ToIndexVM());
+
+
+            return Json(newModel);
+
+            //return PartialView("_ExtraServicesListPartial", newModel);
+        }
+
+
+
+
+
+        [HttpPost]
+        public ActionResult SearchAttraction(string searchKeyword)
+        {
+            
+            var newModel = db.Attractions
+                 .Where(x => searchKeyword == "" ? true : x.Name.Contains(searchKeyword)).ToList()
+                 .Select(x => x.ToAttractionListIndexDto().ToAttractionListIndexVM());
+
+
+            
+
+            return Json(newModel);
+
+            //return PartialView("_ExtraServicesListPartial", newModel);
+        }
+
+
+
+
+
         public ActionResult AttractionsList()
         {
             var model = db.Attractions.ToList();                
@@ -278,6 +323,45 @@ namespace RouteMaster.Controllers
             //取得模型
 
             return this.PartialView("_AttractionsListPartial", model);
+        }
+
+
+
+
+
+        [HttpPost]
+        public ActionResult PagingExtraServiceTable(int draw, int start, int length,string searchKeyword)
+        {
+            int pageNumber = (start / length) + 1; 
+            int itemsPerPage = length;          
+
+            var query = db.ExtraServices.AsQueryable();
+
+
+            if (!string.IsNullOrEmpty(searchKeyword))
+            {
+                query=query.Where(e=>e.Name.Contains(searchKeyword));
+            }
+
+
+            int totalRecords=query.Count();
+            int skipRecords=(pageNumber - 1) * itemsPerPage;
+            var pagedData=query.Skip(skipRecords).Take(itemsPerPage).ToList();
+            int filteredRecords = pagedData.Count();
+
+
+
+            var result = new
+            {
+                draw = draw, // DataTable所需的參數
+                recordsTotal = totalRecords, // 總資料數
+                recordsFiltered = filteredRecords, // 符合搜尋條件的資料數
+                data = pagedData // 分頁後的資料
+            };
+
+
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 

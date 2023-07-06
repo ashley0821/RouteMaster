@@ -27,6 +27,11 @@ namespace RouteMaster.Models.Services
 			return _repo.Get(id);
 		}
 
+		public IEnumerable<AttractionImageIndexDto> GetImages(int id)
+		{
+			return _repo.GetImages(id);
+		}
+
 		public AttractionEditDto GetEditDto(int id)
 		{
 			return _repo.GetEditDto(id);
@@ -47,6 +52,13 @@ namespace RouteMaster.Models.Services
 			return Result.Success();
 		}
 
+
+		public Result UploadImage(AttractionImageIndexDto dto, HttpPostedFileBase[] files, String path)
+		{
+			_repo.UploadImage(dto, files, path);
+			return Result.Success();
+		}
+
 		public Result Edit(AttractionEditDto dto)
 		{
 			_repo.Edit(dto);
@@ -55,16 +67,33 @@ namespace RouteMaster.Models.Services
 
 		public Result Delete(int id)
 		{
-			try {
+			try
+			{
 				_repo.Delete(id);
 
 				return Result.Success();
 			}
 			catch
-			{ 
-				return Result.Fail("無法刪除"); 
+			{
+				return Result.Fail("無法刪除");
 			}
-			
+
+		}
+
+		public Result EditImage(AttractionImageIndexDto dto, HttpPostedFileBase file, string path)
+		{
+			_repo.EditImage(dto, file, path);
+			return Result.Success();
+		}
+
+		public Result DeleteImage(int imgaeId)
+		{
+
+			_repo.DeleteImage(imgaeId);
+
+			return Result.Success();
+
+
 		}
 	}
 }

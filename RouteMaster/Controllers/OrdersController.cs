@@ -19,6 +19,10 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
+using OfficeOpenXml;
+using RouteMaster.Models.Infra;
+using System.Data.SqlClient;
 
 namespace RouteMaster.Controllers
 {
@@ -40,6 +44,7 @@ namespace RouteMaster.Controllers
 
 
 		}
+		[HttpPost]
 		//Order 
 		private IEnumerable<OrderIndexVM> GetOrders(OrderCriteria criteria)
 		{
@@ -50,9 +55,10 @@ namespace RouteMaster.Controllers
 				   .ToList()
 				   .Select(o => o.ToIndexVM());
 		}
-		
 
-		public ActionResult Details(int id)
+
+		
+		public ActionResult Details(int? id)
 		{
 
 			Order order = db.Orders.Find(id);
@@ -60,8 +66,23 @@ namespace RouteMaster.Controllers
 			{
 				return HttpNotFound();
 			}
-			return View(order);
+			return View(order.ToIndexDto().ToIndexVM());
 		}
+
+
+
+
+
+		[HttpPost]
+		public ActionResult Details(OrderIndexVM vm)
+		{
+			db.Orders.Find(vm.Id).Total=vm.Total;
+			db.SaveChanges();
+			return RedirectToAction("Index");	
+			
+		}
+
+
 
 
 		//activitiesdetails(ef)
@@ -103,7 +124,7 @@ namespace RouteMaster.Controllers
 			IActivitiesDetailsRepository repo = new ActivitiesDetailsDapperRepository();
 			ActivitiesDetailsService service = new ActivitiesDetailsService(repo);
 
-			ActivitiesDetailsEditVM editVM= service.GetActivitiesDetailsEditDetails(id);
+			ActivitiesDetailsEditVM editVM = service.GetActivitiesDetailsEditDetails(id);
 
 			if (editVM == null)
 			{
@@ -116,7 +137,7 @@ namespace RouteMaster.Controllers
 		public ActionResult ActivitiesDetailsEdit(ActivitiesDetailsEditVM editvm)
 		{
 			IActivitiesDetailsRepository repo = new ActivitiesDetailsDapperRepository();
-			ActivitiesDetailsService service= new ActivitiesDetailsService(repo);
+			ActivitiesDetailsService service = new ActivitiesDetailsService(repo);
 
 			if (ModelState.IsValid)
 			{
@@ -128,8 +149,8 @@ namespace RouteMaster.Controllers
 
 		public ActionResult ActivitiesDetailsDelete(int id)
 		{
-			IActivitiesDetailsRepository repo=new ActivitiesDetailsDapperRepository();
-			ActivitiesDetailsService service=new ActivitiesDetailsService(repo);
+			IActivitiesDetailsRepository repo = new ActivitiesDetailsDapperRepository();
+			ActivitiesDetailsService service = new ActivitiesDetailsService(repo);
 
 			var activitiesDetails = service.GetActivitiesDetailsById(id);
 			return View(activitiesDetails.ToIndexDto().ToIndexVM());
@@ -139,13 +160,29 @@ namespace RouteMaster.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult ActivitiesDetailsDeleteConfirm(int id)
 		{
-			IActivitiesDetailsRepository repo=new ActivitiesDetailsDapperRepository();
-			ActivitiesDetailsService service= new ActivitiesDetailsService(repo);
+			IActivitiesDetailsRepository repo = new ActivitiesDetailsDapperRepository();
+			ActivitiesDetailsService service = new ActivitiesDetailsService(repo);
 
 			service.ActivitiesDetailsDelete(id);
 			return RedirectToAction("Index");
 		}
 
+		public ActionResult ActivitiesDetailsUpdate(int activitiesDetailsId, int newprice)
+		{
+			var activitiesDetails = db.ActivitiesDetails.Find(activitiesDetailsId);
+			activitiesDetails.Price= newprice;
+
+			var order=db.Orders.FirstOrDefault(o=>o.Id== activitiesDetails.OrderId);
+			if (order != null)
+			{
+				// 重新計算 Order 的金額，例如總金額為各個 ActivitiesDetails 的金額總和
+				int total = db.ActivitiesDetails.Where(ad => ad.OrderId == order.Id).Sum(ad => ad.Price);
+				order.Total = total;
+				db.SaveChanges();
+			}
+
+			return RedirectToAction("Index");
+		}
 		//ExtraServiceDetails (EF)
 		//      public ActionResult ExtraServicesDetailsPartialView(int id)
 		//{
@@ -186,14 +223,14 @@ namespace RouteMaster.Controllers
 			IExtraServiceDetailsRepository repo = new ExtraServicesDetailsDapperRepository();
 			ExtraServicesDetailsService service = new ExtraServicesDetailsService(repo);
 
-			
+
 			ExtraServicesDetailsEditVM editVM = service.GetExtraServicesEditDetails(id);
 
 			if (editVM == null)
 			{
 				return HttpNotFound();
 			}
-			
+
 
 			return View("_ExtraServicesDetailsEdit", editVM);
 		}
@@ -216,19 +253,19 @@ namespace RouteMaster.Controllers
 
 		public ActionResult ExtraServicesDetailsDelete(int id)
 		{
-			IExtraServiceDetailsRepository repo=new ExtraServicesDetailsDapperRepository();
-			ExtraServicesDetailsService service=new ExtraServicesDetailsService(repo);
+			IExtraServiceDetailsRepository repo = new ExtraServicesDetailsDapperRepository();
+			ExtraServicesDetailsService service = new ExtraServicesDetailsService(repo);
 
-			var extraServicesDetails=service.GetExtraServicesDetailsById(id);
+			var extraServicesDetails = service.GetExtraServicesDetailsById(id);
 			return View(extraServicesDetails.ToIndexDto().ToIndexVm());
 		}
-		
+
 		[HttpPost, ActionName("ExtraServicesDetailsDelete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult ExtraServicesDetailsDeleteConfirm(int id)
 		{
-			IExtraServiceDetailsRepository repo=new ExtraServicesDetailsDapperRepository();
-			ExtraServicesDetailsService service=new ExtraServicesDetailsService(repo);
+			IExtraServiceDetailsRepository repo = new ExtraServicesDetailsDapperRepository();
+			ExtraServicesDetailsService service = new ExtraServicesDetailsService(repo);
 
 			service.ExtraServicesDetailsDelete(id);
 			return RedirectToAction("index");
@@ -247,14 +284,14 @@ namespace RouteMaster.Controllers
 		public ActionResult AccomodationDetailsEdit(int id)
 		{
 			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
-			AccomodationDetailsService service=new AccomodationDetailsService(repo);
+			AccomodationDetailsService service = new AccomodationDetailsService(repo);
 
 			AccomodationDetailsEditVM editVM = service.GetAccomodationDetailsEditDetails(id);
 			if (editVM == null)
 			{
 				return HttpNotFound();
 			}
-			return View("_AccomodationDetailsEdit",editVM);
+			return View(editVM);
 
 		}
 
@@ -262,15 +299,29 @@ namespace RouteMaster.Controllers
 		public ActionResult AccomodationDetailsEdit(AccomodationDetailsEditVM editVM)
 		{
 			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
-			AccomodationDetailsService service=new AccomodationDetailsService(repo);
+			AccomodationDetailsService service = new AccomodationDetailsService(repo);
 			if (ModelState.IsValid)
 			{
 				service.AccomodationDetailsEdit(editVM.ToEditDto());
-				return RedirectToAction("Index");
+				return RedirectToAction("Details", new { id = editVM.OrderId });
 			}
 			return View(editVM);
 		}
+		//public ActionResult UpdateOrderTotal(Order dto)
+		//{
+		//	using (var conn = new SqlConnection(_connStr))
+		//	{
+		//		int activitiesTotal = OrderHelper.GetActivitiesTotal(conn, dto.OrderId);
+		//		int extraServiceTotal = OrderHelper.GetExtraServiceTotal(conn, dto.OrderId);
 
+		//		int total = activitiesTotal + extraServiceTotal;
+
+		//		string sqlOrder = @"UPDATE Orders SET Total = @Total WHERE Id = @OrderId";
+		//		conn.Execute(sqlOrder, new { Total = total, OrderId = dto.OrderId });
+		//		return Json(sqlOrder);
+		//		// 其他操作或返回結果
+		//	}
+		//}
 		public ActionResult AccomodationDetailsDelete(int id)
 		{
 			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
@@ -294,10 +345,10 @@ namespace RouteMaster.Controllers
 
 			IEnumerable<SelectListItem> paymentStatusList = new List<SelectListItem>
 			{
-				new SelectListItem { Value = "0", Text = "" }, 
-        new SelectListItem { Value = "1", Text = "已付款" },
-        new SelectListItem { Value = "2", Text = "未付款" },
-        new SelectListItem { Value = "3", Text = "已取消" },
+				new SelectListItem { Value = "0", Text = "" },
+		new SelectListItem { Value = "1", Text = "已付款" },
+		new SelectListItem { Value = "2", Text = "未付款" },
+		new SelectListItem { Value = "3", Text = "已取消" },
 			};
 			ViewBag.paymentStatus = new SelectList(paymentStatusList, "Value", "Text", PaymentStatus);
 		}
@@ -315,7 +366,12 @@ namespace RouteMaster.Controllers
 
 
 
-	}
-}
+    }
+
+
+   }
+
+       
+
 
 		

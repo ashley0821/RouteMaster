@@ -10,7 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>ActivitiesDetailsIndexVM</h4>
         <hr />
@@ -20,65 +20,80 @@
         <div class="form-group">
             @Html.LabelFor(model => model.OrderId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.OrderId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.OrderId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.OrderId, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.OrderId)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ActivityId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ActivityId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ActivityId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.ActivityId, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ActivityId)
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             @Html.LabelFor(model => model.ActivityName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ActivityName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ActivityName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.ActivityName, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ActivityName)
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control datepicker", type = "date" } })
-                @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
-            </div>
+            <br />
+            <input type="date" id="CheckInDate" />
+            <input type="time" id="CheckIn" />
+            @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", @id = "CheckInEditor" } })
+            @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
+
+        <div class="mb-3">
             @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+            <br />
+            <input type="date" id="CheckOutDate" />
+            <input type="time" id="CheckOut" />
+            @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", @id = "CheckOutEditor" } })
+            @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", id = "price" } })
+            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", id = "quantity" } })
+            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Total Price", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="number" class="form-control" id="totalPrice" readonly />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+
 }
 
 <div>
@@ -88,3 +103,72 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+
+
+    // 日期選擇
+    var CheckInDateInput = document.querySelector('#CheckInDate');
+    var CheckInTimeInput = document.querySelector('#CheckIn');
+    var CheckOutDateInput = document.querySelector('#CheckOutDate');
+    var CheckOutTimeInput = document.querySelector('#CheckOut');
+    var CheckInEditor = document.querySelector('#CheckInEditor');
+    var CheckOutEditor = document.querySelector('#CheckOutEditor');
+
+    CheckInDateInput.addEventListener('change', updateCheckIn);
+    CheckInTimeInput.addEventListener('change', updateCheckIn);
+    CheckOutDateInput.addEventListener('change', updateCheckOut);
+    CheckOutTimeInput.addEventListener('change', updateCheckOut);
+
+    function updateCheckIn() {
+        var CheckInDateValue = CheckInDateInput.value;
+        var CheckInTimeValue = CheckInTimeInput.value;
+        var dateTimeValue = CheckInDateValue + " " + CheckInTimeValue;
+        CheckInEditor.value = dateTimeValue;
+    }
+
+    function updateCheckOut() {
+        var CheckOutDateValue = CheckOutDateInput.value;
+        var CheckOutTimeValue = CheckOutTimeInput.value;
+        var dateTimeValue = CheckOutDateValue + " " + CheckOutTimeValue;
+        CheckOutEditor.value = dateTimeValue;
+    }
+
+
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+        var priceInput = $('#price');
+        var quantityInput = $('#quantity');
+        var calculationResult = $('#calculationResult');
+
+        priceInput.on('input', updateTotalPrice);
+        quantityInput.on('input', updateTotalPrice);
+        updateTotalPrice();
+
+        function updateTotalPrice() {
+            var price = parseFloat(priceInput.val());
+            var quantity = parseInt(quantityInput.val());
+
+            // 检查输入的值是否有效
+            if (!isNaN(price) && !isNaN(quantity)) {
+                // 计算总价
+                var totalPrice = price * quantity;
+
+                // 将价格显示在页面上
+                $('#totalPrice').val(totalPrice.toFixed(2)); // 根据需要进行格式化，这里保留两位小数
+
+                // 计算并显示乘积结果
+                var result = price * quantity;
+                calculationResult.text("結果: " + result);
+            }
+        }
+    });
+
+
+</script>

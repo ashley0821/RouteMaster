@@ -1,31 +1,58 @@
-﻿@model RouteMaster.Models.EFModels.Order
+﻿@model RouteMaster.Models.ViewModels.OrderIndexVM
 
 
-@{
-    ViewBag.Title = "Details";
-}
+
 
 <h2>訂單明細</h2>
 <style>
-    .block{
-        border:1px solid #CCC;
+    .block {
+        border: 1px solid #CCC;
         margin-bottom: 10px;
         padding: 10px;
     }
-    .collapsed{
-        display:none;
 
+    .collapsed {
+        display: none;
     }
-    .toggle{
-        cursor:pointer;
+
+    .toggle {
+        cursor: pointer;
+    }
+
+    .largefont {
+        font-size: 40px;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .text-left {
+        text-align: left;
+    }
+
+    .hidden-input {
+        border: none;
+        background-color: transparent;
+        outline: none;
+    }
+
+    .divider {
+        border-top: 1px solid #ccc;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 </style>
+@using (Html.BeginForm())
+{
+
+
 <div class="block">
     <h3 class="toggle">住宿明細</h3>
     <div class="content">
         @{Html.RenderAction("AccomodationDetailsPartialView", new { orderId = Model.Id }); }
     </div>
-    
+
     <br />
 </div>
 <div class="block">
@@ -41,17 +68,131 @@
     <div class="content">
         @{Html.RenderAction("ExtraServicesDetailsPartialView", new { orderId = Model.Id });}
     </div>
-  
 
 </div>
 
+
+
+
+
+<br />
+<div id="savedNote"></div>
+<div class="divider"></div>
+
+
+<form>
+    <div class="col-md-8 text-left ">
+        <input type="text" name="Total" class="hidden-input largefont " id="totalPrice" readonly style="color: gray" ; />       
+    </div>
+    <button type="submit">提交</button>
+</form>
+
+
+<div class="form-group">
+    
+    <label for="note" class="control-label col-md-5 mfont">訂單後台備註：</label>
+    <div class="col-md-7">
+        <textarea class="form-control" id="note" rows="5"></textarea>
+    </div>
+
+    @*@Html.Label("訂單備註：", htmlAttributes: new { @class = "control-label col-md-5 largefont " })*@
+    @*<textarea class="form-control mb-8 col-8" style="margin: 20px; width: 800px;" rows="20" id="note" name="note"></textarea>*@
+</div>
+<button onclick="saveNote()">儲存</button>
+            }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script> 
+<script>
     $(document).ready(function () {
         $('.toggle').click(function () {
             var content = $(this).next('.content');
             content.toggleClass('collapsed');
         });
     });
-        
+
 </script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@*<script>
+
+
+        function saveNote() {
+        var note = $('#note').val();
+        $('#savedNote').text("訂單後台備註內容：" + note);
+    }
+
+</script>*@
+<script>
+    window.onload = function () {
+        var savedNote = localStorage.getItem('savedNote');
+        if (savedNote) {
+            var savedNoteElement = document.getElementById("savedNote");
+            savedNoteElement.innerHTML = "<strong>備註內容：</strong>" + savedNote;
+        }
+    };
+
+    function saveNote() {
+        var note = document.getElementById("note").value;
+        var savedNoteElement = document.getElementById("savedNote");
+        if (savedNoteElement) {
+            savedNoteElement.innerHTML = "<strong>備註內容：</strong>" + note;
+            localStorage.setItem('savedNote', note);
+        } else {
+            console.error("找不到ID為'savedNote'的元素");
+        }
+    }
+</script>
+
+
+
+<script>
+
+    $(window).on('load', function () {
+        var priceElements = $('.control-label.col-md-3#price');
+        var quantityElements = $('.control-label.col-md-3#quantity');
+        var roomPriceElements = $('.control-label.col-md-3#RoomPrice');
+        var Activitiesprice = $('.control-label.col-md-3#Activitiesprice');
+        var Activitiesquantity = $('.control-label.col-md-3#Activitiesquantity');
+        var totalPrice = 0;
+
+        // Calculate total price based on price and quantity
+        for (var i = 0; i < priceElements.length; i++) {
+            var price = parseFloat($(priceElements[i]).text().replace('$', '').replace(',', ''));
+            var quantity = parseInt($(quantityElements[i]).text());
+
+            if (!isNaN(price) && !isNaN(quantity)) {
+                totalPrice += price * quantity;
+            }
+        }
+
+        // Calculate total price based on room prices
+        for (var i = 0; i < roomPriceElements.length; i++) {
+            var roomPrice = parseFloat($(roomPriceElements[i]).text().replace('$', '').replace(',', ''));
+
+            if (!isNaN(roomPrice)) {
+                totalPrice += roomPrice;
+            }
+        }
+
+        //Caculate total price based on actPrice and actQuantity
+
+        for (var i = 0; i < Activitiesprice.length; i++) {
+            var ActPrice = parseFloat($(Activitiesprice[i]).text().replace('$', '').replace(',', ''));
+            var ActQuantity = parseInt($(Activitiesquantity[i]).text());
+
+            if (!isNaN(ActPrice) && !isNaN(ActQuantity)) {
+                totalPrice += ActPrice * ActQuantity;
+            }
+        }
+
+
+        $('#totalPrice').val(totalPrice);
+        /*  console.log(totalPrice)*/
+    });
+
+</script>
+
+
+
+
+

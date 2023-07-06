@@ -19,18 +19,23 @@
         }
     </style>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
-    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
-
-
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
+        <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />*@
 
 }
 
-<div id="actPartialView">
-    @{
-        Html.RenderAction("ActivitiesList");
-    }
-</div>
+@{
+
+    Html.RenderAction("ActivitiesList");
+}
+
+
+
+@{
+
+    Html.RenderAction("ActivitiesList");
+}
+
 
 @{
     Html.RenderAction("ExtraServicesList");
@@ -39,9 +44,6 @@
 @{
     Html.RenderAction("AttractionsList");
 }
-
-
-
 
 
 
@@ -115,39 +117,62 @@
 @section Scripts {
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+    @*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>*@
 
 
 
     <script>
-
-
+        //叫用DataTable套件
         new DataTable('#attractionTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
-            responsive: true
+            responsive: true,
+            searching: false,
+            sorting: false
+
+        });
+        new DataTable('#activitiyTable', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+            },
+            responsive: true,//響應式
+            searching: false, // 停用搜尋功能
+            sorting: false // 停用排序功能
         });
 
+
+        
+        //new DataTable('#extraServiceTable', {
+        //    language: {
+        //        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+        //    },
+        //    responsive: true,
+        //    searching: false,
+        //    sorting: false
+        //});
+
+
+
+        //todo自訂後端分頁
 
         new DataTable('#extraServiceTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
-            responsive: true
+            responsive: true,
+            searching: false,
+
+            sorting: false,
+            serviceSide: true,
+            ajax: {
+                url:'/PackageTour/PagingExtraServiceTable', 
+                type:'POST'
+            }          
         });
 
-
-
-        new DataTable('#activitiyTable', {
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
-            },
-            responsive: true
-        });
-        
 
     </script>
 
@@ -160,7 +185,6 @@
         const actsContainer = document.querySelector("#activityContainer");
         function bindingSelectAct() {
             let addActBtns = document.querySelectorAll(".addActivity");
-
             for (let i = 0; i < addActBtns.length; i++) {
                 addActBtns[i].addEventListener('click', () => {
 
@@ -173,43 +197,26 @@
 
                     for (let j = 0; j < activities.length; j++) {
                         if (activities[j].Id == id) {
-
-                            //console.log(typeof (activities[j].Name))
-                            //console.log((activities[j].Name))
-
                             let children = actsContainer.childNodes;
-                            //console.log(children);
-
                             for (let k = 0; k < children.length; k++) {
-
-                                //console.log(typeof (children[k].textContent))
-
-                                //console.log(children[k].textContent)
-
                                 if (children[k].textContent == activities[j].Name) {
-
                                     nameExists = true;
-                                    //console.log(nameExists);
-
                                     break;
                                 }
                             }
-
                             if (nameExists)
                             {
-                                return;
+                              return;
                             }
 
                             newActivity.textContent = activities[j].Name;
-
 
                             // 生成複選框
                             var checkbox = document.createElement("input");
                             checkbox.type = "checkbox";
                             checkbox.value = activities[j].Id;
                             checkbox.checked = true;
-                            checkbox.classList.add('actSize')
-
+                            checkbox.classList.add('actSize');
                             checkbox.addEventListener('change', function () {
                                 if (!this.checked) {
                                     this.parentNode.remove();
@@ -224,7 +231,6 @@
                     }
                 });
             }
-
         }
         bindingSelectAct();
 
@@ -248,7 +254,6 @@
         const extraServices =@Html.Raw(Json.Encode(ViewBag.ExtraServices));
         const extContainer = document.querySelector("#extraServiceContainer");
         const addExtBtns = document.querySelectorAll(".addExtraService");
-
         for (let i = 0; i < addExtBtns.length; i++) {
             addExtBtns[i].addEventListener('click', () => {
 
@@ -287,8 +292,6 @@
         const attractions = @Html.Raw(Json.Encode(ViewBag.Attractions));
         const attsContainer = document.querySelector("#attractionContainer");
         const addAttBtns = document.querySelectorAll(".addAttraction");
-
-
         for (let i = 0; i < addAttBtns.length; i++) {
             addAttBtns[i].addEventListener('click', () => {
 
@@ -321,12 +324,11 @@
                         break;
                     }
                 }
-
             });
         }
 
-        const form = document.querySelector('#CreatePackageTour');
-        form.addEventListener('submit', function () {
+        const mainForm = document.querySelector('#CreatePackageTour');
+        mainForm.addEventListener('submit', function () {
 
             let attCheckBoxies = document.querySelectorAll('.attSize');
             for (let i = 0; i < attCheckBoxies.length; i++) {
@@ -345,12 +347,6 @@
             }
 
         })
-
-
-
-
-
-
     </script>
 
 
@@ -369,21 +365,10 @@
             criteria.showAvailableOnly = document.querySelector('#status').checked;
             return criteria;
         }
-
         const actform = document.querySelector('#ActivityPartial');
         actform.addEventListener('submit', function (event) {
             event.preventDefault();
         });
-
-
-
-
-
-
-
-
-
-
         document.querySelector('#ActivityPartial').addEventListener('click', function (event) {
             // 檢查被點擊的目標是否是目標按鍵
             if (event.target && event.target.id === 'actSearch') {
@@ -413,27 +398,26 @@
 
                         //重新綁定事件
                         bindingSelectAct();
+                        new DataTable('#activitiyTable', {
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+                            },
+                            responsive: true,//響應式
+                            searching: false, // 停用搜尋功能
+                            sorting: false // 停用排序功能
+                        });
+
 
                     }
                 };
                 xhr.send();
             }
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </script>
+
+
+
+
 
 
 

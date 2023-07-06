@@ -1,0 +1,68 @@
+﻿@model RouteMaster.Models.ViewModels.AttractionImageIndexVM
+
+@{
+    ViewBag.Title = "變更圖片";
+}
+
+<h2>變更圖片</h2>
+
+
+@using (Html.BeginForm("EditImage", "Attractions", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="row">
+    
+    <hr />
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    @Html.HiddenFor(model => model.AttractionId)
+
+
+    <div class="mb-3 img-wrap">
+        <img src="~/Uploads/@Model.Image" class="w-50" />
+    </div>
+
+
+    <div class="mb-3">
+
+        <input type="file" name="file1" accept="image/*" id="fileElem" class="form-control d-none" />
+
+    </div>
+
+    <div class="mb-3">
+        
+            <input type="submit" value="變更圖片" class="btn btn-primary disabled" id="saveBtn" />
+     
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("取消", "ImagesIndex", new { id = Model.AttractionId }, new { @class = "btn btn-secondary" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(".img-wrap").on('click', () => {
+            $("#fileElem").trigger('click');
+        })
+
+        $("#fileElem").on('change', function (evt) {
+            $("#saveBtn").removeClass("disabled");
+
+            var files = evt.target.files;
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('.img-wrap>img').attr('src', e.target.result);
+                
+            };
+            reader.readAsDataURL(files[0]);
+        });
+
+        
+    </script>
+}
