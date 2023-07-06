@@ -6,16 +6,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
+
+
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @RenderSection("styles", required: false)
 
     <link rel="stylesheet" href="~/Content/UploadImage.css" />
-
-    <!--DataTableCSS-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
-    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
-
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="~/assets/img/favicon/favicon.ico" />
@@ -50,6 +47,12 @@
 
     <link rel="stylesheet" href="~/Content//jquery-ui.css">
 
+    <!--DataTableCSS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
+    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
+
+
+
     <style>
         @@media (min-width: 1200px) {
             .layout-menu {
@@ -77,6 +80,7 @@
                 }
         }
     </style>
+    @RenderSection("styles", required: false)
 
 </head>
 <body>
@@ -207,7 +211,7 @@
                             <li class="menu-item">
 
 
-                                <a href="/Orders" class="menu-link" >
+                                <a href="/Orders" class="menu-link">
 
 
                                     <div data-i18n="Basic">訂單</div>
@@ -218,6 +222,7 @@
 
 
                                 <a href="/PaymentMethods" class="menu-link"">
+
 
                                     <div data-i18n="Basic">付款方式管理</div>
 
@@ -450,21 +455,28 @@
         <!-- / Layout wrapper -->
 
     </div>
+
+
+    <!--DataTableJs注意渲染順序 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+
+
+
+
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @*<script src="~/Scripts/jquery-ui.js"></script>*@
-    @RenderSection("scripts", required: false)
+
+
     <script src="~/assets/vendor/libs/popper/popper.js"></script>
     <script src="~/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="~/assets/vendor/js/bootstrap.js"></script>
     <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
 
-
-    <!--DataTableJs-->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
 
 
 
@@ -482,5 +494,7 @@
     <script>
 
     </script>
+    @RenderSection("scripts", required: false)
+
 </body>
 </html>
