@@ -5,7 +5,11 @@ using RouteMaster.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
+using System.Web.Helpers;
+using System.Xml.Linq;
+using static System.Net.WebRequestMethods;
 
 namespace RouteMaster.Models.Services
 {
@@ -46,10 +50,17 @@ namespace RouteMaster.Models.Services
 			// 新增一筆記錄
 			_repo.Register(dto);
 
-			// todo 寄發 email
+            // todo 寄發 email
+            EmailHelper emailHelper = new EmailHelper();
+			var url = "https://localhost:44371/Members/ActiveRegister";
+			var name = dto.Account;
+			var email = dto.Email;
 
-			return Result.Success();
-		}
+			emailHelper.SendConfirmRegisterEmail(url, name, email);
+
+
+            return Result.Success();
+        }
 
 
 
