@@ -24,11 +24,6 @@
 
 }
 
-@{
-
-    Html.RenderAction("ActivitiesList");
-}
-
 
 
 @{
@@ -145,35 +140,20 @@
 
 
         
-        //new DataTable('#extraServiceTable', {
-        //    language: {
-        //        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
-        //    },
-        //    responsive: true,
-        //    searching: false,
-        //    sorting: false
-        //});
-
-
-
-        //todo自訂後端分頁
-
         new DataTable('#extraServiceTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
             responsive: true,
             searching: false,
-
-            sorting: false,
-            serviceSide: true,
-            ajax: {
-                url:'/PackageTour/PagingExtraServiceTable', 
-                type:'POST'
-            }          
+            sorting: false
         });
 
 
+
+       
+
+    
     </script>
 
 
