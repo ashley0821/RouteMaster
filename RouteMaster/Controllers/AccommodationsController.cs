@@ -24,7 +24,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace RouteMaster.Controllers
 {
-    [Authorize]
+    
     public class AccommodationsController : Controller
     {
         private readonly AppDbContext db = new AppDbContext();

@@ -16,6 +16,7 @@ using RouteMaster.Models.ViewModels;
 
 namespace RouteMaster.Controllers
 {
+    [Authorize]
     public class Comments_AccommodationsController : Controller
     {
         private AppDbContext db = new AppDbContext();
