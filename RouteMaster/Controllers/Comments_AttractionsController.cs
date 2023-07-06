@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.EFRepositories;
@@ -52,18 +53,17 @@ namespace RouteMaster.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var commAttrDb = db.Comments_Attractions.Include(c => c.Attraction)
-                 .FirstOrDefault(c => c.Id == id).ToDetailVM();
-            var img = db.Comments_AttractionImages.Where(i => i.Comments_AttractionId == id).ToList();
-            if (commAttrDb == null)
+            
+            IComments_AttractionsRepository repo = new Comments_AttractionsEFRepository();
+            Comments_AttractionsService service= new Comments_AttractionsService(repo);
+
+            if (!service.ExistDetail(id))
             {
                 return HttpNotFound();
             }
 
-            commAttrDb.Images = img.Select(i=>i.Image);
-
-
-            return View(commAttrDb);
+			Comments_AttractionsDetailVM vm =service.Detail(id).ToDetailVM();
+			return View(vm);
         }
 
         // GET: Comments_Attractions/Create
