@@ -145,7 +145,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr onclick="location.href='@Url.Action("Details", new { id = item.Id })'">
                 <td class="align-middle">
                     @if (!string.IsNullOrEmpty(item.Image))
                     {
@@ -177,8 +177,8 @@
                     @Html.DisplayFor(modelItem => item.AveragePriceText)
                 </td>
                 <td class="align-middle">
+                    @Html.ActionLink("景點詳情", "Details", new { id = item.Id }, new { @class = "d-none" }) 
                     @Html.ActionLink("編輯景點", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("景點詳情", "Details", new { id = item.Id }) |
                     @Html.ActionLink("管理圖片", "ImagesIndex", new { id = item.Id }) |
                     @Html.ActionLink("刪除景點", "Delete", new { id = item.Id })
                 </td>
