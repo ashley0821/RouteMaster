@@ -649,12 +649,8 @@
     <Content Include="Views\Comments_Accommodations\Comments.cshtml" />
     <Content Include="Views\Members\EditPassword.cshtml" />
     <Content Include="Views\Comments_Accommodations\ImgIndex.cshtml" />
-
-
     <Content Include="Views\Attractions\ImagesIndex.cshtml" />
     <Content Include="Views\Attractions\EditImage.cshtml" />
-
-
     <Content Include="Views\Comments_Accommodations\ChangeImg.cshtml" />
     <Content Include="Views\Comments_Accommodations\UploadImg.cshtml" />
     <Content Include="Views\PaymentMethods\Create.cshtml" />
@@ -662,9 +658,8 @@
     <Content Include="Views\PaymentMethods\Details.cshtml" />
     <Content Include="Views\PaymentMethods\Edit.cshtml" />
     <Content Include="Views\PaymentMethods\Index.cshtml" />
-
     <Content Include="Views\Members\SuspendMember.cshtml" />
-
+    <Content Include="Views\Attractions\UploadImg.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
