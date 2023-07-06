@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RouteMaster.Models.EFModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,5 +31,8 @@ namespace RouteMaster.Models.Dto
 		public string IndustryEmail { get; set; }
 
 		public int? ParkingSpace { get; set; }
+		public virtual ICollection<AccommodationImage> AccommodationImages { get; set; }
+
 	}
+
 }

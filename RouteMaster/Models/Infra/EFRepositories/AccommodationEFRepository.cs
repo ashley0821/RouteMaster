@@ -12,6 +12,7 @@ using System.Security.Principal;
 using System.Data;
 using System.IO;
 using RouteMaster.Models.ViewModels.Accommodations;
+using RouteMaster.Models.Dto.Accommodation;
 
 namespace RouteMaster.Models.Infra.EFRepositories
 {
@@ -27,7 +28,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
             _db.SaveChanges();
         }
 
-		public void EditAccommodationProfile(AccommodationEditDto dto, HttpPostedFileBase[] files, string path)
+		public void EditAccommodationProfile(AccommodationEditDto dto, AccommodationImagesDto aidto, string path)
 		{
 			Accommodation entity = _db.Accommodations.FirstOrDefault(a => a.Id == dto.Id);
 
@@ -46,12 +47,13 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			AccommodationImage img = new AccommodationImage();
 
-			if (files.Length > 0 && files[0] != null)
+			if (aidto.Files.Length > 0 && aidto.Files[0] != null)
 			{
-				foreach (HttpPostedFileBase file in files)
+				for (int i = 0; i < aidto.Files.Length; i++) 
+				//foreach (HttpPostedFileBase file in files)
 				{
-					string fileName = SaveUploadedFile(path, file);
-					img.Name = dto.Name == null? "未命名的圖片" : dto.Name;
+					string fileName = SaveUploadedFile(path, aidto.Files[i]);
+					img.Name = string.IsNullOrEmpty(aidto.ImgName[i])? "未命名的圖片" : aidto.ImgName[i];
 					img.AccommodationId = dto.Id;
 					img.Image = fileName;
 					_db.AccommodationImages.Add(img);
@@ -65,7 +67,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 		public AccommodationEditDto GetEditInfo(int? id)
 		{
-			var accommodationdb = _db.Accommodations.AsNoTracking().FirstOrDefault(x => x.Id == id);
+			var accommodationdb = _db.Accommodations.AsNoTracking().Include(a=>a.AccommodationImages).FirstOrDefault(x => x.Id == id);
 
 			return accommodationdb == null ? null : accommodationdb.ToEditDto();
 			;
