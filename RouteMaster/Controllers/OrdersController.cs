@@ -21,6 +21,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using OfficeOpenXml;
+using RouteMaster.Models.Infra;
+using System.Data.SqlClient;
 
 namespace RouteMaster.Controllers
 {
@@ -55,7 +57,8 @@ namespace RouteMaster.Controllers
 		}
 
 
-		public ActionResult Details(int id)
+		
+		public ActionResult Details(int? id)
 		{
 
 			Order order = db.Orders.Find(id);
@@ -63,8 +66,23 @@ namespace RouteMaster.Controllers
 			{
 				return HttpNotFound();
 			}
-			return View(order);
+			return View(order.ToIndexDto().ToIndexVM());
 		}
+
+
+
+
+
+		[HttpPost]
+		public ActionResult Details(OrderIndexVM vm)
+		{
+			db.Orders.Find(vm.Id).Total=vm.Total;
+			db.SaveChanges();
+			return RedirectToAction("Index");	
+			
+		}
+
+
 
 
 		//activitiesdetails(ef)
@@ -149,6 +167,22 @@ namespace RouteMaster.Controllers
 			return RedirectToAction("Index");
 		}
 
+		public ActionResult ActivitiesDetailsUpdate(int activitiesDetailsId, int newprice)
+		{
+			var activitiesDetails = db.ActivitiesDetails.Find(activitiesDetailsId);
+			activitiesDetails.Price= newprice;
+
+			var order=db.Orders.FirstOrDefault(o=>o.Id== activitiesDetails.OrderId);
+			if (order != null)
+			{
+				// 重新計算 Order 的金額，例如總金額為各個 ActivitiesDetails 的金額總和
+				int total = db.ActivitiesDetails.Where(ad => ad.OrderId == order.Id).Sum(ad => ad.Price);
+				order.Total = total;
+				db.SaveChanges();
+			}
+
+			return RedirectToAction("Index");
+		}
 		//ExtraServiceDetails (EF)
 		//      public ActionResult ExtraServicesDetailsPartialView(int id)
 		//{
@@ -257,7 +291,7 @@ namespace RouteMaster.Controllers
 			{
 				return HttpNotFound();
 			}
-			return View("_AccomodationDetailsEdit", editVM);
+			return View(editVM);
 
 		}
 
@@ -269,11 +303,25 @@ namespace RouteMaster.Controllers
 			if (ModelState.IsValid)
 			{
 				service.AccomodationDetailsEdit(editVM.ToEditDto());
-				return RedirectToAction("Index");
+				return RedirectToAction("Details", new { id = editVM.OrderId });
 			}
 			return View(editVM);
 		}
+		//public ActionResult UpdateOrderTotal(Order dto)
+		//{
+		//	using (var conn = new SqlConnection(_connStr))
+		//	{
+		//		int activitiesTotal = OrderHelper.GetActivitiesTotal(conn, dto.OrderId);
+		//		int extraServiceTotal = OrderHelper.GetExtraServiceTotal(conn, dto.OrderId);
 
+		//		int total = activitiesTotal + extraServiceTotal;
+
+		//		string sqlOrder = @"UPDATE Orders SET Total = @Total WHERE Id = @OrderId";
+		//		conn.Execute(sqlOrder, new { Total = total, OrderId = dto.OrderId });
+		//		return Json(sqlOrder);
+		//		// 其他操作或返回結果
+		//	}
+		//}
 		public ActionResult AccomodationDetailsDelete(int id)
 		{
 			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
@@ -317,43 +365,7 @@ namespace RouteMaster.Controllers
 		}
 
 
-  //      public ActionResult ExportExcel(OrderCriteria criteria)
-		//{
-  //          IEnumerable<OrderIndexVM> orders = GetOrders(criteria);
 
-  //          using (var package = new ExcelPackage())
-  //          {
-  //              var worksheet = package.Workbook.Worksheets.Add("Orders");
-
-                
-  //              worksheet.Cells[1, 1].Value = "Id";
-  //              worksheet.Cells[1, 2].Value = "MemberName";
-  //              worksheet.Cells[1, 3].Value = "PaymentMethodName";
-  //              worksheet.Cells[1, 4].Value = "CreateDate";
-  //              worksheet.Cells[1, 5].Value = "Total";
-  //              worksheet.Cells[1, 6].Value = "PaymentStatusText";
-
-              
-  //              var row = 2;
-  //              foreach (var order in orders)
-  //              {
-  //                  worksheet.Cells[row, 1].Value = order.Id;
-  //                  worksheet.Cells[row, 2].Value = order.MemberName;
-  //                  worksheet.Cells[row, 3].Value = order.PaymentMethodName;
-  //                  worksheet.Cells[row, 4].Value = order.CreateDate;
-  //                  worksheet.Cells[row, 5].Value = order.Total;
-  //                  worksheet.Cells[row, 6].Value = order.PaymentStatusText;
-
-  //                  row++;
-  //              }
-
-  //              // 设置单元格格式、样式等
-
-  //              // 保存 Excel 文件
-  //              var memoryStream = new MemoryStream(package.GetAsByteArray());
-  //              return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Orders.xlsx");
-  //          }
-  //      }
     }
 
 

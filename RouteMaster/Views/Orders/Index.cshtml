@@ -146,9 +146,13 @@
                 <td class="control-label col-md-3" style="text-align: center;">
                     @Html.DisplayFor(modelItem => item.CreateDate)
                 </td>
-                <td class="control-label col-md-1" style="text-align: center;">
-                    @Html.DisplayFor(modelItem => item.Total)
+                @*<td class="control-label col-md-1" style="text-align: center;">
+                        @Html.DisplayFor(modelItem => item.Total)
+                    </td>*@
+                <td class="control-label col-md-3" style="text-align: center" id="totalPrice" data-itemid="@item.Id">
+                    <span id="TotalOrderPrice_@item.Id"> @Html.DisplayFor(modelItem => item.Total)</span>
                 </td>
+
                 <td class="control-label col-md-1" style="text-align: center;">
                     @Html.DisplayFor(modelItem => item.PaymentStatusText)
                 </td>
@@ -173,6 +177,7 @@
 
 </table>
 
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
@@ -181,9 +186,8 @@
     <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
-
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   
 
     <script>
         new DataTable('#orderTable', {
@@ -193,54 +197,65 @@
             responsive: true
         });
     </script>
-  
-   <script>
-       const generateExcel = (data) => {
-          
-           const csvContent = "data:text/csv;charset=utf-8," + data.map(row => Object.values(row).join(",")).join("\n");
 
-           const downloadLink = document.createElement("a");
-           downloadLink.href = encodeURI(csvContent);
-           downloadLink.download = "data.xlsx"; 
+    <script>
+        const generateExcel = (data) => {
 
-           downloadLink.click();
-       };
+            const csvContent = "data:text/csv;charset=utf-8," + data.map(row => Object.values(row).join(",")).join("\n");
 
-       const exportExcel = () => {
-           let list = []; 
+            const downloadLink = document.createElement("a");
+            downloadLink.href = encodeURI(csvContent);
+            downloadLink.download = "data.csv";
 
-          
-           const table = document.getElementById("orderTable"); 
-           const tbody = table.getElementsByTagName("tbody")[0];
-           const rows = tbody.getElementsByTagName("tr");
+            downloadLink.click();
+        };
 
-           for (let i = 0; i < rows.length; i++) {
-               const row = rows[i];
-               const cells = row.getElementsByTagName("td");
+        const exportExcel = () => {
+            let list = [];
 
-            
-               const obj = {
-                   Id: cells[0].innerText,
-                   MemberName: cells[1].innerText,
-                   PaymentMethodName: cells[2].innerText,
-                   CreateDate: cells[3].innerText,
-                   Total: cells[4].innerText,
-                   PaymentStatusText: cells[5].innerText,
-               };
 
-             
-               list.push(obj);
-           }
-           /*console.log(list);*/
-           
-           generateExcel(list);
+            const table = document.getElementById("orderTable");
+            const tbody = table.getElementsByTagName("tbody")[0];
+            const rows = tbody.getElementsByTagName("tr");
 
-          
-          
-       };
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const cells = row.getElementsByTagName("td");
+
+
+                const obj = {
+                    Id: cells[0].innerText,
+                    MemberName: cells[1].innerText,
+                    PaymentMethodName: cells[2].innerText,
+                    CreateDate: cells[3].innerText,
+                    Total: cells[4].innerText,
+                    PaymentStatusText: cells[5].innerText,
+                };
+
+
+                list.push(obj);
+            }
+            /*console.log(list);*/
+
+            generateExcel(list);
+
+
+
+        };
     </script>
 
+    <script>
+        $(document).ready(function () {
+            
+            setInterval(function () {
+                var storedTotalPrice = localStorage.getItem('totalPrice');
 
+                if (storedTotalPrice) {
+                    $('#totalPrice').val('$' + storedTotalPrice.toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                }
+            }, 1000); // 每秒檢查一次
+        });
+    </script>
 
 }
 

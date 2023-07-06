@@ -256,6 +256,7 @@
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
     <Compile Include="Models\Infra\Criterias\ActivityIndexCriteria.cs" />
+    <Compile Include="Models\Infra\Criterias\Comments_AccommodationCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQSortManner.cs" />
     <Compile Include="Models\Infra\Criterias\MemberCriteria.cs" />
@@ -291,6 +292,7 @@
     <Compile Include="Models\Infra\Extensions\PaymentMethodExts.cs" />
     <Compile Include="Models\Infra\Extensions\TravelPlanExts.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
+    <Compile Include="Models\Infra\OrderHelper.cs" />
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Interfaces\IAccommodationRepository.cs" />
     <Compile Include="Models\Interfaces\IAccomodationDetailsRepository.cs" />
@@ -655,6 +657,7 @@
     <Content Include="Views\PaymentMethods\Details.cshtml" />
     <Content Include="Views\PaymentMethods\Edit.cshtml" />
     <Content Include="Views\PaymentMethods\Index.cshtml" />
+    <Content Include="Views\Orders\AccomodationDetailsEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
