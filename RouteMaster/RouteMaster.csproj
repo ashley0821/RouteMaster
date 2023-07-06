@@ -54,15 +54,29 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=6.2.6.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.6.2.6\lib\net462\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=6.1.1.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.Interfaces.6.1.1\lib\net462\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=6.1.1.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.System.Drawing.6.1.1\lib\net462\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -163,6 +177,7 @@
     <Compile Include="Models\Dto\AttractionCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionDetailDto.cs" />
     <Compile Include="Models\Dto\AttractionEditDto.cs" />
+    <Compile Include="Models\Dto\AttractionImageIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionListEditDto.cs" />
@@ -181,6 +196,7 @@
     <Compile Include="Models\Dto\MemberImageCreateDto.cs" />
     <Compile Include="Models\Dto\MemberImageEditDto.cs" />
     <Compile Include="Models\Dto\MemberRegisterDto.cs" />
+    <Compile Include="Models\Dto\OrderEditDto.cs" />
     <Compile Include="Models\Dto\OrderIndexDto.cs" />
     <Compile Include="Models\Dto\MemberCreateDto.cs" />
     <Compile Include="Models\Dto\MemberIndexDto.cs" />
@@ -240,6 +256,7 @@
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
     <Compile Include="Models\Infra\Criterias\ActivityIndexCriteria.cs" />
+    <Compile Include="Models\Infra\Criterias\Comments_AccommodationCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQSortManner.cs" />
     <Compile Include="Models\Infra\Criterias\MemberCriteria.cs" />
@@ -323,6 +340,7 @@
     <Compile Include="Models\ViewModels\AttractionCriteria.cs" />
     <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
     <Compile Include="Models\ViewModels\AttractionEditVM.cs" />
+    <Compile Include="Models\ViewModels\AttractionImageIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionListEditVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsChangeImgVM.cs" />
@@ -458,6 +476,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\UploadImage.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -525,6 +544,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\UploadImage.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -629,6 +649,12 @@
     <Content Include="Views\Comments_Accommodations\Comments.cshtml" />
     <Content Include="Views\Members\EditPassword.cshtml" />
     <Content Include="Views\Comments_Accommodations\ImgIndex.cshtml" />
+
+
+    <Content Include="Views\Attractions\ImagesIndex.cshtml" />
+    <Content Include="Views\Attractions\EditImage.cshtml" />
+
+
     <Content Include="Views\Comments_Accommodations\ChangeImg.cshtml" />
     <Content Include="Views\Comments_Accommodations\UploadImg.cshtml" />
     <Content Include="Views\PaymentMethods\Create.cshtml" />
@@ -636,7 +662,9 @@
     <Content Include="Views\PaymentMethods\Details.cshtml" />
     <Content Include="Views\PaymentMethods\Edit.cshtml" />
     <Content Include="Views\PaymentMethods\Index.cshtml" />
+
     <Content Include="Views\Members\SuspendMember.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

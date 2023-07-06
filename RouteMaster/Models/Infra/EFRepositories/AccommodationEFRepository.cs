@@ -27,7 +27,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
             _db.SaveChanges();
         }
 
-		public void EditAccommodationProfile(AccommodationEditDto dto)
+		public void EditAccommodationProfile(AccommodationEditDto dto, HttpPostedFileBase[] files, string path)
 		{
 			Accommodation entity = _db.Accommodations.FirstOrDefault(a => a.Id == dto.Id);
 
@@ -43,6 +43,21 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			entity.Website = dto.Website;
 			entity.IndustryEmail = dto.IndustryEmail;
 			entity.ParkingSpace = dto.ParkingSpace;
+
+			AccommodationImage img = new AccommodationImage();
+
+			if (files.Length > 0 && files[0] != null)
+			{
+				foreach (HttpPostedFileBase file in files)
+				{
+					string fileName = SaveUploadedFile(path, file);
+					img.Name = dto.Name == null? "未命名的圖片" : dto.Name;
+					img.AccommodationId = dto.Id;
+					img.Image = fileName;
+					_db.AccommodationImages.Add(img);
+					_db.SaveChanges();
+				}
+			}
 
 			_db.SaveChanges();
 		}
@@ -67,10 +82,12 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		}
 		
 
-		public IEnumerable<AccommodationIndexDto> Search()
+		public IEnumerable<AccommodationIndexDto> Search(int? id)
 		{
 
-			var accommodationDb = (IEnumerable<Accommodation>)_db.Accommodations.AsNoTracking()
+			var accommodationDb = (IEnumerable<Accommodation>)_db.Accommodations
+				.AsNoTracking()
+				.Where(a => id == null?true:a.PartnerId ==id)
 				.Include(a => a.Partner)
 				.Include(a => a.AccommodationImages);
 

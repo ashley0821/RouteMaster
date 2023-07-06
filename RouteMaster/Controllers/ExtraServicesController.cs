@@ -43,7 +43,7 @@ namespace RouteMaster.Controllers
             ExtraServiceService service = new ExtraServiceService(repo);
 
             var extraService= service.GetExtraServiceById(id);     
-            return View(extraService.ToIndexDto().ToIndexVM());
+            return View(extraService.ToEditVM());
         }
 
         // GET: ExtraServices/Create
@@ -82,14 +82,11 @@ namespace RouteMaster.Controllers
             ExtraServiceService service=new ExtraServiceService(repo);
             var extraService = service.GetExtraServiceById(id);
 
-            if (extraService == null)
-            {
-                return HttpNotFound();
-            }             
+
+   
             
             PrepareAttractionDataSource(extraService.AttractionId);
-
-            return View(extraService.ToEditDto().ToEditVM());
+            return View(extraService.ToEditVM());
         }
 
         // POST: ExtraServices/Edit/5
@@ -120,7 +117,7 @@ namespace RouteMaster.Controllers
 			ExtraServiceService service = new ExtraServiceService(repo);
 
 			var extraService = service.GetExtraServiceById(id);
-			return View(extraService.ToIndexDto().ToIndexVM());
+			return View(extraService.ToEditVM());
 		}
 
         // POST: ExtraServices/Delete/5

@@ -20,5 +20,7 @@ namespace RouteMaster.Models.Dto
 		public DateTime? CreateDate { get; set; }
 
 		public int Total { get; set; }
+
+		
 	}
 }
