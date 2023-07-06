@@ -1,15 +1,20 @@
-(0704 00:30 目前進度推估40%)
+(0705 09:00 目前進度推估40%)
+7/5
+[]測試權限驗證
+[]討論權限頁面
+[]設定登入，登出頁面
+[]忘記密碼
 
+----------
 7/4
 []完成MemberCRUD
 [√]edit 的萬年曆
 []edit轉三層式
 [√]searchfunction 
-[working]edit圖片存進member，但尚未存進MemberImage
+[√]edit圖片存進member，但尚未存進MemberImage
 
 []忘記密碼
 []啟用帳號
-[先修這個]edit圖片存進member
 []先做權限管理
 ----------
 7/3 (上傳前更正回來-- RouteMaster.Models.Infra.Extensions的 public static RoomCreateDto ToDto(this RoomCreateVM vm)補回去Id = vm.Id,)

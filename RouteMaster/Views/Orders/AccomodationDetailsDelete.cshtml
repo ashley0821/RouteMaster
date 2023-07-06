@@ -7,83 +7,116 @@
 <h2>AccomodationDetailsDelete</h2>
 
 <div>
+    <style>
+        .dl-horizontal {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+            .dl-horizontal dt {
+                color: #333;
+               
+            }
+
+            .dl-horizontal dd {
+                color: #666;
+                margin-left: 12px;
+            }
+           
+
+        
+    </style>
     <h4>AccomodationDetailsVM</h4>
     <hr />
+
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OrderId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AccommodationId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AccommodationId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AccommodationName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AccommodationName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RoomType)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RoomType)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RoomName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RoomName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CheckIn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CheckIn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CheckOut)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CheckOut)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RoomPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RoomPrice)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+        <div class="form-group">
+            <dt>
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.OrderId)
+                </div>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.OrderId)
+            </dd>
+            <dt>
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.AccommodationId)
+                </div>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AccommodationId)
+            </dd>
+            <dt>
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.AccommodationName)
+                </div>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AccommodationName)
+            </dd>
+            <dt>
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.RoomType)
+                </div>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.RoomType)
+            </dd>
+            <dt>
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.RoomName)
+                </div>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.RoomName)
+            </dd>
+            <dt>
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.CheckIn)
+                </div>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CheckIn)
+            </dd>
+            <dt>
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.CheckOut)
+                </div>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CheckOut)
+            </dd>
+            <dt>
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.RoomPrice)
+                </div>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.RoomPrice)
+            </dd>
         </div>
-    }
+    </dl>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        @Html.ActionLink("Back to List", "Index",null, new { @class = "btn btn-info" })
+    </div>
+}
+
 

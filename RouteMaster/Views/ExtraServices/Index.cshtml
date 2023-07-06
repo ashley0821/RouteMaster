@@ -8,14 +8,14 @@
 
     <style>
         thead {
-            background-color: maroon;
-            color: white;
+            background-color: lightblue;
+            color:black;
         }
     </style>
 }
 
 
-<h2>Index</h2>
+<h2>額外服務項目一覽</h2>
 
 
 
@@ -23,8 +23,10 @@
 
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <button type="button" onclick="location.href='@Url.Action("Create")'" class="btn btn-primary">新增額外服務項目</button>
 </p>
+
+
 
 
 
@@ -40,7 +42,7 @@
             <th>@Html.DisplayNameFor(model => model.Price)</th>
             <th>@Html.DisplayNameFor(model => model.Description)</th>
             <th>@Html.DisplayNameFor(model => model.Status)</th>
-            <th>123</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -59,29 +61,19 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.DisplayFor(modelItem => item.DescriptionText)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                    @Html.DisplayFor(modelItem => item.StatusText)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-primary">編輯</button>
+                    <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-primary">檢視詳細資料</button>
+                    <button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.Id })'" class="btn btn-danger">刪除</button>
                 </td>
             </tr>
         }
     </tbody>
-    <tfoot>
-        <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
-        </tr>
-    </tfoot>
 </table>
 
 
@@ -120,11 +112,19 @@
 
 
     <script>
+        
+
         new DataTable('#extraServiceTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
             responsive: true
         });
+
+
+
+        //disabled掉全域搜尋
+        //disabled掉th點擊的排序功能，只保留分頁功能跟
+        //todo 引入自己的篩選條件最好是用ajax完成，來不及就算了
     </script>
 }
