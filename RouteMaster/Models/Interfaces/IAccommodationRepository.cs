@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.Dto.Accommodation;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.ViewModels.Accommodations;
@@ -17,7 +18,7 @@ namespace RouteMaster.Models.Interfaces
 		void Create(AccommodationCreateDto dto);
         bool ExistName(string name);
 		AccommodationEditDto GetEditInfo(int? id);
-		void EditAccommodationProfile(AccommodationEditDto dto, HttpPostedFileBase[] files, string path);
+		void EditAccommodationProfile(AccommodationEditDto dto, AccommodationImagesDto aidto, string path);
 		bool IsOriginalName(AccommodationEditDto dto);
 		void CreateRoomAndImages(RoomCreateDto dto, HttpPostedFileBase[] files, String path);
 		void EditService(ServiceInfoVM vm);
