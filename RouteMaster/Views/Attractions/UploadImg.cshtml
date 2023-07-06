@@ -5,21 +5,21 @@
     var attractionId = ViewBag.AttractionId;
 }
 
-<h2>UploadImg</h2>
+<h2>新增圖片</h2>
 
 
 @using (Html.BeginForm("UploadImg", "Attractions", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>AttractionImageIndexVM</h4>
+    <div class="row">
+        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         @Html.HiddenFor(model => attractionId)
 
-        <div class="col-8">
+        <div class="col-8 mb-3">
             <div class="drop-zone" id="dropZone">
                 <label for="files" class="d-block w-100 h-100" id="fileLabel">
                     <div class="w-100 h-100 d-flex justify-content-center align-items-center">
@@ -39,16 +39,16 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" id="submit-btn"/>
-            </div>
+        <div class="form-group mb-3">
+            
+                <input type="submit" value="新增圖片" class="btn btn-primary" id="submit-btn"/>
+        
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("返回圖片清單", "ImagesIndex", new {id = attractionId }, new {@class="btn btn-secondary"})
 </div>
 
 @section Scripts {
