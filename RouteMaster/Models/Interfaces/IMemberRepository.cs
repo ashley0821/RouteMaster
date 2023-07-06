@@ -17,5 +17,7 @@ namespace RouteMaster.Models.Interfaces
 		bool ExistAccount(string account); // 判斷帳號是否存在
 
 		void UpdateMemberImage(MemberImageCreateDto dto);
+
+		//bool SuspendAccoun(string account);	//判斷帳號是否被停權
 	}
 }
