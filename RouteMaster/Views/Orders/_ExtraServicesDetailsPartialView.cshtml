@@ -2,6 +2,7 @@
 
 <p>
     @*@Html.ActionLink("Create New", "Create")*@
+
 </p>
 
 
@@ -37,12 +38,19 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ExtraServiceName)
             </td>
-            <td>
+            @*<td class="Price">
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>*@
+            <td class="control-label col-md-3" style="text-align: center" id="price">
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
-            <td>
+            @*<td class="Quantity">
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>*@
+            <td class="control-label col-md-3" style="text-align: center" id="quantity">
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
+
             <td>
                 @Html.ActionLink("Edit", "ExtraServicesDetailsEdit", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "ExtraServicesDetailsDelete", new { id = item.Id })
@@ -52,3 +60,31 @@
 
 </table>
 
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   //$(window).on('load', function () {
+   // var priceElements = $('.control-label.col-md-3#price');
+   // var quantityElements = $('.control-label.col-md-3#quantity');
+
+   // var totalPrice = 0;
+
+   // for (var i = 0; i < priceElements.length; i++) {
+   //     var price = parseFloat($(priceElements[i]).text().replace('$', '').replace(',', ''));
+   //     var quantity = parseInt($(quantityElements[i]).text());
+   //     if (!isNaN(price) && !isNaN(quantity)) {
+   //         totalPrice += price * quantity;
+   //     }
+   // }
+
+   // $('#totalPrice').val('$' + totalPrice.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+   
+       
+
+  
+   
+/*});*/
+</script>

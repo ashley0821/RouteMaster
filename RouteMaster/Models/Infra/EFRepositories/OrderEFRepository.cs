@@ -119,6 +119,8 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			order.PaymentStatus = dto.PaymentStatus;
 			order.CreateDate = dto.CreateDate;
 			order.Total = dto.Total;
+
+			_db.SaveChanges();
 			
 		}
 

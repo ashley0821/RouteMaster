@@ -146,15 +146,19 @@
                 <td class="control-label col-md-3" style="text-align: center;">
                     @Html.DisplayFor(modelItem => item.CreateDate)
                 </td>
-                <td class="control-label col-md-1" style="text-align: center;">
-                    @Html.DisplayFor(modelItem => item.Total)
+                @*<td class="control-label col-md-1" style="text-align: center;">
+                        @Html.DisplayFor(modelItem => item.Total)
+                    </td>*@
+                <td class="control-label col-md-3" style="text-align: center" id="totalPrice" data-itemid="@item.Id">
+                    <span id="TotalOrderPrice_@item.Id"> @Html.DisplayFor(modelItem => item.Total)</span>
                 </td>
+
                 <td class="control-label col-md-1" style="text-align: center;">
                     @Html.DisplayFor(modelItem => item.PaymentStatusText)
                 </td>
                 <td>
                     @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-light" }) 
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-light" })
                     @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                 </td>
             </tr>
@@ -173,6 +177,7 @@
 
 </table>
 
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
@@ -181,9 +186,8 @@
     <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
-
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   
 
     <script>
         new DataTable('#orderTable', {
@@ -193,52 +197,65 @@
             responsive: true
         });
     </script>
-    @*<script>
 
-        function exportExcel() {
-            var criteria = {
-                MemberName: $('#MemberName').val(),
-                PaymentStatus: parseInt($('#s_PaymentStatus').val()),
-                CreateStartDate: $('#s_CreateStartDate').val(),
-                CreateEndDate: $('#s_CreateEndDate').val()
-            };
+    <script>
+        const generateExcel = (data) => {
 
-            
-            for (var prop in criteria) {
-                if (criteria.hasOwnProperty(prop) && (criteria[prop] === null || criteria[prop] === "")) {
-                    delete criteria[prop];
-                }
+            const csvContent = "data:text/csv;charset=utf-8," + data.map(row => Object.values(row).join(",")).join("\n");
+
+            const downloadLink = document.createElement("a");
+            downloadLink.href = encodeURI(csvContent);
+            downloadLink.download = "data.csv";
+
+            downloadLink.click();
+        };
+
+        const exportExcel = () => {
+            let list = [];
+
+
+            const table = document.getElementById("orderTable");
+            const tbody = table.getElementsByTagName("tbody")[0];
+            const rows = tbody.getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const cells = row.getElementsByTagName("td");
+
+
+                const obj = {
+                    Id: cells[0].innerText,
+                    MemberName: cells[1].innerText,
+                    PaymentMethodName: cells[2].innerText,
+                    CreateDate: cells[3].innerText,
+                    Total: cells[4].innerText,
+                    PaymentStatusText: cells[5].innerText,
+                };
+
+
+                list.push(obj);
             }
+            /*console.log(list);*/
 
-            var data = { criteria: criteria };
+            generateExcel(list);
 
-            $.ajax({
-                url: 'http://localhost:44371/Orders/GetOrders',
-                method: 'POST',
-                data: data,
-                xhrFields: {
-                    responseType: 'blob'
-                },
-                success: function (response) {
-                    var downloadLink = document.createElement("a");
-                    var fileURL = URL.createObjectURL(response);
-                    downloadLink.href = fileURL;
-                    downloadLink.download = "Orders.xlsx"; 
-                    document.body.appendChild(downloadLink);
-                    downloadLink.click();
-                    document.body.removeChild(downloadLink);
-                    URL.revokeObjectURL(fileURL); 
-                },
-                error: function (xhr, status, error) {
-                    
-                    console.log(error);
+
+
+        };
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            
+            setInterval(function () {
+                var storedTotalPrice = localStorage.getItem('totalPrice');
+
+                if (storedTotalPrice) {
+                    $('#totalPrice').val('$' + storedTotalPrice.toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                 }
-            });
-        }
-    </script>*@
-
-
-
+            }, 1000); // 每秒檢查一次
+        });
+    </script>
 
 }
 

@@ -84,6 +84,15 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 [Quantity]=@Quantity
 WHERE Id=@Id";
 				conn.Execute(sql, dto);
+
+				string activitiesTotalQuery = @"SELECT SUM(Price * Quantity) FROM ActivitiesDetails WHERE orderid = @orderid";
+				int activitiesTotal = conn.ExecuteScalar<int>(activitiesTotalQuery, new { orderid = dto.OrderId });
+
+				string sqlOrder = @"UPDATE Orders SET Total = @Total WHERE Id = @OrderId";
+				conn.Execute(sqlOrder, new { Total = activitiesTotal, orderid = dto.OrderId });
+				//conn.Execute(sqlOrder, dto);
+
+
 			}
 		}
 		void IActivitiesDetailsRepository.Create(ActivitiesDetailsDto dto)
