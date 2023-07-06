@@ -43,6 +43,8 @@ namespace RouteMaster.Models.ViewModels
 
 		[Display(Name = "活動內容介紹")]
 		public string Description { get; set; }
+
+		[Display(Name = "活動內容介紹")]
 		public string DescriptionText
 		{
 			get
@@ -58,6 +60,8 @@ namespace RouteMaster.Models.ViewModels
 
 		[Display(Name = "上架狀態")]
 		public bool Status { get; set; }
+
+		[Display(Name = "上架狀態")]
 		public string StatusText
 		{
 			get
