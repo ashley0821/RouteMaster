@@ -159,10 +159,12 @@
     <Compile Include="Controllers\PartnersController.cs" />
     <Compile Include="Controllers\PaymentMethodsController.cs" />
     <Compile Include="Controllers\TravelPlansController.cs" />
+    <Compile Include="Filter\AdministratorAuthenticationFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ActivitiesDetailsEditDto.cs" />
+    <Compile Include="Models\AdministratorRegisterDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
@@ -271,6 +273,7 @@
     <Compile Include="Models\Infra\DapperRepositories\ExtraServicesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\TravelPlanDapperRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\AccommodationEFRepository.cs" />
+    <Compile Include="Models\Infra\EFRepositories\AdministratorEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\AttractionEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\Comments_AccommodationsEFRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\Comments_AttractionsEFRepository.cs" />
@@ -303,6 +306,7 @@
     <Compile Include="Models\Interfaces\IAccomodationDetailsRepository.cs" />
     <Compile Include="Models\Interfaces\IActivitiesDetailsRepository.cs" />
     <Compile Include="Models\Interfaces\IActivityRepository.cs" />
+    <Compile Include="Models\Interfaces\IAdministratorRepository.cs" />
     <Compile Include="Models\Interfaces\IAttractionRepository.cs" />
     <Compile Include="Models\Interfaces\IComments_AccommodationsRepository.cs" />
     <Compile Include="Models\Interfaces\IComments_AttractionsRepository.cs" />
@@ -314,6 +318,7 @@
     <Compile Include="Models\Interfaces\ITravelPlanRepository.cs" />
     <Compile Include="Models\Services\AccomodationDetailsService.cs" />
     <Compile Include="Models\Services\ActivitiesDetailsService.cs" />
+    <Compile Include="Models\Services\AdministratorService.cs" />
     <Compile Include="Models\Services\AttractionService.cs" />
     <Compile Include="Models\Services\Comments_AttractionsService.cs" />
     <Compile Include="Models\Services\ExtraServicesDetailsService.cs" />
@@ -344,6 +349,7 @@
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
     <Compile Include="Models\ViewModels\ActivityIndexVM.cs" />
     <Compile Include="Models\ViewModels\AdministratorLoginVM.cs" />
+    <Compile Include="Models\ViewModels\AdministratorRegisterVM.cs" />
     <Compile Include="Models\ViewModels\AttractionCreateVM.cs" />
     <Compile Include="Models\ViewModels\AttractionCriteria.cs" />
     <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
@@ -671,6 +677,10 @@
     <Content Include="Views\PaymentMethods\Index.cshtml" />
     <Content Include="Views\Members\SuspendMember.cshtml" />
 
+    <Content Include="Views\Administrators\Login.cshtml" />
+    <Content Include="Views\Administrators\Register.cshtml" />
+
+
     <Content Include="Views\Comments_Attractions\Create.cshtml" />
     <Content Include="Views\Comments_Attractions\Delete.cshtml" />
     <Content Include="Views\Comments_Attractions\Details.cshtml" />
@@ -678,6 +688,7 @@
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
 
     <Content Include="Views\Attractions\UploadImg.cshtml" />
+
 
   </ItemGroup>
   <ItemGroup>
