@@ -48,11 +48,11 @@
     <section class="container">
         <form method="get" id="actForm">
             <div class="row">
-                <div class="mb-3 col-md-3">
+                <div class="col-md-4">
                     <label for="a_name">活動名稱</label>
                     <input type="text" class="form-control" name="name" value="@criteria.Name" />
                 </div>
-                <div class="mb-3 col-md-3">
+                <div class="col-md-4 ">
                     <label for="s_actCategoryId">活動分類</label>
                     <select name="activityCategoryId" id="s_actCategoryId" class="form-select">
                         @foreach (var item in activityCategories)
@@ -61,7 +61,7 @@
                         }
                     </select>
                 </div>
-                <div class="mb-3 col-md-3">
+                <div class="col-md-4">
                     <label for="s_attractionId">景點</label>
                     <select name="attractionId" id="s_attractionId" class="form-select">
                         @foreach (var item in attractions)
@@ -70,7 +70,7 @@
                         }
                     </select>
                 </div>
-                <div class="mb-3 col-md-3">
+                <div class="col-md-4">
                     <label for="s_regionId">縣市</label>
                     <select name="regionId" id="s_regionId" class="form-select">
                         @foreach (var item in regions)
@@ -79,17 +79,17 @@
                         }
                     </select>
                 </div>
-                <div class="mb-3 col-md-4">
+                <div class="col-md-5">
                     <label for="s_minPrice" style="display: block">金額</label>
                     <input type="number" class="form-control" name="minPrice" id="s_minPrice" style="width: 40%; display: inline" value="@criteria.MinPrice"> ~
                     <input type="number" class="form-control" name="maxPrice" id="s_maxPrice" style="width: 40%; display: inline" value="@criteria.MaxPrice">
                 </div>
-                <div class="mb-3 col-md-4">
+                <div class="col-md-5">
                     <label for="s_minPrice" style="display: block">日期</label>
                     <input type="date" class="form-control" name="startDate" id="s_startDate" style="width: 40%; display: inline" value="@criteria.StartDate"> ~
                     <input type="date" class="form-control" name="endDate" id="s_endDate" style="width: 40%; display: inline" value="@criteria.EndDate">
                 </div>
-                <div class="mb-3 col-md-4">
+                <div class="mb-3 col-md-2">
                     <label for="status">只顯示上架中的活動</label>
                     <input type="checkbox" name="ShowAvailableOnly" id="status" @(criteria.ShowAvailableOnly ? "checked" : "") />
                 </div>
@@ -99,6 +99,8 @@
             </div>
         </form>
     </section>
+
+   <hr>
 
 
     <script>
@@ -135,15 +137,11 @@
                 <th>
                     @Html.DisplayNameFor(model => model.EndTime)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
+        
                 <th>
                     @Html.DisplayNameFor(model => model.DescriptionText)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Status)
-                </th>
+             
                 <th>
                     @Html.DisplayNameFor(model => model.StatusText)
                 </th>
@@ -174,16 +172,10 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.EndTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
+                    </td>                  
                     <td>
                         @Html.DisplayFor(modelItem => item.DescriptionText)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>
+                    </td>                  
                     <td>
                         @Html.DisplayFor(modelItem => item.StatusText)
                     </td>

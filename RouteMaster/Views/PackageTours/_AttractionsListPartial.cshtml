@@ -27,32 +27,23 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AttractionCategoryId)
+                景點種類
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RegionId)
+                縣市
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TownId)
+                鄉鎮
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                景點名稱
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
+                詳細地址
+            </th>           
             <th>
-                @Html.DisplayNameFor(model => model.PositionX)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PositionY)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Website)
-            </th>
+                景點介紹
+            </th>       
             <th></th>
         </tr>
     </thead>
@@ -62,13 +53,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AttractionCategoryId)
+                    @Html.DisplayFor(modelItem => item.AttractionCategory.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RegionId)
+                    @Html.DisplayFor(modelItem => item.Region.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TownId)
+                    @Html.DisplayFor(modelItem => item.Town.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -76,18 +67,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PositionX)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PositionY)
-                </td>
+          
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Website)
-                </td>
+         
 
                 <td>
                     <button class="btn btn-sm btn-primary addAttraction" data-id="@item.Id">Add</button>
