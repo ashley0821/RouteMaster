@@ -224,12 +224,14 @@ namespace RouteMaster.Controllers
 
         public ActionResult ConfirmRegister()
         {
+
             return View();
         }
 
         public ActionResult ActiveRegister(int Id, string confirmCode)
         {
             Result result = ActiveMember(Id, confirmCode);
+
 
             return View();
         }
