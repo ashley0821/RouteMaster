@@ -94,12 +94,12 @@ namespace RouteMaster.Models.Infra.Extensions
 				Price = vm.Price
 			};
 		}
-		public static AccommodationImagesDto ToDto(this AccommodationImagesVM vm)
+		public static ImagesDto ToDto(this ImagesVM iVM)
 		{
-			return new AccommodationImagesDto
+			return new ImagesDto
 			{
-				ImgName = vm.ImgName,
-				Files = vm.Files
+				ImgName = iVM.ImgName,
+				Files = iVM.Files
 			};
 		}
 
