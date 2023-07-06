@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using RouteMaster.Models.Infra.Criterias;
 
 namespace RouteMaster.Models.Infra.EFRepositories
 {
@@ -14,10 +15,34 @@ namespace RouteMaster.Models.Infra.EFRepositories
 	{
 		private AppDbContext _db = new AppDbContext();
 
-		public IEnumerable<Comments_AccommodationsIndexDto> Search()
+		public IEnumerable<Comments_AccommodationsIndexDto> Search(Comments_AccommodationCriteria criteria)
 		{
+
 			var commAccDb = _db.Comments_Accommodations.Include(c => c.Accommodation).Include(c => c.Member);
 
+			if(string.IsNullOrEmpty(criteria.AccomodationName)== false)
+			{
+				commAccDb = commAccDb.Where(c => c.Accommodation.Name.Contains(criteria.AccomodationName));
+			}
+			if(string.IsNullOrEmpty(criteria.Title)== false)
+			{
+				commAccDb = commAccDb.Where(c => c.Title.Contains(criteria.Title));
+			}
+			if(criteria.SortId != null)
+			{
+				switch(criteria.SortId)
+				{
+					case 0:
+						commAccDb = commAccDb.OrderBy(c => c.Id);
+						break;
+					case 1:
+						commAccDb = commAccDb.OrderByDescending(c => c.Score);
+						break;
+					case 2:
+						commAccDb = commAccDb.OrderByDescending(c => c.CreateDate);
+						break;
+				}
+			}
 			return commAccDb.AsNoTracking()
 				.ToList()
 				.Select(c => c.ToIndexDto());

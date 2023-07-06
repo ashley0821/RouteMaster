@@ -212,6 +212,34 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 		}
 
+		public void DeleteImage(int imageId)
+		{
+			var img = _db.AttractionImages.Find(imageId);
+
+				_db.AttractionImages.Remove(img);
+				// 將它存到db
+				_db.SaveChanges();
+		}
+
+		public void UploadImage(AttractionImageIndexDto dto, HttpPostedFileBase[] files, String path)
+		{
+			AttractionImage img = new AttractionImage();
+
+			if (files.Length > 0 && files[0] != null)
+			{
+				foreach (HttpPostedFileBase file in files)
+				{
+
+					string fileName = SaveUploadedFile(path, file);
+					img.Image = fileName;
+					img.AttractionId = dto.AttractionId;
+
+					_db.AttractionImages.Add(img);
+					_db.SaveChanges();
+				}
+			}
+		}
+
 		private string SaveUploadedFile(string path, HttpPostedFileBase file1)
 		{
 			// 如果沒有上傳檔案或檔案是空的, 就不處理, 傳回 string.empty

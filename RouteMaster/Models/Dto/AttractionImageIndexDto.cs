@@ -9,5 +9,7 @@ namespace RouteMaster.Models.Dto
 	{
 		public int Id { get; set; }
 		public string Image { get; set; }
+
+		public int AttractionId { get; set; }
 	}
 }
