@@ -658,6 +658,8 @@
     <Content Include="Views\PaymentMethods\Edit.cshtml" />
     <Content Include="Views\PaymentMethods\Index.cshtml" />
     <Content Include="Views\Orders\AccomodationDetailsEdit.cshtml" />
+    <Content Include="Views\Orders\ExtraServicesDetailsEdit.cshtml" />
+    <Content Include="Views\Orders\ActivitiesDetailsEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
