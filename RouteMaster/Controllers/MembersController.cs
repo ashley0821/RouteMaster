@@ -18,15 +18,16 @@ using RouteMaster.Models.Infra.Criterias;
 using System.Data.Entity.Migrations;
 using Microsoft.Ajax.Utilities;
 using Member = RouteMaster.Models.EFModels.Member;
+using Microsoft.SqlServer.Server;
 
 namespace RouteMaster.Controllers
 {
     public class MembersController : Controller
     {
         private AppDbContext db = new AppDbContext();
-     
+
         // GET: Members/Details/5
-        public ActionResult Details(int? id) 
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -123,11 +124,11 @@ namespace RouteMaster.Controllers
 
         public ActionResult Index(MemberCriteria criteria)
         {
-			ViewBag.Criteria = criteria;
-           
-			IEnumerable<MemberIndexVM> members = GetMembers(criteria);
+            ViewBag.Criteria = criteria;
+
+            IEnumerable<MemberIndexVM> members = GetMembers(criteria);
             return View(members);
-		}
+        }
 
         public IEnumerable<MemberIndexVM> GetMembers(MemberCriteria criteria)
         {
@@ -162,17 +163,17 @@ namespace RouteMaster.Controllers
         {
             if (ModelState.IsValid)
             {
-				// 將 file1存檔, 並取得最後存檔的檔案名稱
-				string path = Server.MapPath("/Uploads"); // 檔案要存放的資料夾位置
-				string fileName = SaveUploadedFile(path, facePhoto1);
+                // 將 file1存檔, 並取得最後存檔的檔案名稱
+                string path = Server.MapPath("/Uploads"); // 檔案要存放的資料夾位置
+                string fileName = SaveUploadedFile(path, facePhoto1);
 
-				// 將檔名存入 vm裡
-				vm.Image = fileName; // ****
+                // 將檔名存入 vm裡
+                vm.Image = fileName; // ****
 
             }
-                     else
-                     {
-            return View(vm);
+            else
+            {
+                return View(vm);
             }
 
 
@@ -190,30 +191,30 @@ namespace RouteMaster.Controllers
         }
 
 
-		private string SaveUploadedFile(string path, HttpPostedFileBase facePhoto1)
-		{
-			// 如果沒有上傳檔案或檔案是空的,就不處理, 傳回 string.empty
-			if (facePhoto1 == null || facePhoto1.ContentLength == 0) return string.Empty;
+        private string SaveUploadedFile(string path, HttpPostedFileBase facePhoto1)
+        {
+            // 如果沒有上傳檔案或檔案是空的,就不處理, 傳回 string.empty
+            if (facePhoto1 == null || facePhoto1.ContentLength == 0) return string.Empty;
 
-			// 取得上傳檔案的副檔名
-			string ext = System.IO.Path.GetExtension(facePhoto1.FileName); // ".jpg" 而不是 "jpg"
+            // 取得上傳檔案的副檔名
+            string ext = System.IO.Path.GetExtension(facePhoto1.FileName); // ".jpg" 而不是 "jpg"
 
-			// 如果副檔名不在允許的範圍裡,表示上傳不合理的檔案類型, 就不處理, 傳回 string.empty
-			string[] allowedExts = new string[] { ".jpg", ".jpeg", ".png", ".tif" };
-			if (allowedExts.Contains(ext.ToLower()) == false) return string.Empty;
+            // 如果副檔名不在允許的範圍裡,表示上傳不合理的檔案類型, 就不處理, 傳回 string.empty
+            string[] allowedExts = new string[] { ".jpg", ".jpeg", ".png", ".tif" };
+            if (allowedExts.Contains(ext.ToLower()) == false) return string.Empty;
 
-			// 生成一個不會重複的檔名
-			string newFileName = Guid.NewGuid().ToString("N") + ext; // 生成 er534263454r45636t34534sfggtwer6563462343.jpg
-			string fullName = System.IO.Path.Combine(path, newFileName);
+            // 生成一個不會重複的檔名
+            string newFileName = Guid.NewGuid().ToString("N") + ext; // 生成 er534263454r45636t34534sfggtwer6563462343.jpg
+            string fullName = System.IO.Path.Combine(path, newFileName);
 
-			// 將上傳檔案存放到指定位置
-			facePhoto1.SaveAs(fullName);
+            // 將上傳檔案存放到指定位置
+            facePhoto1.SaveAs(fullName);
 
-			// 傳回存放的檔名
-			return newFileName;
-		}
+            // 傳回存放的檔名
+            return newFileName;
+        }
 
-		public Result RegisterMember(MemberRegisterVM vm)
+        public Result RegisterMember(MemberRegisterVM vm)
         {
             IMemberRepository repo = new MemberEFRepository();
 
@@ -327,6 +328,8 @@ namespace RouteMaster.Controllers
 
             if (member.IsConfirmed == false || member.IsConfirmed == false) return Result.Fail("會員資格尚未確認");
 
+            if (member.IsSuspended == true) return Result.Fail("帳號已被停權，如有問題請聯絡客服");
+
             var salt = HashUtility.GetSalt();
             var hashPassword = HashUtility.ToSHA256(vm.Password, salt);
 
@@ -340,7 +343,7 @@ namespace RouteMaster.Controllers
             return View();
         }
 
-        
+
         public ActionResult EditPassword()
         {
             return View();
@@ -349,16 +352,16 @@ namespace RouteMaster.Controllers
         [HttpPost]
         public ActionResult EditPassword(MemberEditPasswordVM vm)
         {
-            if(ModelState.IsValid == false) return View(vm);
+            if (ModelState.IsValid == false) return View(vm);
 
             var currentUserAccount = User.Identity.Name;
 
             Result result = ChangePassword(currentUserAccount, vm);
 
-            if(result.IsSuccess == false)
+            if (result.IsSuccess == false)
             {
                 ModelState.AddModelError(string.Empty, result.ErrorMessage);
-            return View(vm);
+                return View(vm);
             }
             return RedirectToAction("Index");
         }
@@ -385,32 +388,32 @@ namespace RouteMaster.Controllers
 
         public ActionResult EditMemberImgae(int? id)
         {
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Member member = db.Members.Find(id);
 
-			if (member == null)
-			{
-				return HttpNotFound();
-			}
-			return View(member.ToMemberImageVM());
-		}
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+            return View(member.ToMemberImageVM());
+        }
 
         [HttpPost]
         public ActionResult EditMemberImage(MemberImageEditVM vm, HttpPostedFileBase newFacePhoto)
         {
-			string path = Server.MapPath("/Uploads");
-			var savedFileName = SaveUploadedFile(path, newFacePhoto);
-			vm.Image = savedFileName;
+            string path = Server.MapPath("/Uploads");
+            var savedFileName = SaveUploadedFile(path, newFacePhoto);
+            vm.Image = savedFileName;
 
-			if (savedFileName == null) ModelState.AddModelError("Image", "請選擇檔案");
+            if (savedFileName == null) ModelState.AddModelError("Image", "請選擇檔案");
 
-			if (ModelState.IsValid)
-			{
-				var MemberInDb = db.Members.Find(vm.Id);
-				MemberInDb.Image = vm.Image;
+            if (ModelState.IsValid)
+            {
+                var MemberInDb = db.Members.Find(vm.Id);
+                MemberInDb.Image = vm.Image;
 
                 db.SaveChanges();
 
@@ -419,22 +422,78 @@ namespace RouteMaster.Controllers
 
                 db.SaveChanges();
 
-				return RedirectToAction("Index");
-			}
+                return RedirectToAction("Index");
+            }
 
-			return View(vm);
+            return View(vm);
 
-		}
+        }
+
+        public ActionResult SuspendMember(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Member member = db.Members.Find(id);
+
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SuspendMember(MemberSuspendVM vm)
+        {
+            var MemberInDb = db.Members.Find(vm.Id);
+            MemberInDb.IsSuspended = vm.IsSuspended;
 
 
-		//[Authorize(Roles ="VIP")]
-		//public ActionResult Sample()
-		//{
-		//    AuthorizeAttribute
-		//    return View();
-		//}
+            db.SaveChanges();
 
-		protected override void Dispose(bool disposing)
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Login2()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Loging2(Administrator model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var context = new AppDbContext())
+                {
+                    Administrator user = context.Administrators
+                                       .Where(a => a.Id == model.Id && a.EncryptedPassword == model.EncryptedPassword)
+                                       .FirstOrDefault();
+
+                    if (user != null)
+                    {
+                        Session["UserName"] = user.FirstName;
+                        Session["UserId"] = user.Id;
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Invalid User Name or Password");
+                        return View(model);
+                    }
+                }
+            }
+            else
+            {
+                return View(model);
+            }
+        }
+
+
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -443,6 +502,6 @@ namespace RouteMaster.Controllers
             base.Dispose(disposing);
         }
 
-        
+
     }
 }

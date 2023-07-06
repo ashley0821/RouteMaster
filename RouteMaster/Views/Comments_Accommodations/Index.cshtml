@@ -2,9 +2,44 @@
 
 @{
     ViewBag.Title = "Index";
+    var sorts = ViewBag.SortId as SelectList;
+    var criteria = (RouteMaster.Models.Infra.Criterias.Comments_AccommodationCriteria)ViewBag.Criteria;
+    string s_sortId = criteria.SortId.HasValue ? criteria.SortId.Value.ToString() : "";
 }
 
 <h2>住宿評論清單</h2>
+
+<section class="container">
+    <form method="get">
+        <div class="row">
+            <div class="mb-3 col">
+                <label for="hotel">住宿旅館關鍵字</label>
+                <input type="text" class="form-control" name="AccomodationName" id="hotel" value="@criteria.AccomodationName">
+            </div>
+            <div class="mb-3 col">
+                <label for="title">標題關鍵字</label>
+                <input type="text" class="form-control" name="Title" id="title" value="@criteria.Title">
+            </div>
+            <div class="mb-3 col">
+                <label for="s_sortId">排序條件</label>
+                <select name="sortId" id="s_sortId" class="form-select">
+                    @foreach (var item in sorts)
+                    {
+                        <option value="@item.Value" @(s_sortId == item.Value ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3 col-2 align-self-end" >
+                <button type="submit" class="btn btn-dark">搜尋</button>
+            </div>
+        </div>
+    </form>
+</section>
+
+
+
+
+
 
 <p>
     @Html.ActionLink("新增評論", "Create", new { id = "" }, new { @class = "btn btn-outline-success" })
