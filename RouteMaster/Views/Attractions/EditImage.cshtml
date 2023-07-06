@@ -1,18 +1,18 @@
 ﻿@model RouteMaster.Models.ViewModels.AttractionImageIndexVM
 
 @{
-    ViewBag.Title = "EditImage";
+    ViewBag.Title = "變更圖片";
 }
 
-<h2>EditImage</h2>
+<h2>變更圖片</h2>
 
 
 @using (Html.BeginForm("EditImage", "Attractions", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>AttractionImageIndexVM</h4>
+<div class="row">
+    
     <hr />
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
