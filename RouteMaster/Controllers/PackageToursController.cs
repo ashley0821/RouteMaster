@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -327,49 +328,37 @@ namespace RouteMaster.Controllers
 
 
 
+        //分頁測試
+		public ActionResult GetQueryResult(string search, int? draw, int? start, int length)
+		{
+			var query = db.ExtraServices.AsQueryable();
+
+			if (!string.IsNullOrEmpty(search))
+			{
+				query = query.Where(x => x.Name.Contains(search));
+			}
 
 
-        [HttpPost]
-        public ActionResult PagingExtraServiceTable(int draw, int start, int length,string searchKeyword)
-        {
-            int pageNumber = (start / length) + 1; 
-            int itemsPerPage = length;          
+			int totalRecords = query.Count();
+			int pageNumber = (start ?? 0 / length) + 1;
+			int skipRecords = (pageNumber - 1) * length;
+			var pagedData = query.Skip(skipRecords).Take(length).ToList();
+			int filteredRecords = pagedData.Count();
 
-            var query = db.ExtraServices.AsQueryable();
+			var result = new
+			{
+				draw = draw,
+				recordsTotal = totalRecords, // 總資料數
+				recordsFiltered = filteredRecords, // 符合搜尋條件的資料數
+				data = pagedData // 分頁後的資料
+			};
 
-
-            if (!string.IsNullOrEmpty(searchKeyword))
-            {
-                query=query.Where(e=>e.Name.Contains(searchKeyword));
-            }
-
-
-            int totalRecords=query.Count();
-            int skipRecords=(pageNumber - 1) * itemsPerPage;
-            var pagedData=query.Skip(skipRecords).Take(itemsPerPage).ToList();
-            int filteredRecords = pagedData.Count();
-
-
-
-            var result = new
-            {
-                draw = draw, // DataTable所需的參數
-                recordsTotal = totalRecords, // 總資料數
-                recordsFiltered = filteredRecords, // 符合搜尋條件的資料數
-                data = pagedData // 分頁後的資料
-            };
+			return Json(result, JsonRequestBehavior.AllowGet);
+		}
 
 
 
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-
-
-
-
-
-        protected override void Dispose(bool disposing)
+		protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
