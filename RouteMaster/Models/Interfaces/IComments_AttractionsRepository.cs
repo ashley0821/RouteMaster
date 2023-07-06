@@ -11,5 +11,9 @@ namespace RouteMaster.Models.Interfaces
 	public interface IComments_AttractionsRepository
 	{
 		IEnumerable<Comments_AttractionsIndexDto> Search(Comments_AttractionCriteria criteria);
+
+		bool ExistDetail(int? id);
+		Comments_AttractionsDetailDto Detail(int? id);
+
 	}
 }

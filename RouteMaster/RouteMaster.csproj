@@ -189,6 +189,7 @@
     <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
     <Compile Include="Models\Dto\Comments_AttractionsCreateDto.cs" />
+    <Compile Include="Models\Dto\Comments_AttractionsDetailDto.cs" />
     <Compile Include="Models\Dto\Comments_AttractionsIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
