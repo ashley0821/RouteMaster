@@ -280,8 +280,15 @@ namespace RouteMaster.Controllers
         [HttpPost]
         public ActionResult SearchExtraService(string searchKeyword)
 		{
-			searchKeyword = searchKeyword+DateTime.Now.ToString();
-            return Json(searchKeyword);
+
+            var newModel = db.ExtraServices
+                 .Where(x => searchKeyword==""?true:x.Name.Contains(searchKeyword)).ToList()
+                 .Select(x => x.ToIndexDto().ToIndexVM());
+
+
+            return Json(newModel);
+
+            //return PartialView("_ExtraServicesListPartial", newModel);
         }
 
 

@@ -670,11 +670,15 @@
     <Content Include="Views\PaymentMethods\Edit.cshtml" />
     <Content Include="Views\PaymentMethods\Index.cshtml" />
     <Content Include="Views\Members\SuspendMember.cshtml" />
+
     <Content Include="Views\Comments_Attractions\Create.cshtml" />
     <Content Include="Views\Comments_Attractions\Delete.cshtml" />
     <Content Include="Views\Comments_Attractions\Details.cshtml" />
     <Content Include="Views\Comments_Attractions\Edit.cshtml" />
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
+
+    <Content Include="Views\Attractions\UploadImg.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
