@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
@@ -22,12 +23,24 @@ namespace RouteMaster.Controllers
         private AppDbContext db = new AppDbContext();
 
         // GET: Comments_Accommodations
-        public ActionResult Index()
+        public ActionResult Index(Comments_AccommodationCriteria criteria)
         {
+
+            var mannerList2 = new List<FAQSortManner>()
+            {
+                new FAQSortManner(){Id = 0, Name=""},
+                new FAQSortManner(){Id = 1, Name="評分分數由高至低"},
+                new FAQSortManner(){Id = 2, Name="最新建立"},
+            };
+
+            ViewBag.SortId = new SelectList(mannerList2, "Id", "Name", criteria.SortId);
+
+            ViewBag.Criteria=criteria;
+
             IComments_AccommodationsRepository repo = new Comments_AccommodationsEFRepository();
             Comments_AccommodationsService service = new Comments_AccommodationsService(repo);
 
-            var info = service.Search().ToList().Select(c => c.ToIndexVM());
+            var info = service.Search(criteria).ToList().Select(c => c.ToIndexVM());
 
 			return View(info);
         }
