@@ -2,6 +2,7 @@
 using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.DapperRepositories;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
@@ -171,7 +172,7 @@ namespace RouteMaster.Controllers
 		{
 			if (ModelState.IsValid == false) { return View(vm); }
 
-			IAttractionRepository repo = new AttractionEFRepository();
+			IAttractionRepository repo = new AttractionDapperRepository();
 			AttractionService service = new AttractionService(repo);
 
 			Result result = service.Edit(vm.ToEditDto());

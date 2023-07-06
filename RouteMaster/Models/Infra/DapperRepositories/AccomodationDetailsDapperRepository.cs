@@ -71,6 +71,12 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 WHERE Id=@Id";
 				conn.Execute(sql, dto);
 
+				string roomPriceQuery = @"SELECT SUM(RoomPrice) FROM AccommodationDetails WHERE orderid = @orderid";
+				int roomPriceTotal = conn.ExecuteScalar<int>(roomPriceQuery, new { orderid = dto.OrderId });
+
+				string sqlOrder = @"UPDATE Orders SET Total = @Total WHERE Id = @OrderId";
+				conn.Execute(sqlOrder, new { Total = roomPriceTotal, orderid = dto.OrderId });
+
 			}
 		}
 

@@ -8,14 +8,14 @@ namespace RouteMaster.Models.ViewModels
 {
     public class AdministratorLoginVM
     {
-        //用firstname當帳號
-        [Display(Name ="帳號")]
+        //用信箱當帳號
+        [Display(Name ="註冊信箱")]
         [Required]
-        public string FirstName { get; set; }
+        public string Email { get; set; }
 
         [Display(Name ="密碼")]
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string EncryptedPassword { get; set; }
     }
 }

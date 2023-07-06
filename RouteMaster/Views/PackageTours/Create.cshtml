@@ -32,6 +32,12 @@
 
 
 @{
+
+    Html.RenderAction("ActivitiesList");
+}
+
+
+@{
     Html.RenderAction("ExtraServicesList");
 }
 
@@ -137,6 +143,7 @@
             sorting: false // 停用排序功能
         });
 
+
         
         //new DataTable('#extraServiceTable', {
         //    language: {
@@ -150,12 +157,14 @@
 
 
         //todo自訂後端分頁
+
         new DataTable('#extraServiceTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
             responsive: true,
             searching: false,
+
             sorting: false,
             serviceSide: true,
             ajax: {
@@ -163,6 +172,7 @@
                 type:'POST'
             }          
         });
+
 
     </script>
 

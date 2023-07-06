@@ -1,19 +1,19 @@
 ﻿@model RouteMaster.Models.ViewModels.AttractionDetailVM
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "刪除景點";
 }
 
-<h2>Delete</h2>
+<h2>刪除景點</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>您確定要刪除嗎?</h3>
 <div>
-    <h4>AttractionDetailVM</h4>
+    
     <hr />
     <dl class="dl-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" }) <!--放錯誤訊息用的-->
         <dt>
-            @Html.DisplayNameFor(model => model.Category)
+            類別
         </dt>
 
         <dd>
@@ -21,7 +21,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Region)
+            縣市
         </dt>
 
         <dd>
@@ -29,7 +29,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Town)
+            鄉鎮市區
         </dt>
 
         <dd>
@@ -37,7 +37,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            名稱
         </dt>
 
         <dd>
@@ -45,7 +45,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Address)
+            地址
         </dt>
 
         <dd>
@@ -53,7 +53,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PositionX)
+            經度
         </dt>
 
         <dd>
@@ -61,7 +61,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PositionY)
+            緯度
         </dt>
 
         <dd>
@@ -69,7 +69,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            描述
         </dt>
 
         <dd>
@@ -77,7 +77,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Website)
+            網站
         </dt>
 
         <dd>
@@ -85,7 +85,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AverageScoreText)
+            平均分數
         </dt>
 
         <dd>
@@ -93,7 +93,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AverageStayHoursText)
+            平均停留時數
         </dt>
 
         <dd>
@@ -101,7 +101,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AveragePriceText)
+            平均花費
         </dt>
 
         <dd>
@@ -114,8 +114,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="刪除" class="btn btn-danger" /> |
+            @Html.ActionLink("返回景點列表", "Index",null, new { @class = "btn btn-secondary" })
         </div>
     }
 </div>
