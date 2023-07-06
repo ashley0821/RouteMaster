@@ -17,7 +17,7 @@
 
             <h4 class="me-auto">AccommodationEditVM</h4>
             <div class="mb-2">
-                @Html.ActionLink("回到旅宿列表", $"MyAccommodationIndex/{Model.PartnerId}", null, new { @class = "btn btn-dark" })
+                @Html.ActionLink("回到旅宿列表", "MyAccommodationIndex/{Model.PartnerId}", null, new { @class = "btn btn-dark" })
             </div>
         </div>
         <hr />
@@ -92,29 +92,13 @@
 
             <div class="mb-3">
                 <div class="col-md-offset-2 col-md-10">
-                    <input id="submit-btn" type="submit" value="Save" class="btn btn-primary" />
+                    <input id="submit-btn" type="submit" value="Save" class="btn btn-primary " />
                 </div>
             </div>
         </div>
 
         <div class="col-7 ms-5">
-            <div class="drop-zone" id="dropZone">
-                <label for="files" class="d-block w-100 h-100" id="fileLabel">
-                    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
-                        <botton class="btn btn-primary"><i class="fa-solid fa-image"></i>新增照片</botton>
-                        <span class="small d-block">或</span>
-                        <p>拖曳照片到這裡</p>
-                    </div>
-                </label>
-            </div>
-            <input id="files" type="file" name="files" class="form-control" multiple="multiple" accept="image/*" />
-            <div class="image-preview" id="imagePreview"></div>
-            <div class="d-flex justify-content-end">
-                <p class="small m-0" id="uploadContent"></p>
-            </div>
-            <div class="progress-bar-div ms-auto">
-                <div class="progress-bar h-100"></div>
-            </div>
+            @{ Html.RenderPartial("_ImageCorouselPartial", Model);}
         </div>
     </div>
 }
@@ -125,16 +109,6 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(function () {
-
-
-
-
-
-
-
-
-
-
             var baseAddress = "https://localhost:44371";
             $("#region").on("change", function () {
                 var regionId = $("#region").val();
@@ -179,6 +153,47 @@
                 });
 
             });
+
+            $("#edit-img-name").on('click', function () {
+                const imgPath = $(".active").children().children('input')[0].id;
+                const imgName = $(".active").children().children('input')[0].value;
+                $.ajax({
+                    type: "POST",
+                    url: `${baseAddress}/Accommodations/EditImgName`,
+                    data: {
+                        imgPath:imgPath,
+                        imgName:imgName
+
+                    },
+                }).done(data => {
+                    // 清空 Town DropDownList 的选项
+                    alert("修改成功");
+                }).fail(err => {
+                    alert("修改失敗");
+                });
+
+            });
+
+            $("#delete-img").on('click', function () {
+                const imgPath = $(".active").children().children('input')[0].id;
+                console.log(imgPath);
+                $.ajax({
+                    type: "POST",
+                    url: `${baseAddress}/Accommodations/DeleteImage`,
+                    data: {
+                        imgPath: imgPath,
+                    },
+
+                }).done(data => {
+                    // 清空 Town DropDownList 的选项
+                    alert("修改成功");
+                    location.reload();
+                }).fail(err => {
+                    alert("修改失敗");
+                });
+
+            });
+
         });
 
     </script>
