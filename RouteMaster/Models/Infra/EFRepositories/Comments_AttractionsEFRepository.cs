@@ -50,5 +50,34 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				.ToList()
 				.Select(c => c.ToIndexDto());
 		}
+
+		public bool ExistDetail(int? id)
+		{
+			return _db.Comments_Attractions.Any(c => c.Id == id);
+		}
+		public Comments_AttractionsDetailDto Detail(int? id)
+		{
+			var commAttrDb= _db.Comments_Attractions
+				.Include(c => c.Attraction)
+				 .FirstOrDefault(c => c.Id == id);
+
+			var img = _db.Comments_AttractionImages
+				.Where(i => i.Comments_AttractionId == id)
+				.ToList()
+				.Select(i => i.Image);
+
+			Comments_AttractionsDetailDto dto = new Comments_AttractionsDetailDto
+			{
+				Id =(int)id,
+				AttractioName = commAttrDb.Attraction.Name,
+				Content = commAttrDb.Content,
+				Score = commAttrDb.Score,
+				Images = img
+			};
+
+			return dto;
+		}
+
+
 	}
 }

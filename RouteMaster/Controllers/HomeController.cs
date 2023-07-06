@@ -1,14 +1,19 @@
-﻿using System;
+﻿using RouteMaster.Filter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-    public class HomeController : Controller
+    [AdministratorAuthenticationFilter]
+	[CustomAuthorize("管理者")]
+	public class HomeController : Controller
     {
-        public ActionResult Index()
+		
+		public ActionResult Index()
         {
             return View();
         }

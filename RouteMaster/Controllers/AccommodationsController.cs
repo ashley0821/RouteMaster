@@ -24,7 +24,9 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace RouteMaster.Controllers
 {
+
     //[Authorize]
+
     public class AccommodationsController : Controller
     {
         private readonly AppDbContext db = new AppDbContext();
@@ -122,18 +124,19 @@ namespace RouteMaster.Controllers
 
             ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", model.RegionId);
             ViewBag.TownId = new SelectList(db.Towns.Where(t=>t.RegionId == model.RegionId), "Id", "Name", model.TownId);
+
             return View(model);
         }
 
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AccommodationEditVM vm, HttpPostedFileBase[] files)
+        public ActionResult Edit(AccommodationEditVM vm, AccommodationImagesVM aivm)
         {
 			ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
 			ViewBag.TownId = new SelectList(db.Towns.Where(t => t.RegionId == vm.RegionId), "Id", "Name", vm.TownId);
 			if (!ModelState.IsValid) return View(vm);
 
-			Result result = EditAccommodationProfile(vm, files);
+			Result result = EditAccommodationProfile(vm, aivm);
 
 			if (result.IsSuccess)
 			{
@@ -302,13 +305,13 @@ namespace RouteMaster.Controllers
 				});
 		}
 
-		private Result EditAccommodationProfile(AccommodationEditVM vm, HttpPostedFileBase[] files)
+		private Result EditAccommodationProfile(AccommodationEditVM vm, AccommodationImagesVM aivm)
 		{
 			string path = Server.MapPath("~/Uploads");
 			IAccommodationRepository repo = new AccommodationEFRepository();
 			AccommodationService service = new AccommodationService(repo);
 
-			return service.EditAccommodationProfile(vm.ToDto(), files, path);
+			return service.EditAccommodationProfile(vm.ToDto(), aivm.ToDto(), path);
 		}
 
 		public ActionResult Delete(int? id)
@@ -384,6 +387,25 @@ namespace RouteMaster.Controllers
 
 			//return townList;
 			return Json(townData, JsonRequestBehavior.AllowGet);
+        }
+
+		[HttpPost]
+        public void EditImgName(string imgPath, string imgName)
+        {
+            AccommodationImage ai = db.AccommodationImages.FirstOrDefault(a=>a.Image ==imgPath);
+            ai.Name = imgName;
+
+            db.SaveChanges();
+        }
+        
+        [HttpPost]
+        public void DeleteImage(string imgPath)
+        {
+            AccommodationImage ai = db.AccommodationImages.FirstOrDefault(a=>a.Image ==imgPath);
+            db.AccommodationImages.Remove(ai);
+
+			db.SaveChanges();
+
         }
 		#endregion
 

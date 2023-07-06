@@ -70,6 +70,14 @@ namespace RouteMaster.Models.Infra.DapperRepositories
 WHERE Id=@Id";
 
 				conn.Execute(sql, dto);
+				string extraServiceTotalQuery = @"SELECT SUM(Price*Quantity)FROM ExtraServicesDetails where orderid=@orderid";
+				int extraServiceTotal = conn.ExecuteScalar<int>(extraServiceTotalQuery, new {orderid = dto.OrderId});
+
+				string sqlOrder = @"UPDATE Orders SET Total = @Total WHERE Id=@OrderId";
+				conn.Execute(sqlOrder, new { Total = extraServiceTotal, orderid = dto.OrderId });
+
+
+
 			}
 		}
 		
