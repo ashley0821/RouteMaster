@@ -168,7 +168,7 @@
     <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
-    <Compile Include="Models\Dto\Accommodation\AccommodationImagesDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationIndexDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Service\ServiceInfoDto.cs" />
     <Compile Include="Models\Dto\AccomodationDetailsEditDto.cs" />
@@ -344,7 +344,7 @@
     <Compile Include="Models\ViewModels\Accommodations\AccomodationDetailsVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomImagesVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomIndexVM.cs" />
-    <Compile Include="Models\ViewModels\Accommodations\AccommodationImagesVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\ImagesVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomCreateVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomType.cs" />
     <Compile Include="Models\ViewModels\Accommodations\ServiceInfoVM.cs" />

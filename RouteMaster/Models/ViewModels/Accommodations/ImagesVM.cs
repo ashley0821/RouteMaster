@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace RouteMaster.Models.Dto.Accommodation
+namespace RouteMaster.Models.ViewModels.Accommodations.Room
 {
-	public class AccommodationImagesDto
+	public class ImagesVM
 	{
         public string[] ImgName { get; set; }
-            
+
         public HttpPostedFileBase[] Files { get; set; }
     }
 }
