@@ -198,8 +198,9 @@ namespace RouteMaster.Controllers
 
 			service.Edit(vm.ToEditDto());        
 
-            PrepareCouponDataSource(vm.CouponId);            
-            return View("Index");
+            PrepareCouponDataSource(vm.CouponId); 
+            
+            return RedirectToAction("Index");   
         }
 
         // GET: PackageTours/Delete/5
