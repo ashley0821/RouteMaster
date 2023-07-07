@@ -15,7 +15,7 @@ namespace RouteMaster.Models.Dto
 
 		public int PaymentMethodId { get; set; }
 		public string PaymentMethodName { get; set; }
-
+		public int TravelPlanId { get; set; }
 		public int PaymentStatus { get; set; }
 
 		public DateTime? CreateDate { get; set; }
