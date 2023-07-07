@@ -18,8 +18,6 @@
         .hidetable {
             display:none;            
         }
-
-
     </style>
 
 
@@ -29,14 +27,14 @@
 
     <div>
         <h2>景點一覽</h2>
-        <input type="search" class="form-control form-control-sm" id="attPartialSearch">
-        <button type="button" id="attPartialSearchBtn">搜索</button>
+        @*<input type="search" class="form-control form-control-sm" id="attPartialSearch">
+        <button type="button" id="attPartialSearchBtn">搜索</button>*@
     </div>
 
 
-<button id="hideAttractionTableBtn">顯示/隱藏</button>
+<button id="hideAttractionTableBtn" class="btn btn-primary">顯示/隱藏</button>
     <div class="hidetable" id="attractionTableContainer">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover" id="attractionTable">
             <thead>
                 <tr>
                     <th>
