@@ -78,13 +78,52 @@ namespace RouteMaster.Controllers
 		[HttpPost]
 		public ActionResult Details(OrderIndexVM vm)
 		{
+			IOrderRepository repo = new OrderEFRepository();
+			OrderService service = new OrderService(repo);
 			db.Orders.Find(vm.Id).Total=vm.Total;
 			db.SaveChanges();
 			return RedirectToAction("Index");	
 			
 		}
 
+		public ActionResult Edit(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Order order = db.Orders.Find(id);
+			if (order == null)
+			{
+				return HttpNotFound();
+			}
+			ViewBag.MemberId = new SelectList(db.Members, "Id", "FirstName", order.MemberId);
+			ViewBag.PaymentMethodId = new SelectList(db.PaymentMethods, "Id", "Name", order.PaymentMethodId);
+			ViewBag.TravelPlanId = new SelectList(db.TravelPlans, "Id", "Id", order.TravelPlanId);
+			return View(order);
+		}
 
+		// POST: test/Edit/5
+		// 若要免於大量指派 (overposting) 攻擊，請啟用您要繫結的特定屬性，
+		// 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(OrderEditVM vm)
+		{
+			IOrderRepository repo = new OrderEFRepository();
+			OrderService service = new OrderService(repo);
+
+			if (ModelState.IsValid)
+			{
+				service.Edit(vm.ToEditDto());
+				return RedirectToAction("Index");
+			}
+
+			//ViewBag.MemberId = new SelectList(db.Members, "Id", "FirstName", order.MemberId);
+			//ViewBag.PaymentMethodId = new SelectList(db.PaymentMethods, "Id", "Name", order.PaymentMethodId);
+			//ViewBag.TravelPlanId = new SelectList(db.TravelPlans, "Id", "Id", order.TravelPlanId);
+			return View(vm);
+		}
 
 
 		//activitiesdetails(ef)
@@ -385,12 +424,30 @@ namespace RouteMaster.Controllers
 			}
 			return Json(new { success = true });
 		}
+		[HttpPost]
+		public JsonResult UpdatePaymentStatus(int id, int PaymentStatus)
+		{
+			try
+			{
+				var order = db.Orders.Find(id);
+				order.PaymentStatus = PaymentStatus;
+				db.SaveChanges();
+				return Json(new { success = true });
+			}
+			catch(Exception ex) 
+			{
+				return Json(new { success = false, errorMessage = ex.Message });
+			}
 
 
+
+		}
+
+	
 	}
 
 
-   }
+}
 
        
 
