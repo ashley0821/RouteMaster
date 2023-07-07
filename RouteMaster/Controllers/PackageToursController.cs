@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Infra.Extensions;
@@ -280,9 +282,39 @@ namespace RouteMaster.Controllers
         [HttpPost]
         public ActionResult SearchExtraService(string searchKeyword)
 		{
-			searchKeyword = searchKeyword+DateTime.Now.ToString();
-            return Json(searchKeyword);
+
+            var newModel = db.ExtraServices
+                 .Where(x => searchKeyword==""?true:x.Name.Contains(searchKeyword)).ToList()
+                 .Select(x => x.ToIndexDto().ToIndexVM());
+
+
+            return Json(newModel);
+
+            //return PartialView("_ExtraServicesListPartial", newModel);
         }
+
+
+
+
+
+        [HttpPost]
+        public ActionResult SearchAttraction(string searchKeyword)
+        {
+            
+            var newModel = db.Attractions
+                 .Where(x => searchKeyword == "" ? true : x.Name.Contains(searchKeyword)).ToList()
+                 .Select(x => x.ToAttractionListIndexDto().ToAttractionListIndexVM());
+
+
+            
+
+            return Json(newModel);
+
+            //return PartialView("_ExtraServicesListPartial", newModel);
+        }
+
+
+
 
 
         public ActionResult AttractionsList()
@@ -296,10 +328,37 @@ namespace RouteMaster.Controllers
 
 
 
+        //分頁測試
+		public ActionResult GetQueryResult(string search, int? draw, int? start, int length)
+		{
+			var query = db.ExtraServices.AsQueryable();
+
+			if (!string.IsNullOrEmpty(search))
+			{
+				query = query.Where(x => x.Name.Contains(search));
+			}
+
+
+			int totalRecords = query.Count();
+			int pageNumber = (start ?? 0 / length) + 1;
+			int skipRecords = (pageNumber - 1) * length;
+			var pagedData = query.Skip(skipRecords).Take(length).ToList();
+			int filteredRecords = pagedData.Count();
+
+			var result = new
+			{
+				draw = draw,
+				recordsTotal = totalRecords, // 總資料數
+				recordsFiltered = filteredRecords, // 符合搜尋條件的資料數
+				data = pagedData // 分頁後的資料
+			};
+
+			return Json(result, JsonRequestBehavior.AllowGet);
+		}
 
 
 
-        protected override void Dispose(bool disposing)
+		protected override void Dispose(bool disposing)
         {
             if (disposing)
             {

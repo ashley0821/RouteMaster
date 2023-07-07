@@ -224,12 +224,14 @@ namespace RouteMaster.Controllers
 
         public ActionResult ConfirmRegister()
         {
+
             return View();
         }
 
         public ActionResult ActiveRegister(int Id, string confirmCode)
         {
             Result result = ActiveMember(Id, confirmCode);
+
 
             return View();
         }
@@ -455,41 +457,6 @@ namespace RouteMaster.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Index");
-        }
-
-        public ActionResult Login2()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Loging2(Administrator model)
-        {
-            if (ModelState.IsValid)
-            {
-                using (var context = new AppDbContext())
-                {
-                    Administrator user = context.Administrators
-                                       .Where(a => a.Id == model.Id && a.EncryptedPassword == model.EncryptedPassword)
-                                       .FirstOrDefault();
-
-                    if (user != null)
-                    {
-                        Session["UserName"] = user.FirstName;
-                        Session["UserId"] = user.Id;
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "Invalid User Name or Password");
-                        return View(model);
-                    }
-                }
-            }
-            else
-            {
-                return View(model);
-            }
         }
 
 

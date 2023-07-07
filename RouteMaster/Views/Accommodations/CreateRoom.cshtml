@@ -66,23 +66,7 @@
             </div>
 
             <div class="col-8">
-                <div class="drop-zone" id="dropZone">
-                    <label for="files" class="d-block w-100 h-100" id="fileLabel">
-                        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
-                            <botton class="btn btn-primary"><i class="fa-solid fa-image"></i>新增照片</botton>
-                            <span class="small d-block">或</span>
-                            <p>拖曳照片到這裡</p>
-                        </div>
-                    </label>
-                </div>
-                <input id="files" type="file" name="files" class="form-control" multiple="multiple" accept="image/*" />
-                <div class="image-preview" id="imagePreview"></div>
-                <div class="d-flex justify-content-end">
-                    <p class="small m-0" id="uploadContent"></p>
-                </div>
-                <div class="progress-bar-div ms-auto">
-                    <div class="progress-bar h-100"></div>
-                </div>
+                @{ Html.RenderPartial("_ImageCorouselPartial");}
             </div>
         </div>
     </div>

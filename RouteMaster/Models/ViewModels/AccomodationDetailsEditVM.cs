@@ -28,10 +28,10 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "房間名稱")]
 		public string RoomName { get; set; }
 		[Display(Name = "入住時間")]
-		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+		[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
 		public DateTime CheckIn { get; set; }
 		[Display(Name = "退房時間")]
-		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+		[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
 		public DateTime CheckOut { get; set; }
 		[Display(Name = "價格")]
 		[DisplayFormat(DataFormatString = "${0:#,#}")]

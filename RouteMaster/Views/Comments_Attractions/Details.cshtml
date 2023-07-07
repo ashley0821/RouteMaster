@@ -1,0 +1,72 @@
+﻿@model RouteMaster.Models.ViewModels.Comments_AttractionsDetailVM
+@section Styles
+{
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+}
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container mt-3">
+    <div class="row mb-1">
+        <div class="d-flex text-start">
+            <h3 class="me-auto">評論內文</h3>
+            <div class="me-2">
+                @Html.ActionLink("Back to List", "Index", new { id = "" }, new { @class = "btn btn-dark" })
+
+            </div>
+        </div>
+    </div>
+        <hr />
+
+        <div class="row gx-5">
+            <dl class="col-4">
+                <dt class="fs-5">
+                    @Html.DisplayNameFor(model => model.AttractioName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.AttractioName)
+                </dd>
+
+                <dt class="fs-5">
+                    @Html.DisplayNameFor(model => model.Content)
+                </dt>
+
+                <dd>
+                    <textarea class="form-control w-100 mb-3 col-12 " style="margin:13px" rows="15" id="Description" name="Description">@Model.Content</textarea>
+                    @*@Html.DisplayFor(model => model.Content)*@
+                </dd>
+
+                <dt class="fs-5">
+                    @Html.DisplayNameFor(model => model.Score)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Score)
+                </dd>
+
+            </dl>
+            <div class="col-8">
+                <div class="row row-cols-lg-3 g-3">
+
+                    @foreach (var item in Model.Images)
+                    {
+                        <div class="col">
+                        <img class="img-thumbnail" height="30%" src="~/Uploads/@item">
+                        </div>
+                        
+                    }
+
+                </div>
+            </div>
+        </div>
+</div>
+    <p>
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+    </p>
+
+@section Scripts
+{
+<script src="~/Scripts/bootstrap.min.js"></script>
+}

@@ -43,7 +43,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				IsConfirmed = true,
 				ConfirmCode = "0",
 				Birthday = dto.Birthday,
-				IsSuspended = null
+				IsSuspended = false, //預設為註冊時都未停權
 			};
 
 			_db.Members.Add(member);

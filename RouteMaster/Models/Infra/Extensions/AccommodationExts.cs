@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.Dto.Accommodation;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.ViewModels.Accommodations;
@@ -43,7 +44,8 @@ namespace RouteMaster.Models.Infra.Extensions
 				PhoneNumber = dto.PhoneNumber,
 				Website = dto.Website,
 				IndustryEmail = dto.IndustryEmail,
-				ParkingSpace = dto.ParkingSpace
+				ParkingSpace = dto.ParkingSpace,
+				AccommodationImages = dto.AccommodationImages
 			};
 		}
 		
@@ -92,7 +94,15 @@ namespace RouteMaster.Models.Infra.Extensions
 				Price = vm.Price
 			};
 		}
-		
+		public static ImagesDto ToDto(this ImagesVM iVM)
+		{
+			return new ImagesDto
+			{
+				ImgName = iVM.ImgName,
+				Files = iVM.Files
+			};
+		}
+
 
 
 		//entity轉dto
@@ -123,7 +133,8 @@ namespace RouteMaster.Models.Infra.Extensions
 				PhoneNumber = accommodation.PhoneNumber,
 				Website = accommodation.Website,
 				IndustryEmail = accommodation.IndustryEmail,
-				ParkingSpace = accommodation.ParkingSpace
+				ParkingSpace = accommodation.ParkingSpace,
+				AccommodationImages = accommodation.AccommodationImages
 			};
 		}
 

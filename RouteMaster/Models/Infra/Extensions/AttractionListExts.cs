@@ -23,6 +23,7 @@ namespace RouteMaster.Models.Infra.Extensions
                 Region = entity.Region.Name,
                 Town = entity.Town.Name,
                 Name = entity.Name,
+                Address = entity.Address,
                 Description = entity.Description,
                 AverageScore = _db.Comments_Attractions
                 .Where(c => c.AttractionId == entity.Id)
