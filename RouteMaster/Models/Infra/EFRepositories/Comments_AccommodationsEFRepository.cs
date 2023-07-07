@@ -64,7 +64,11 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			};
 
-			_db.Comments_Accommodations.Add(commAccDb);
+			var cA = _db.Comments_Accommodations;
+			cA.Add(commAccDb);
+
+
+
 
 			Comments_AccommodationImages img = new Comments_AccommodationImages();
 
