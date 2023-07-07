@@ -413,16 +413,19 @@
                 attCheckBoxies[i].setAttribute('name', "Attractions[" + i + "].Id");
             }
 
+
+            let actCheckBoxies = document.querySelectorAll('.actSize');
+            for (let i = 0; i < actCheckBoxies.length; i++) {
+                actCheckBoxies[i].setAttribute('name', "Activities[" + i + "].Id")
+            }
+
             let extCheckBoxies = document.querySelectorAll('.extSize');
             for (let i = 0; i < extCheckBoxies.length; i++) {
                 extCheckBoxies[i].setAttribute('name', "ExtraServices["+i+"].Id")
             }
 
 
-            let actCheckBoxies = document.querySelectorAll('.actSize');
-            for (let i = 0; i < actCheckBoxies.length; i++) {
-                actCheckBoxies[i].setAttribute('name', "Activities[" + i + "].Id")
-            }
+     
 
         })
     </script>
