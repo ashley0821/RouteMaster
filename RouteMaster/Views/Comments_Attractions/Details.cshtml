@@ -1,18 +1,14 @@
 ﻿@model RouteMaster.Models.ViewModels.Comments_AttractionsDetailVM
-@section Styles
-{
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-}
 @{
     ViewBag.Title = "Details";
 }
 
 <div class="container mt-3">
-    <div class="row mb-1">
+    <div class="row">
         <div class="d-flex text-start">
             <h3 class="me-auto">評論內文</h3>
             <div class="me-2">
-                @Html.ActionLink("Back to List", "Index", new { id = "" }, new { @class = "btn btn-dark" })
+                @Html.ActionLink("返回清單頁", "Index", new { id = "" }, new { @class = "btn btn-dark" })
 
             </div>
         </div>
@@ -21,29 +17,33 @@
 
         <div class="row gx-5">
             <dl class="col-4">
-                <dt class="fs-5">
-                    @Html.DisplayNameFor(model => model.AttractioName)
+                <dt>
+                    <div class="d-flex w-100 justify-content-between">
+                        <h3 class="mb-1 fs-3 fw-bold">@Html.DisplayFor(model => model.AttractioName)</h3>
+                        <small class="fs-3">@Html.DisplayFor(model => model.Score)分</small> 
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.AttractioName)
+                    
                 </dd>
 
-                <dt class="fs-5">
-                    @Html.DisplayNameFor(model => model.Content)
-                </dt>
-
-                <dd>
-                    <textarea class="form-control w-100 mb-3 col-12 " style="margin:13px" rows="15" id="Description" name="Description">@Model.Content</textarea>
-                    @*@Html.DisplayFor(model => model.Content)*@
-                </dd>
-
-                <dt class="fs-5">
+                @*<dt class="fs-5">
                     @Html.DisplayNameFor(model => model.Score)
+                  
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Score)
+                     @Html.DisplayFor(model => model.Score)分
+                   
+                </dd>*@
+
+                <dt class="fs-5">
+                    @Html.DisplayNameFor(model => model.Content):
+                </dt>
+
+                <dd>
+                    @*<textarea class="form-control w-100 mb-3 col-12"  style="margin:10px" rows="10" name="Description" readonly>@Model.Content</textarea>*@
+                    @Html.DisplayFor(model => model.Content)
                 </dd>
 
             </dl>
@@ -53,7 +53,7 @@
                     @foreach (var item in Model.Images)
                     {
                         <div class="col">
-                        <img class="img-thumbnail" height="30%" src="~/Uploads/@item">
+                        <img class="img-thumbnail" height="70%" src="~/Uploads/@item">
                         </div>
                         
                     }
@@ -66,7 +66,4 @@
         @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
     </p>
 
-@section Scripts
-{
-<script src="~/Scripts/bootstrap.min.js"></script>
-}
+

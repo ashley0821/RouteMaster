@@ -15,13 +15,9 @@ namespace RouteMaster.Models.Dto
 
 		public string Name { get; set; }
 
-		public float Score { get; set; }
+		public double Score { get; set; }
 
 		public string Title { get; set; }
-
-		public string Pros { get; set; }
-
-		public string Cons { get; set; }
 
 		public DateTime? CreateDate { get; set; }
 	}

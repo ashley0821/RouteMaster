@@ -7,15 +7,15 @@ using System.Xml.Linq;
 
 namespace RouteMaster.Models.ViewModels
 {
-	public class Comments_AccommodationsIndexVM
+	public class Comments_AccommodationsDetailVM
 	{
-        public int Id { get; set; }
+		public int Id { get; set; }
 
 		[Display(Name = "帳號名稱")]
-		public string Account { get; set; }
+		public string MemberAccount { get; set; }
 
 		[Display(Name = "住宿名稱")]
-		public string Name { get; set; }
+		public string AccomodationName { get; set; }
 
 		[Display(Name = "評分")]
 		public double Score { get; set; }
@@ -23,10 +23,13 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "評論標題")]
 		public string Title { get; set; }
 
-		[Display(Name = "評論建立時間")]
-		[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}")]
-		public DateTime? CreateDate { get; set; }   
-		
+		[Display(Name = "優點")]
+		public string Pros { get; set; }
 
+		[Display(Name = "缺點")]
+		public string Cons { get; set; }
+
+		[Display(Name = "相簿")]
+		public IEnumerable<string> Images { get; set; } 
     }
 }

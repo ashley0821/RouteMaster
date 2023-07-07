@@ -14,7 +14,7 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "帳號名稱")]
 		public string Account { get; set; }
 
-		[Display(Name = "住宿名稱")]
+		[Display(Name = "景點名稱")]
 		public string Name { get; set; }
 
 		[Display(Name = "評分")]
