@@ -8,6 +8,7 @@ using RouteMaster.Models.Infra.Extensions;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
 using RouteMaster.Models.ViewModels;
+using RouteMaster.Models.ViewModels.Attractions;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -41,7 +42,20 @@ namespace RouteMaster.Controllers
 
 
 			// 查詢紀錄，由於第一次進到網頁時，criteria是沒有值的
-			var query = GetAttractions();
+			var query2 = GetAttractions().ToList();
+
+			AttractionTagsDapperRepository repo = new AttractionTagsDapperRepository();
+			var tags = repo.SearchTags().ToList();
+
+			var tagSelector = repo.AllTags().ToList().Prepend(new AttractionTagVM());
+			ViewBag.Tags = new SelectList(tagSelector, "Id", "Name");
+
+			for (var i = 0; i < query2.Count(); i++)
+			{
+				query2[i].Tag = tags[i];
+			}
+
+			var query = query2.AsEnumerable();
 
 			#region where
 			if (string.IsNullOrEmpty(criteria.Category) == false)
@@ -55,6 +69,10 @@ namespace RouteMaster.Controllers
 			if (string.IsNullOrEmpty(criteria.Town) == false)
 			{
 				query = query.Where(p => p.Town == criteria.Town);
+			}
+			if (string.IsNullOrEmpty(criteria.Tag) == false)
+			{
+				query = query.Where(p => p.Tag == criteria.Tag);
 			}
 
 			if (string.IsNullOrEmpty(criteria.Name) == false)
@@ -94,6 +112,8 @@ namespace RouteMaster.Controllers
 
 			// IEnumerable<AttractionIndexVM> products = GetAttractions();
 
+			
+
 			return View(query);
 		}
 
@@ -110,6 +130,11 @@ namespace RouteMaster.Controllers
 			var regions = _db.Regions.ToList();
 			// 将Regions数据传递给视图
 			ViewBag.Regions = regions;
+
+			AttractionTagsDapperRepository repo = new AttractionTagsDapperRepository();
+			var tags = repo.AllTags().ToList().Distinct();
+
+			ViewBag.Tags = tags;
 
 			return View();
 		}
@@ -149,8 +174,8 @@ namespace RouteMaster.Controllers
 				IAttractionRepository repo = new AttractionEFRepository();
 				AttractionService service = new AttractionService(repo);
 
-				AttractionEditDto dto = service.GetEditDto(id.Value);
-				if (dto == null)
+				var vm = service.GetEditDto(id.Value).ToEditVM();
+				if (vm == null)
 				{
 					return HttpNotFound();
 				}
@@ -159,9 +184,14 @@ namespace RouteMaster.Controllers
 
 				ViewBag.AttractionCategories = _db.AttractionCategories.ToList();
 				ViewBag.Regions = _db.Regions.ToList();
-				ViewBag.Towns = _db.Towns.Where(t => t.RegionId == dto.RegionId).ToList();
+				ViewBag.Towns = _db.Towns.Where(t => t.RegionId == vm.RegionId).ToList();
 
-				return View(dto.ToEditVM());
+				AttractionTagsDapperRepository tagRepo = new AttractionTagsDapperRepository();
+				ViewBag.Tags = tagRepo.AllTags().Prepend(new AttractionTagVM());
+
+				vm.TagId = tagRepo.GetTagId(id.Value);
+
+				return View(vm);
 			}
 		}
 
@@ -177,16 +207,18 @@ namespace RouteMaster.Controllers
 
 			Result result = service.Edit(vm.ToEditDto());
 
+
+
 			if (result.IsSuccess)
 			{
+				if (vm.TagId.HasValue)
+				{
+					AttractionTagsDapperRepository tagRepo = new AttractionTagsDapperRepository();
+					tagRepo.EditTag(vm.Id, vm.TagId.Value);
+				}
+
 				return RedirectToAction("Index");
 			}
-
-			AppDbContext _db = new AppDbContext();
-
-			ViewBag.AttractionCategories = _db.AttractionCategories.ToList();
-			ViewBag.Regions = _db.Regions.ToList();
-			ViewBag.Towns = _db.Towns.Where(t => t.RegionId == vm.RegionId).ToList();
 
 			return View(vm);
 		}
@@ -336,14 +368,18 @@ namespace RouteMaster.Controllers
 			IAttractionRepository repo = new AttractionEFRepository();
 			AttractionService service = new AttractionService(repo);
 
-			var dto = service.Get(id.Value);
+			var vm = service.Get(id.Value).ToDetailVM();
 
-			if (dto == null)
+			if (vm == null)
 			{
 				return HttpNotFound();
 			}
 
-			return View(dto.ToDetailVM());
+			AttractionTagsDapperRepository tagRepo = new AttractionTagsDapperRepository();
+
+			vm.Tag = tagRepo.GetTag(id.Value);
+
+			return View(vm);
 		}
 
 		[HttpPost, ActionName("Delete")]
@@ -381,6 +417,8 @@ namespace RouteMaster.Controllers
 				{
 					return HttpNotFound();
 				}
+
+				
 				return View(vm);
 			}
 
@@ -404,7 +442,13 @@ namespace RouteMaster.Controllers
 			IAttractionRepository repo = new AttractionEFRepository();
 			AttractionService service = new AttractionService(repo);
 
-			return service.Get(id).ToDetailVM();
+			var vm = service.Get(id).ToDetailVM();
+
+			AttractionTagsDapperRepository tagRepo = new AttractionTagsDapperRepository();
+
+			vm.Tag = tagRepo.GetTag(id);
+
+			return vm;
 		}
 
 
@@ -417,7 +461,6 @@ namespace RouteMaster.Controllers
 			AttractionService service = new AttractionService(repo);
 
 			return service.Create(vm.ToCreateDto(), files, path);
-
 		}
 
 		private IEnumerable<AttractionIndexVM> GetAttractions()

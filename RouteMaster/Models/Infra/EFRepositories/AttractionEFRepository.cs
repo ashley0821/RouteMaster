@@ -9,6 +9,7 @@ using System.Data.Entity;
 using Microsoft.Ajax.Utilities;
 using System.IO;
 using System.Web.DynamicData.ModelProviders;
+using RouteMaster.Models.Infra.DapperRepositories;
 
 namespace RouteMaster.Models.Infra.EFRepositories
 {
@@ -53,11 +54,15 @@ namespace RouteMaster.Models.Infra.EFRepositories
 								.Where(c => c.AttractionId == p.Id)
 								.Select(c => c.Price)
 								.Average(),
-				});
+				}).OrderBy(p => p.Id);
+
+
 		}
 
 		public void Create(AttractionCreateDto dto, HttpPostedFileBase[] files, String path)
 		{
+
+
 			// 將 RegisterDto 轉成 Member
 			Attraction att = new Attraction
 			{
@@ -89,6 +94,9 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			}
 
 			_db.SaveChanges();
+
+			AttractionTagsDapperRepository tagRepo = new AttractionTagsDapperRepository();
+			tagRepo.AddTag(dto.Name, dto.TagId);
 		}
 
 		public bool ExistAttraction(string Name)

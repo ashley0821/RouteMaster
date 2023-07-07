@@ -1,5 +1,14 @@
 ﻿@model RouteMaster.Models.ViewModels.AttractionDetailVM
 
+@section Styles{
+    <style>
+        iframe {
+            width:50%;
+        }
+    </style>
+    
+    }
+
 @{
     ViewBag.Title = "景點詳情";
 }
@@ -33,6 +42,15 @@
         <dd>
             @Html.DisplayFor(model => model.Town)
         </dd>
+
+        <dt>
+            標籤
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tag)
+        </dd>
+
 
         <dt>
             名稱
@@ -74,13 +92,6 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
 
-        <dt>
-            網站
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Website)
-        </dd>
 
 
 
@@ -120,9 +131,18 @@
             </dd>
         }
 
+        <dt>
+            網站
+        </dt>
+
+        <dd>
+            @Html.Raw(@Model.Website)
+        </dd>
+
     </dl>
 </div>
 <p>
     @Html.ActionLink("編輯景點", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" }) |
-    @Html.ActionLink("返回景點列表", "Index",null, new { @class = "btn btn-secondary" })
+    @Html.ActionLink("管理圖片", "ImagesIndex", new { id = Model.Id }, new { @class = "btn btn-info" }) |
+    @Html.ActionLink("返回景點列表", "Index", null, new { @class = "btn btn-secondary" })
 </p>
