@@ -4,15 +4,15 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>刪除評論</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>確定要刪除此筆評論?</h3>
 <div>
-    <h4>Comments_Attractions</h4>
-    <hr />
-    <dl class="dl-horizontal">
+    
+   
+    <dl class="row">
         <dt>
-            @Html.DisplayNameFor(model => model.Attraction.Name)
+           景點名稱
         </dt>
 
         <dd>
@@ -20,7 +20,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Member.FirstName)
+           用戶帳號
         </dt>
 
         <dd>
@@ -28,7 +28,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Score)
+           分數
         </dt>
 
         <dd>
@@ -36,7 +36,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Content)
+            評論內文
         </dt>
 
         <dd>
@@ -44,7 +44,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StayHours)
+           停留時間
         </dt>
 
         <dd>
@@ -52,7 +52,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Price)
+           花費
         </dt>
 
         <dd>
@@ -60,7 +60,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CreateDate)
+           建立時間
         </dt>
 
         <dd>
@@ -72,9 +72,9 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+<div class="form-actions no-color">
+    <input type="submit" value="刪除" class="btn btn-danger me-3" /> 
+    @Html.ActionLink("返回清單頁", "Index", new { id = "" }, new { @class = "btn btn-outline-dark" })
+</div>
     }
 </div>

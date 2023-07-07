@@ -11,6 +11,7 @@
             background-color: gainsboro;
             color: white;
         }
+
     </style>
 }
 
@@ -26,6 +27,7 @@
 <p>
     @*@Html.ActionLink("Create New", "Create")*@
     <button id="exportButton" class="btn btn-primary" onclick="exportExcel()">匯出Excel</button>
+    <button id="sendEmailButton" class="btn btn-primary">一鍵通知</button>
 </p>
 <section class="container">
     <form method="get">
@@ -78,14 +80,16 @@
 
 <table id="orderTable" class="table table-striped table-hover dt-responsive" style="width:100%">
     <thead>
-        <tr>
+        <tr style="text-align: center" ;>
             <th>@Html.DisplayNameFor(model => model.Id)</th>
             <th>@Html.DisplayNameFor(model => model.MemberName)</th>
+            <th>@Html.DisplayNameFor(model => model.MemberEmail)</th>
             <th>@Html.DisplayNameFor(model => model.PaymentMethodName)</th>
             <th>@Html.DisplayNameFor(model => model.CreateDate)</th>
             <th>@Html.DisplayNameFor(model => model.Total)</th>
             <th>@Html.DisplayNameFor(model => model.PaymentStatus)</th>
             <th>管理</th>
+            <th><input type="checkbox" id="checkAll" /></th>
         </tr>
 
 
@@ -102,6 +106,7 @@
         <!--<th class="control-label col-md-2" style="text-align: center;">
             @Html.DisplayNameFor(model => model.MemberName)
         </th>-->
+        @Html.DisplayNameFor(model => model.MemberEmail)
         @*<th>
                 @Html.DisplayNameFor(model => model.PaymentMethodId)
             </th>*@
@@ -133,34 +138,56 @@
                 @*<td>
                         @Html.DisplayFor(modelItem => item.MemberId)
                     </td>*@
-                <td class="control-label col-md-2" style="text-align: center;">
+                <td class="control-label col-md-1" style="text-align: center;">
                     @Html.DisplayFor(modelItem => item.MemberName)
                 </td>
                 @*<td>
                         @Html.DisplayFor(modelItem => item.PaymentMethodId)
                     </td>*@
                 <td class="control-label col-md-2" style="text-align: center;">
+                    @Html.DisplayFor(modelItem => item.MemberEmail)
+                </td>
+                <td class="control-label col-md-2" style="text-align: center;">
                     @Html.DisplayFor(modelItem => item.PaymentMethodName)
+
                 </td>
 
-                <td class="control-label col-md-3" style="text-align: center;">
+
+                <td class="control-label col-md-2" style="text-align: center;">
                     @Html.DisplayFor(modelItem => item.CreateDate)
                 </td>
                 @*<td class="control-label col-md-1" style="text-align: center;">
                         @Html.DisplayFor(modelItem => item.Total)
                     </td>*@
-                <td class="control-label col-md-3" style="text-align: center" id="totalPrice" data-itemid="@item.Id">
+                <td class="control-label col-md-2" style="text-align: center" id="totalPrice" data-itemid="@item.Id">
                     <span id="TotalOrderPrice_@item.Id"> @Html.DisplayFor(modelItem => item.Total)</span>
                 </td>
 
-                <td class="control-label col-md-1" style="text-align: center;">
+                <td class="control-label col-md-2" style="text-align: center;">
                     @Html.DisplayFor(modelItem => item.PaymentStatusText)
                 </td>
-                <td>
-                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-light" })
-                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                </td>
+                @*<td class="control-label col-md-2" style="text-align:center;">
+                        <div class="row">
+                            <div class="col-6">
+                                <select class="form-control" name="PaymentStatus">
+                                    <option value="1">已付款</option>
+                                    <option value="2">未付款</option>
+                                    <option value="3">已取消</option>
+                                </select>
+                                <input type="hidden" name="PaymentStatusText" value="@item.PaymentStatusText" />
+                            </div>
+                            <div class="col-6">
+                                <button id="changePaymentStatus" class="btn btn-primary">更改</button>
+                            </div>
+                        </div>
+                    </td>*@
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-light" })
+                @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+            </td>
+                <td><input type="checkbox" id="getValues" name="selectedOrderIds" value="@item.Id" /></td>
+
             </tr>
         }
     </tbody>
@@ -187,7 +214,34 @@
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
+
+    <script>
+        document.getElementById("checkAll").addEventListener("click", function () {
+            var checkboxesall = document.querySelectorAll("input[type=checkbox]");
+            for (var i = 0; i < checkboxesall.length; i++) {
+                checkboxesall[i].checked = this.checked;
+                console.log(checkboxesall);
+            }
+
+        });
+
+
+
+    </script>
+    <script>
+
+        //document.getElementById("getValue").addEventListener("click", function () {
+        //    var selectedValues = [];
+        //    var checkboxes = document.querySelectorAll("input[name=check]");
+        //    for (var i = 0; i < checkboxes.length; i++) {
+        //        if (checkboxes[i].checked) {
+        //            selectedValues.push(checkboxes[i].value);
+        //            console.log(selectedValues);
+        //        }
+        //    }
+
+        //});
+    </script>
 
     <script>
         new DataTable('#orderTable', {
@@ -239,22 +293,89 @@
 
             generateExcel(list);
 
-
-
         };
+    </script>
+    <script>
+
+        $(document).ready(function () {
+            $("#sendEmailButton").click(function () {
+                var selectedOrderIds = [];
+
+
+                $("input[name='selectedOrderIds']:checked").each(function () {
+                    selectedOrderIds.push(parseInt($(this).val()));
+                });
+
+                $.ajax({
+                    url: "https://localhost:44371/Orders/SendUnpaidNotification",
+                    method: "POST",
+                    data: { selectedOrderIds: selectedOrderIds },
+                    success: function (data) {
+                        /*console.log(data);*/
+                        alert("已成功通知!");
+                    },
+                    error: function (error) {
+                        /*console.log(error);*/
+                        alert("信件無法發送，請再試一次!");
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#changePaymentStatus").click(function () {
+
+                var paymentStatus = $("select[name='paymentStatus']").val();
+
+            });
+
+            $.ajax({
+                url: "https://localhost:44371/Orders/UpdatePaymentStatus",
+                method: "Post",
+                data: { paymentStatus: paymentStatus, paymentStatusText: $("input[name='PaymentStatusText']").val() },
+                success: function (data) {
+                    console.log(data);
+                    alert("已成功更改!");
+                },
+                error: function (error) {
+                    alert("無法修改");
+                }
+
+
+
+            });
+
+        });
+
     </script>
 
     <script>
         $(document).ready(function () {
-            
-            setInterval(function () {
-                var storedTotalPrice = localStorage.getItem('totalPrice');
+            $("#changePaymentMethod").click(function () {
 
-                if (storedTotalPrice) {
-                    $('#totalPrice').val('$' + storedTotalPrice.toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                var paymentStatus = $("select[name='paymentStatus']").val();
+
+            });
+
+            $.ajax({
+                url: "https://localhost:44371/Orders/UpdatePaymentStatus",
+                method: "Post",
+                data: { paymentStatus: paymentStatus, paymentStatusText: $("input[name='PaymentStatusText']").val() },
+                success: function (data) {
+                    console.log(data);
+                    alert("已成功更改!");
+                },
+                error: function (error) {
+                    alert("無法修改");
                 }
-            }, 1000); // 每秒檢查一次
+
+
+
+            });
+
         });
+
     </script>
 
 }

@@ -8,7 +8,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Antlr.Runtime;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json.Linq;
+using RouteMaster.Filter;
 using RouteMaster.Models.Dto;
 using RouteMaster.Models.Dto.Accommodation.Service;
 using RouteMaster.Models.EFModels;
@@ -21,16 +23,17 @@ using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.ViewModels.Accommodations;
 using RouteMaster.Models.ViewModels.Accommodations.Room;
 using static System.Net.Mime.MediaTypeNames;
+using static RouteMaster.Filter.PartnerAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-
-    //[Authorize]
+    [PartnerAuthenticationFilter]
+    [PartnerAuthorizeAttribute]
 
     public class AccommodationsController : Controller
     {
         private readonly AppDbContext db = new AppDbContext();
-
+        
         // 還沒做
         public ActionResult Index()
         {
@@ -42,7 +45,7 @@ namespace RouteMaster.Controllers
         public ActionResult MyAccommodationIndex(int? id)
         {
 			IEnumerable<AccommodationIndexVM> accommodations = GetAccommodations(id);
-
+            
             //var accommodations = db.Accommodations.Include(a => a.Partner).Include(a => a.Region).Include(a => a.Town);
 
             return View(accommodations);//.ToList());
@@ -60,7 +63,9 @@ namespace RouteMaster.Controllers
             {
                 return HttpNotFound();
             }
-            return View(accommodation);
+
+
+            return View(accommodation.ToVM());
         }
 
         // 新增住宿
@@ -130,13 +135,13 @@ namespace RouteMaster.Controllers
 
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AccommodationEditVM vm, AccommodationImagesVM aivm)
+        public ActionResult Edit(AccommodationEditVM vm, ImagesVM iVM)
         {
 			ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
 			ViewBag.TownId = new SelectList(db.Towns.Where(t => t.RegionId == vm.RegionId), "Id", "Name", vm.TownId);
 			if (!ModelState.IsValid) return View(vm);
 
-			Result result = EditAccommodationProfile(vm, aivm);
+			Result result = EditAccommodationProfile(vm, iVM);
 
 			if (result.IsSuccess)
 			{
@@ -177,17 +182,17 @@ namespace RouteMaster.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult CreateRoom(RoomCreateVM vm, HttpPostedFileBase[] files)
+		public ActionResult CreateRoom(RoomCreateVM vm, ImagesVM iVM)
 		{
 
 			if (!ModelState.IsValid) return View(vm);
             //建立新會員
 
-            Result result = CreateRoomAndImage(vm, files);
+            Result result = CreateRoomAndImage(vm, iVM);
 
 			if (result.IsSuccess)
 			{
-				return RedirectToAction("MyAccommodationIndex");
+				return View("RoomsIndex", vm);
 			}
 			else
 			{
@@ -272,13 +277,13 @@ namespace RouteMaster.Controllers
 
 			return service.EditService(vm);
 		}
-		private Result CreateRoomAndImage(RoomCreateVM vm, HttpPostedFileBase[] files)
+		private Result CreateRoomAndImage(RoomCreateVM vm, ImagesVM iVM)
 		{
 			string path = Server.MapPath("~/Uploads");
 			IAccommodationRepository repo = new AccommodationEFRepository();
             AccommodationService service = new AccommodationService(repo) ;
 
-			return service.CreateRoomAndImages(vm.ToDto(), files, path);
+			return service.CreateRoomAndImages(vm.ToDto(), iVM.ToDto(), path);
         }
 
 		private void PrepareRoomTypeViewBag()
@@ -301,41 +306,45 @@ namespace RouteMaster.Controllers
 					Disabled = true,
 					Selected = true,
 					Text = "請選擇",
-					Value = ""
+					Value = null
 				});
 		}
 
-		private Result EditAccommodationProfile(AccommodationEditVM vm, AccommodationImagesVM aivm)
+		private Result EditAccommodationProfile(AccommodationEditVM vm, ImagesVM iVM)
 		{
 			string path = Server.MapPath("~/Uploads");
 			IAccommodationRepository repo = new AccommodationEFRepository();
 			AccommodationService service = new AccommodationService(repo);
 
-			return service.EditAccommodationProfile(vm.ToDto(), aivm.ToDto(), path);
+			return service.EditAccommodationProfile(vm.ToDto(), iVM.ToDto(), path);
 		}
 
-		public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Accommodation accommodation = db.Accommodations.Find(id);
-            if (accommodation == null)
-            {
-                return HttpNotFound();
-            }
-            return View(accommodation);
-        }
+		//public ActionResult Delete(int? id)
+  //      {
+  //          if (id == null)
+  //          {
+  //              return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+  //          }
+  //          Accommodation accommodation = db.Accommodations.Find(id);
+  //          if (accommodation == null)
+  //          {
+  //              return HttpNotFound();
+  //          }
+  //          return View(accommodation);
+  //      }
 
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+     
+        public void DeleteConfirmed(int id)
         {
             Accommodation accommodation = db.Accommodations.Find(id);
+            foreach(var ai in db.AccommodationImages.Where(ai => ai.AccommodationId == id))
+            {
+               db.AccommodationImages.Remove(ai);
+            }
             db.Accommodations.Remove(accommodation);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

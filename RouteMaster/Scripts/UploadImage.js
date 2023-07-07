@@ -27,6 +27,8 @@ fileInput.addEventListener('change', (event) => {
 
     handleFiles(files);
 });
+
+
 function handleFiles(files) {
     imagePreview.innerHTML = ''; // 清空预览区域
     const filesAry = Object.entries(files);
@@ -131,8 +133,4 @@ function handleFiles(files) {
 }
     //var myCarousel = document.querySelector('#myCarousel');
     //var carousel = new bootstrap.Carousel(myCarousel);
-
-
-const bigShow = document.querySelector(".layout-wrapper");
-bigShow.insertAdjacentHTML('beforeend', carousel);
 

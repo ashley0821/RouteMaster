@@ -92,7 +92,7 @@
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <a href="/" class="menu-link h-100 w-100 d-flex"><img src="~/Uploads/MainIcon.jpg" class="w-100 h-75" /></a>
+                    <a href="/" class="menu-link h-100 w-100 d-flex"><img src="~/Uploads/Route-master-logo.png" class="w-100 h-100" /></a>
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
                         <i class="bx bx-chevron-left bx-sm align-middle"></i>
                     </a>
@@ -120,9 +120,9 @@
                             <div data-i18n="Analytics">聯絡人</div>
                         </a>
                     </li>
-                            <li class="menu-header small text-uppercase">
-                                <span class="menu-header-text">住宿</span>
-                            </li>
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">住宿</span>
+                    </li>
                     <li class="menu-item">
                         @*active open">*@
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -224,7 +224,7 @@
 
 
 
-                                <a href="/PaymentMethods" class="menu-link"">
+                                <a href="/PaymentMethods" class="menu-link">
 
 
 
@@ -287,13 +287,13 @@
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="#" class="menu-link">
-                                    <div data-i18n="Alerts">留位子給你</div>
+                                <a href="/AttractionCategories" class="menu-link">
+                                    <div data-i18n="Alerts">景點類別</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="#" class="menu-link">
-                                    <div data-i18n="Badges">留位子給你</div>
+                                <a href="/AttractionTags" class="menu-link">
+                                    <div data-i18n="Badges">景點標籤</div>
                                 </a>
                         </ul>
                     </li>
@@ -488,7 +488,6 @@
 
 
     <script src="~/assets/vendor/js/menu.js"></script>
-    <script src="~/Scripts/UploadImage.js"></script>
     <!-- endbuild -->
     <!-- Vendors JS -->
     <!-- Main JS -->
@@ -501,6 +500,6 @@
 
     </script>
     @RenderSection("scripts", required: false)
-
+    
 </body>
 </html>

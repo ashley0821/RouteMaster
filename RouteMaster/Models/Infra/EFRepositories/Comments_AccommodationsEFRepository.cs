@@ -64,7 +64,11 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			};
 
-			_db.Comments_Accommodations.Add(commAccDb);
+			var cA = _db.Comments_Accommodations;
+			cA.Add(commAccDb);
+
+
+
 
 			Comments_AccommodationImages img = new Comments_AccommodationImages();
 
@@ -141,6 +145,39 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			Comments_Accommodations comment = _db.Comments_Accommodations.Find(id);
 			_db.Comments_Accommodations.Remove(comment);
 			_db.SaveChanges();	
+		}
+
+		public bool ExistDetail(int? id)
+		{
+			return _db.Comments_Accommodations.Any(c => c.Id == id);
+			
+		}
+
+		public Comments_AccommodationsDetailDto Detail(int? id)
+		{
+			var commAccDb= _db.Comments_Accommodations
+				.Include(c => c.Member)
+				.Include(c => c.Accommodation)
+				.FirstOrDefault(c => c.Id == id);
+
+			var img = _db.Comments_AccommodationImages
+				.Where(i => i.Comments_AccommodationId == id)
+				.ToList()
+				.Select(i => i.Image);
+
+			Comments_AccommodationsDetailDto dto = new Comments_AccommodationsDetailDto
+			{
+				Id = (int)id,
+				MemberAccount = commAccDb.Member.Account,
+				AccomodationName = commAccDb.Accommodation.Name,
+				Score = commAccDb.Score,
+				Title = commAccDb.Title,
+				Pros = commAccDb.Pros,
+				Cons = commAccDb.Cons,
+				Images = img
+			};
+
+			return dto;
 		}
 	}
 }

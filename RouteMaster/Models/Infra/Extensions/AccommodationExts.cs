@@ -1,6 +1,7 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.Dto.Accommodation;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.ViewModels.Accommodations;
 using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.ViewModels.Accommodations;
 using RouteMaster.Models.ViewModels.Accommodations.Room;
@@ -94,12 +95,12 @@ namespace RouteMaster.Models.Infra.Extensions
 				Price = vm.Price
 			};
 		}
-		public static AccommodationImagesDto ToDto(this AccommodationImagesVM vm)
+		public static ImagesDto ToDto(this ImagesVM iVM)
 		{
-			return new AccommodationImagesDto
+			return new ImagesDto
 			{
-				ImgName = vm.ImgName,
-				Files = vm.Files
+				ImgName = iVM.ImgName,
+				Files = iVM.Files
 			};
 		}
 
@@ -187,6 +188,25 @@ namespace RouteMaster.Models.Infra.Extensions
 				Quantity = entity.Quantity,
 			};
 		}
+		public static AccommodationInfoVM ToVM(this Accommodation entity)
+		{
+			return new AccommodationInfoVM
+			{
+				Id = entity.Id,
+				Name = entity.Name,
+				Description = entity.Description,
+				Address = entity.Address,
+				Grade = Double.TryParse(entity.Grade.ToString(), out double grade)? grade.ToString(".0"):null,
+				PhoneNumber = entity.PhoneNumber,
+				Website = entity.Website,
+				IndustryEmail = entity.IndustryEmail,
+				ParkingSpace = entity.ParkingSpace,
+				AccommodationImages = entity.AccommodationImages,
+
+			};
+		}
+
+
 
 		//vm 轉 entity
 

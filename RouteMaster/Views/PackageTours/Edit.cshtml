@@ -44,10 +44,8 @@
         @for (int i = 0; i < Model.Attractions.Count; i++)
         {
             <p>@Model.Attractions[i].Name</p>
-            <input type="checkbox" name="Attractions[@i].Selected" value="@Model.Attractions[i].Id" checked="checked" onchange="toggleAtHidden(this, @i)"/>
-            <input type="hidden" name="Attractions[@i].Id" value="@Model.Attractions[i].Id" />
-
-            @*<input type="checkbox" name="Attractions[@i].Id" value="@Model.Attractions[i].Id" />*@          
+            <input type="checkbox" class="atts" value="@Model.Attractions[i].Id" checked="checked" onchange="toggleAtHidden(this, @i)"/>
+    
         }
     </div>
 
@@ -58,8 +56,7 @@
         @for (int i = 0; i < Model.Activities.Count; i++)
         {
             <p>@Model.Activities[i].Name</p>
-            <input type="checkbox" name="Activities[@i].Selected" value="@Model.Activities[i].Id" checked="checked" onchange="toggleAcHidden(this, @i)"/>  
-            <input type="hidden" name="Activities[@i].Id" value="@Model.Activities[i].Id"  />
+            <input type="checkbox" class="acts" value="@Model.Activities[i].Id" checked="checked" onchange="toggleAcHidden(this, @i)"/>            
         }
     </div>
 
@@ -71,7 +68,7 @@
         {
             <p>@Model.ExtraServices[i].Name</p>
             <input type="checkbox" name="ExtraServices[@i].Selected" value="@Model.ExtraServices[i].Id" checked="checked" onchange="toggleExHidden(this, @i)"/>
-            <input type="hidden" name="ExtraServices[@i].Id" value="@Model.ExtraServices[i].Id"   />
+           
         }
     </div>
 
@@ -95,6 +92,12 @@
 
 
 <script>
+    document.
+
+
+
+    document.querySelectorAll('.atts')
+
 
     function toggleAtHidden(checkbox, index) {
         var hiddenInput = document.querySelector('input[name="Attractions[' + index + '].Id"]');

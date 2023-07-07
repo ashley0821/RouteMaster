@@ -1,11 +1,19 @@
 ﻿@model RouteMaster.Models.ViewModels.AccommodationEditVM
 
+@section Styles{
+    <style>
+        .exist-image:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+    </style>
+}
 @{
     ViewBag.Title = "Edit";
+    var images = Model.AccommodationImages.ToArray();
 }
 
-<h2>Edit</h2>
-
+@{ Html.RenderPartial("_AccommodationNavPartial", new { id = Model.Id, parameter = "accommodation" });}
 
 @using (Html.BeginForm("Edit", "Accommodations", FormMethod.Post, new { enctype = "multipart/form-data" }))
 
@@ -15,10 +23,8 @@
     <div class="row">
         <div class="d-flex justify-content-center">
 
-            <h4 class="me-auto">AccommodationEditVM</h4>
-            <div class="mb-2">
-                @Html.ActionLink("回到旅宿列表", "MyAccommodationIndex/{Model.PartnerId}", null, new { @class = "btn btn-dark" })
-            </div>
+            <h2 class="me-auto">編輯住所資訊</h2>
+
         </div>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -90,15 +96,28 @@
                 </div>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3 d-flex">
                 <div class="col-md-offset-2 col-md-10">
-                    <input id="submit-btn" type="submit" value="Save" class="btn btn-primary " />
+                    <input id="submit-btn" type="submit" value="確認編輯" class="btn btn-primary " />
+                    @Html.ActionLink("放棄編輯", $"/Details/{Model.Id}", null, new { @class = "btn btn-danger" })
                 </div>
+
             </div>
         </div>
 
         <div class="col-7 ms-5">
-            @{ Html.RenderPartial("_ImageCorouselPartial", Model);}
+            @{ Html.RenderPartial("_ImageCorouselPartial");}
+            @if (Model.AccommodationImages.Any())
+            {
+
+                <div class="imageInDb-preview border border-1 border-primary mt-3" id="imageInDbPreview">
+                    <h3 class="m-3 text-primary">已經建立的照片</h3>
+                    @foreach (var image in Model.AccommodationImages)
+                    {
+                        <img src="~/Uploads/@image.Image" class="preview-image exist-image" id="exist-image-@image.Id" alt="@image.Name">
+                    }
+                </div>
+            }
         </div>
     </div>
 }
@@ -108,6 +127,63 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
+    const carousel =
+        `
+    <div class="big">
+        <div class="area">
+            <div class="content">
+                <div id="carouselExampleDark" class="carousel slide h-100" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        @for (int i = 1; i < images.Count(); i++)
+                        {
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="@i" aria-label="Slide @(i+1)"></button>
+                        }
+
+                    </div>
+                    <div class="carousel-inner h-100">
+
+
+                        @for (int i = 0; i < images.Count(); i++)
+                        {
+                            if (i == 0)
+                            {
+                                <div class="carousel-item active h-100" data-bs-interval="1000000">
+                                    <img src="~/Uploads/@images[0].Image" class="d-block w-100 BigImg" alt="@images[0].Name">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <input id="@images[0].Image" type="text" class="text-white d-inline form-control w-25 text-center" style="background-color:#67676799" value="@images[0].Name" />
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="carousel-item h-100" data-bs-interval="1000000">
+                                    <img src="~/Uploads/@images[i].Image" class="d-block w-100 BigImg" alt="@images[i].Name">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <input id="@images[i].Image" type="text" class="text-white d-inline form-control w-25 text-center" style="background-color:#67676799" value="@images[i].Name" />
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon rounded-circle" style="background-color:#67676799;" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                        <span class="carousel-control-next-icon rounded-circle" style="background-color:#67676799" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="btns d-flex justify-content-center align-items-center">
+                <input id="edit-img-name" type="button" class="btn btn-primary" value="修改照片名">
+                <input id="delete-img" type="button" class="btn btn-danger" value="刪除照片">
+            </div>
+        </div>
+</div>
+        `;
+
         $(function () {
             var baseAddress = "https://localhost:44371";
             $("#region").on("change", function () {
@@ -186,15 +262,28 @@
 
                 }).done(data => {
                     // 清空 Town DropDownList 的选项
-                    alert("修改成功");
+                    alert("刪除成功");
                     location.reload();
                 }).fail(err => {
-                    alert("修改失敗");
+                    alert("刪除失敗");
                 });
 
             });
 
+            $(".exist-image").on('click', function (e) {
+                $(".big").addClass('bigShow');
+
+                $('.carousel-item').removeClass('active');
+
+                const imagePath = $(this).attr('src');
+                const targetItem = $(`.carousel-item img[src='${imagePath}']`).closest('.carousel-item');
+                targetItem.addClass('active');
+            });
+
         });
 
+
     </script>
+    <script src="~/Scripts/ShowBigImages.js"></script>
+
 }

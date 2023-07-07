@@ -5,12 +5,14 @@
     var roomType = ViewBag.RoomType;
 }
 
+@{ Html.RenderPartial("_AccommodationNavPartial", new { id = Model.AccommodationId, parameter = "accommodation" });}
+
 @using (Html.BeginForm("CreateRoom", "Accommodations", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.AccommodationId)
     <div class="form-horizontal">
-        <h4>RoomCreateVM</h4>
+        <h2>新增客房</h2>
         <hr />
 
         <div class="row">
@@ -55,34 +57,16 @@
                         @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="mb-3" style="margin-top: 20px;">
+                <div class="mb-3 d-flex">
                     <div class="col-md-offset-2 col-md-10">
-                        <input id="submit-btn" type="submit" value="Create" class="btn btn-primary" />
+                        <input id="submit-btn" type="submit" value="確認新增" class="btn btn-primary " />
+                        @Html.ActionLink("放棄編輯", $"/RoomsIndex/{Model.AccommodationId}", null, new { @class = "btn btn-danger" })
                     </div>
-                </div>
-                <div>
-                    @Html.ActionLink("Back to List", "Index")
                 </div>
             </div>
 
             <div class="col-8">
-                <div class="drop-zone" id="dropZone">
-                    <label for="files" class="d-block w-100 h-100" id="fileLabel">
-                        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
-                            <botton class="btn btn-primary"><i class="fa-solid fa-image"></i>新增照片</botton>
-                            <span class="small d-block">或</span>
-                            <p>拖曳照片到這裡</p>
-                        </div>
-                    </label>
-                </div>
-                <input id="files" type="file" name="files" class="form-control" multiple="multiple" accept="image/*" />
-                <div class="image-preview" id="imagePreview"></div>
-                <div class="d-flex justify-content-end">
-                    <p class="small m-0" id="uploadContent"></p>
-                </div>
-                <div class="progress-bar-div ms-auto">
-                    <div class="progress-bar h-100"></div>
-                </div>
+                @{ Html.RenderPartial("_ImageCorouselPartial");}
             </div>
         </div>
     </div>
@@ -91,5 +75,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    
+
 }

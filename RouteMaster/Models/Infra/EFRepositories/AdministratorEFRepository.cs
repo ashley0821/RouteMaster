@@ -1,5 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,36 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			db.Administrators.Add(administrator);
 			db.SaveChanges();
+		}
+
+		public IEnumerable<AdministratorIndexDto> Search(AdministratorCriteria criteria)
+		{
+			var query = db.Administrators.AsEnumerable();
+
+			if (string.IsNullOrEmpty(criteria.FirstName) == false)
+			{
+				query = query.Where(m => m.FirstName.Contains(criteria.FirstName));
+			}
+			if (string.IsNullOrEmpty(criteria.LastName) == false)
+			{
+				query = query.Where(m => m.LastName.Contains(criteria.LastName));
+			}
+			if (string.IsNullOrEmpty(criteria.Email) == false)
+			{
+				query = query.Where(m => m.Email.Contains(criteria.Email));
+			}
+
+			var Administrators = query.Select(a => new AdministratorIndexDto
+			{
+				Id = a.Id,
+				PermissionId = (int)a.PermissionId,
+				FirstName = a.FirstName,
+				LastName = a.LastName,
+				Email = a.Email,
+				CreateDate= a.CreateDate,
+			});
+
+			return Administrators;
 		}
 	}
 }
