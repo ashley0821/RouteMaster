@@ -59,6 +59,7 @@ namespace RouteMaster.Models.Services
 			//var name = dto.Account;
 			//var email = dto.Email;
 
+
 			//emailHelper.SendConfirmRegisterEmail(url, name, email);
 
 

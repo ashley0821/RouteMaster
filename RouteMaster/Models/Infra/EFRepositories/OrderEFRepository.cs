@@ -62,13 +62,15 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			{
 				Id = o.Id,
 				MemberId = o.MemberId,
-				MemberName = o.Member.FirstName,
+				MemberName = $"{o.Member.FirstName} {o.Member.LastName}",
+				MemberEmail=o.Member.Email,
+
 				PaymentMethodId = o.PaymentMethodId,
 				PaymentMethodName = o.PaymentMethod.Name,
 				PaymentStatus = o.PaymentStatus,
 				CreateDate = o.CreateDate,
 				Total = o.Total
-			});
+			});;
 
 			return orders;
 			//return (IEnumerable<OrderIndexDto>)_db.Orders
@@ -114,7 +116,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			order.MemberId = dto.MemberId;
 			order.Member.FirstName = dto.MemberName;
 			order.Member.LastName = dto.MemberName;
-
+			order.Member.Email = dto.MemberEmail;
 			order.PaymentMethod.Name = dto.PaymentMethodName;
 			order.PaymentStatus = dto.PaymentStatus;
 			order.CreateDate = dto.CreateDate;
@@ -134,6 +136,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		   Id = o.Id,
 		   MemberId = o.MemberId,
 		   MemberName = $"{o.Member.FirstName} {o.Member.LastName}",
+		   MemberEmail= $"{o.Member.Email}",
 		   PaymentMethodName = o.PaymentMethod.Name,
 		   PaymentStatus = o.PaymentStatus,
 		   CreateDate = o.CreateDate,
