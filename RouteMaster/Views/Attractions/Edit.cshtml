@@ -20,7 +20,7 @@
         <div class="mb-3">
             類別
 
-            @Html.DropDownListFor(model => model.AttractionCategoryId, new SelectList(ViewBag.AttractionCategories, "Id", "Name"), "Please select a category", new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.AttractionCategoryId, new SelectList(ViewBag.AttractionCategories, "Id", "Name"), "Please select a category", new { @class = "form-select" })
             @Html.ValidationMessageFor(model => model.AttractionCategoryId, "", new { @class = "text-danger" })
 
         </div>
@@ -28,7 +28,7 @@
         <div class="mb-3">
             縣市
 
-            @Html.DropDownListFor(model => model.RegionId, new SelectList(ViewBag.Regions, "Id", "Name", Model.RegionId), "Please select a region", new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.RegionId, new SelectList(ViewBag.Regions, "Id", "Name", Model.RegionId), "Please select a region", new { @class = "form-select" })
             @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
 
         </div>
@@ -36,7 +36,7 @@
         <div class="mb-3">
             鄉鎮市區
 
-            @Html.DropDownListFor(model => model.TownId, new SelectList(ViewBag.Towns, "Id", "Name", Model.TownId), "Please select a town", new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.TownId, new SelectList(ViewBag.Towns, "Id", "Name", Model.TownId), "Please select a town", new { @class = "form-select" })
             @Html.ValidationMessageFor(model => model.TownId, "", new { @class = "text-danger" })
 
         </div>
@@ -44,7 +44,7 @@
         <div class="mb-3">
             標籤
 
-            @Html.DropDownListFor(model => model.TagId, new SelectList(ViewBag.Tags, "Id", "Name", Model.TagId), null, new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.TagId, new SelectList(ViewBag.Tags, "Id", "Name", Model.TagId), null, new { @class = "form-select" })
             @Html.ValidationMessageFor(model => model.TagId, "", new { @class = "text-danger" })
 
         </div>
@@ -93,7 +93,7 @@
         <div class="mb-3">
             網站
 
-            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control", @allowhtml = true } })
             @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
 
         </div>

@@ -90,11 +90,28 @@ WHERE[Attractions].Id = @Id";
 
 		public void EditTag(int attractionId, int tagId)
 		{
-			string sql = @"UPDATE [dbo].[Tags_Attractions]
-SET TagId = @TagId
-WHERE AttractionId = @AttractionId";
+			
+			string checkSql = @"SELECT COUNT(*) FROM [dbo].[Tags_Attractions] WHERE AttractionId = @AttractionId";
 
-			new SqlConnection(_connStr).Execute(sql, new { TagId = tagId, AttractionId = attractionId });
+			int existingCount = new SqlConnection(_connStr).QueryFirstOrDefault<int>(checkSql, new { AttractionId = attractionId });
+
+			if (existingCount > 0)
+			{
+				// 景點已有標籤，執行更新操作
+				string updateSql = @"UPDATE [dbo].[Tags_Attractions]
+                            SET TagId = @TagId
+                            WHERE AttractionId = @AttractionId";
+
+				new SqlConnection(_connStr).Execute(updateSql, new { TagId = tagId, AttractionId = attractionId });
+			}
+			else
+			{
+				// 景點沒有標籤，執行插入操作
+				string insertSql = @"INSERT INTO [dbo].[Tags_Attractions] (AttractionId, TagId)
+                             VALUES (@AttractionId, @TagId)";
+
+				new SqlConnection(_connStr).Execute(insertSql, new { AttractionId = attractionId, TagId = tagId });
+			}
 		}
 	}
 }

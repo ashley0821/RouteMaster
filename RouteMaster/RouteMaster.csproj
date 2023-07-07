@@ -147,7 +147,9 @@
     <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
     <Compile Include="Controllers\AdministratorsController.cs" />
+    <Compile Include="Controllers\AttractionCategoriesController.cs" />
     <Compile Include="Controllers\AttractionsController.cs" />
+    <Compile Include="Controllers\AttractionTagsController.cs" />
     <Compile Include="Controllers\Comments_AccommodationsController.cs" />
     <Compile Include="Controllers\Comments_AttractionsController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
@@ -696,6 +698,14 @@
     <Content Include="Views\Comments_Attractions\Edit.cshtml" />
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\UploadImg.cshtml" />
+    <Content Include="Views\AttractionCategories\Create.cshtml" />
+    <Content Include="Views\AttractionCategories\Delete.cshtml" />
+    <Content Include="Views\AttractionCategories\Edit.cshtml" />
+    <Content Include="Views\AttractionCategories\Index.cshtml" />
+    <Content Include="Views\AttractionTags\Create.cshtml" />
+    <Content Include="Views\AttractionTags\Delete.cshtml" />
+    <Content Include="Views\AttractionTags\Edit.cshtml" />
+    <Content Include="Views\AttractionTags\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

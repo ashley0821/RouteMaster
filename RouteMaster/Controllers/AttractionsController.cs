@@ -142,6 +142,7 @@ namespace RouteMaster.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[ValidateInput(false)]
 		public ActionResult Create(AttractionCreateVM vm, HttpPostedFileBase[] files)
 		{
 
@@ -198,6 +199,7 @@ namespace RouteMaster.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[ValidateInput(false)]
 		public ActionResult Edit(AttractionEditVM vm)
 		{
 			if (ModelState.IsValid == false) { return View(vm); }
@@ -206,7 +208,6 @@ namespace RouteMaster.Controllers
 			AttractionService service = new AttractionService(repo);
 
 			Result result = service.Edit(vm.ToEditDto());
-
 
 
 			if (result.IsSuccess)
@@ -471,5 +472,6 @@ namespace RouteMaster.Controllers
 			return service.Search()
 				.Select(dto => dto.ToIndexVM());
 		}
+
 	}
 }

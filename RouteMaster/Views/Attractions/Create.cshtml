@@ -91,7 +91,7 @@
         <div class="mb-3">
             網站
 
-            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control", @allowhtml = true } })
             @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
 
         </div>
