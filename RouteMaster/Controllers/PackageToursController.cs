@@ -199,7 +199,7 @@ namespace RouteMaster.Controllers
 			service.Edit(vm.ToEditDto());        
 
             PrepareCouponDataSource(vm.CouponId);            
-            return View(vm);
+            return View("Index");
         }
 
         // GET: PackageTours/Delete/5
