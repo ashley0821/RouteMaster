@@ -4,8 +4,10 @@
     ViewBag.Title = "客房格局與價格";
 }
 
-<h2 class="m-5 ms-0">格局與價格</h2>
+@{ Html.RenderPartial("_AccommodationNavPartial", new { id = ViewBag.Id, parameter = "room" });}
 
+<h2 class="ms-0">格局與價格</h2>
+<hr />
 <table class="table table-hover table-striped dataTable no-footer">
     <tbody>
         @foreach (var item in Model){ 
@@ -26,8 +28,8 @@
     </tbody>
 </table>
 <div class="d-flex justify-content-end row">
-    <p class="btn btn-lg btn-outline-dark col-2">
-        @Html.ActionLink("新增另一間客房資訊", "CreateRoom", new { id = ViewBag.Id })
+    <p class="col-2">
+        @Html.ActionLink("新增另一間客房資訊", "CreateRoom", new { id = ViewBag.Id }, new { @class = "btn btn-outline-primary" })
     </p>
     <div class="col-2"></div>
 </div>

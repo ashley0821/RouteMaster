@@ -1,130 +1,130 @@
-﻿@model RouteMaster.Models.EFModels.Accommodation
+﻿@model RouteMaster.Models.Infra.ViewModels.Accommodations.AccommodationInfoVM
 
 @{
     ViewBag.Title = "Details";
+    var images = Model.AccommodationImages.ToArray();
 }
 
-<h2>Details</h2>
+@section Styles{
 
-<div>
-    <h4>Accommodation</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Partner.FirstName)
-        </dt>
+}
 
-        <dd>
-            @Html.DisplayFor(model => model.Partner.FirstName)
-        </dd>
+@{ Html.RenderPartial("_AccommodationNavPartial", new { id = Model.Id, parameter = "accommodation" });}
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Region.Name)
-        </dt>
+<h2>旅宿資訊</h2>
 
-        <dd>
-            @Html.DisplayFor(model => model.Region.Name)
-        </dd>
+<div class="d-flex">
+    <h4 class="d-flex justify-content-center align-items-center m-0">@Html.DisplayFor(model => model.Name)</h4>
+    @if (!string.IsNullOrEmpty(Model.Grade))
+    {
+        <div class="score-div bg-primary text-white d-flex justify-content-center align-items-center rounded-2 ms-2" style="width: 32px; height: 32px; letter-spacing:1px">@Html.DisplayFor(model => model.Grade)</div>
+    }
+</div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Town.Name)
-        </dt>
+<hr />
+<div class="row">
+    <div class="col-4">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Town.Name)
-        </dd>
+            <dd class="mb-3">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", disabled = "disabled", style = "height: 250px" })
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.Address)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Grade)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Website)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Grade)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.Website)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.IndustryEmail)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.IndustryEmail)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PositionX)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ParkingSpace)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PositionX)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.ParkingSpace)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-7 ms-3">
+        @if (Model.AccommodationImages.Any())
+        {
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PositionY)
-        </dt>
+            <div id="carouselExampleDark" class="carousel slide h-100" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    @for (int i = 1; i < images.Count(); i++)
+                    {
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="@i" aria-label="Slide @(i+1)"></button>
+                    }
 
-        <dd>
-            @Html.DisplayFor(model => model.PositionY)
-        </dd>
+                </div>
+                <div class="carousel-inner h-100">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Website)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Website)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IndustryEmail)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IndustryEmail)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ParkingSpace)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ParkingSpace)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
-
-    </dl>
+                    @for (int i = 0; i < images.Count(); i++)
+                    {
+                        if (i == 0)
+                        {
+                            <div class="carousel-item active h-100" data-bs-interval="1000000">
+                                <img src="~/Uploads/@images[0].Image" class="d-block w-100 BigImg" alt="@images[0].Name">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <input id="@images[0].Image" type="text" class="text-white d-inline form-control w-25 text-center" style="background-color:#67676799" value="@images[0].Name" />
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="carousel-item h-100" data-bs-interval="1000000">
+                                <img src="~/Uploads/@images[i].Image" class="d-block w-100 BigImg" alt="@images[i].Name">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <input id="@images[i].Image" type="text" class="text-white d-inline form-control w-25 text-center" style="background-color:#67676799" value="@images[i].Name" />
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon rounded-circle" style="background-color:#67676799;" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                    <span class="carousel-control-next-icon rounded-circle" style="background-color:#67676799" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        }
+    </div>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn-css" }) |
+    @Html.ActionLink("Back to List", "MyAccommodationIndex", "", new { @class = "btn-css" })
 </p>
