@@ -23,6 +23,8 @@ using System.IO;
 using OfficeOpenXml;
 using RouteMaster.Models.Infra;
 using System.Data.SqlClient;
+using System.Web.Helpers;
+using System.Xml.Linq;
 
 namespace RouteMaster.Controllers
 {
@@ -363,10 +365,29 @@ namespace RouteMaster.Controllers
 		{
 			return (db.Orders?.Any(o => o.Id == id)).GetValueOrDefault();
 		}
+		[HttpPost]
+		public JsonResult SendUnpaidNotification(List<int> selectedOrderIds)
+		{
+			EmailHelper emailHelper = new EmailHelper();
+
+			foreach (var orderId in selectedOrderIds)
+			{
+				var order = db.Orders.Find(orderId);
+
+				if (order != null)
+				{
+					var name = order.Member.FirstName;
+					var email = order.Member.Email;
+
+					emailHelper.SendUppaidNotification(name, email);
+				}
+
+			}
+			return Json(new { success = true });
+		}
 
 
-
-    }
+	}
 
 
    }
