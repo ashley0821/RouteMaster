@@ -23,8 +23,8 @@
                                 </small>
                             </p>
                             @*@Html.ActionLink("繼續註冊流程", "Edit", new { id = item.Id })*@
-                            <a href="/Accommodations/Edit/@item.Id" class="btn btn-primary">繼續註冊流程</a>
-
+                            <a href="/Accommodations/Details/@item.Id" class="btn btn-primary">住所資訊</a>
+                            <input type="button" class="btn btn-danger delete-accommodation" data-id="@item.Id" id="delete-accommodation-@item.Id" value="刪除住所" />
                         </div>
                     </div>
                 </div>
@@ -51,3 +51,29 @@
         </div>*@
     </div>
 }
+
+<script>
+
+    let baseAddress = "https://localhost:44371";
+    let delete_accommodation_btn = document.querySelectorAll(".delete-accommodation");
+    delete_accommodation_btn.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const id = this.getAttribute('data-id');
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', baseAddress + '/Accommodations/Delete', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert('修改成功');
+                        window.location.reload();
+                    } else {
+                        alert('修改失敗');
+                    }
+                }
+            };
+            var formData = new FormData();
+            formData.append('id', id);
+            xhr.send(formData);
+        })
+    })
+</script>

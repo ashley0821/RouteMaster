@@ -168,6 +168,7 @@
     <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />
     <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationIndexDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Service\ServiceInfoDto.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
     <Compile Include="Models\Dto\Comments_AttractionsCreateDto.cs" />
+    <Compile Include="Models\Dto\Comments_AttractionsDetailDto.cs" />
     <Compile Include="Models\Dto\Comments_AttractionsIndexDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceCreateDto.cs" />
     <Compile Include="Models\Dto\ExtraServiceEditDto.cs" />
@@ -566,6 +568,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ShowBigImages.js" />
     <Content Include="Scripts\UploadImage.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -682,6 +685,8 @@
     <Content Include="Views\PaymentMethods\Index.cshtml" />
     <Content Include="Views\Accommodations\_ImageCorouselPartial.cshtml" />
     <Content Include="Views\Orders\AccomodationDetailsEdit.cshtml" />
+    <Content Include="Views\Orders\ExtraServicesDetailsEdit.cshtml" />
+    <Content Include="Views\Orders\ActivitiesDetailsEdit.cshtml" />
     <Content Include="Views\Members\SuspendMember.cshtml" />
     <Content Include="Views\Administrators\Login.cshtml" />
     <Content Include="Views\Administrators\Register.cshtml" />
@@ -691,6 +696,7 @@
     <Content Include="Views\Comments_Attractions\Edit.cshtml" />
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\UploadImg.cshtml" />
+    <Content Include="Views\Accommodations\_AccommodationNavPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

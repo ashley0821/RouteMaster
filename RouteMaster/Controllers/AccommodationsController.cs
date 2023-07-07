@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Antlr.Runtime;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json.Linq;
 using RouteMaster.Models.Dto;
 using RouteMaster.Models.Dto.Accommodation.Service;
@@ -30,7 +31,7 @@ namespace RouteMaster.Controllers
     public class AccommodationsController : Controller
     {
         private readonly AppDbContext db = new AppDbContext();
-
+        
         // 還沒做
         public ActionResult Index()
         {
@@ -42,7 +43,7 @@ namespace RouteMaster.Controllers
         public ActionResult MyAccommodationIndex(int? id)
         {
 			IEnumerable<AccommodationIndexVM> accommodations = GetAccommodations(id);
-
+            
             //var accommodations = db.Accommodations.Include(a => a.Partner).Include(a => a.Region).Include(a => a.Town);
 
             return View(accommodations);//.ToList());
@@ -60,7 +61,9 @@ namespace RouteMaster.Controllers
             {
                 return HttpNotFound();
             }
-            return View(accommodation);
+
+
+            return View(accommodation.ToVM());
         }
 
         // 新增住宿
@@ -187,7 +190,7 @@ namespace RouteMaster.Controllers
 
 			if (result.IsSuccess)
 			{
-				return RedirectToAction("MyAccommodationIndex");
+				return View("RoomsIndex", vm);
 			}
 			else
 			{
@@ -301,7 +304,7 @@ namespace RouteMaster.Controllers
 					Disabled = true,
 					Selected = true,
 					Text = "請選擇",
-					Value = ""
+					Value = null
 				});
 		}
 
@@ -314,28 +317,32 @@ namespace RouteMaster.Controllers
 			return service.EditAccommodationProfile(vm.ToDto(), iVM.ToDto(), path);
 		}
 
-		public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Accommodation accommodation = db.Accommodations.Find(id);
-            if (accommodation == null)
-            {
-                return HttpNotFound();
-            }
-            return View(accommodation);
-        }
+		//public ActionResult Delete(int? id)
+  //      {
+  //          if (id == null)
+  //          {
+  //              return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+  //          }
+  //          Accommodation accommodation = db.Accommodations.Find(id);
+  //          if (accommodation == null)
+  //          {
+  //              return HttpNotFound();
+  //          }
+  //          return View(accommodation);
+  //      }
 
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+     
+        public void DeleteConfirmed(int id)
         {
             Accommodation accommodation = db.Accommodations.Find(id);
+            foreach(var ai in db.AccommodationImages.Where(ai => ai.AccommodationId == id))
+            {
+               db.AccommodationImages.Remove(ai);
+            }
             db.Accommodations.Remove(accommodation);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

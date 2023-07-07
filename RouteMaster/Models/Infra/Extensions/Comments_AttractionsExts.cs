@@ -36,7 +36,6 @@ namespace RouteMaster.Models.Infra.Extensions
 				CreateDate = entity.CreateDate
 			};
 		}
-
 		public static Comments_AttractionsCreateDto ToCreateDto(this Comments_AttractionsCreateVM vm)
 		{
 			return new Comments_AttractionsCreateDto
@@ -65,14 +64,15 @@ namespace RouteMaster.Models.Infra.Extensions
 			};
 		}
 
-		public static Comments_AttractionsDetailVM ToDetailVM(this Comments_Attractions entity)
+		public static Comments_AttractionsDetailVM ToDetailVM (this Comments_AttractionsDetailDto dto)
 		{
 			return new Comments_AttractionsDetailVM
 			{
-				Id = entity.Id,
-				AttractioName = entity.Attraction.Name,
-				Content = entity.Content,
-				Score = entity.Score
+				Id = dto.Id,
+				AttractioName = dto.AttractioName,
+				Content = dto.Content,
+				Score = dto.Score,
+				Images = dto.Images
 
 			};
 		}

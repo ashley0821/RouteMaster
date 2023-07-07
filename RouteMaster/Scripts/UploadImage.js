@@ -134,15 +134,3 @@ function handleFiles(files) {
     //var myCarousel = document.querySelector('#myCarousel');
     //var carousel = new bootstrap.Carousel(myCarousel);
 
-
-const bigShow = document.querySelector(".layout-wrapper");
-bigShow.insertAdjacentHTML('beforeend', carousel);
-
-$(".area").on('click', function (e) {
-    e.stopPropagation();
-})
-$(".big").on('click', function (e) {
-    $(this).removeClass('bigShow');
-    e.stopPropagation();
-})
-
