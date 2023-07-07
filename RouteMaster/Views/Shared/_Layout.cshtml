@@ -82,6 +82,7 @@
     </style>
     @RenderSection("styles", required: false)
 
+
 </head>
 <body>
 
@@ -211,7 +212,9 @@
                             <li class="menu-item">
 
 
+
                                 <a href="/Orders" class="menu-link">
+
 
 
                                     <div data-i18n="Basic">訂單</div>
@@ -221,7 +224,8 @@
 
 
 
-                                <a href="/PaymentMethods" class="menu-link"">
+                                <a href="/PaymentMethods" class="menu-link">
+
 
 
                                     <div data-i18n="Basic">付款方式管理</div>
@@ -452,6 +456,7 @@
             <!-- Overlay -->
             <div class="layout-overlay layout-menu-toggle"></div>
         </div>
+
         <!-- / Layout wrapper -->
 
     </div>
@@ -471,6 +476,7 @@
     @*<script src="~/Scripts/jquery-ui.js"></script>*@
 
 
+
     <script src="~/assets/vendor/libs/popper/popper.js"></script>
     <script src="~/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="~/assets/vendor/js/bootstrap.js"></script>
@@ -482,7 +488,6 @@
 
 
     <script src="~/assets/vendor/js/menu.js"></script>
-    <script src="~/Scripts/UploadImage.js"></script>
     <!-- endbuild -->
     <!-- Vendors JS -->
     <!-- Main JS -->
@@ -495,6 +500,7 @@
 
     </script>
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/UploadImage.js"></script>
 
 </body>
 </html>

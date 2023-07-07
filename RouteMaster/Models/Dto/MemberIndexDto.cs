@@ -33,7 +33,7 @@ namespace RouteMaster.Models.Dto
 
 		public bool IsConfirmed { get; set; }
 
-		//public string ConfirmCode { get; set; }
+		public string ConfirmCode { get; set; }
 
 		public bool? IsSuspended { get; set; }
 	}

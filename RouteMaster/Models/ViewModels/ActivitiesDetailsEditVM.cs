@@ -22,10 +22,10 @@ namespace RouteMaster.Models.ViewModels
 
 		public string ActivityName { get; set; }
 		[Display(Name = "開始時間")]
-		
+		[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
 		public DateTime StartTime { get; set; }
 		[Display(Name = "結束時間")]
-		
+		[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
 		public DateTime EndTime { get; set; }
 		[Display(Name = "價格")]
 		[DisplayFormat(DataFormatString = "${0:#,#}")]

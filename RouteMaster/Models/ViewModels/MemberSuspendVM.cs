@@ -7,8 +7,9 @@ namespace RouteMaster.Models.ViewModels
 {
     public class MemberSuspendVM
     {
-
         public int Id { get; set; }
         public bool IsSuspended { get; set; }
-    }
+
+        public bool IsConfirmed { get; set; }
+	}
 }

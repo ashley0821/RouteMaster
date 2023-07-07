@@ -1,0 +1,21 @@
+﻿<div class="drop-zone" id="dropZone">
+    <label for="files" class="d-block w-100 h-100 d-flex justify-content-center align-items-center" id="fileLabel" type="container">
+        <botton class="btn btn-primary d-flex justify-content-center align-items-center"><i class="fa-solid fa-image"></i>新增照片</botton>
+        <span class="small d-block">或</span>
+        <p>拖曳照片到這裡</p>
+    </label>
+</div>
+<input id="files" type="file" name="files" class="form-control" multiple="multiple" accept="image/*" />
+<div class="image-preview" id="imagePreview"></div>
+
+
+<div class="d-flex justify-content-end m-2">
+    @*<input id="clearAll" type="button" class="btn btn-outline-info me-auto" value="全部清除" />*@
+    <div>
+        <p class="small m-0" id="uploadContent"></p>
+        <div class="progress-bar-div ms-auto d-none">
+            <div class="progress-bar h-100 d-none"></div>
+        </div>
+    </div>
+</div>
+

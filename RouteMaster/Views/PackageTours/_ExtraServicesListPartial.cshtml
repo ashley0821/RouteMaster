@@ -28,7 +28,7 @@
 </div>
 
 
-<div >
+
     <table  class="table table-striped table-hover" id="extraServiceTable">
         <thead>
             <tr>
@@ -82,7 +82,7 @@
 
     </table>
 
-</div>
+
 
 
 
@@ -97,13 +97,15 @@
 
         searchBtn.addEventListener('click', function () {
 
-
+            
             var searchKeyword = searchInput.value;
 
             var data = new FormData();
             data.append('searchKeyword', searchKeyword);
+            
 
-            fetch('/PackageTours/PagingExtraServiceTable', {
+
+            fetch('/PackageTours/SearchExtraService', {
                 method: 'POST',
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
@@ -116,7 +118,7 @@
                     var targetTBody = document.querySelector('#targetExtraServiceTBody');
                     targetTBody.innerHTML = '';
 
-                    data.data.forEach(item => {
+                        data.forEach(item => {
                         var tr = document.createElement('tr');
                         var td1 = document.createElement('td');
                         td1.textContent = item.Name;
@@ -140,9 +142,11 @@
 
                         targetTBody.appendChild(tr);
                     });
-                    //更新DataTables分頁
-                    var dataTable = $('#extraServiceTable').DataTable();  // 請將 "yourDataTable" 替換為實際的 DataTable ID
-                    dataTable.draw();
+
+
+
+
+                   
                 })                
                 .catch(error => {
                     // 處理請求錯誤
