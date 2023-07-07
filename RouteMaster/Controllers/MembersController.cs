@@ -134,7 +134,7 @@ namespace RouteMaster.Controllers
         {
             IMemberRepository repo = new MemberEFRepository();
             MemberService service = new MemberService(repo);
-            return service.Seacrh(criteria)
+            return service.Search(criteria)
                 .Select(dto => new MemberIndexVM
                 {
                     Id = dto.Id,
@@ -228,19 +228,47 @@ namespace RouteMaster.Controllers
             return View();
         }
 
-        public ActionResult ActiveRegister(int Id, string confirmCode)
+        [HttpGet]
+        public ActionResult ActiveRegister(int? id)
         {
-            Result result = ActiveMember(Id, confirmCode);
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Member member = db.Members.Find(id);
+
+			if (member == null)
+			{
+				return HttpNotFound();
+			}
+
+			return View();
+		}
+
+        [HttpPost]
+        public ActionResult ActiveRegister(int? Id, string confirmCode)
+        {
+
+			if (Id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			Result result = ActiveMember(Id.Value, confirmCode);
 
 
-            return View();
+            return View(result);
         }
 
-        private Result ActiveMember(int Id, string confirmCode)
+
+        private Result ActiveMember(int? Id, string confirmCode)
         {
             var db = new AppDbContext();
 
-            var memberInDb = db.Members.FirstOrDefault(m => m.Id == Id && m.IsConfirmed == false && m.ConfirmCode == confirmCode);
+
+
+            //var memberInDb = db.Members.FirstOrDefault(m => m.Id == Id && m.IsConfirmed == false && m.ConfirmCode == confirmCode);
+            var memberInDb = db.Members.Find(Id);
 
             memberInDb.IsConfirmed = true;
             memberInDb.ConfirmCode = null;
@@ -328,7 +356,7 @@ namespace RouteMaster.Controllers
 
             if (member == null) return Result.Fail("帳密有誤");
 
-            if (member.IsConfirmed == false || member.IsConfirmed == false) return Result.Fail("會員資格尚未確認");
+            //if (member.IsConfirmed == false || member.IsConfirmed == false) return Result.Fail("會員資格尚未確認");
 
             if (member.IsSuspended == true) return Result.Fail("帳號已被停權，如有問題請聯絡客服");
 
@@ -447,6 +475,7 @@ namespace RouteMaster.Controllers
             return View();
         }
 
+        
         [HttpPost]
         public ActionResult SuspendMember(MemberSuspendVM vm)
         {

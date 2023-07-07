@@ -20,6 +20,8 @@ namespace RouteMaster.Models.ViewModels
 
 		public string Image { get; set; }
 
+		public string Tag { get; set; }
+
 		public string DescriptionText { get; set; }
 
 		public string AverageScoreText { get; set; }
@@ -27,5 +29,6 @@ namespace RouteMaster.Models.ViewModels
 		public string AverageStayHoursText { get; set; }
 
 		public string AveragePriceText { get; set; }
+
 	}
 }

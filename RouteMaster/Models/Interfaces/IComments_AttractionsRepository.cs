@@ -15,5 +15,11 @@ namespace RouteMaster.Models.Interfaces
 		bool ExistDetail(int? id);
 		Comments_AttractionsDetailDto Detail(int? id);
 
+		bool ExistImgWithinComment(int id);
+
+		void ClearImg(int id);
+
+		void DeleteComment(int id);
+
 	}
 }

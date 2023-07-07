@@ -147,7 +147,9 @@
     <Compile Include="Controllers\ActivitiesController.cs" />
     <Compile Include="Controllers\ActivityCategoriesController.cs" />
     <Compile Include="Controllers\AdministratorsController.cs" />
+    <Compile Include="Controllers\AttractionCategoriesController.cs" />
     <Compile Include="Controllers\AttractionsController.cs" />
+    <Compile Include="Controllers\AttractionTagsController.cs" />
     <Compile Include="Controllers\Comments_AccommodationsController.cs" />
     <Compile Include="Controllers\Comments_AttractionsController.cs" />
     <Compile Include="Controllers\ExtraServicesController.cs" />
@@ -161,6 +163,7 @@
     <Compile Include="Controllers\testsController.cs" />
     <Compile Include="Controllers\TravelPlansController.cs" />
     <Compile Include="Filter\AdministratorAuthenticationFilter.cs" />
+    <Compile Include="Filter\PartnerAuthenticationFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -179,6 +182,7 @@
     <Compile Include="Models\Dto\ActivityCreateDto.cs" />
     <Compile Include="Models\Dto\ActivityEditDto.cs" />
     <Compile Include="Models\Dto\ActivityIndexDto.cs" />
+    <Compile Include="Models\Dto\AdministratorIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionDetailDto.cs" />
     <Compile Include="Models\Dto\AttractionEditDto.cs" />
@@ -186,6 +190,7 @@
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionListEditDto.cs" />
+    <Compile Include="Models\Dto\Comments_AccommodationsDetailDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsEditDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
@@ -264,6 +269,7 @@
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
     <Compile Include="Models\Infra\Criterias\ActivityIndexCriteria.cs" />
+    <Compile Include="Models\Infra\Criterias\AdministratorCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\Comments_AccommodationCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\Comments_AttractionCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQCriteria.cs" />
@@ -273,6 +279,7 @@
     <Compile Include="Models\Infra\DapperRepositories\AccomodationDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ActivitiesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\AttractionDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\AttractionTagsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServiceDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ExtraServicesDetailsDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\TravelPlanDapperRepository.cs" />
@@ -354,17 +361,20 @@
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
     <Compile Include="Models\ViewModels\ActivityIndexVM.cs" />
+    <Compile Include="Models\ViewModels\AdministratorIndexVM.cs" />
     <Compile Include="Models\ViewModels\AdministratorLoginVM.cs" />
     <Compile Include="Models\ViewModels\AdministratorRegisterVM.cs" />
-    <Compile Include="Models\ViewModels\AttractionCreateVM.cs" />
-    <Compile Include="Models\ViewModels\AttractionCriteria.cs" />
-    <Compile Include="Models\ViewModels\AttractionDetailVM.cs" />
-    <Compile Include="Models\ViewModels\AttractionEditVM.cs" />
-    <Compile Include="Models\ViewModels\AttractionImageIndexVM.cs" />
-    <Compile Include="Models\ViewModels\AttractionIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Attractions\AttractionCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Attractions\AttractionCriteria.cs" />
+    <Compile Include="Models\ViewModels\Attractions\AttractionDetailVM.cs" />
+    <Compile Include="Models\ViewModels\Attractions\AttractionEditVM.cs" />
+    <Compile Include="Models\ViewModels\Attractions\AttractionImageIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Attractions\AttractionIndexVM.cs" />
     <Compile Include="Models\ViewModels\AttractionListEditVM.cs" />
+    <Compile Include="Models\ViewModels\Attractions\AttractionTagVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsChangeImgVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AccommodationsDetailVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsEditVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsImgIndexVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsIndexVM.cs" />
@@ -399,6 +409,8 @@
     <Compile Include="Models\ViewModels\PackageTourCreateVM.cs" />
     <Compile Include="Models\ViewModels\PackageTourEditVM.cs" />
     <Compile Include="Models\ViewModels\PackageTourIndexVM.cs" />
+    <Compile Include="Models\ViewModels\PartnerLoginVM.cs" />
+    <Compile Include="Models\ViewModels\PartnerRegisterVM.cs" />
     <Compile Include="Models\ViewModels\PaymentMethodCreateVM.cs" />
     <Compile Include="Models\ViewModels\PaymentMethodEditVM.cs" />
     <Compile Include="Models\ViewModels\PaymentMethodIndexVM.cs" />
@@ -646,7 +658,6 @@
     <Content Include="Views\Members\Details.cshtml" />
     <Content Include="Views\Members\Edit.cshtml" />
     <Content Include="Views\Members\Index.cshtml" />
-    <Content Include="Views\Members\ActiveRegister.cshtml" />
     <Content Include="Views\Members\ConfirmRegister.cshtml" />
     <Content Include="Views\Members\Login.cshtml" />
     <Content Include="Views\Members\Register.cshtml" />
@@ -695,7 +706,21 @@
     <Content Include="Views\Comments_Attractions\Edit.cshtml" />
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\UploadImg.cshtml" />
+
     <Content Include="Views\Orders\Edit.cshtml" />
+
+
+    <Content Include="Views\Partners\PartnerLogin.cshtml" />
+
+    <Content Include="Views\AttractionCategories\Create.cshtml" />
+    <Content Include="Views\AttractionCategories\Delete.cshtml" />
+    <Content Include="Views\AttractionCategories\Edit.cshtml" />
+    <Content Include="Views\AttractionCategories\Index.cshtml" />
+    <Content Include="Views\AttractionTags\Create.cshtml" />
+    <Content Include="Views\AttractionTags\Delete.cshtml" />
+    <Content Include="Views\AttractionTags\Edit.cshtml" />
+    <Content Include="Views\AttractionTags\Index.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
