@@ -199,7 +199,7 @@ namespace RouteMaster.Controllers
 			service.Edit(vm.ToEditDto());        
 
             PrepareCouponDataSource(vm.CouponId);            
-            return View(vm);
+            return View("Index");
         }
 
         // GET: PackageTours/Delete/5
@@ -342,7 +342,17 @@ namespace RouteMaster.Controllers
 			int totalRecords = query.Count();
 			int pageNumber = (start ?? 0 / length) + 1;
 			int skipRecords = (pageNumber - 1) * length;
-			var pagedData = query.Skip(skipRecords).Take(length).ToList();
+			var pagedData = query.OrderBy(x=>x.Id).Skip(skipRecords).Take(length)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Name,
+                    x.AttractionId,
+                    x.Price,
+                    x.Description,
+                    x.Status
+                })
+                .ToList();
 			int filteredRecords = pagedData.Count();
 
 			var result = new

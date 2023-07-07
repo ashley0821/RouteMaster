@@ -78,6 +78,26 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			return dto;
 		}
 
+		public bool ExistImgWithinComment(int id)
+		{
+			return _db.Comments_AttractionImages.Any(i =>i.Comments_AttractionId == id);
+		}
 
+		public void ClearImg(int id)
+		{
+			var imgList = _db.Comments_AttractionImages.Where(i =>i.Comments_AttractionId == id).ToList();
+			foreach(var img in imgList)
+			{
+				_db.Comments_AttractionImages.Remove(img);
+				_db.SaveChanges();
+			}
+		}
+
+		public void DeleteComment(int id)
+		{
+			Comments_Attractions comment = _db.Comments_Attractions.Find(id);
+			_db.Comments_Attractions.Remove(comment);
+			_db.SaveChanges();
+		}
 	}
 }

@@ -63,6 +63,7 @@ namespace RouteMaster.Models.Infra.Extensions
 				PositionY = vm.PositionY,
 				Description = vm.Description,
 				Website = vm.Website,
+				TagId = vm.TagId,
 			};
 		}
 
@@ -80,6 +81,7 @@ namespace RouteMaster.Models.Infra.Extensions
 				AverageScoreText = dto.AverageScoreText,
 				AveragePriceText = dto.AveragePriceText,
 				AverageStayHoursText = dto.AverageStayHoursText,
+				
 			};
 		}
 

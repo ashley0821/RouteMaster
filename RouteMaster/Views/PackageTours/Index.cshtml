@@ -62,12 +62,14 @@
             {
                 foreach (var activity in item.Activities)
                 {
-                    <div>
-                        <div>@activity.Name</div>
-                        <div>@activity.AttractionName</div>
-                        <div>@activity.StartTime</div>
-                        <div>@activity.EndTime</div>
-                        <div>@activity.Price</div>
+                    <div class="d-flex">
+                        <p class="m-3">景點:</p>
+                        <div class="m-3">@activity.AttractionName</div>
+                        <div class="m-3">@activity.Name</div>
+
+                        @*<div>@activity.StartTime</div>
+        <div>@activity.EndTime</div>*@
+                        @*<div class="m-3">@activity.Price  </div>*@
                     </div>
                 }
             }
@@ -87,10 +89,12 @@
             {
                 foreach (var extraService in item.ExtraServices)
                 {
-                    <div>
-                        <div>@extraService.Name</div>
-                        <div>@extraService.AttractionName</div>
-                        <div>@extraService.Price</div>
+                    <div class="d-flex">
+                        <p class="m-3">景點: </p>
+                        <div class="m-3">@extraService.AttractionName</div>
+                        <div class="m-3">@extraService.Name</div>
+                        @*<div class="m-3">@extraService.Price</div>*@
+                      
                     </div>
                 }
             }

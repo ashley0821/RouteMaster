@@ -1,5 +1,26 @@
 ﻿@model IEnumerable<RouteMaster.Models.ViewModels.Comments_AccommodationsIndexVM>
+@section Styles
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
+    <style>
+        .table > thead {
+            background-color: rgba(255, 99, 71, 0.4);
+        }
 
+            .table > thead th {
+                font-size: 18px;
+            }
+
+        .table tbody tr td {
+            vertical-align: middle;
+        }
+
+        #viewer {
+            padding-left: 28px;
+        }
+    </style>
+}
 @{
     ViewBag.Title = "Index";
     var sorts = ViewBag.SortId as SelectList;
@@ -12,15 +33,15 @@
 <section class="container">
     <form method="get">
         <div class="row">
-            <div class="mb-3 col">
+            <div class="mb-3 col-md-3">
                 <label for="hotel">住宿旅館關鍵字</label>
                 <input type="text" class="form-control" name="AccomodationName" id="hotel" value="@criteria.AccomodationName">
             </div>
-            <div class="mb-3 col">
+            <div class="mb-3 col-md-3">
                 <label for="title">標題關鍵字</label>
                 <input type="text" class="form-control" name="Title" id="title" value="@criteria.Title">
             </div>
-            <div class="mb-3 col">
+            <div class="mb-3 col-md-4">
                 <label for="s_sortId">排序條件</label>
                 <select name="sortId" id="s_sortId" class="form-select">
                     @foreach (var item in sorts)
@@ -29,7 +50,7 @@
                     }
                 </select>
             </div>
-            <div class="mb-3 col-2 align-self-end" >
+            <div class="mb-3 col-md-2 align-self-end">
                 <button type="submit" class="btn btn-dark">搜尋</button>
             </div>
         </div>
@@ -44,63 +65,81 @@
 <p>
     @Html.ActionLink("新增評論", "Create", new { id = "" }, new { @class = "btn btn-outline-success" })
 </p>
-<table class="table table-light table-bordered border-primary align-middle">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Account)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Pros)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cons)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Score)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </th>
-        <th class="text-center">
-            管理功能
-        </th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Account)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Pros)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cons)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Score)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreateDate)
-        </td>
-        <td class="text-center">
-            @Html.ActionLink("修改", "Edit", new { id=item.Id }, new { @class = "btn btn-warning" }) |
-            @Html.ActionLink("圖片庫", "ImgIndex", new { id=item.Id }, new { @class = "btn btn-outline-secondary ms-1 me-1" }) |
-            @Html.ActionLink("刪除", "Delete", new { id=item.Id }, new { @class = "btn btn-danger" })
-        </td>
-    </tr>
-}
+<table class="table" style="width:100%" id="CommentIndex">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Account)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Score)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th id="viewer">
+                管理功能
+            </th>
+        </tr>
+    </thead>
+    <tbody class="table-light">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Account)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Score)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.ActionLink("修改", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) |
+                    @Html.ActionLink("瀏覽", "Details", new { id = item.Id }, new { @class = "btn btn-outline-secondary" })
+                    @Html.ActionLink("圖片庫", "ImgIndex", new { id = item.Id }, new { @class = "btn btn-outline-secondary ms-1 me-1" }) |
+                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
+@section Scripts
+{
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+
+        new DataTable('#CommentIndex', {
+        ordering: false,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+        },
+        lengthMenu:
+            [5, 10, 20, 'All']
+
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#CommentIndex_filter").css('display', 'none');
+
+        });
+    </script>
+}
