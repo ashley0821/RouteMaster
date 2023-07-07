@@ -12,107 +12,98 @@
 }
 
 
-@section Styles{
 
-    <style>
-        thead {
-            background-color: lightblue;
-            color: black;
-        }
-    </style>
-
-
-
-    <style>
-
-
-        .addActivity {
-            background-color: lightcoral
-        }
-    </style>
+<style>
+    thead {
+        background-color: lightblue;
+        color: black;
+    }
+</style>
 
 
 
-}
+<style>
 
+
+    .addActivity {
+        background-color: lightcoral
+    }
+
+    .hidetable {
+        display: none;
+    }
+</style>
 
 
 
 
-<div id="ActivityPartial">
 
 
-    <h1>所有活動</h1>
+
+<form method="get" id="actForm">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="a_name">活動名稱</label>
+            <input type="text" class="form-control" name="name" value="@criteria.Name" />
+        </div>
+        <div class="col-md-4 ">
+            <label for="s_actCategoryId">活動分類</label>
+            <select name="activityCategoryId" id="s_actCategoryId" class="form-select">
+                @foreach (var item in activityCategories)
+                {
+                    <option value="@item.Value" @(s_actCategoryId == item.Value ? "selected" : "")>@item.Text</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="s_attractionId">景點</label>
+            <select name="attractionId" id="s_attractionId" class="form-select">
+                @foreach (var item in attractions)
+                {
+                    <option value="@item.Value" @(s_attractionId == item.Value ? "selected" : "")>@item.Text</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="s_regionId">縣市</label>
+            <select name="regionId" id="s_regionId" class="form-select">
+                @foreach (var item in regions)
+                {
+                    <option value="@item.Value" @(s_regionId == item.Value ? "selected" : "")>@item.Text</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-5">
+            <label for="s_minPrice" style="display: block">金額</label>
+            <input type="number" class="form-control" name="minPrice" id="s_minPrice" style="width: 40%; display: inline" value="@criteria.MinPrice"> ~
+            <input type="number" class="form-control" name="maxPrice" id="s_maxPrice" style="width: 40%; display: inline" value="@criteria.MaxPrice">
+        </div>
+        <div class="col-md-5">
+            <label for="s_minPrice" style="display: block">日期</label>
+            <input type="date" class="form-control" name="startDate" id="s_startDate" style="width: 40%; display: inline" value="@criteria.StartDate"> ~
+            <input type="date" class="form-control" name="endDate" id="s_endDate" style="width: 40%; display: inline" value="@criteria.EndDate">
+        </div>
+        <div class="mb-3 col-md-2">
+            <label for="status">只顯示上架中的活動</label>
+            <input type="checkbox" name="ShowAvailableOnly" id="status" @(criteria.ShowAvailableOnly ? "checked" : "") />
+        </div>
+        <div class="mb-3 col-md-2 align-self-end">
+            <button class="btn btn-primary " id="actSearch">Search</button>
+        </div>
+    </div>
+</form>
+
+<hr>
 
 
-    <section class="container">
-        <form method="get" id="actForm">
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="a_name">活動名稱</label>
-                    <input type="text" class="form-control" name="name" value="@criteria.Name" />
-                </div>
-                <div class="col-md-4 ">
-                    <label for="s_actCategoryId">活動分類</label>
-                    <select name="activityCategoryId" id="s_actCategoryId" class="form-select">
-                        @foreach (var item in activityCategories)
-                        {
-                            <option value="@item.Value" @(s_actCategoryId == item.Value ? "selected" : "")>@item.Text</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="s_attractionId">景點</label>
-                    <select name="attractionId" id="s_attractionId" class="form-select">
-                        @foreach (var item in attractions)
-                        {
-                            <option value="@item.Value" @(s_attractionId == item.Value ? "selected" : "")>@item.Text</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="s_regionId">縣市</label>
-                    <select name="regionId" id="s_regionId" class="form-select">
-                        @foreach (var item in regions)
-                        {
-                            <option value="@item.Value" @(s_regionId == item.Value ? "selected" : "")>@item.Text</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-md-5">
-                    <label for="s_minPrice" style="display: block">金額</label>
-                    <input type="number" class="form-control" name="minPrice" id="s_minPrice" style="width: 40%; display: inline" value="@criteria.MinPrice"> ~
-                    <input type="number" class="form-control" name="maxPrice" id="s_maxPrice" style="width: 40%; display: inline" value="@criteria.MaxPrice">
-                </div>
-                <div class="col-md-5">
-                    <label for="s_minPrice" style="display: block">日期</label>
-                    <input type="date" class="form-control" name="startDate" id="s_startDate" style="width: 40%; display: inline" value="@criteria.StartDate"> ~
-                    <input type="date" class="form-control" name="endDate" id="s_endDate" style="width: 40%; display: inline" value="@criteria.EndDate">
-                </div>
-                <div class="mb-3 col-md-2">
-                    <label for="status">只顯示上架中的活動</label>
-                    <input type="checkbox" name="ShowAvailableOnly" id="status" @(criteria.ShowAvailableOnly ? "checked" : "") />
-                </div>
-                <div class="mb-3 col-md-2 align-self-end">
-                    <button class="btn btn-primary " id="actSearch">Search</button>
-                </div>
-            </div>
-        </form>
-    </section>
-
-   <hr>
 
 
-    <script>
-    var statusCheckbox = document.querySelector('#status');
-    statusCheckbox.addEventListener('change', function () {
-        @criteria.ShowAvailableOnly =statusCheckbox.checked;
-        statusCheckbox.value = statusCheckbox.checked ? 'true' : 'false';
-    });
-    </script>
 
+<h2>活動一覽</h2>
 
-    <h2>活動一覽</h2>
+<button id="hideActivityTableBtn">顯示/隱藏</button>
+
+<div class="hidetable" id="activityTableContainer">
     <table class="table" id="activitiyTable">
         <thead>
             <tr>
@@ -137,11 +128,11 @@
                 <th>
                     @Html.DisplayNameFor(model => model.EndTime)
                 </th>
-        
+
                 <th>
                     @Html.DisplayNameFor(model => model.DescriptionText)
                 </th>
-             
+
                 <th>
                     @Html.DisplayNameFor(model => model.StatusText)
                 </th>
@@ -172,10 +163,10 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.EndTime)
-                    </td>                  
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DescriptionText)
-                    </td>                  
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.StatusText)
                     </td>
@@ -187,25 +178,29 @@
         </tbody>
     </table>
 
-
-
-
-
-   
-      
-
-
 </div>
-
-
-
-
-@section Scripts
-    {
+  
 
 
 
 
 
 
-}
+
+
+
+
+    <script>
+    var statusCheckbox = document.querySelector('#status');
+    statusCheckbox.addEventListener('change', function () {
+        @criteria.ShowAvailableOnly =statusCheckbox.checked;
+        statusCheckbox.value = statusCheckbox.checked ? 'true' : 'false';
+    });
+    </script>
+
+    <script>
+        let activityTable = document.querySelector('#activityTableContainer');
+        document.querySelector('#hideActivityTableBtn').addEventListener('click', function () {
+            activityTable.classList.toggle('hidetable');
+        })
+    </script>
