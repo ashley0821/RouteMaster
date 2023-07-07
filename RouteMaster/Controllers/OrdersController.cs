@@ -130,7 +130,7 @@ namespace RouteMaster.Controllers
 			{
 				return HttpNotFound();
 			}
-			return View("_ActivitiesDetailsEdit", editVM);
+			return View(editVM);
 
 		}
 		[HttpPost]
@@ -142,7 +142,7 @@ namespace RouteMaster.Controllers
 			if (ModelState.IsValid)
 			{
 				service.ActivitiesDetailsEdit(editvm.ToEditDto());
-				return RedirectToAction("Index");
+				return RedirectToAction("Details", new { id = editvm.OrderId }); 
 			}
 			return View(editvm);
 		}
@@ -167,22 +167,22 @@ namespace RouteMaster.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public ActionResult ActivitiesDetailsUpdate(int activitiesDetailsId, int newprice)
-		{
-			var activitiesDetails = db.ActivitiesDetails.Find(activitiesDetailsId);
-			activitiesDetails.Price= newprice;
+		//public ActionResult ActivitiesDetailsUpdate(int activitiesDetailsId, int newprice)
+		//{
+		//	var activitiesDetails = db.ActivitiesDetails.Find(activitiesDetailsId);
+		//	activitiesDetails.Price= newprice;
 
-			var order=db.Orders.FirstOrDefault(o=>o.Id== activitiesDetails.OrderId);
-			if (order != null)
-			{
-				// 重新計算 Order 的金額，例如總金額為各個 ActivitiesDetails 的金額總和
-				int total = db.ActivitiesDetails.Where(ad => ad.OrderId == order.Id).Sum(ad => ad.Price);
-				order.Total = total;
-				db.SaveChanges();
-			}
+		//	var order=db.Orders.FirstOrDefault(o=>o.Id== activitiesDetails.OrderId);
+		//	if (order != null)
+		//	{
+		//		// 重新計算 Order 的金額，例如總金額為各個 ActivitiesDetails 的金額總和
+		//		int total = db.ActivitiesDetails.Where(ad => ad.OrderId == order.Id).Sum(ad => ad.Price);
+		//		order.Total = total;
+		//		db.SaveChanges();
+		//	}
 
-			return RedirectToAction("Index");
-		}
+		//	return RedirectToAction("Index");
+		//}
 		//ExtraServiceDetails (EF)
 		//      public ActionResult ExtraServicesDetailsPartialView(int id)
 		//{
@@ -232,7 +232,7 @@ namespace RouteMaster.Controllers
 			}
 
 
-			return View("_ExtraServicesDetailsEdit", editVM);
+			return View(editVM);
 		}
 
 		[HttpPost]
@@ -245,7 +245,7 @@ namespace RouteMaster.Controllers
 			if (ModelState.IsValid)
 			{
 				service.ExtraServicesDetailsEdit(editvm.ToEditDto());
-				return RedirectToAction("Index");
+				return RedirectToAction("Details", new { id = editvm.OrderId });
 			}
 
 			return View(editvm);
