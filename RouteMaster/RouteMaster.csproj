@@ -168,7 +168,7 @@
     <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
-    <Compile Include="Models\Dto\Accommodation\AccommodationImagesDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationIndexDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Service\ServiceInfoDto.cs" />
     <Compile Include="Models\Dto\AccomodationDetailsEditDto.cs" />
@@ -185,6 +185,7 @@
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionListEditDto.cs" />
+    <Compile Include="Models\Dto\Comments_AccommodationsDetailDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsEditDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
@@ -344,7 +345,7 @@
     <Compile Include="Models\ViewModels\Accommodations\AccomodationDetailsVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomImagesVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomIndexVM.cs" />
-    <Compile Include="Models\ViewModels\Accommodations\AccommodationImagesVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\ImagesVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomCreateVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomType.cs" />
     <Compile Include="Models\ViewModels\Accommodations\ServiceInfoVM.cs" />
@@ -365,6 +366,7 @@
     <Compile Include="Models\ViewModels\AttractionListEditVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsChangeImgVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AccommodationsDetailVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsEditVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsImgIndexVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsIndexVM.cs" />
@@ -683,6 +685,8 @@
     <Content Include="Views\PaymentMethods\Index.cshtml" />
     <Content Include="Views\Accommodations\_ImageCorouselPartial.cshtml" />
     <Content Include="Views\Orders\AccomodationDetailsEdit.cshtml" />
+    <Content Include="Views\Orders\ExtraServicesDetailsEdit.cshtml" />
+    <Content Include="Views\Orders\ActivitiesDetailsEdit.cshtml" />
     <Content Include="Views\Members\SuspendMember.cshtml" />
     <Content Include="Views\Administrators\Login.cshtml" />
     <Content Include="Views\Administrators\Register.cshtml" />

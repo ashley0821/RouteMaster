@@ -28,7 +28,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
             _db.SaveChanges();
         }
 
-		public void EditAccommodationProfile(AccommodationEditDto dto, AccommodationImagesDto aidto, string path)
+		public void EditAccommodationProfile(AccommodationEditDto dto, ImagesDto iDto, string path)
 		{
 			Accommodation entity = _db.Accommodations.FirstOrDefault(a => a.Id == dto.Id);
 
@@ -47,13 +47,13 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			AccommodationImage img = new AccommodationImage();
 
-			if (aidto.Files.Length > 0 && aidto.Files[0] != null)
+			if (iDto.Files.Length > 0 && iDto.Files[0] != null)
 			{
-				for (int i = 0; i < aidto.Files.Length; i++) 
+				for (int i = 0; i < iDto.Files.Length; i++) 
 				//foreach (HttpPostedFileBase file in files)
 				{
-					string fileName = SaveUploadedFile(path, aidto.Files[i]);
-					img.Name = string.IsNullOrEmpty(aidto.ImgName[i])? "未命名的圖片" : aidto.ImgName[i];
+					string fileName = SaveUploadedFile(path, iDto.Files[i]);
+					img.Name = string.IsNullOrEmpty(iDto.ImgName[i])? "未命名的圖片" : iDto.ImgName[i];
 					img.AccommodationId = dto.Id;
 					img.Image = fileName;
 					_db.AccommodationImages.Add(img);
@@ -61,6 +61,25 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				}
 			}
 
+			_db.SaveChanges();
+		}
+		public void CreateRoomAndImages(RoomCreateDto dto, ImagesDto iDto, String path)
+		{
+			Room entity = dto.ToRoomCreateEntity();
+			_db.Rooms.Add(entity);
+
+			RoomImage img = new RoomImage();
+
+			if (iDto.Files.Length > 0 && iDto.Files[0] != null)
+			{
+				foreach (HttpPostedFileBase file in iDto.Files)
+				{
+					string fileName = SaveUploadedFile(path, file);
+					img.Image = fileName;
+					_db.RoomImages.Add(img);
+					_db.SaveChanges();
+				}
+			}
 			_db.SaveChanges();
 		}
 
@@ -96,25 +115,6 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			return accommodationDb.Select(a => a.ToIndexDto());
 		}
 
-		public void CreateRoomAndImages(RoomCreateDto dto, HttpPostedFileBase[] files, String path)
-		{
-			Room entity = dto.ToRoomCreateEntity();
-			_db.Rooms.Add(entity);
-
-			RoomImage img = new RoomImage();
-
-			if (files.Length > 0 && files[0] != null)
-			{
-				foreach (HttpPostedFileBase file in files)
-				{
-					string fileName = SaveUploadedFile(path, file);
-					img.Image = fileName;
-					_db.RoomImages.Add(img);
-					_db.SaveChanges();
-				}
-			}
-			_db.SaveChanges();
-		}
 		private string SaveUploadedFile(string path, HttpPostedFileBase file1)
 		{
 			// 如果沒有上傳檔案或檔案是空的, 就不處理, 傳回 string.empty

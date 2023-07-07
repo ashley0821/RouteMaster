@@ -34,7 +34,7 @@
             @Html.LabelFor(model => model.Score, htmlAttributes: new { @class = "form-label col-md-2" })
            
                 @Html.EditorFor(model => model.Score, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Score, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Score, "", new { @class = "text-danger", @type = "number", @min = "0", @step = "1", @value = "0", @max = "5" })
            
         </div>
 

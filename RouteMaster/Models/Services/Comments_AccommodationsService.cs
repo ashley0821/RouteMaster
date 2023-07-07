@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Windows.Media.Converters;
 
 namespace RouteMaster.Models.Services
 {
@@ -43,6 +44,16 @@ namespace RouteMaster.Models.Services
 			}
 
 			_repo.DeleteComment(id);
+		}
+
+		public bool ExistDetail(int? id)
+		{
+			return _repo.ExistDetail(id);
+		}
+
+		public Comments_AccommodationsDetailDto Detail(int? id)
+		{
+			return _repo.Detail(id);
 		}
 	}
 }

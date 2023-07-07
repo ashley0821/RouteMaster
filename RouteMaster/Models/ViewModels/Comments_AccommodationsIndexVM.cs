@@ -18,16 +18,10 @@ namespace RouteMaster.Models.ViewModels
 		public string Name { get; set; }
 
 		[Display(Name = "評分")]
-		public float Score { get; set; }
+		public double Score { get; set; }
 
 		[Display(Name = "評論標題")]
 		public string Title { get; set; }
-
-		[Display(Name = "優點")]
-		public string Pros  { get; set; }
-
-		[Display(Name = "缺點")]
-		public string Cons { get; set; }
 
 		[Display(Name = "評論建立時間")]
 		[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}")]

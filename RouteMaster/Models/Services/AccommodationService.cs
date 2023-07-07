@@ -48,7 +48,7 @@ namespace RouteMaster.Models.Services
 			return _repo.GetEditInfo(id);
 		}
 
-		public Result EditAccommodationProfile(AccommodationEditDto dto, AccommodationImagesDto aidto, string path)
+		public Result EditAccommodationProfile(AccommodationEditDto dto, ImagesDto iDto, string path)
 		{
 			
 			if (!_repo.ExistName(dto.Name) || !_repo.IsOriginalName(dto))
@@ -60,17 +60,17 @@ namespace RouteMaster.Models.Services
 			if (dto.RegionId == 0 || dto.TownId == 0) return Result.Fail("請再確認欄位資料是否正確");
 
 			// 新增一筆紀錄
-			_repo.EditAccommodationProfile(dto, aidto, path);
+			_repo.EditAccommodationProfile(dto, iDto, path);
 
 			return Result.Success();
 			
 		}
 
-		public Result CreateRoomAndImages(RoomCreateDto dto, HttpPostedFileBase[] files, String path)
+		public Result CreateRoomAndImages(RoomCreateDto dto, ImagesDto iDto, String path)
 		{
 			
 			// 新增一筆紀錄
-			_repo.CreateRoomAndImages(dto, files, path);
+			_repo.CreateRoomAndImages(dto, iDto, path);
 
 			return Result.Success();
 		}

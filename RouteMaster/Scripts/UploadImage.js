@@ -27,6 +27,8 @@ fileInput.addEventListener('change', (event) => {
 
     handleFiles(files);
 });
+
+
 function handleFiles(files) {
     imagePreview.innerHTML = ''; // 清空预览区域
     const filesAry = Object.entries(files);
@@ -135,4 +137,12 @@ function handleFiles(files) {
 
 const bigShow = document.querySelector(".layout-wrapper");
 bigShow.insertAdjacentHTML('beforeend', carousel);
+
+$(".area").on('click', function (e) {
+    e.stopPropagation();
+})
+$(".big").on('click', function (e) {
+    $(this).removeClass('bigShow');
+    e.stopPropagation();
+})
 
