@@ -162,6 +162,7 @@
     <Compile Include="Controllers\PaymentMethodsController.cs" />
     <Compile Include="Controllers\TravelPlansController.cs" />
     <Compile Include="Filter\AdministratorAuthenticationFilter.cs" />
+    <Compile Include="Filter\PartnerAuthenticationFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -180,6 +181,7 @@
     <Compile Include="Models\Dto\ActivityCreateDto.cs" />
     <Compile Include="Models\Dto\ActivityEditDto.cs" />
     <Compile Include="Models\Dto\ActivityIndexDto.cs" />
+    <Compile Include="Models\Dto\AdministratorIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionDetailDto.cs" />
     <Compile Include="Models\Dto\AttractionEditDto.cs" />
@@ -266,6 +268,7 @@
     <Compile Include="Models\EFModels\Transportation.cs" />
     <Compile Include="Models\EFModels\TravelPlan.cs" />
     <Compile Include="Models\Infra\Criterias\ActivityIndexCriteria.cs" />
+    <Compile Include="Models\Infra\Criterias\AdministratorCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\Comments_AccommodationCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\Comments_AttractionCriteria.cs" />
     <Compile Include="Models\Infra\Criterias\FAQCriteria.cs" />
@@ -357,6 +360,7 @@
     <Compile Include="Models\ViewModels\ActivityCreateVM.cs" />
     <Compile Include="Models\ViewModels\ActivityEditVM.cs" />
     <Compile Include="Models\ViewModels\ActivityIndexVM.cs" />
+    <Compile Include="Models\ViewModels\AdministratorIndexVM.cs" />
     <Compile Include="Models\ViewModels\AdministratorLoginVM.cs" />
     <Compile Include="Models\ViewModels\AdministratorRegisterVM.cs" />
     <Compile Include="Models\ViewModels\Attractions\AttractionCreateVM.cs" />
@@ -403,6 +407,8 @@
     <Compile Include="Models\ViewModels\PackageTourCreateVM.cs" />
     <Compile Include="Models\ViewModels\PackageTourEditVM.cs" />
     <Compile Include="Models\ViewModels\PackageTourIndexVM.cs" />
+    <Compile Include="Models\ViewModels\PartnerLoginVM.cs" />
+    <Compile Include="Models\ViewModels\PartnerRegisterVM.cs" />
     <Compile Include="Models\ViewModels\PaymentMethodCreateVM.cs" />
     <Compile Include="Models\ViewModels\PaymentMethodEditVM.cs" />
     <Compile Include="Models\ViewModels\PaymentMethodIndexVM.cs" />
@@ -650,7 +656,6 @@
     <Content Include="Views\Members\Details.cshtml" />
     <Content Include="Views\Members\Edit.cshtml" />
     <Content Include="Views\Members\Index.cshtml" />
-    <Content Include="Views\Members\ActiveRegister.cshtml" />
     <Content Include="Views\Members\ConfirmRegister.cshtml" />
     <Content Include="Views\Members\Login.cshtml" />
     <Content Include="Views\Members\Register.cshtml" />
@@ -699,6 +704,9 @@
     <Content Include="Views\Comments_Attractions\Edit.cshtml" />
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\UploadImg.cshtml" />
+
+    <Content Include="Views\Partners\PartnerLogin.cshtml" />
+
     <Content Include="Views\AttractionCategories\Create.cshtml" />
     <Content Include="Views\AttractionCategories\Delete.cshtml" />
     <Content Include="Views\AttractionCategories\Edit.cshtml" />
@@ -707,6 +715,7 @@
     <Content Include="Views\AttractionTags\Delete.cshtml" />
     <Content Include="Views\AttractionTags\Edit.cshtml" />
     <Content Include="Views\AttractionTags\Index.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,6 +10,7 @@ using System.Web.Security;
 using RouteMaster.Models;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Infra.EFRepositories;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.Services;
@@ -22,11 +23,11 @@ namespace RouteMaster.Controllers
         private AppDbContext db = new AppDbContext();
 
         // GET: Administrators
-        public ActionResult Index()
-        {
-            var administrators = db.Administrators.Include(a => a.Permission);
-            return View(administrators.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    var administrators = db.Administrators.Include(a => a.Permission);
+        //    return View(administrators.ToList());
+        //}
 
         // GET: Administrators/Details/5
         public ActionResult Details(int? id)
@@ -127,6 +128,29 @@ namespace RouteMaster.Controllers
             return RedirectToAction("Index");
         }
 
+		public ActionResult Index(AdministratorCriteria criteria)
+		{
+			ViewBag.Criteria = criteria;
+
+			IEnumerable<AdministratorIndexVM> administrators = GetAdministrators(criteria);
+			return View(administrators);
+		}
+
+		private IEnumerable<AdministratorIndexVM> GetAdministrators(AdministratorCriteria criteria)
+		{
+			IAdministratorRepository repo = new AdministratorEFRepository();
+            AdministratorService service = new AdministratorService(repo);
+            return service.Search(criteria)
+                          .Select(dto => new AdministratorIndexVM
+                          {
+                              Id = dto.Id,
+                              PermissionId = dto.PermissionId,
+                              FirstName = dto.FirstName,
+                              LastName = dto.LastName,
+                              Email = dto.Email,
+                              CreateDate = dto.CreateDate,
+                          });
+        }
 
         public ActionResult Register()
         {

@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Antlr.Runtime;
 using Newtonsoft.Json.Linq;
+using RouteMaster.Filter;
 using RouteMaster.Models.Dto;
 using RouteMaster.Models.Dto.Accommodation.Service;
 using RouteMaster.Models.EFModels;
@@ -21,11 +22,12 @@ using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.ViewModels.Accommodations;
 using RouteMaster.Models.ViewModels.Accommodations.Room;
 using static System.Net.Mime.MediaTypeNames;
+using static RouteMaster.Filter.PartnerAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-
-    //[Authorize]
+    [PartnerAuthenticationFilter]
+    [PartnerAuthorizeAttribute]
 
     public class AccommodationsController : Controller
     {
