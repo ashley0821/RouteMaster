@@ -17,8 +17,12 @@ namespace RouteMaster.Models.ViewModels
 		public int MemberId { get; set; }
 		[Display(Name = "訂購人")]
 		public string MemberName { get; set; }
+
+		[Display(Name = "電子信箱")]
+		public string MemberEmail { get; set; }
 		[Display(Name = "付款方式")]
 		//public int PaymentMethodId { get; set; }
+		
 		public string PaymentMethodName { get; set; }
 		
 		[Display(Name = "付款狀態")]

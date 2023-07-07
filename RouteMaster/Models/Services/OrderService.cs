@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
+using static System.Net.WebRequestMethods;
 
 namespace RouteMaster.Models.Services
 {
@@ -44,7 +45,11 @@ namespace RouteMaster.Models.Services
 		public OrderIndexVM GetOrderById(int id)
 		{
 			return _repo.GetOrderById(id);
+
+			
 		}
+	
+
 
 		public Result Edit(OrderEditDto dto)
 		{
@@ -52,8 +57,25 @@ namespace RouteMaster.Models.Services
 			return Result.Success();
 
 		}
+		//public void SendUnpaidNotification(List<int> selectedOrderIds)
+		//{
+		//	foreach (var orderId in selectedOrderIds)
+		//	{
+		//		EmailHelper emailHelper = new EmailHelper();
+		//		var order = _repo.GetOrderById(orderId);
+				
+		//		var name = order.MemberName;
+		//		var email = order.MemberEmail;
 
-	
+		//		emailHelper.SendUppaidNotification(name, email);
+		//	}
+			
+
+		//}
+
+
+
+
 
 	}
 }
