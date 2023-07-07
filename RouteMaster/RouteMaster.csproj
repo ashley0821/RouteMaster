@@ -304,7 +304,6 @@
     <Compile Include="Models\Infra\Extensions\PaymentMethodExts.cs" />
     <Compile Include="Models\Infra\Extensions\TravelPlanExts.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
-    <Compile Include="Models\Infra\OrderHelper.cs" />
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Interfaces\IAccommodationRepository.cs" />
     <Compile Include="Models\Interfaces\IAccomodationDetailsRepository.cs" />
@@ -683,11 +682,8 @@
     <Content Include="Views\PaymentMethods\Index.cshtml" />
     <Content Include="Views\Accommodations\_ImageCorouselPartial.cshtml" />
     <Content Include="Views\Orders\AccomodationDetailsEdit.cshtml" />
-
-
     <Content Include="Views\Orders\ExtraServicesDetailsEdit.cshtml" />
     <Content Include="Views\Orders\ActivitiesDetailsEdit.cshtml" />
-
     <Content Include="Views\Members\SuspendMember.cshtml" />
     <Content Include="Views\Administrators\Login.cshtml" />
     <Content Include="Views\Administrators\Register.cshtml" />
