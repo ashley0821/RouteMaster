@@ -124,18 +124,19 @@ namespace RouteMaster.Controllers
 
             ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", model.RegionId);
             ViewBag.TownId = new SelectList(db.Towns.Where(t=>t.RegionId == model.RegionId), "Id", "Name", model.TownId);
+
             return View(model);
         }
 
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AccommodationEditVM vm, HttpPostedFileBase[] files)
+        public ActionResult Edit(AccommodationEditVM vm, ImagesVM iVM)
         {
 			ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
 			ViewBag.TownId = new SelectList(db.Towns.Where(t => t.RegionId == vm.RegionId), "Id", "Name", vm.TownId);
 			if (!ModelState.IsValid) return View(vm);
 
-			Result result = EditAccommodationProfile(vm, files);
+			Result result = EditAccommodationProfile(vm, iVM);
 
 			if (result.IsSuccess)
 			{
@@ -176,13 +177,13 @@ namespace RouteMaster.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult CreateRoom(RoomCreateVM vm, HttpPostedFileBase[] files)
+		public ActionResult CreateRoom(RoomCreateVM vm, ImagesVM iVM)
 		{
 
 			if (!ModelState.IsValid) return View(vm);
             //建立新會員
 
-            Result result = CreateRoomAndImage(vm, files);
+            Result result = CreateRoomAndImage(vm, iVM);
 
 			if (result.IsSuccess)
 			{
@@ -271,13 +272,13 @@ namespace RouteMaster.Controllers
 
 			return service.EditService(vm);
 		}
-		private Result CreateRoomAndImage(RoomCreateVM vm, HttpPostedFileBase[] files)
+		private Result CreateRoomAndImage(RoomCreateVM vm, ImagesVM iVM)
 		{
 			string path = Server.MapPath("~/Uploads");
 			IAccommodationRepository repo = new AccommodationEFRepository();
             AccommodationService service = new AccommodationService(repo) ;
 
-			return service.CreateRoomAndImages(vm.ToDto(), files, path);
+			return service.CreateRoomAndImages(vm.ToDto(), iVM.ToDto(), path);
         }
 
 		private void PrepareRoomTypeViewBag()
@@ -304,13 +305,13 @@ namespace RouteMaster.Controllers
 				});
 		}
 
-		private Result EditAccommodationProfile(AccommodationEditVM vm, HttpPostedFileBase[] files)
+		private Result EditAccommodationProfile(AccommodationEditVM vm, ImagesVM iVM)
 		{
 			string path = Server.MapPath("~/Uploads");
 			IAccommodationRepository repo = new AccommodationEFRepository();
 			AccommodationService service = new AccommodationService(repo);
 
-			return service.EditAccommodationProfile(vm.ToDto(), files, path);
+			return service.EditAccommodationProfile(vm.ToDto(), iVM.ToDto(), path);
 		}
 
 		public ActionResult Delete(int? id)
@@ -386,6 +387,25 @@ namespace RouteMaster.Controllers
 
 			//return townList;
 			return Json(townData, JsonRequestBehavior.AllowGet);
+        }
+
+		[HttpPost]
+        public void EditImgName(string imgPath, string imgName)
+        {
+            AccommodationImage ai = db.AccommodationImages.FirstOrDefault(a=>a.Image ==imgPath);
+            ai.Name = imgName;
+
+            db.SaveChanges();
+        }
+        
+        [HttpPost]
+        public void DeleteImage(string imgPath)
+        {
+            AccommodationImage ai = db.AccommodationImages.FirstOrDefault(a=>a.Image ==imgPath);
+            db.AccommodationImages.Remove(ai);
+
+			db.SaveChanges();
+
         }
 		#endregion
 

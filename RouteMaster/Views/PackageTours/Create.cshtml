@@ -22,16 +22,14 @@
     @*<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
         <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />*@
 
-
-
 }
+
 
 
 @{
 
     Html.RenderAction("ActivitiesList");
 }
-
 
 
 @{
@@ -126,7 +124,10 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
-            responsive: true
+            responsive: true,
+            searching: false,
+            sorting: false
+
         });
         new DataTable('#activitiyTable', {
             language: {
@@ -136,6 +137,9 @@
             searching: false, // 停用搜尋功能
             sorting: false // 停用排序功能
         });
+
+
+        
         new DataTable('#extraServiceTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
@@ -144,6 +148,12 @@
             searching: false,
             sorting: false
         });
+
+
+
+       
+
+    
     </script>
 
 
@@ -368,6 +378,15 @@
 
                         //重新綁定事件
                         bindingSelectAct();
+                        new DataTable('#activitiyTable', {
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+                            },
+                            responsive: true,//響應式
+                            searching: false, // 停用搜尋功能
+                            sorting: false // 停用排序功能
+                        });
+
 
                     }
                 };
@@ -378,11 +397,7 @@
 
 
 
-    <script>
 
-
-
-    </script>
 
 
 
