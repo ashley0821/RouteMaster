@@ -26,7 +26,7 @@ namespace RouteMaster.Models.Dto
 		public string Image { get; set; }
 		public bool IsConfirmed { get; set; }
 
-		public string ConfirmCode { get; set; } //不用傳到dto了，屬於前端驗證功能
+		public string ConfirmCode { get; set; } 
 
 		//11個屬性
 	}
@@ -48,6 +48,7 @@ namespace RouteMaster.Models.Dto
 				Gender = vm.Gender,
 				Birthday = vm.Birthday,
 				Image = vm.Image,
+				ConfirmCode = vm.ConfirmPassword
 			};
 
 		}

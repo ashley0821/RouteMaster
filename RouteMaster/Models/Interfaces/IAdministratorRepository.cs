@@ -1,4 +1,5 @@
 ﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.Infra.Criterias;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace RouteMaster.Models.Interfaces
 		void Register(AdministratorRegisterDto dto);
 
 		bool ExistEmail(string email); //判斷註冊信箱是否存在
+
+		IEnumerable<AdministratorIndexDto> Search(AdministratorCriteria criteria);
 	}
 }

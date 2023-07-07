@@ -40,8 +40,8 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				Gender = dto.Gender,
 				Image = dto.Image,
 				CreateDate = DateTime.Now,
-				IsConfirmed = true,
-				ConfirmCode = "0",
+				IsConfirmed = false,
+				ConfirmCode = dto.ConfirmCode,
 				Birthday = dto.Birthday,
 				IsSuspended = false, //預設為註冊時都未停權
 			};
@@ -62,7 +62,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 		}
 
-		public IEnumerable<MemberIndexDto> Seacrh(MemberCriteria criteria)
+		public IEnumerable<MemberIndexDto> Search(MemberCriteria criteria)
 		{
 
 			
@@ -77,10 +77,13 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			{
 				query = query.Where(m => m.LastName.Contains(criteria.LastName));
 			}
+			#region 姓名一起搜
 			//if (string.IsNullOrEmpty(criteria.FirstName) == false && string.IsNullOrEmpty(criteria.LastName) == false)
 			//{
 			//	query = query.Where(m => m.FirstName.Contains(criteria.FirstName) && m.LastName.Contains(criteria.LastName));
 			//}
+			#endregion 
+
 			if (string.IsNullOrEmpty(criteria.Account) == false)
 			{
 				query = query.Where(m => m.Account.Contains(criteria.Account));
@@ -117,7 +120,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 					CreateDate = m.CreateDate,
 					IsConfirmed = m.IsConfirmed,
 					IsSuspended = m.IsSuspended,
-
+					ConfirmCode = m.ConfirmCode,
 				});
 			return Members;
 		}
@@ -126,23 +129,23 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		{
 		}
 
-		private string GetFullName(MemberCriteria criteria)
-		{
-			if (!string.IsNullOrEmpty(criteria.FirstName) && !string.IsNullOrEmpty(criteria.LastName))
-			{
-				return criteria.FirstName + " " + criteria.LastName;
-			}
-			else if (!string.IsNullOrEmpty(criteria.FirstName))
-			{
-				return criteria.FirstName;
-			}
-			else if (!string.IsNullOrEmpty(criteria.LastName))
-			{
-				return criteria.LastName;
-			}
+		//private string GetFullName(MemberCriteria criteria)
+		//{
+		//	if (!string.IsNullOrEmpty(criteria.FirstName) && !string.IsNullOrEmpty(criteria.LastName))
+		//	{
+		//		return criteria.FirstName + " " + criteria.LastName;
+		//	}
+		//	else if (!string.IsNullOrEmpty(criteria.FirstName))
+		//	{
+		//		return criteria.FirstName;
+		//	}
+		//	else if (!string.IsNullOrEmpty(criteria.LastName))
+		//	{
+		//		return criteria.LastName;
+		//	}
 
-			return string.Empty;
-		}
+		//	return string.Empty;
+		//}
 
 	}
 }
