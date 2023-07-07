@@ -187,6 +187,7 @@
     <Compile Include="Models\Dto\AttractionIndexDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsCreateDto.cs" />
     <Compile Include="Models\Dto\AttractionListEditDto.cs" />
+    <Compile Include="Models\Dto\Comments_AccommodationsDetailDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsEditDto.cs" />
     <Compile Include="Models\Dto\Comments_AccommodationsIndexDto.cs" />
     <Compile Include="Models\Dto\AttractionListIndexDto.cs" />
@@ -368,6 +369,7 @@
     <Compile Include="Models\ViewModels\Attractions\AttractionTagVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsChangeImgVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AccommodationsDetailVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsEditVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsImgIndexVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AccommodationsIndexVM.cs" />

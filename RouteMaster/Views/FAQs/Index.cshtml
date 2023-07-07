@@ -23,7 +23,7 @@
 <section class="container">
     <form method="get">
         <div class="row">
-            <div class="mb-3 col">
+            <div class="mb-3 col-md-3">
                 <label for="s_categoryId">問題分類</label>
                 <select name="categoryId" id="s_categoryId" class="form-select">
                     @foreach (var item in categories)
@@ -34,14 +34,14 @@
 
             </div>
 
-            <div class="mb-3 col">
+            <div class="mb-3 col-md-3">
 
                 <label for="s_name">方法關鍵字</label>
                 <input type="text" class="form-control" name="Answer" id="s_name" value="@criteria.Answer">
 
             </div>
 
-            <div class="mb-3 col">
+            <div class="mb-3 col-md-4">
                 <label for="s_sortId">排序條件</label>
                 <select name="sortId" id="s_sortId" class="form-select">
                     @foreach (var item in sorts)
@@ -52,7 +52,7 @@
 
             </div>
 
-            <div class="mb-3 col-2 align-self-end">
+            <div class="mb-3 col-md-2 align-self-end">
                 <button class="btn btn-dark">Search</button>
             </div>
         </div>
