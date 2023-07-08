@@ -27,8 +27,8 @@ using static RouteMaster.Filter.PartnerAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-    [PartnerAuthenticationFilter]
-    [PartnerAuthorizeAttribute]
+    //[PartnerAuthenticationFilter]
+    //[PartnerAuthorizeAttribute]
 
     public class AccommodationsController : Controller
     {

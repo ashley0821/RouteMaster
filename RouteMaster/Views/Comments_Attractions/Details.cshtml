@@ -21,6 +21,7 @@
                     <div class="d-flex w-100 justify-content-between">
                         <h3 class="mb-1 fs-3 fw-bold">@Html.DisplayFor(model => model.AttractioName)</h3>
                         <small class="fs-3">@Html.DisplayFor(model => model.Score)分</small> 
+                        </div>
                 </dt>
 
                 <dd>
@@ -47,17 +48,36 @@
                 </dd>
 
             </dl>
-            <div class="col-8">
-                <div class="row row-cols-lg-3 g-3">
+            <div class="col-8 text-center">
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @foreach (var item in Model.Images)
+                        {
+                            if (Model.Images.Count() <= 1)
+                            {
+                                <div class="text-center">
+                                    <img src="~/Uploads/@item" width="75%" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="carousel-item active text-center">
+                                    <img src="~/Uploads/@item" class="d-block w-75" alt="...">
+                                </div>
 
-                    @foreach (var item in Model.Images)
-                    {
-                        <div class="col">
-                        <img class="img-thumbnail" height="70%" src="~/Uploads/@item">
-                        </div>
-                        
-                    }
+                            }
 
+
+                        }
+                    </div>
+                    <button class="carousel-control-prev ms-5" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon rounded-circle" aria-hidden="true" style="background-color:#67676799;"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next me-5" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon rounded-circle" aria-hidden="true" style="background-color:#67676799;"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             </div>
         </div>
