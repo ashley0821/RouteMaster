@@ -28,7 +28,7 @@ namespace RouteMaster.Models.Services
         public Result Create(ExtraServiceCreateDto dto)
         {
 
-            if (_repo.ExistExtraService(dto.Name, dto.AttractionId))
+            if (_repo.ExistExtraServiceCreate(dto.Name, dto.AttractionId))
             {
                 return Result.Fail("該景點已存在此額外服務項目");
             }
@@ -43,7 +43,7 @@ namespace RouteMaster.Models.Services
         public Result Edit(ExtraServiceEditDto dto)
         {
 
-            if (_repo.ExistExtraService(dto.Name, dto.AttractionId))
+            if (_repo.ExistExtraService(dto.Name, dto.AttractionId,dto.Id))
             {
                 return Result.Fail("該景點已存在此額外服務項目");
             }
