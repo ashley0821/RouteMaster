@@ -401,9 +401,11 @@
     <Compile Include="Models\ViewModels\FAQIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServicesDetailsVM.cs" />
     <Compile Include="Models\ViewModels\FAQUploadImgVM.cs" />
+    <Compile Include="Models\ViewModels\MemberActiveVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
+    <Compile Include="Models\ViewModels\MemberForgetPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberImageCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberImageEditVM.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVM.cs" />
@@ -714,11 +716,8 @@
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\UploadImg.cshtml" />
 
-
     <Content Include="Views\Accommodations\_AccommodationNavPartial.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
-
-
     <Content Include="Views\Partners\PartnerLogin.cshtml" />
     <Content Include="Views\AttractionCategories\Create.cshtml" />
     <Content Include="Views\AttractionCategories\Delete.cshtml" />
@@ -728,7 +727,11 @@
     <Content Include="Views\AttractionTags\Delete.cshtml" />
     <Content Include="Views\AttractionTags\Edit.cshtml" />
     <Content Include="Views\AttractionTags\Index.cshtml" />
+
+    <Content Include="Views\Members\ActiveRegister.cshtml" />
+
     <Content Include="Views\Accommodations\EditRoom.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

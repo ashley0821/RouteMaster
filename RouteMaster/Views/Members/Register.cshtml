@@ -81,16 +81,17 @@
         </div>
 
         @*<div class="mb-3">
-            @Html.LabelFor(model => model.CreateDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.EditorFor(model => model.CreateDate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
-        </div>*@
+                @Html.LabelFor(model => model.CreateDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.CreateDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
+            </div>*@
 
-        <div class="mb-3">
-            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-            <input type="file" name="facePhoto1" class="form-control" />
-            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-        </div>
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+        @*<img id="previewImage" src="~/assets/img/icons/brands/mailchimp.png" alt="預設圖片" class="img-thumbnail" />*@
+        <input type="file" name="facePhoto1" id="imageInput"  class="form-control" />
+        @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+    </div>
 
         <div class="mb-3">
             <input type="submit" value="Create" class="btn btn-default" />
@@ -104,12 +105,16 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script>
-    /*alert("歡迎註冊RouteMaster")*/
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script>
+        /*alert("歡迎註冊RouteMaster")*/
 
-    $(document).ready(function () {
-        $("#Birthday").datepicker({dateFormat:'yy/mm/dd'});
-    });
+        $(document).ready(function () {
+            $("#Birthday").datepicker({ dateFormat: 'yy/mm/dd' });
+        });
+        
 
+        
     </script>
 }
