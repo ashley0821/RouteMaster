@@ -67,11 +67,6 @@ namespace RouteMaster.Controllers
 
         public ActionResult Create()  
         {
-            //ViewBag.ActivityCategoryId = new SelectList(db.ActivityCategories, "Id", "Name");          
-            //ViewBag.AttractionId = new SelectList(db.Attractions, "Id", "Name");
-            //ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name");
-
-
 			PrepareActivityCategoryDataSource(null);
             PrepareAttractionDataSource(null);
             PrepareRegionDataSource(null);			
@@ -90,10 +85,9 @@ namespace RouteMaster.Controllers
 
 			IActivityRepository repo = new ActivityEFRepository();
 			ActivityService service = new ActivityService(repo);
-
 			if (ModelState.IsValid == false)
             {
-                return View();
+                return View(vm);
             }
 
             if (ModelState.IsValid)
@@ -101,8 +95,6 @@ namespace RouteMaster.Controllers
                 service.Create(vm.ToCreateDto());
                 return RedirectToAction("Index");
             }
-
-
 
             PrepareActivityCategoryDataSource(vm.ActivityCategoryId);
             PrepareAttractionDataSource(vm.AttractionId);
