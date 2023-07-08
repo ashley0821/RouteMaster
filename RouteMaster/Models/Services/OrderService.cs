@@ -35,6 +35,10 @@ namespace RouteMaster.Models.Services
 		//{
 		//	_repo.Add(order)
 		//}
+		public OrderEditDto GetEditDto(int id)
+		{
+			return _repo.GetEditDto(id);
+		}
 
 		public Result Delete(int id)
 		{

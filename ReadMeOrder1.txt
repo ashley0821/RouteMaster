@@ -50,3 +50,4 @@ AccomodationDetails partial view (useDapper)
 
 7/7
 [v] checkboxall done ; checkbox(multiple check not yet)
+[v] Send UnPaidNotification to customers 

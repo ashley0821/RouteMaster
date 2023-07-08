@@ -32,11 +32,13 @@ namespace RouteMaster.Models.ViewModels
         public string Address { get; set; }
 
         [Required]
-        [Display(Name = "聯絡手機或市話")]
+		[RegularExpression(@"^[\d()-]{7,15}$", ErrorMessage = "號碼驗證錯誤, 請確認後再行輸入")]
+		[Display(Name = "聯絡手機或市話")]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [Display(Name = "聯絡Email")]
+		[EmailAddress(ErrorMessage = "请输入有效的电子邮件地址。")]
+		[Display(Name = "聯絡Email")]
         public string IndustryEmail { get; set; }
     }
 }

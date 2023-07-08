@@ -113,17 +113,34 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		{
 			Order order = _db.Orders.Find(dto.Id);
 
+			//order.MemberId = dto.MemberId;
 			order.MemberId = dto.MemberId;
-			order.Member.FirstName = dto.MemberName;
-			order.Member.LastName = dto.MemberName;
-			order.Member.Email = dto.MemberEmail;
-			order.PaymentMethod.Name = dto.PaymentMethodName;
+			order.TravelPlanId = dto.TravelPlanId;
 			order.PaymentStatus = dto.PaymentStatus;
+			order.PaymentMethodId = dto.PaymentMethodId;
 			order.CreateDate = dto.CreateDate;
 			order.Total = dto.Total;
 
 			_db.SaveChanges();
 			
+		}
+
+		OrderEditDto IOrderRepository.GetEditDto(int id)
+		{
+
+			return _db.Orders
+				.Where(o => o.Id == id)
+				.Select(o => new OrderEditDto
+				{
+					Id = o.Id,
+					MemberId = o.MemberId,
+					MemberName = $"{o.Member.FirstName} {o.Member.LastName}",
+					MemberEmail = $"{o.Member.Email}",
+					PaymentMethodName = o.PaymentMethod.Name,
+					PaymentStatus = o.PaymentStatus,
+					CreateDate = o.CreateDate,
+					Total = o.Total,
+				}).FirstOrDefault();
 		}
 
 		OrderIndexVM IOrderRepository.GetOrderById(int id)

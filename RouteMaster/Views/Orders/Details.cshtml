@@ -72,34 +72,38 @@
 </div>
 
 
-
-
-
 <br />
-<div id="savedNote"></div>
-<div class="divider"></div>
+<container>
+    <div id="savedNote"></div>
+    <div class="divider"></div>
 
 
-<form>
-    <div class="col-md-8 text-left ">
-        <input type="text" name="Total" class="hidden-input largefont " id="totalPrice" readonly style="color: gray" ; />       
-    </div>
-    <button type="submit">提交</button>
-</form>
-
-
-<div class="form-group">
-    
-    <label for="note" class="control-label col-md-5 mfont">訂單後台備註：</label>
-    <div class="col-md-7">
-        <textarea class="form-control" id="note" rows="5"></textarea>
+    <div class="row">
+        <div class="col-md-8 text-left">
+            <input type="text" name="Total" class="hidden-input largefont" id="totalPrice" readonly style="color: gray" />
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-outline-secondary">提交</button>
+        </div>
     </div>
 
-    @*@Html.Label("訂單備註：", htmlAttributes: new { @class = "control-label col-md-5 largefont " })*@
-    @*<textarea class="form-control mb-8 col-8" style="margin: 20px; width: 800px;" rows="20" id="note" name="note"></textarea>*@
-</div>
-<button onclick="saveNote()">儲存</button>
-            }
+
+    <div class="row">
+        <div class="col-md-5">
+            <label for="note" class="control-label mfont">訂單後台備註：</label>
+        </div>
+        <div class="col-md-7">
+            <textarea class="form-control" id="note" rows="5"></textarea>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button onclick="saveNote()" class="btn btn-primary">儲存</button>
+        </div>
+    </div>
+    @*<button onclick="saveNote()">儲存</button>*@
+</container>   }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
