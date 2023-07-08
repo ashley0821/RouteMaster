@@ -115,8 +115,8 @@ namespace RouteMaster.Controllers
 
 
 
-		[AdministratorAuthenticationFilter]
-		[CustomAuthorize("管理者")]
+		//[AdministratorAuthenticationFilter]
+		//[CustomAuthorize("管理者")]
 		// GET: Activities/Edit/5
 		public ActionResult Edit(int id)
         {
