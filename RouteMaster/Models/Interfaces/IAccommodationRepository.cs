@@ -1,8 +1,10 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.Dto.Accommodation;
+using RouteMaster.Models.Dto.Accommodation.Room;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.ViewModels.Accommodations;
+using RouteMaster.Models.ViewModels.Accommodations.Room;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +21,12 @@ namespace RouteMaster.Models.Interfaces
         bool ExistName(string name);
 		AccommodationEditDto GetEditInfo(int? id);
 		void EditAccommodationProfile(AccommodationEditDto dto, ImagesDto IDto, string path);
+		void EditRoomProfile(RoomEditDto dto, ImagesDto IDto, string path);
 		bool IsOriginalName(AccommodationEditDto dto);
+		bool IsOriginalRoomName(RoomEditDto dto);
 		void CreateRoomAndImages(RoomCreateDto dto, ImagesDto iDto, String path);
 		void EditService(ServiceInfoVM vm);
+		RoomEditDto GetRoomInfo(int? id);
+		bool ExistRoomName(int accommodationId, string name);
 	}
 }

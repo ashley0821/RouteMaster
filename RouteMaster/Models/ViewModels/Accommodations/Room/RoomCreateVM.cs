@@ -23,10 +23,12 @@ namespace RouteMaster.Models.ViewModels.Accommodations.Room
 
 		[Required]
 		[Display(Name = "客房數量(此類型)")]
+		[Range(1, int.MaxValue, ErrorMessage = "數量必填")]
 		public int Quantity { get; set; }
 
 		[Required]
 		[Display(Name = "每晚最低房價")]
+		[Range(1, int.MaxValue, ErrorMessage = "價格必填")]
 		public int Price { get; set; }
 
 		//[Display(Name = "房間照片")]
