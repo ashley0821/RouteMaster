@@ -151,6 +151,14 @@ namespace RouteMaster.Controllers
 			
         }
 
+        public ActionResult RoomsIndex(int id)
+        {
+            var rooms = db.Rooms.Where(r => r.AccommodationId == id).Include(a => a.RoomImages);
+
+            ViewBag.Id = id;
+            return View(rooms.ToList().Select(r => r.ToVM()));
+        }
+
 		// 新增客房
 		public ActionResult CreateRoom(int? id)
         {
@@ -194,8 +202,8 @@ namespace RouteMaster.Controllers
 			}
 			else
 			{
-				ModelState.AddModelError(string.Empty, result.ErrorMessage);
                 PrepareRoomTypeViewBag();
+				ModelState.AddModelError(string.Empty, result.ErrorMessage);
 				return View(vm);
 			}
 			//ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName", accommodation.PartnerId);
@@ -205,14 +213,48 @@ namespace RouteMaster.Controllers
 		}
 
 		// 客房列表
-        public ActionResult RoomsIndex(int id)
-        {
-            var rooms = db.Rooms.Where(r => r.AccommodationId == id).Include(a => a.RoomImages);
+		public ActionResult EditRoom(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
 
-            ViewBag.Id = id;
-            return View(rooms.ToList().Select(r => r.ToVM()));
-        }
+			//var model = GetMemberProfile(currentUserAccount);
+			RoomEditVM vm = GetRoomProfile(id);
 
+			//Accommodation accommodation = db.Accommodations.Find(id);
+			if (vm == null)
+			{
+				return HttpNotFound();
+			}
+
+			PrepareRoomTypeViewBag();
+
+			return View(vm);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditRoom(RoomEditVM vm, ImagesVM iVM)
+		{
+			if (!ModelState.IsValid) return View(vm);
+
+			Result result = EditRoomProfile(vm, iVM);
+
+			if (result.IsSuccess)
+			{
+
+				return RedirectToAction("RoomsIndex", new { id = vm.AccommodationId });
+			}
+			else
+			{
+                PrepareRoomTypeViewBag();
+				ModelState.AddModelError(string.Empty, result.ErrorMessage);
+				return View(vm);
+			}
+
+		}
 
 		// 編輯公共設施
 		public ActionResult EditServiceInfo(int? id)
@@ -279,30 +321,44 @@ namespace RouteMaster.Controllers
         public void DeleteConfirmed(int id)
         {
             Accommodation accommodation = db.Accommodations.Find(id);
-            foreach(var ai in accommodation.AccommodationImages)
+            foreach(var ai in accommodation.AccommodationImages.ToList())
             {
                db.AccommodationImages.Remove(ai);
             }
-            
-            foreach(var r in accommodation.Rooms)
+
+			foreach (var r in accommodation.Rooms.ToList())
+			{
+				foreach (var ri in r.RoomImages.ToList())
+				{
+					db.RoomImages.Remove(ri);
+				}
+			}
+
+			foreach (var r in accommodation.Rooms.ToList())
             {
                db.Rooms.Remove(r);
             }
             
-            foreach(var ris in accommodation.Rooms.Select(r=>r.RoomImages))
-            {
-                foreach(var ri in ris)
-                {
-                    db.RoomImages.Remove(ri);
-                }
-            }
             
             db.Accommodations.Remove(accommodation);
             db.SaveChanges();
         }
+        
+        [HttpPost]
+     
+        public void DeleteRoom(int id)
+        {
+            Room room = db.Rooms.Find(id);
 
+            foreach(var r in room.RoomImages.ToList())
+            {
+               db.RoomImages.Remove(r);
+            }
 
+            db.Rooms.Remove(room);
+            db.SaveChanges();
 
+        }
 
 
 
@@ -338,27 +394,46 @@ namespace RouteMaster.Controllers
 		}
 		private void PrepareRoomTypeViewBag()
 		{
-            var roomTypes = new List<RoomType>{
-                new RoomType(1,"單人房"),
-                new RoomType(2,"雙人房"),
-                new RoomType(3,"雙床房"),
-                new RoomType(4,"三人房"),
-                new RoomType(5,"四人房"),
-                new RoomType(6,"家庭房"),
-                new RoomType(7,"套房"),
-                new RoomType(8,"雅房"),
-                new RoomType(9,"膠囊床位")
+            var roomTypes = new List<SelectListItem>
+            {
+                new SelectListItem { Value = null, Text = "請選擇", Disabled = true, Selected = true },
+                new SelectListItem { Value = "單人房", Text = "單人房" },
+                new SelectListItem { Value = "雙人房", Text = "雙人房" },
+                new SelectListItem { Value = "雙床房", Text = "雙床房" },
+                new SelectListItem { Value = "三人房", Text = "三人房" },
+                new SelectListItem { Value = "四人房", Text = "四人房" },
+                new SelectListItem { Value = "家庭房", Text = "家庭房" },
+                new SelectListItem { Value = "套房", Text = "套房" },
+                new SelectListItem { Value = "雅房", Text = "雅房" },
+                new SelectListItem { Value = "膠囊床位", Text = "膠囊床位" }
             };
 
-            ViewBag.RoomType = new SelectList(roomTypes, "Type", "Type")
-				.Prepend(new SelectListItem
-				{
-					Disabled = true,
-					Selected = true,
-					Text = "請選擇",
-					Value = null
-				});
-		}
+            ViewBag.RoomType = roomTypes;
+
+            //         var roomTypes = new List<RoomType>{
+            //             new RoomType("單人房","單人房"),
+            //             new RoomType("雙人房","雙人房"),
+            //             new RoomType("雙床房","雙床房"),
+            //             new RoomType("三人房","三人房"),
+            //             new RoomType("四人房","四人房"),
+            //             new RoomType("家庭房","家庭房"),
+            //             new RoomType("套房","套房"),
+            //             new RoomType("雅房","雅房"),
+            //             new RoomType("膠囊床位","膠囊床位")
+            //         };
+
+
+
+            //ViewBag.RoomType = new SelectList(roomTypes.Select(rt => new SelectListItem { Value = rt.Value, Text = rt.Text })
+            //.Prepend(new SelectListItem
+            //{
+            //	Disabled = true,
+            //	Selected = true,
+            //	Text = "請選擇",
+            //	Value = null
+            //}));
+
+        }
 
 		private Result EditAccommodationProfile(AccommodationEditVM vm, ImagesVM iVM)
 		{
@@ -367,6 +442,15 @@ namespace RouteMaster.Controllers
 			AccommodationService service = new AccommodationService(repo);
 
 			return service.EditAccommodationProfile(vm.ToDto(), iVM.ToDto(), path);
+		}
+
+        private Result EditRoomProfile(RoomEditVM vm, ImagesVM iVM)
+		{
+			string path = Server.MapPath("~/Uploads");
+			IAccommodationRepository repo = new AccommodationEFRepository();
+			AccommodationService service = new AccommodationService(repo);
+
+			return service.EditRoomProfile(vm.ToDto(), iVM.ToDto(), path);
 		}
 
         protected override void Dispose(bool disposing)
@@ -384,6 +468,15 @@ namespace RouteMaster.Controllers
 			//IProductRepository repo = new ProductDapperRepository();
 			AccommodationService service = new AccommodationService(repo);
             return service.GetEditInfo(id)?.ToVM();
+
+		}
+        
+        private RoomEditVM GetRoomProfile(int? id)
+		{
+			IAccommodationRepository repo = new AccommodationEFRepository();
+			//IProductRepository repo = new ProductDapperRepository();
+			AccommodationService service = new AccommodationService(repo);
+            return service.GetRoomInfo(id)?.ToVM();
 		}
 
         private Result CreateAccommodation(AccommodationCreateVM vm)
@@ -432,8 +525,18 @@ namespace RouteMaster.Controllers
         [HttpPost]
         public void DeleteImage(string imgPath)
         {
-            AccommodationImage ai = db.AccommodationImages.FirstOrDefault(a=>a.Image ==imgPath);
+            AccommodationImage ai = db.AccommodationImages.FirstOrDefault(a => a.Image == imgPath);
             db.AccommodationImages.Remove(ai);
+
+			db.SaveChanges();
+
+        }
+        
+        [HttpPost]
+        public void DeleteRoomImage(string imgPath)
+        {
+            RoomImage ri = db.RoomImages.FirstOrDefault(r=>r.Image == imgPath);
+            db.RoomImages.Remove(ri);
 
 			db.SaveChanges();
 

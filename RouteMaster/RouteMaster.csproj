@@ -172,6 +172,8 @@
     <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\NavDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\Room\RoomEditDto.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />
     <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationIndexDto.cs" />
@@ -351,6 +353,7 @@
     <Compile Include="Models\ViewModels\Accommodations\AccommodationEditVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccomodationDetailsVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\Room\RoomEditVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomImagesVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\ImagesVM.cs" />
@@ -711,8 +714,10 @@
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\UploadImg.cshtml" />
 
+
     <Content Include="Views\Accommodations\_AccommodationNavPartial.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
+
 
     <Content Include="Views\Partners\PartnerLogin.cshtml" />
     <Content Include="Views\AttractionCategories\Create.cshtml" />
@@ -723,6 +728,7 @@
     <Content Include="Views\AttractionTags\Delete.cshtml" />
     <Content Include="Views\AttractionTags\Edit.cshtml" />
     <Content Include="Views\AttractionTags\Index.cshtml" />
+    <Content Include="Views\Accommodations\EditRoom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

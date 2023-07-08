@@ -9,9 +9,9 @@
 
 }
 
-@{ Html.RenderPartial("_AccommodationNavPartial", new { id = Model.Id, parameter = "accommodation" });}
+@{ Html.RenderPartial("_AccommodationNavPartial", new RouteMaster.Models.Dto.Accommodation.NavDto{ Id = Model.Id, Parameter = "accommodation" });}
 
-<h2>旅宿資訊</h2>
+<h2>住所資訊</h2>
 
 <div class="d-flex">
     <h4 class="d-flex justify-content-center align-items-center m-0">@Html.DisplayFor(model => model.Name)</h4>

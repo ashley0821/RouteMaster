@@ -42,68 +42,74 @@
         margin-top: 20px;
         margin-bottom: 20px;
     }
+
+    .separator {
+        border-top: 1px solid lightgrey;
+    }
 </style>
+<div class="separator mb-4"></div>
 @using (Html.BeginForm())
 {
 
 
-<div class="block">
-    <h3 class="toggle">住宿明細</h3>
-    <div class="content">
-        @{Html.RenderAction("AccomodationDetailsPartialView", new { orderId = Model.Id }); }
+    <div class="block">
+        <h3 class="toggle">住宿明細</h3>
+        <div class="content">
+            @{Html.RenderAction("AccomodationDetailsPartialView", new { orderId = Model.Id }); }
+        </div>
+
+        <br />
+    </div>
+    <div class="block">
+        <h3 class="toggle">活動明細</h3>
+        <div class="content">
+            @{Html.RenderAction("IndexDapper", new { orderId = Model.Id }); }
+            @*@{Html.RenderAction("IndexDapper", new { orderId = Model.OrderId });}*@
+
+        </div>
+    </div>
+    <div class="block">
+        <h3 class="toggle">額外服務明細</h3>
+        <div class="content">
+            @{Html.RenderAction("ExtraServicesDetailsPartialView", new { orderId = Model.Id });}
+        </div>
+
+    </div>
+    <div class="row">
+        <label for="orderTotalAmount" class="col-md-2 control-label largefont">訂單總金額:</label>
+        <div class="col-md-1 text-left">
+            <input type="text" name="Total" class="hidden-input largefont" id="totalPrice" readonly style="color: gray" />
+        </div>
+        <div class="col-md-6 mt-3">
+            <button type="submit" class="btn btn-outline-secondary " style="width:150px;">提交</button>
+        </div>
     </div>
 
     <br />
-</div>
-<div class="block">
-    <h3 class="toggle">活動明細</h3>
-    <div class="content">
-        @{Html.RenderAction("IndexDapper", new { orderId = Model.Id }); }
-        @*@{Html.RenderAction("IndexDapper", new { orderId = Model.OrderId });}*@
-
-    </div>
-</div>
-<div class="block">
-    <h3 class="toggle">額外服務明細</h3>
-    <div class="content">
-        @{Html.RenderAction("ExtraServicesDetailsPartialView", new { orderId = Model.Id });}
-    </div>
-
-</div>
+    <container>
+        <div id="savedNote"></div>
+        <div class="divider"></div>
 
 
-<br />
-<container>
-    <div id="savedNote"></div>
-    <div class="divider"></div>
 
 
-    <div class="row">
-        <div class="col-md-8 text-left">
-            <input type="text" name="Total" class="hidden-input largefont" id="totalPrice" readonly style="color: gray" />
+
+        <div class="row">
+            <div class="col-md-5">
+                <label for="note" class="control-label mfont">訂單後台備註：</label>
+            </div>
+            <div class="col-md-7">
+                <textarea class="form-control" id="note" rows="5"></textarea>
+            </div>
         </div>
-        <div class="col-md-4">
-            <button type="submit" class="btn btn-outline-secondary">提交</button>
-        </div>
-    </div>
 
-
-    <div class="row">
-        <div class="col-md-5">
-            <label for="note" class="control-label mfont">訂單後台備註：</label>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button onclick="saveNote()" class="btn btn-primary">儲存</button>
+            </div>
         </div>
-        <div class="col-md-7">
-            <textarea class="form-control" id="note" rows="5"></textarea>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12 text-right">
-            <button onclick="saveNote()" class="btn btn-primary">儲存</button>
-        </div>
-    </div>
-    @*<button onclick="saveNote()">儲存</button>*@
-</container>   }
+        @*<button onclick="saveNote()">儲存</button>*@
+    </container>}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -120,12 +126,12 @@
 @*<script>
 
 
-        function saveNote() {
-        var note = $('#note').val();
-        $('#savedNote').text("訂單後台備註內容：" + note);
-    }
+            function saveNote() {
+            var note = $('#note').val();
+            $('#savedNote').text("訂單後台備註內容：" + note);
+        }
 
-</script>*@
+    </script>*@
 <script>
     window.onload = function () {
         var savedNote = localStorage.getItem('savedNote');
