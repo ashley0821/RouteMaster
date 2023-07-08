@@ -204,8 +204,11 @@ namespace RouteMaster.Controllers
 			IActivitiesDetailsRepository repo = new ActivitiesDetailsDapperRepository();
 			ActivitiesDetailsService service = new ActivitiesDetailsService(repo);
 
+			var activitiesDetails = service.GetActivitiesDetailsById(id);
+			var orderId = activitiesDetails.OrderId;
+
 			service.ActivitiesDetailsDelete(id);
-			return RedirectToAction("Index");
+			return RedirectToAction("Details", new { id = orderId });
 		}
 
 		//public ActionResult ActivitiesDetailsUpdate(int activitiesDetailsId, int newprice)
@@ -308,8 +311,11 @@ namespace RouteMaster.Controllers
 			IExtraServiceDetailsRepository repo = new ExtraServicesDetailsDapperRepository();
 			ExtraServicesDetailsService service = new ExtraServicesDetailsService(repo);
 
+			var extraServiceDetails = service.GetExtraServicesDetailsById(id);
+			var orderId = extraServiceDetails.OrderId;
+
 			service.ExtraServicesDetailsDelete(id);
-			return RedirectToAction("index");
+			return RedirectToAction("Details", new {id=orderId});
 		}
 
 
@@ -377,9 +383,13 @@ namespace RouteMaster.Controllers
 		{
 			IAccomodationDetailsRepository repo = new AccomodationDetailsDapperRepository();
 			AccomodationDetailsService service = new AccomodationDetailsService(repo);
+
+			var accomodationdetails = service.GetAccomodationDetailsById(id);
+			var orderId = accomodationdetails.OrderId;
+			
 			service.AccomodationDetailsDelete(id);
 
-			return RedirectToAction("Index");
+			return RedirectToAction("Details", new {id= orderId });
 		}
 		private void PreparePaymentStatusDataSource(int? PaymentStatus)
 		{

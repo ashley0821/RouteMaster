@@ -1,66 +1,73 @@
-﻿@model RouteMaster.Models.EFModels.FAQ
+﻿@model RouteMaster.Models.ViewModels.FAQDetailVM
 
 @{
     ViewBag.Title = "Details";
+    var parentId = ViewBag.Id;
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>FAQ</h4>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="d-flex text-start">
+            <h3 class="me-auto">問題內容</h3>
+            <div class="me-2">
+                @Html.ActionLink("返回清單頁", "Index", new { id = "" }, new { @class = "btn btn-dark" })
+                @Html.ActionLink("圖片編輯", "EditImgIndex", new { id = parentId }, new { @class = "btn btn-secondary" })
+
+            </div>
+        </div>
+    </div>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FAQCategory.Name)
-        </dt>
+ 
+    <div class="row gx-5">
+        <dl class="col-4">
+            <dt>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FAQCategory.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CategoryName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Question)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Question)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Question)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Question)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Answer)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Answer)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Answer)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Answer)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Helpful)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Helpful)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Helpful)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Helpful)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
+        </dl>
+        <div class="col-8">
+            <div class="row row-cols-lg-3 g-3">
 
-        <dd>
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
+                @foreach (var item in Model.Images)
+                {
+                    <div class="col">
+                        <img class="img-thumbnail" height="70%" src="~/Uploads/@item">
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ModifiedDate)
-        </dt>
+                }
 
-        <dd>
-            @Html.DisplayFor(model => model.ModifiedDate)
-        </dd>
-
-    </dl>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

@@ -10,10 +10,10 @@
 }
 @{
     ViewBag.Title = "Edit";
-    var images = Model.AccommodationImages.ToArray();
+    var images = Model.AccommodationImages != null? Model.AccommodationImages.ToArray():new RouteMaster.Models.EFModels.AccommodationImage[0];
 }
 
-@{ Html.RenderPartial("_AccommodationNavPartial", new { id = Model.Id, parameter = "accommodation" });}
+@{ Html.RenderPartial("_AccommodationNavPartial", new RouteMaster.Models.Dto.Accommodation.NavDto { Id = Model.Id, Parameter = "accommodation" });}
 
 @using (Html.BeginForm("Edit", "Accommodations", FormMethod.Post, new { enctype = "multipart/form-data" }))
 
@@ -99,7 +99,7 @@
             <div class="mb-3 d-flex">
                 <div class="col-md-offset-2 col-md-10">
                     <input id="submit-btn" type="submit" value="確認編輯" class="btn btn-primary " />
-                    @Html.ActionLink("放棄編輯", $"/Details/{Model.Id}", null, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("放棄編輯", $"Details/{Model.Id}", null, new { @class = "btn btn-danger" })
                 </div>
 
             </div>
@@ -107,12 +107,12 @@
 
         <div class="col-7 ms-5">
             @{ Html.RenderPartial("_ImageCorouselPartial");}
-            @if (Model.AccommodationImages.Any())
+            @if (images.Any())
             {
 
                 <div class="imageInDb-preview border border-1 border-primary mt-3" id="imageInDbPreview">
                     <h3 class="m-3 text-primary">已經建立的照片</h3>
-                    @foreach (var image in Model.AccommodationImages)
+                    @foreach (var image in images)
                     {
                         <img src="~/Uploads/@image.Image" class="preview-image exist-image" id="exist-image-@image.Id" alt="@image.Name">
                     }
@@ -177,7 +177,7 @@
                 </div>
             </div>
             <div class="btns d-flex justify-content-center align-items-center">
-                <input id="edit-img-name" type="button" class="btn btn-primary" value="修改照片名">
+                <input id="edit-img-name" type="button" class="btn btn-primary me-3" value="修改照片名">
                 <input id="delete-img" type="button" class="btn btn-danger" value="刪除照片">
             </div>
         </div>
@@ -252,7 +252,6 @@
 
             $("#delete-img").on('click', function () {
                 const imgPath = $(".active").children().children('input')[0].id;
-                console.log(imgPath);
                 $.ajax({
                     type: "POST",
                     url: `${baseAddress}/Accommodations/DeleteImage`,

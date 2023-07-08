@@ -172,6 +172,8 @@
     <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\NavDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\Room\RoomEditDto.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />
     <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationIndexDto.cs" />
@@ -204,6 +206,7 @@
     <Compile Include="Models\Dto\ExtraServicesDetailsDto.cs" />
     <Compile Include="Models\Dto\ExtraServicesDetailsEditDto.cs" />
     <Compile Include="Models\Dto\FAQCreateDto.cs" />
+    <Compile Include="Models\Dto\FAQDetailDto.cs" />
     <Compile Include="Models\Dto\FAQEditDto.cs" />
     <Compile Include="Models\Dto\FAQIndexDto.cs" />
     <Compile Include="Models\Dto\MemberEditDto.cs" />
@@ -350,6 +353,7 @@
     <Compile Include="Models\ViewModels\Accommodations\AccommodationEditVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccomodationDetailsVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\Room\RoomEditVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomImagesVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\ImagesVM.cs" />
@@ -390,15 +394,18 @@
     <Compile Include="Models\ViewModels\ExtraServicesDetailsEditVM.cs" />
     <Compile Include="Models\ViewModels\FAQChangeImgVM.cs" />
     <Compile Include="Models\ViewModels\FAQCreateVM.cs" />
+    <Compile Include="Models\ViewModels\FAQDetailVM.cs" />
     <Compile Include="Models\ViewModels\FAQEditImgIndexVM.cs" />
     <Compile Include="Models\ViewModels\FAQEditImgVM.cs" />
     <Compile Include="Models\ViewModels\FAQEditVM.cs" />
     <Compile Include="Models\ViewModels\FAQIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServicesDetailsVM.cs" />
     <Compile Include="Models\ViewModels\FAQUploadImgVM.cs" />
+    <Compile Include="Models\ViewModels\MemberActiveVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
+    <Compile Include="Models\ViewModels\MemberForgetPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberImageCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberImageEditVM.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVM.cs" />
@@ -710,13 +717,8 @@
     <Content Include="Views\Attractions\UploadImg.cshtml" />
 
     <Content Include="Views\Accommodations\_AccommodationNavPartial.cshtml" />
-
-
     <Content Include="Views\Orders\Edit.cshtml" />
-
-
     <Content Include="Views\Partners\PartnerLogin.cshtml" />
-
     <Content Include="Views\AttractionCategories\Create.cshtml" />
     <Content Include="Views\AttractionCategories\Delete.cshtml" />
     <Content Include="Views\AttractionCategories\Edit.cshtml" />
@@ -725,6 +727,10 @@
     <Content Include="Views\AttractionTags\Delete.cshtml" />
     <Content Include="Views\AttractionTags\Edit.cshtml" />
     <Content Include="Views\AttractionTags\Index.cshtml" />
+
+    <Content Include="Views\Members\ActiveRegister.cshtml" />
+
+    <Content Include="Views\Accommodations\EditRoom.cshtml" />
 
   </ItemGroup>
   <ItemGroup>

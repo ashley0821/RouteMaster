@@ -19,6 +19,9 @@ using System.Data.Entity.Migrations;
 using Microsoft.Ajax.Utilities;
 using Member = RouteMaster.Models.EFModels.Member;
 using Microsoft.SqlServer.Server;
+using System.IO;
+using static System.Net.WebRequestMethods;
+using System.Web.Helpers;
 
 namespace RouteMaster.Controllers
 {
@@ -47,6 +50,7 @@ namespace RouteMaster.Controllers
             return View();
         }
 
+        #region entityCreate
         // POST: Members/Create
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
@@ -63,6 +67,7 @@ namespace RouteMaster.Controllers
 
             return View(member);
         }
+        #endregion 
 
         // GET: Members/Edit/5
         public ActionResult Edit(int? id)
@@ -155,6 +160,7 @@ namespace RouteMaster.Controllers
         [HttpGet]
         public ActionResult Register()
         {
+            
             return View();
         }
 
@@ -169,7 +175,6 @@ namespace RouteMaster.Controllers
 
                 // 將檔名存入 vm裡
                 vm.Image = fileName; // ****
-
             }
             else
             {
@@ -190,12 +195,12 @@ namespace RouteMaster.Controllers
             }
         }
 
-
+   
         private string SaveUploadedFile(string path, HttpPostedFileBase facePhoto1)
         {
             // 如果沒有上傳檔案或檔案是空的,就不處理, 傳回 string.empty
-            if (facePhoto1 == null || facePhoto1.ContentLength == 0) return string.Empty;
-
+            if (facePhoto1 == null || facePhoto1.ContentLength == 0)return string.Empty;
+           
             // 取得上傳檔案的副檔名
             string ext = System.IO.Path.GetExtension(facePhoto1.FileName); // ".jpg" 而不是 "jpg"
 
@@ -214,13 +219,19 @@ namespace RouteMaster.Controllers
             return newFileName;
         }
 
-        public Result RegisterMember(MemberRegisterVM vm)
+
+        public Result RegisterMember(MemberRegisterVM
+            
+            vm)
         {
             IMemberRepository repo = new MemberEFRepository();
 
             MemberService service = new MemberService(repo);
+
+
             return service.Register(vm.ToDto());
         }
+
 
         public ActionResult ConfirmRegister()
         {
@@ -228,48 +239,51 @@ namespace RouteMaster.Controllers
             return View();
         }
 
+
         [HttpGet]
         public ActionResult ActiveRegister(int? id)
         {
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			Member member = db.Members.Find(id);
-
-			if (member == null)
-			{
-				return HttpNotFound();
-			}
-
-			return View();
-		}
-
-        [HttpPost]
-        public ActionResult ActiveRegister(int? Id, string confirmCode)
-        {
-
-			if (Id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-
-			Result result = ActiveMember(Id.Value, confirmCode);
-
-
-            return View(result);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Member member = db.Members.Find(id);
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+            return View(member);
         }
 
+        [HttpPost]
+        public ActionResult ActiveRegister(MemberActiveVM vm)
+        {
+            var MemberInDb = db.Members.Find(vm.Id);
+            MemberInDb.IsConfirmed = vm.IsConfirmed;
 
-        private Result ActiveMember(int? Id, string confirmCode)
+            db.SaveChanges();
+
+            EmailHelper emailHelper = new EmailHelper();
+            var url = "https://localhost:44371/Members/ActiveRegister?Id&ConfirmCode";
+            var name = vm.Account;
+            var email = vm.Email;
+            var Id = vm.Id;
+            var ConfirmCode = vm.ConfirmCode;
+            emailHelper.SendConfirmRegisterEmail(url, name, email, Id, ConfirmCode);
+
+            return RedirectToAction("Index");
+        }
+
+        private Result ActiveMember(int memberId, string confirmCode)
         {
             var db = new AppDbContext();
+            // 根據memberId找出一筆記錄, 若找不到就return, 若 isConfirmed不是0, 或confirmCode 不符, 就return
+            // 查詢方式 SELECT * FROM Members WHERE memberid=99 and isConfirmed=0 and confirmCode='xxx'
+            var memberInDb = db.Members.FirstOrDefault(m => m.Id == memberId && m.IsConfirmed == false && m.ConfirmCode == confirmCode);
+            if (memberInDb == null) return Result.Success(); // 就算找不到, 也傳回成功, 不要讓惡意使用者得知測試的結果
 
-
-
-            //var memberInDb = db.Members.FirstOrDefault(m => m.Id == Id && m.IsConfirmed == false && m.ConfirmCode == confirmCode);
-            var memberInDb = db.Members.Find(Id);
-
+            // 啟用會員
+            // 啟用此會員的方式, UPDATE Members SET isConfirmed=1 , confirmCode=null WHERE id=99
             memberInDb.IsConfirmed = true;
             memberInDb.ConfirmCode = null;
 
@@ -278,20 +292,26 @@ namespace RouteMaster.Controllers
             return Result.Success();
         }
 
+
+
+
         public ActionResult MemberEdit()
         {
             return View();
         }
+
 
         public ActionResult DeleteMember()
         {
             return View();
         }
 
+
         public ActionResult Login()
         {
             return View();
         }
+
 
         [HttpPost]
         public ActionResult Login(MemberLoginVM vm)
@@ -314,12 +334,14 @@ namespace RouteMaster.Controllers
             return Redirect(processResult.returnUrl);
         }
 
+
         public ActionResult Logout()
         {
             Session.Abandon();
             FormsAuthentication.SignOut();
             return Redirect("/Members/Login");
         }
+
 
         private (string returnUrl, HttpCookie cookie) ProcessLogin(string account, bool rememberMe)
         {
@@ -349,6 +371,7 @@ namespace RouteMaster.Controllers
             return (url, cookie);
         }
 
+
         private Result ValidLogin(MemberLoginVM vm)
         {
             var db = new AppDbContext();
@@ -368,9 +391,57 @@ namespace RouteMaster.Controllers
                 : Result.Fail("帳密有誤");
         }
 
+
         public ActionResult ForgetPassword()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult ForgetPassword(MemberForgetPasswordVM vm)
+        {
+            if (ModelState.IsValid == false) return View(vm);
+
+            // 生成email裡的連結
+            var urlTemplate = Request.Url.Scheme + "://" +  // 生成 http:.// 或 https://
+                             Request.Url.Authority + "/" + // 生成網域名稱或 ip
+                             "Members/ResetPassword?memberid={0}&confirmCode={1}"; // 生成網頁 url
+
+            Result result = ProcessResetPassword(vm.Account, vm.Email, urlTemplate);
+
+            if (result.IsFalse)
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
+
+            return View("ConfirmForgetPassword");
+        }
+
+
+        private Result ProcessResetPassword(string account, string email, string urlTemplate)
+        {
+            var db = new AppDbContext();
+            // 檢查account,email正確性
+            var memberInDb = db.Members.FirstOrDefault(m => m.Account == account);
+
+            if (memberInDb == null) return Result.Fail("帳號或 Email 錯誤"); // 故意不告知確切錯誤原因
+
+            if (string.Compare(email, memberInDb.Email, StringComparison.CurrentCultureIgnoreCase) != 0) return Result.Fail("帳號或 Email 錯誤");
+
+            // 檢查 IsConfirmed必需是true, 因為只有已啟用的帳號才能重設密碼
+            if (memberInDb.IsConfirmed == false) return Result.Fail("您還沒有啟用本帳號, 請先完成才能重設密碼");
+
+            // 更新記錄, 填入 confirmCode
+            var confirmCode = Guid.NewGuid().ToString("N");
+            memberInDb.ConfirmCode = confirmCode;
+            db.SaveChanges();
+
+            // 發email
+            var url = string.Format(urlTemplate, memberInDb.Id, confirmCode);
+            new EmailHelper().SendForgetPasswordEmail(url, memberInDb.FirstName, email);
+
+            return Result.Success();
         }
 
 
@@ -378,6 +449,7 @@ namespace RouteMaster.Controllers
         {
             return View();
         }
+
 
         [HttpPost]
         public ActionResult EditPassword(MemberEditPasswordVM vm)
@@ -395,6 +467,7 @@ namespace RouteMaster.Controllers
             }
             return RedirectToAction("Index");
         }
+
 
         private Result ChangePassword(string account, MemberEditPasswordVM vm)
         {
@@ -431,6 +504,7 @@ namespace RouteMaster.Controllers
             return View(member.ToMemberImageVM());
         }
 
+
         [HttpPost]
         public ActionResult EditMemberImage(MemberImageEditVM vm, HttpPostedFileBase newFacePhoto)
         {
@@ -458,6 +532,7 @@ namespace RouteMaster.Controllers
             return View(vm);
 
         }
+
 
         public ActionResult SuspendMember(int? id)
         {
