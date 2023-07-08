@@ -123,7 +123,8 @@ namespace RouteMaster.Controllers
 
 		private (string returnUrl, HttpCookie cookie) ProcessLogin(string email, bool rememberMe)
 		{
-			var roles = string.Empty; // 在本範例, 沒有用到角色權限,所以存入空白
+
+			var roles = db.Partners.FirstOrDefault(p=>p.Email == email).Id.ToString(); // 在本範例, 沒有用到角色權限,所以存入空白
 
 			// 建立一張認證票
 			var ticket =
