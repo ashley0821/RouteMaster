@@ -1,23 +1,23 @@
 ﻿@model RouteMaster.Models.EFModels.Order
 
 @{
-    ViewBag.Title = "Edit";
+//ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>訂單明細</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Order</h4>
+        <h4>訂單明細</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger"  })
         @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group display:none">
-            @Html.LabelFor(model => model.MemberId, "MemberId", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group display:none mb-3">
+            @Html.LabelFor(model => model.MemberId, "會員姓名", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.Member.FirstName)
                 @Html.ValidationMessageFor(model => model.MemberId, "", new { @class = "text-danger" })
@@ -25,8 +25,8 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TravelPlanId, "TravelPlanId", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group mb-3">
+            @Html.LabelFor(model => model.TravelPlanId, "旅行計畫編號", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DisplayFor(model => model.TravelPlan.Id)
                 @Html.ValidationMessageFor(model => model.TravelPlanId, "", new { @class = "text-danger" })
@@ -34,16 +34,16 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PaymentMethodId, "PaymentMethodId", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group mb-3">
+            @Html.LabelFor(model => model.PaymentMethodId, "付款方式", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("PaymentMethodId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PaymentMethodId, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PaymentStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group mb-3">
+            @Html.LabelFor(model => model.PaymentStatus,"付款狀態", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.PaymentStatus, new SelectList(
                     new List<SelectListItem>
@@ -57,30 +57,30 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CreateDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group mb-3">
+            @Html.LabelFor(model => model.CreateDate,"訂單成立時間", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CreateDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Total, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group mb-3">
+            @Html.LabelFor(model => model.Total, "總金額",htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Total, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Total, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mb-3">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-link" })
 </div>

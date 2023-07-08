@@ -146,7 +146,7 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
-            responsive: true,//響應式
+            responsive: true,
 
         });
 
@@ -224,15 +224,6 @@
         //        data.length = lengthValue;
         //    }, false); // 重新載入資料
         //});
-
-
-
-
-
-
-
-
-
     </script>
 
 
@@ -240,6 +231,51 @@
 
 
     <script>
+        const attractions = @Html.Raw(Json.Encode(ViewBag.Attractions));
+        const attsContainer = document.querySelector("#attractionContainer");
+        const addAttBtns = document.querySelectorAll(".addAttraction");
+        for (let i = 0; i < addAttBtns.length; i++) {
+            addAttBtns[i].addEventListener('click', () => {
+
+
+                let id = parseInt(addAttBtns[i].getAttribute('data-id'));
+                let newAttraction = document.createElement("div");
+                attsContainer.appendChild(newAttraction);
+                addAttBtns[i].disabled = true;
+
+                let closestRow = addAttBtns[i].closest("tr");
+                closestRow.classList.add("hide");
+
+
+                for (let j = 0; j < attractions.length; j++) {
+                    if (attractions[j].Id === id) {
+
+                        newAttraction.textContent = attractions[j].Name;
+                        //生成複選框
+
+                        let checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.value = attractions[j].Id;
+                        checkbox.checked = true;
+                        checkbox.classList.add('attSize')
+                        //綁定移除
+                        checkbox.addEventListener('change', function () {
+                            if (!this.checked) {
+                                this.parentNode.remove();
+                                addAttBtns[i].disabled = false;
+                                closestRow.classList.remove("hide");
+                            }
+                        })
+                        newAttraction.appendChild(checkbox);
+                        break;
+                    }
+                }
+            });
+        }
+
+
+
+
         const activities = @Html.Raw(Json.Encode(ViewBag.Activities));
         const actsContainer = document.querySelector("#activityContainer");
         function bindingSelectAct() {
@@ -253,11 +289,8 @@
 
 
                     addActBtns[i].disabled = true;
-                    let closestRow = addActBtns[i].closest("tr");                    
+                    let closestRow = addActBtns[i].closest("tr");
                         closestRow.classList.add("hide");
-                   
-
-
 
                     var nameExists = false;
 
@@ -304,20 +337,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         const extraServices =@Html.Raw(Json.Encode(ViewBag.ExtraServices));
         const extContainer = document.querySelector("#extraServiceContainer");
         const addExtBtns = document.querySelectorAll(".addExtraService");
@@ -350,7 +369,6 @@
                                 this.parentNode.remove();
                                 addExtBtns[i].disabled = false;
                                 closestRow.classList.remove("hide");
-
                             }
                         })
 
@@ -363,70 +381,29 @@
         }
 
 
-        const attractions = @Html.Raw(Json.Encode(ViewBag.Attractions));
-        const attsContainer = document.querySelector("#attractionContainer");
-        const addAttBtns = document.querySelectorAll(".addAttraction");
-        for (let i = 0; i < addAttBtns.length; i++) {
-            addAttBtns[i].addEventListener('click', () => {
 
-
-                let id = parseInt(addAttBtns[i].getAttribute('data-id'));
-                let newAttraction = document.createElement("div");
-                attsContainer.appendChild(newAttraction);
-                addAttBtns[i].disabled = true;
-
-                let closestRow = addAttBtns[i].closest("tr");
-                closestRow.classList.add("hide");
-
-
-                for (let j = 0; j < attractions.length; j++) {
-                    if (attractions[j].Id === id) {
-
-                        newAttraction.textContent = attractions[j].Name;
-                        //生成複選框
-
-                        let checkbox = document.createElement("input");
-                        checkbox.type = "checkbox";
-                        checkbox.value = attractions[j].Id;
-                        checkbox.checked = true;
-                        checkbox.classList.add('attSize')
-                        //綁定移除
-                        checkbox.addEventListener('change', function () {
-                            if (!this.checked) {
-                                this.parentNode.remove();
-                                addAttBtns[i].disabled = false;
-                                closestRow.classList.remove("hide");
-                            }
-                        })
-                        newAttraction.appendChild(checkbox);
-                        break;
-                    }
-                }
-            });
-        }
 
         const mainForm = document.querySelector('#CreatePackageTour');
-        mainForm.addEventListener('submit', function () {
+        mainForm.addEventListener('submit', function (e) {
+            let attCheckBoxes = document.querySelectorAll('.attSize');
+            let actCheckBoxes = document.querySelectorAll('.actSize');
+            let extCheckBoxes = document.querySelectorAll('.extSize');
 
-            let attCheckBoxies = document.querySelectorAll('.attSize');
-            for (let i = 0; i < attCheckBoxies.length; i++) {
-                attCheckBoxies[i].setAttribute('name', "Attractions[" + i + "].Id");
+            if (attCheckBoxes.length === 0 || actCheckBoxes.length === 0 || extCheckBoxes.length === 0) {
+                e.preventDefault();
+                alert('請至少分別選擇一個選項')
+            } else {
+
+                for (let i = 0; i < attCheckBoxes.length; i++) {
+                    attCheckBoxes[i].setAttribute('name', "Attractions[" + i + "].Id");
+                }
+                for (let i = 0; i < actCheckBoxes.length; i++) {
+                    actCheckBoxes[i].setAttribute('name', "Activities[" + i + "].Id")
+                }
+                for (let i = 0; i < extCheckBoxes.length; i++) {
+                    extCheckBoxes[i].setAttribute('name', "ExtraServices[" + i + "].Id")
+                }
             }
-
-
-            let actCheckBoxies = document.querySelectorAll('.actSize');
-            for (let i = 0; i < actCheckBoxies.length; i++) {
-                actCheckBoxies[i].setAttribute('name', "Activities[" + i + "].Id")
-            }
-
-            let extCheckBoxies = document.querySelectorAll('.extSize');
-            for (let i = 0; i < extCheckBoxies.length; i++) {
-                extCheckBoxies[i].setAttribute('name', "ExtraServices["+i+"].Id")
-            }
-
-
-     
-
         })
     </script>
 
