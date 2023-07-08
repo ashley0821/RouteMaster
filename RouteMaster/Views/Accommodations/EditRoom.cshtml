@@ -13,7 +13,7 @@
     var images = Model.RoomImages != null ? Model.RoomImages.ToArray() : new RouteMaster.Models.EFModels.RoomImage[0];
 }
 
-@{ Html.RenderPartial("_AccommodationNavPartial", new RouteMaster.Models.Dto.Accommodation.NavDto { Id = Model.Id, Parameter = "accommodation" });}
+@{ Html.RenderPartial("_AccommodationNavPartial", new RouteMaster.Models.Dto.Accommodation.NavDto { Id = Model.AccommodationId, Parameter = "accommodation" });}
 @using (Html.BeginForm("EditRoom", "Accommodations", FormMethod.Post, new { enctype = "multipart/form-data" }))
 
 {
