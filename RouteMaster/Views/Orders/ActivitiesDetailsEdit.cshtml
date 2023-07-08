@@ -159,7 +159,7 @@
             if (!isNaN(price) && !isNaN(quantity)) {
                 // 计算总价
                 var totalPrice = price * quantity;
-
+                var formattedPrice = '$' + totalPrice.toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 // 将价格显示在页面上
                 $('#totalPrice').val(totalPrice.toFixed(2)); // 根据需要进行格式化，这里保留两位小数
 

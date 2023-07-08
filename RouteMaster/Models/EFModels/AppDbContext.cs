@@ -331,5 +331,7 @@ namespace RouteMaster.Models.EFModels
         public System.Data.Entity.DbSet<RouteMaster.Models.ViewModels.Comments_AccommodationsIndexVM> Comments_AccommodationsIndexVM { get; set; }
 
         public System.Data.Entity.DbSet<RouteMaster.Models.ViewModels.PaymentMethodIndexVM> PaymentMethodIndexVMs { get; set; }
+
+        public System.Data.Entity.DbSet<RouteMaster.Models.ViewModels.OrderEditVM> OrderEditVMs { get; set; }
     }
 }
