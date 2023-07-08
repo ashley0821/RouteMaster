@@ -1,90 +1,116 @@
 ﻿@model RouteMaster.Models.EFModels.Activity
 
-@{
-    ViewBag.Title = "Details";
+@section Styles{
+    <style>
+
+        dt {
+            
+            color: darkgray; /* 較深的顏色 */
+            /* 其他樣式屬性和值 */
+        }
+
+        dd {
+            text-align: center; /* 字體置中 */
+            border: 1px solid #000; /* 外框線 */
+            border-radius: 5px; /* 容器圓角 */
+            background-color: whitesmoke; /* 淺灰色背景 */
+            padding: 10px; /* 可根據需要調整內距 */
+            /* 其他樣式屬性和值 */
+        }
+
+        .multi-line-display {
+            white-space: pre-line;
+        }
+    </style>
+  
+
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Activity</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            活動種類
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ActivityCategory.Name)
-        </dd>
 
-        <dt>
-            舉辦景點
-        </dt>
+<h2>詳細資料</h2>
+<hr />
+<div class="row">
+    <div class="col-4">
+        <dl class="row">
+            <dt>
+                活動種類
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Attraction.Name)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.ActivityCategory.Name)
+            </dd>
 
-        <dt>
-            所在縣市
-        </dt>
+            <dt>
+                舉辦景點
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Region.Name)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.Attraction.Name)
+            </dd>
 
-        <dt>
-            活動名稱
-        </dt>
+            <dt>
+                所在縣市
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.Region.Name)
+            </dd>
 
-        <dt>
-            活動價格
-        </dt>
+            <dt>
+                活動名稱
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dt>
-            開始時間
-        </dt>
+            <dt>
+                活動價格
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.StartTime)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.Price)
+            </dd>
 
-        <dt>
-            結束時間
-        </dt>
+            <dt>
+                開始時間
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndTime)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.StartTime)
+            </dd>
 
-        <dt>
-            活動介紹
-        </dt>
+            <dt>
+                結束時間
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.EndTime)
+            </dd>
 
-        <dt>
-            是否上架
-        </dt>
+            <dt>
+                活動介紹
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
+            <dd class="mb-3 multi-line-display">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-    </dl>
+            <dt>
+                是否上架
+            </dt>
+
+            <dd class="mb-3">
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+
+        </dl>
+    </div>
 </div>
+
 <p>
-    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary">Edit</a>
+    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-primary">編輯</a>
     <a href="@Url.Action("Index")" class="btn btn-primary">返回清單頁面</a>
 </p>
