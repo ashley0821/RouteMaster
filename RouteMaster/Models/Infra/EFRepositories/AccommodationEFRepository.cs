@@ -13,6 +13,7 @@ using System.Data;
 using System.IO;
 using RouteMaster.Models.ViewModels.Accommodations;
 using RouteMaster.Models.Dto.Accommodation;
+using RouteMaster.Models.Dto.Accommodation.Room;
 
 namespace RouteMaster.Models.Infra.EFRepositories
 {
@@ -63,6 +64,33 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			_db.SaveChanges();
 		}
+		
+		public void EditRoomProfile(RoomEditDto dto, ImagesDto iDto, string path)
+		{
+			Room entity = _db.Rooms.FirstOrDefault(r => r.Id == dto.Id);
+
+			entity.Name = dto.Name;
+			entity.Type = dto.Type;
+			entity.Quantity = dto.Quantity;
+			entity.Price = dto.Price;
+
+			RoomImage img = new RoomImage();
+
+			if (iDto.Files.Length > 0 && iDto.Files[0] != null)
+			{
+				for (int i = 0; i < iDto.Files.Length; i++) 
+				//foreach (HttpPostedFileBase file in files)
+				{
+					string fileName = SaveUploadedFile(path, iDto.Files[i]);
+					img.RoomId = dto.Id;
+					img.Image = fileName;
+					_db.RoomImages.Add(img);
+					_db.SaveChanges();
+				}
+			}
+
+			_db.SaveChanges();
+		}
 		public void CreateRoomAndImages(RoomCreateDto dto, ImagesDto iDto, String path)
 		{
 			Room entity = dto.ToRoomCreateEntity();
@@ -89,17 +117,35 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			var accommodationdb = _db.Accommodations.AsNoTracking().Include(a=>a.AccommodationImages).FirstOrDefault(x => x.Id == id);
 
 			return accommodationdb == null ? null : accommodationdb.ToEditDto();
+			
+		}
+		
+		public RoomEditDto GetRoomInfo(int? id)
+		{
+			var roomdb = _db.Rooms.AsNoTracking().Include(a=>a.RoomImages).FirstOrDefault(x => x.Id == id);
+
+			return roomdb == null ? null : roomdb.ToEditDto();
 			;
 		}
 
 		public bool ExistName(string name)
         {
-            return _db.Accommodations.Any(m => m.Name == name);
+            return _db.Accommodations.Any(a => a.Name == name);
+
+        }
+		
+		public bool ExistRoomName(int id, string name)
+        {
+            return _db.Rooms.Where(r => r.AccommodationId == id).Any(r=>r.Name == name);
 
         }
 		public bool IsOriginalName(AccommodationEditDto dto)
 		{
 			return _db.Accommodations.FirstOrDefault(a=>a.Id == dto.Id).Name == dto.Name;
+		}
+		public bool IsOriginalRoomName(RoomEditDto dto)
+		{
+			return _db.Rooms.FirstOrDefault(r=>r.Id == dto.Id).Name == dto.Name;
 		}
 		
 
