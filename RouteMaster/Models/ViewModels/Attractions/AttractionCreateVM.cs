@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RouteMaster.Models.EFModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Web;
 
 namespace RouteMaster.Models.ViewModels
 {
-	public class AttractionEditVM
+	public class AttractionCreateVM
 	{
 		public int Id { get; set; }
 
@@ -20,6 +21,8 @@ namespace RouteMaster.Models.ViewModels
 		[StringLength(100)]
 		public string Name { get; set; }
 
+		public int TagId { get; set; }
+
 		[Required]
 		[StringLength(255)]
 		public string Address { get; set; }
@@ -32,5 +35,6 @@ namespace RouteMaster.Models.ViewModels
 		public string Description { get; set; }
 
 		public string Website { get; set; }
+		
 	}
 }

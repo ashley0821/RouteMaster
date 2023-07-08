@@ -56,13 +56,18 @@ namespace RouteMaster.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FAQ fAQ = db.FAQs.Find(id);
-            if (fAQ == null)
-            {
-                return HttpNotFound();
-            }
-            return View(fAQ);
-        }
+			IFAQRepository repo = new FAQEFRepository();
+			FAQService service = new FAQService(repo);
+
+			if (service.ExistDetail(id) == false)
+			{
+				return HttpNotFound();
+			}
+			ViewBag.Id=id;
+
+			FAQDetailVM info = service.GetDetail(id).ToDetailVM();
+			return View(info);
+		}
 
         // GET: FAQs/Create
         public ActionResult Create()
@@ -272,16 +277,21 @@ namespace RouteMaster.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FAQ detail = db.FAQs.Find(id);
-            if (detail == null)
-            {
-                return HttpNotFound();
-            }
-            return View(detail);
+
+			FAQ detail = db.FAQs.FirstOrDefault(i => i.Id == id);
+			if(detail == null)
+			{
+				return HttpNotFound();
+			}
+            
+			return View(detail);
+			
         }
 
-        // POST: FAQs/Delete/5
-        [HttpPost, ActionName("Delete")]
+		
+
+		// POST: FAQs/Delete/5
+		[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {

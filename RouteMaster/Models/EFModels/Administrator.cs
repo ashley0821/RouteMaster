@@ -10,13 +10,16 @@ namespace RouteMaster.Models.EFModels
     {
         public int Id { get; set; }
 
+        [Display(Name ="管理者層級")]
         public int? PermissionId { get; set; }
 
-        [Required]
+		[Display(Name = "名")]
+		[Required]
         [StringLength(50)]
         public string FirstName { get; set; }
 
-        [Required]
+		[Display(Name = "姓")]
+		[Required]
         [StringLength(50)]
         public string LastName { get; set; }
 

@@ -47,3 +47,6 @@ AccomodationDetails partial view (useDapper)
 7/6
 [v] export file but only can export to CSV.file, can't export to xlsx, will figure it out when have more time.
 [v] Add Detail's order total price 
+
+7/7
+[v] checkboxall done ; checkbox(multiple check not yet)

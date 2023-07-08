@@ -1,4 +1,6 @@
-﻿using RouteMaster.Models.Infra;
+﻿using RouteMaster.Models.Dto;
+using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -38,6 +40,11 @@ namespace RouteMaster.Models.Services
 			return Result.Success();
 
 
+		}
+
+		public IEnumerable<AdministratorIndexDto> Search(AdministratorCriteria criteria)
+		{
+			return _repo.Search(criteria);
 		}
 	}
 }

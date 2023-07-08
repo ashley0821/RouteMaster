@@ -39,6 +39,22 @@ namespace RouteMaster.Models.Infra
 			SendFromGmail(from, to, subject, body);
 		}
 
+		public void SendUppaidNotification ( string name, string email)
+		{
+			var subject = "[Route Master - 付款提醒通知]";
+			var body = $@"Hi {name},
+<br/>
+感謝您的訂單！
+<br/>
+我們很高興能為您提供服務。根據我們的記錄，您的訂單尚未付款。為了確保您能順利獲得所訂購的商品/服務，我們請您盡快完成付款程序。
+";
+			var from = senderEmail;
+			var to = email;
+
+			SendFromGmail(from, to,subject,body);
+
+
+		}
 		public virtual void SendFromGmail(string from, string to, string subject, string body)
 		{
 			// todo 以下是開發時,測試之用, 只是建立text file, 不真的寄出信

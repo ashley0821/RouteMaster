@@ -1,0 +1,33 @@
+﻿@model RouteMaster.Models.EFModels.AttractionTag
+
+@{
+    ViewBag.Title = "刪除標籤";
+}
+
+<h2>刪除標籤</h2>
+
+<h3>您確定要刪除嗎?</h3>
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <dt>
+            標籤
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-secondary" })
+        </div>
+    }
+</div>
