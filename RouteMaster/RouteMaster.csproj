@@ -160,6 +160,7 @@
     <Compile Include="Controllers\PackageToursController.cs" />
     <Compile Include="Controllers\PartnersController.cs" />
     <Compile Include="Controllers\PaymentMethodsController.cs" />
+    <Compile Include="Controllers\testsController.cs" />
     <Compile Include="Controllers\TravelPlansController.cs" />
     <Compile Include="Filter\AdministratorAuthenticationFilter.cs" />
     <Compile Include="Filter\PartnerAuthenticationFilter.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />
     <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationIndexDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Service\ServiceInfoDto.cs" />
@@ -394,14 +396,17 @@
     <Compile Include="Models\ViewModels\FAQIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServicesDetailsVM.cs" />
     <Compile Include="Models\ViewModels\FAQUploadImgVM.cs" />
+    <Compile Include="Models\ViewModels\MemberActiveVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
+    <Compile Include="Models\ViewModels\MemberForgetPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberImageCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberImageEditVM.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVM.cs" />
     <Compile Include="Models\ViewModels\MemberRegisterVM.cs" />
     <Compile Include="Models\ViewModels\MemberSuspendVM.cs" />
+    <Compile Include="Models\ViewModels\OrderEditVM.cs" />
     <Compile Include="Models\ViewModels\OrderInvdexVM.cs" />
     <Compile Include="Models\ViewModels\MemberIndexVM.cs" />
     <Compile Include="Models\ViewModels\PackageTourCreateVM.cs" />
@@ -578,6 +583,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ShowBigImages.js" />
     <Content Include="Scripts\UploadImage.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -704,9 +710,9 @@
     <Content Include="Views\Comments_Attractions\Edit.cshtml" />
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\UploadImg.cshtml" />
-
+    <Content Include="Views\Accommodations\_AccommodationNavPartial.cshtml" />
+    <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Partners\PartnerLogin.cshtml" />
-
     <Content Include="Views\AttractionCategories\Create.cshtml" />
     <Content Include="Views\AttractionCategories\Delete.cshtml" />
     <Content Include="Views\AttractionCategories\Edit.cshtml" />
@@ -715,7 +721,7 @@
     <Content Include="Views\AttractionTags\Delete.cshtml" />
     <Content Include="Views\AttractionTags\Edit.cshtml" />
     <Content Include="Views\AttractionTags\Index.cshtml" />
-
+    <Content Include="Views\Members\ActiveRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

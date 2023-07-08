@@ -4,7 +4,7 @@
     ViewBag.Title = "SuspendMember";
 }
 
-<h2>SuspendMember</h2>
+<h2>停用帳戶設定</h2>
 
 
 @using (Html.BeginForm())
@@ -12,23 +12,23 @@
     @Html.AntiForgeryToken()
     
 <div class="row">
-    <h4>MemberSuspendVM</h4>
+    
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="mb-3">
-        @Html.LabelFor(model => model.IsSuspended, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.IsSuspended,"停權",htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="checkbox">
             @Html.EditorFor(model => model.IsSuspended)
-            @Html.ValidationMessageFor(model => model.IsSuspended, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.IsSuspended, "", new {  @class = "text-danger" })
         </div>
     </div>
-    <div class="mb-3">
-        @Html.LabelFor(model => model.IsConfirmed, htmlAttributes: new { @class = "control-label col-md-2" })
+    @*<div class="mb-3" name="">
+        @Html.LabelFor(model => model.IsConfirmed,"停權設定", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="checkbox">
             @Html.EditorFor(model => model.IsConfirmed)
             @Html.ValidationMessageFor(model => model.IsConfirmed, "", new { @class = "text-danger" })
         </div>
-    </div>
+    </div>*@
 
     <div class="mb-3">
         <div class="col-md-offset-2 col-md-10">
@@ -39,7 +39,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("取消變更", "Index")
 </div>
 
 @section Scripts {

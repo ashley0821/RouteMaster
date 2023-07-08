@@ -224,7 +224,14 @@ namespace RouteMaster.Controllers
 		}
 
 
-        [HttpPost]
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            FormsAuthentication.SignOut();
+            return Redirect("/Members/Login");
+        }
+
+        //[HttpPost]
         //public ActionResult Login(AdministratorLoginVM vm)
         //{
         //    if (ModelState.IsValid == false) return View(vm);
