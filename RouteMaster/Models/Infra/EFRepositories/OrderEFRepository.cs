@@ -37,8 +37,14 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			if (!string.IsNullOrEmpty(criteria.MemberName))
 			{
-				query = query.Where(o => o.Member.FirstName == criteria.MemberName).ToList();
+				query = query.Where(o => o.Member.FirstName.ToLower().Contains(criteria.MemberName.ToLower())).ToList();
+				
 			}
+			//if (!string.IsNullOrEmpty(criteria.MemberName))
+			//{
+			//	query = query.Where(o => o.Member.LastName.ToLower().Contains(criteria.MemberName.ToLower())).ToList();
+
+			//}
 			if (criteria.PaymentStatus != null && criteria.PaymentStatus.Value > 0)
 			{
 				query = query.Where(o => o.PaymentStatus == criteria.PaymentStatus).ToList();

@@ -1,9 +1,5 @@
-﻿
+﻿@model RouteMaster.Models.Dto.Accommodation.NavDto
 <style>
-    *, *:before, *:after {
-        box-sizing: border-box;
-    }
-
     .nav li {
         border-bottom: 4px solid #6b6b6b;
     }
@@ -72,28 +68,76 @@
         border-radius: 0.375rem;
         transition: all 0.2s ease-in-out;
     }
+
+    .btn-css-danger{
+        color:#ff3e1d
+    }
+
+    .btn-css-danger:hover {
+        color: #fff;
+        background-color: #ff3E1D !important;
+        border-color: #696cff;
+        box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
+        display: inline-block;
+        font-weight: 400;
+        line-height: 1.53;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 0.4375rem 1.25rem;
+        font-size: 0.9375rem;
+        border-radius: 0.375rem;
+        transition: all 0.2s ease-in-out;
+    }
 </style>
 
-<div class="nav-steps">
+<div class="nav-steps" data-parameter="@Model.Parameter">
     <div>
         <ul id="js-main-nav" class="nav main-nav row-cols-4 justify-content-center mb-3">
-            <li class="completed nav-li">
-                <a href="/Accommodations/details/@Model.id" class=" completed">
+            <li class="nav-li" id="accommodation-nav">
+                <a href="/Accommodations/details/@Model.Id" class="">
                     基本資訊
                 </a>
             </li>
 
-            <li class="nav-li">
-                <a href="/Accommodations/RoomsIndex/@Model.id" class="">
+            <li class="nav-li" id="room-nav">
+                <a href="/Accommodations/RoomsIndex/@Model.Id" class="">
                     客房列表
                 </a>
             </li>
 
-            <li class="nav-li">
-                <a href="/Accommodations/EditServiceInfo/@Model.id" class="">
+            <li class="nav-li" id="serviceInfo-nav">
+                <a href="/Accommodations/EditServiceInfo/@Model.Id" class="">
                     設施與服務
                 </a>
             </li>
         </ul>
     </div>
 </div>
+
+<script>
+
+    const accommodation = document.querySelector("#accommodation-nav");
+    const room = document.querySelector("#room-nav");
+    const serviceInfo = document.querySelector("#serviceInfo-nav");
+    const parameter = "@Model.Parameter";
+    //const parameter = document.querySelector(".nav-steps").getAttribute("data-parameter");
+
+    switch (parameter) {
+        case "accommodation":
+            accommodation.classList.add('completed');
+            accommodation.children[0].classList.add('completed');
+            break;
+        case "room":
+            room.classList.add('completed')
+            room.children[0].classList.add('completed');
+            break;
+        case "serviceInfo":
+            serviceInfo.classList.add('completed')
+            serviceInfo.children[0].classList.add('completed');
+            break;
+    }
+
+</script>

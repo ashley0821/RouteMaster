@@ -1,5 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.Dto.Accommodation;
+using RouteMaster.Models.Dto.Accommodation.Room;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Interfaces;
 using RouteMaster.Models.ViewModels;
@@ -31,9 +32,9 @@ namespace RouteMaster.Models.Services
         {
             if (_repo.ExistName(dto.Name))
             {
-                //丟出異常,或者傳回 Result
-                return Result.Fail($"住宿名稱{dto.Name}已存在, 請確認後再試一次");
-            }
+				//丟出異常,或者傳回 Result
+				return Result.Fail($@"住所名稱: '{dto.Name}'已存在, 請確認後再試一次");
+			}
 
 			if (dto.RegionId == 0 || dto.TownId == 0) return Result.Fail("請再確認欄位資料是否正確");
 
@@ -51,10 +52,10 @@ namespace RouteMaster.Models.Services
 		public Result EditAccommodationProfile(AccommodationEditDto dto, ImagesDto iDto, string path)
 		{
 			
-			if (!_repo.ExistName(dto.Name) || !_repo.IsOriginalName(dto))
+			if (_repo.ExistName(dto.Name) && !_repo.IsOriginalName(dto))
 			{
 				//丟出異常,或者傳回 Result
-				return Result.Fail($"住宿名稱{dto.Name}已存在, 請確認後再試一次");
+				return Result.Fail($@"住所名稱: '{dto.Name}'已存在, 請確認後再試一次");
 			}
 
 			if (dto.RegionId == 0 || dto.TownId == 0) return Result.Fail("請再確認欄位資料是否正確");
@@ -65,10 +66,30 @@ namespace RouteMaster.Models.Services
 			return Result.Success();
 			
 		}
+		public Result EditRoomProfile(RoomEditDto dto, ImagesDto iDto, string path)
+		{
+			
+			if (_repo.ExistRoomName(dto.AccommodationId, dto.Name) && !_repo.IsOriginalRoomName(dto))
+			{
+				//丟出異常,或者傳回 Result
+				return Result.Fail($"這個房間你新增過了喔, 請再確認一下");
+			}
+
+
+			// 新增一筆紀錄
+			_repo.EditRoomProfile(dto, iDto, path);
+
+			return Result.Success();
+			
+		}
 
 		public Result CreateRoomAndImages(RoomCreateDto dto, ImagesDto iDto, String path)
 		{
-			
+			if (_repo.ExistRoomName(dto.AccommodationId, dto.Name))
+			{
+				//丟出異常,或者傳回 Result
+				return Result.Fail($"這個房間你新增過了喔, 請再確認一下");
+			}
 			// 新增一筆紀錄
 			_repo.CreateRoomAndImages(dto, iDto, path);
 
@@ -80,6 +101,11 @@ namespace RouteMaster.Models.Services
 			_repo.EditService(vm);
 
 			return Result.Success();
+		}
+
+		internal RoomEditDto GetRoomInfo(int? id)
+		{
+			return _repo.GetRoomInfo(id);
 		}
 	}
 }

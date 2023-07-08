@@ -22,5 +22,9 @@ namespace RouteMaster.Models.Interfaces
 
 		void ClearImg(int id);
 		void DeleteFAQ(int id);
+
+		bool ExistDetail(int? id);
+
+		FAQDetailDto Detail	(int? id);
 	}
 }

@@ -49,5 +49,15 @@ namespace RouteMaster.Models.Services
 			_repo.DeleteFAQ(id);
 		}
 
+		public bool ExistDetail(int? id)
+		{
+			return _repo.ExistDetail(id);
+		}
+		public FAQDetailDto GetDetail(int? id)
+		{
+			return _repo.Detail(id);
+
+		}
+
 	}
 }
