@@ -715,7 +715,6 @@
     <Content Include="Views\Comments_Attractions\Edit.cshtml" />
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\UploadImg.cshtml" />
-
     <Content Include="Views\Accommodations\_AccommodationNavPartial.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Partners\PartnerLogin.cshtml" />
@@ -727,11 +726,9 @@
     <Content Include="Views\AttractionTags\Delete.cshtml" />
     <Content Include="Views\AttractionTags\Edit.cshtml" />
     <Content Include="Views\AttractionTags\Index.cshtml" />
-
     <Content Include="Views\Members\ActiveRegister.cshtml" />
-
     <Content Include="Views\Accommodations\EditRoom.cshtml" />
-
+    <Content Include="Views\Members\ActiveMember.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
