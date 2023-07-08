@@ -47,7 +47,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			};
 
 			_db.Members.Add(member);
-			
+
 
 			MemberImage memberImage = new MemberImage
 			{
@@ -55,7 +55,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				Name = "未命名",
 			};
 			//存到DB
-			
+
 
 			_db.MemberImages.Add(memberImage);
 			_db.SaveChanges();

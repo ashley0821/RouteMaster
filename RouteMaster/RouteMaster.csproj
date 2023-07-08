@@ -204,6 +204,7 @@
     <Compile Include="Models\Dto\ExtraServicesDetailsDto.cs" />
     <Compile Include="Models\Dto\ExtraServicesDetailsEditDto.cs" />
     <Compile Include="Models\Dto\FAQCreateDto.cs" />
+    <Compile Include="Models\Dto\FAQDetailDto.cs" />
     <Compile Include="Models\Dto\FAQEditDto.cs" />
     <Compile Include="Models\Dto\FAQIndexDto.cs" />
     <Compile Include="Models\Dto\MemberEditDto.cs" />
@@ -390,6 +391,7 @@
     <Compile Include="Models\ViewModels\ExtraServicesDetailsEditVM.cs" />
     <Compile Include="Models\ViewModels\FAQChangeImgVM.cs" />
     <Compile Include="Models\ViewModels\FAQCreateVM.cs" />
+    <Compile Include="Models\ViewModels\FAQDetailVM.cs" />
     <Compile Include="Models\ViewModels\FAQEditImgIndexVM.cs" />
     <Compile Include="Models\ViewModels\FAQEditImgVM.cs" />
     <Compile Include="Models\ViewModels\FAQEditVM.cs" />
@@ -708,8 +710,10 @@
     <Content Include="Views\Comments_Attractions\Edit.cshtml" />
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\UploadImg.cshtml" />
+
     <Content Include="Views\Accommodations\_AccommodationNavPartial.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
+
     <Content Include="Views\Partners\PartnerLogin.cshtml" />
     <Content Include="Views\AttractionCategories\Create.cshtml" />
     <Content Include="Views\AttractionCategories\Delete.cshtml" />

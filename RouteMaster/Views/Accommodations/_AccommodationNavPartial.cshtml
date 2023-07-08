@@ -74,22 +74,22 @@
     }
 </style>
 
-<div class="nav-steps">
+<div class="nav-steps" data-parameter="@Model.parameter">
     <div>
         <ul id="js-main-nav" class="nav main-nav row-cols-4 justify-content-center mb-3">
-            <li class="completed nav-li">
-                <a href="/Accommodations/details/@Model.id" class=" completed">
+            <li class="nav-li" id="accommodation-nav">
+                <a href="/Accommodations/details/@Model.id" class="">
                     基本資訊
                 </a>
             </li>
 
-            <li class="nav-li">
+            <li class="nav-li" id="room-nav">
                 <a href="/Accommodations/RoomsIndex/@Model.id" class="">
                     客房列表
                 </a>
             </li>
 
-            <li class="nav-li">
+            <li class="nav-li" id="serviceInfo-nav">
                 <a href="/Accommodations/EditServiceInfo/@Model.id" class="">
                     設施與服務
                 </a>
@@ -97,3 +97,27 @@
         </ul>
     </div>
 </div>
+
+<script>
+
+    const accommodation = document.querySelector("#accommodation-nav");
+    const room = document.querySelector("#room-nav");
+    const serviceInfo = document.querySelector("#serviceInfo-nav");
+    const parameter = document.querySelector(".nav-steps").getAttribute("data-parameter");
+
+    switch (parameter) {
+        case "accommodation":
+            accommodation.classList.add('completed');
+            accommodation.children[0].classList.add('completed');
+            break;
+        case "room":
+            room.classList.add('completed')
+            room.children[0].classList.add('completed');
+            break;
+        case "serviceInfo":
+            serviceInfo.classList.add('completed')
+            serviceInfo.children[0].classList.add('completed');
+            break;
+    }
+
+</script>

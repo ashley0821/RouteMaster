@@ -6,66 +6,66 @@
     var serviceIds = ViewBag.ServiceInfoIds;
 }
 
-<h2>高人氣設施／服務</h2>
+<h2>設施／服務</h2>
 
+@{ Html.RenderPartial("_AccommodationNavPartial", new { id = Model.AccommodationId, parameter = "serviceInfo" });}
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model=>model.AccommodationId)
-<div class="form-horizontal">
-    <hr />
-    <h4 class="fs-5 text-primary"><i class="fa-solid fa-square-check m-2"></i>勾選住宿提供的公共設施</h4>
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="row">
+    @Html.HiddenFor(model => model.AccommodationId)
+    <div class="form-horizontal">
+        <hr />
+        <h4 class="fs-5 text-primary"><i class="fa-solid fa-square-check m-2"></i>勾選住宿提供的公共設施</h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
 
-        @if (Model.ServiceInfoList != null)
-        {
-            for (int i = 0; i < Model.ServiceInfoList.Count; i++)
+            @if (Model.ServiceInfoList != null)
             {
-
-                <div class="col-3 my-2">
-                    <label class="form-label" for="@($"service{i}")">@Model.ServiceInfoList[i].Name</label>
-
-                    <input id="@($"service{i}")" class="form-check-input" type="checkbox" value="@Model.ServiceInfoList[i].Id" />
-                </div>
-            }
-            @*for (int i = 0; i < Model.ServiceInfoList.Count; i++)
+                for (int i = 0; i < Model.ServiceInfoList.Count; i++)
                 {
-                    <div>
-                        @if (serviceIds.Contains(i + 1))
-                        {
-                            <input type="checkbox" id="@($"ServiceInfo_{i}")" name="SelectedServices" checked value="@Model.ServiceInfoList[i].Id" />
-                        }
-                        else
-                        {
-                            <input type="checkbox" id="@($"ServiceInfo_{i}")" name="SelectedServices" value="@Model.ServiceInfoList[i].Id" />
 
-                        }
-                        <label for="@($"ServiceInfo_{i}")">@Model.ServiceInfoList[i].Name</label>
+                    <div class="col-3 my-2">
+                        <label class="form-label" for="@($"service{i}")">@Model.ServiceInfoList[i].Name</label>
+
+                        <input id="@($"service{i}")" class="form-check-input" type="checkbox" value="@Model.ServiceInfoList[i].Id" />
                     </div>
                 }
+                @*for (int i = 0; i < Model.ServiceInfoList.Count; i++)
+                    {
+                        <div>
+                            @if (serviceIds.Contains(i + 1))
+                            {
+                                <input type="checkbox" id="@($"ServiceInfo_{i}")" name="SelectedServices" checked value="@Model.ServiceInfoList[i].Id" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" id="@($"ServiceInfo_{i}")" name="SelectedServices" value="@Model.ServiceInfoList[i].Id" />
 
-                <input type="submit" value="Submit" />*@
-        }
-    </div>
+                            }
+                            <label for="@($"ServiceInfo_{i}")">@Model.ServiceInfoList[i].Name</label>
+                        </div>
+                    }
+
+                    <input type="submit" value="Submit" />*@
+            }
+        </div>
 
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-primary" />
+        <div class="mb-3 d-flex">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="submit-btn" type="submit" value="確認編輯" class="btn btn-primary " />
+                @Html.ActionLink("放棄編輯", $"/Details/{Model.Id}", null, new { @class = "btn btn-danger" })
+            </div>
+
         </div>
     </div>
-</div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script>
+    <script>
    var myData = @Html.Raw(Json.Encode(serviceIds));
 $('.form-check-input').each(function () {
     var checkboxValue = parseInt($(this).val()); // 将复选框的值转换为数字类型
@@ -111,5 +111,5 @@ $('.form-check-input').each(function () {
             $(this).attr('name', newName);
         });
     });
-</script>
+    </script>
 }
