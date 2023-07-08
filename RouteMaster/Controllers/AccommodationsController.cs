@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Antlr.Runtime;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json.Linq;
 using RouteMaster.Filter;
 using RouteMaster.Models.Dto;
@@ -32,7 +33,7 @@ namespace RouteMaster.Controllers
     public class AccommodationsController : Controller
     {
         private readonly AppDbContext db = new AppDbContext();
-
+        
         // 還沒做
         public ActionResult Index()
         {
@@ -44,7 +45,7 @@ namespace RouteMaster.Controllers
         public ActionResult MyAccommodationIndex(int? id)
         {
 			IEnumerable<AccommodationIndexVM> accommodations = GetAccommodations(id);
-
+            
             //var accommodations = db.Accommodations.Include(a => a.Partner).Include(a => a.Region).Include(a => a.Town);
 
             return View(accommodations);//.ToList());
@@ -62,26 +63,23 @@ namespace RouteMaster.Controllers
             {
                 return HttpNotFound();
             }
-            return View(accommodation);
+
+
+            return View(accommodation.ToVM());
         }
 
         // 新增住宿
         public ActionResult Create()
         {
             //ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName");
-            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name")
-				.Prepend(new SelectListItem
-				{
-                    Disabled = true,
-					Selected = true,
-					Text = "請選擇",
-					Value = ""
-				}); 
-            ViewBag.TownId = new SelectList(db.Towns, "Id", "Name");
+            
+            PrepareRegionAndTownSelectList();
             return View();
         }
 
-        [HttpPost]
+		
+
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(AccommodationCreateVM vm)
         {
@@ -124,7 +122,7 @@ namespace RouteMaster.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", model.RegionId);
+            ViewBag.RegionId = new SelectList(db.Regions.OrderBy(r=>r.Id), "Id", "Name", model.RegionId);
             ViewBag.TownId = new SelectList(db.Towns.Where(t=>t.RegionId == model.RegionId), "Id", "Name", model.TownId);
 
             return View(model);
@@ -134,7 +132,7 @@ namespace RouteMaster.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(AccommodationEditVM vm, ImagesVM iVM)
         {
-			ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
+			ViewBag.RegionId = new SelectList(db.Regions.OrderBy(r => r.Id), "Id", "Name", vm.RegionId);
 			ViewBag.TownId = new SelectList(db.Towns.Where(t => t.RegionId == vm.RegionId), "Id", "Name", vm.TownId);
 			if (!ModelState.IsValid) return View(vm);
 
@@ -142,7 +140,8 @@ namespace RouteMaster.Controllers
 
 			if (result.IsSuccess)
 			{
-				return RedirectToAction("MyAccommodationIndex");
+
+				return RedirectToAction("Details", new { id = vm.Id });
 			}
 			else
 			{
@@ -187,9 +186,11 @@ namespace RouteMaster.Controllers
 
             Result result = CreateRoomAndImage(vm, iVM);
 
+            IEnumerable<RoomIndexVM> indexVM = db.Rooms.Where(r => r.AccommodationId == vm.AccommodationId).ToList().Select(r=>r.ToVM());
 			if (result.IsSuccess)
 			{
-				return RedirectToAction("MyAccommodationIndex");
+                ViewBag.Id = vm.AccommodationId;
+                return RedirectToAction("RoomsIndex", new {id = vm.AccommodationId});
 			}
 			else
 			{
@@ -249,7 +250,7 @@ namespace RouteMaster.Controllers
 
             if (result.IsSuccess)
             {
-                return RedirectToAction("MyAccommodationIndex");
+                return RedirectToAction("Details", new { id = vm.AccommodationId });
             }
             else
             {
@@ -257,6 +258,47 @@ namespace RouteMaster.Controllers
                 return View(vm);
             }
 
+        }
+
+		//public ActionResult Delete(int? id)
+  //      {
+  //          if (id == null)
+  //          {
+  //              return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+  //          }
+  //          Accommodation accommodation = db.Accommodations.Find(id);
+  //          if (accommodation == null)
+  //          {
+  //              return HttpNotFound();
+  //          }
+  //          return View(accommodation);
+  //      }
+
+        [HttpPost, ActionName("Delete")]
+     
+        public void DeleteConfirmed(int id)
+        {
+            Accommodation accommodation = db.Accommodations.Find(id);
+            foreach(var ai in accommodation.AccommodationImages)
+            {
+               db.AccommodationImages.Remove(ai);
+            }
+            
+            foreach(var r in accommodation.Rooms)
+            {
+               db.Rooms.Remove(r);
+            }
+            
+            foreach(var ris in accommodation.Rooms.Select(r=>r.RoomImages))
+            {
+                foreach(var ri in ris)
+                {
+                    db.RoomImages.Remove(ri);
+                }
+            }
+            
+            db.Accommodations.Remove(accommodation);
+            db.SaveChanges();
         }
 
 
@@ -282,7 +324,18 @@ namespace RouteMaster.Controllers
 
 			return service.CreateRoomAndImages(vm.ToDto(), iVM.ToDto(), path);
         }
-
+		private void PrepareRegionAndTownSelectList()
+		{
+			ViewBag.RegionId = new SelectList(db.Regions.OrderBy(r => r.Id), "Id", "Name")
+				.Prepend(new SelectListItem
+				{
+					Disabled = true,
+					Selected = true,
+					Text = "請選擇",
+					Value = null
+				});
+			ViewBag.TownId = new SelectList(db.Towns, "Id", "Name");
+		}
 		private void PrepareRoomTypeViewBag()
 		{
             var roomTypes = new List<RoomType>{
@@ -297,13 +350,13 @@ namespace RouteMaster.Controllers
                 new RoomType(9,"膠囊床位")
             };
 
-            ViewBag.RoomType = new SelectList(roomTypes, "Type", "Type", "請選擇")
+            ViewBag.RoomType = new SelectList(roomTypes, "Type", "Type")
 				.Prepend(new SelectListItem
 				{
 					Disabled = true,
 					Selected = true,
 					Text = "請選擇",
-					Value = ""
+					Value = null
 				});
 		}
 
@@ -315,30 +368,6 @@ namespace RouteMaster.Controllers
 
 			return service.EditAccommodationProfile(vm.ToDto(), iVM.ToDto(), path);
 		}
-
-		public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Accommodation accommodation = db.Accommodations.Find(id);
-            if (accommodation == null)
-            {
-                return HttpNotFound();
-            }
-            return View(accommodation);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Accommodation accommodation = db.Accommodations.Find(id);
-            db.Accommodations.Remove(accommodation);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {

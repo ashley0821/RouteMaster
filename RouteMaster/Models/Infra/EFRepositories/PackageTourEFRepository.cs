@@ -56,6 +56,9 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 
             var packageTour = _db.PackageTours.Find(id);
+            packageTour.Attractions.Clear();
+            packageTour.ExtraServices.Clear();
+            packageTour.Activities.Clear();
             _db.PackageTours.Remove(packageTour);
             _db.SaveChanges();
         }

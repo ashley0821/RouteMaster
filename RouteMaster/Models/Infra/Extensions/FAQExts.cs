@@ -118,6 +118,19 @@ namespace RouteMaster.Models.Infra.Extensions
 			};
 		}
 
+		public static FAQDetailVM ToDetailVM(this FAQDetailDto dto)
+		{
+			return new FAQDetailVM
+			{
+				Id = dto.Id,
+				CategoryName = dto.CategoryName,
+				Question = dto.Question,
+				Answer = dto.Answer,
+				Helpful = dto.Helpful,
+				Images = dto.Images
+			};
+		}
+
 
 
 	}

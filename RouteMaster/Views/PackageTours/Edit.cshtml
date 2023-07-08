@@ -7,12 +7,12 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new {id="EditPackageTour"}))
 {
     @Html.AntiForgeryToken()
     
-<div class="form-horizontal">
-    <h4>PackageTourEditVM</h4>
+<div class="row">
+  
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -20,7 +20,6 @@
         @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
         @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-
     </div>
 
     <div class="mb-3">
@@ -29,7 +28,6 @@
             @Html.EditorFor(model => model.Status)
             @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
         </div>
-
     </div>
 
     <div class="mb-3">
@@ -44,8 +42,7 @@
         @for (int i = 0; i < Model.Attractions.Count; i++)
         {
             <p>@Model.Attractions[i].Name</p>
-            <input type="checkbox" class="atts" value="@Model.Attractions[i].Id" checked="checked" onchange="toggleAtHidden(this, @i)"/>
-    
+            <input type="checkbox" class="atts" value="@Model.Attractions[i].Id" checked="checked"/>    
         }
     </div>
 
@@ -56,7 +53,7 @@
         @for (int i = 0; i < Model.Activities.Count; i++)
         {
             <p>@Model.Activities[i].Name</p>
-            <input type="checkbox" class="acts" value="@Model.Activities[i].Id" checked="checked" onchange="toggleAcHidden(this, @i)"/>            
+            <input type="checkbox" class="acts" value="@Model.Activities[i].Id" checked="checked" />            
         }
     </div>
 
@@ -67,7 +64,7 @@
         @for (int i = 0; i < Model.ExtraServices.Count; i++)
         {
             <p>@Model.ExtraServices[i].Name</p>
-            <input type="checkbox" name="ExtraServices[@i].Selected" value="@Model.ExtraServices[i].Id" checked="checked" onchange="toggleExHidden(this, @i)"/>
+            <input type="checkbox" class="exts" value="@Model.ExtraServices[i].Id"  checked="checked" />
            
         }
     </div>
@@ -83,36 +80,103 @@
 </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
 
 <script>
-    document.
 
-
-
-    document.querySelectorAll('.atts')
-
-
-    function toggleAtHidden(checkbox, index) {
-        var hiddenInput = document.querySelector('input[name="Attractions[' + index + '].Id"]');
-        hiddenInput.disabled = !checkbox.checked;
+    let oldAttCheckBoxies = document.querySelectorAll('.atts');
+    for (var i = 0; i < oldAttCheckBoxies.length; i++) {
+        (function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                if (checkbox.checked) {
+                    checkbox.setAttribute('checked', 'checked');
+                    checkbox.classList.add('atts');
+                   
+                } else {
+          
+                    checkbox.removeAttribute('checked');
+                    checkbox.classList.remove('atts');
+                }
+            });
+        })(oldAttCheckBoxies[i]);
     }
 
-    function toggleAcHidden(checkbox, index) {
-        var hiddenInput = document.querySelector('input[name="Activities[' + index + '].Id"]');
-        hiddenInput.disabled = !checkbox.checked;
+
+
+    let oldActCheckBoxies = document.querySelectorAll('.acts');
+    for (var i = 0; i < oldActCheckBoxies.length; i++) {
+        (function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                if (checkbox.checked) {
+                    checkbox.setAttribute('checked', 'checked');
+                    checkbox.classList.add('acts');
+
+                } else {
+
+                    checkbox.removeAttribute('checked');
+                    checkbox.classList.remove('acts');
+                }
+            });
+        })(oldActCheckBoxies[i]);
     }
 
-    function toggleExHidden(checkbox, index) {
-        var hiddenInput = document.querySelector('input[name="ExtraServices[' + index + '].Id"]');
-        hiddenInput.disabled = !checkbox.checked;
+
+
+    let oldExtCheckBoxies = document.querySelectorAll('.exts');
+    for (var i = 0; i < oldExtCheckBoxies.length; i++) {
+        (function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                if (checkbox.checked) {
+                    checkbox.setAttribute('checked', 'checked');
+                    checkbox.classList.add('exts');
+
+                } else {
+
+                    checkbox.removeAttribute('checked');
+                    checkbox.classList.remove('exts');
+                }
+            });
+        })(oldExtCheckBoxies[i]);
     }
+
+
+
+
+
+
+    const mainForm = document.querySelector('#EditPackageTour');
+    mainForm.addEventListener('submit', function () {
+
+
+        let attCheckBoxies = document.querySelectorAll('.atts');
+        console.log(attCheckBoxies)
+
+        for (let i = 0; i < attCheckBoxies.length; i++) {
+            attCheckBoxies[i].setAttribute('name', "Attractions[" + i + "].Id");
+        }
+
+        let actCheckBoxies = document.querySelectorAll('.acts');
+        for (let i = 0; i < actCheckBoxies.length; i++) {
+            actCheckBoxies[i].setAttribute('name', "Activities[" + i + "].Id")
+        }
+
+        let extCheckBoxies = document.querySelectorAll('.exts');
+        for (let i = 0; i < extCheckBoxies.length; i++) {
+            extCheckBoxies[i].setAttribute('name', "ExtraServices[" + i + "].Id")
+        }
+
+    })
+
+
+
+
 </script>
 
 

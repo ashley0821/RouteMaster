@@ -18,6 +18,7 @@ namespace RouteMaster.Models.Infra.Extensions
 				Id = dto.Id,
 				OrderId = dto.OrderId,
 				ExtraServiceId = dto.ExtraServiceId,
+				ExtraServiceName = dto.ExtraServiceName,
 				Price = dto.Price,
 				Quantity = dto.Quantity,
 
@@ -30,6 +31,7 @@ namespace RouteMaster.Models.Infra.Extensions
 				Id = vm.Id,
 				OrderId = vm.OrderId,
 				ExtraServiceId = vm.ExtraServiceId,
+				ExtraServiceName = vm.ExtraServiceName,
 				Price = vm.Price,
 				Quantity = vm.Quantity,
 			};
@@ -41,6 +43,7 @@ namespace RouteMaster.Models.Infra.Extensions
 				Id = dto.Id,
 				OrderId = dto.OrderId,
 				ExtraServiceId = dto.ExtraServiceId,
+				ExtraServiceName = dto.ExtraServiceName,
 				Price = dto.Price,
 				Quantity = dto.Quantity,
 
@@ -53,6 +56,7 @@ namespace RouteMaster.Models.Infra.Extensions
 				Id = entity.Id,
 				OrderId = entity.OrderId,
 				ExtraServiceId = entity.ExtraServiceId,
+				ExtraServiceName= entity.ExtraServiceName,
 				Price = entity.Price,
 				Quantity = entity.Quantity,
 
@@ -65,6 +69,7 @@ namespace RouteMaster.Models.Infra.Extensions
 				Id = entity.Id,
 				OrderId = entity.OrderId,
 				ExtraServiceId = entity.ExtraServiceId,
+				ExtraServiceName=entity.ExtraServiceName,
 				Price = entity.Price,
 				Quantity = entity.Quantity,
 			};
