@@ -15,8 +15,7 @@
 
 @section Styles{
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
-    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
+
 
     <style>
         thead {
@@ -26,9 +25,7 @@
     </style>
 }
 
-<p>
-    @Html.ActionLink("新增活動", "Create")
-</p>
+<button class="btn btn-outline-secondary" onclick="location.href='@Url.Action("Create")'">新增活動</button>
 
 <h2>活動一覽</h2>
 
@@ -139,10 +136,10 @@
                 @Html.DisplayNameFor(model => model.EndTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.DescriptionText)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                @Html.DisplayNameFor(model => model.StatusText)
             </th>
             <th></th>
         </tr>
@@ -151,17 +148,17 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
+            <tr >
+                <td style="width:80px">
                     @Html.DisplayFor(modelItem => item.ActivityCategoryName)
                 </td>
-                <td>
+                <td  style="width:120px">
                     @Html.DisplayFor(modelItem => item.AttractionName)
                 </td>
-                <td>
+                <td  style="width:120px">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td>
+                <td  style="width:80px">
                     @Html.DisplayFor(modelItem => item.RegionName)
                 </td>
                 <td>
@@ -173,20 +170,16 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.EndTime)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                <td >
+                    @Html.DisplayFor(modelItem => item.DescriptionText)
+                </td>
+                <td style="width:80px">
+                    @Html.DisplayFor(modelItem => item.StatusText)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-
-                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-primary">Edit</button>
-                    
-                    <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-primary">Details</button>
-                    
-                    <button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.Id })'" class="btn btn-danger">Delete</button>
-
+                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-primary m-2">編輯</button>                    
+                    <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-primary m-2">檢視詳細資料</button>                    
+                    @*<button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.Id })'" class="btn btn-danger">刪除</button>*@
                 </td>
             </tr>
         }
@@ -198,10 +191,6 @@
 @section Scripts{
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
-
 
 
     <script>
@@ -211,9 +200,14 @@
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
             responsive: true,
-            searching: false,
-            sorting: false
-            
+            searching: true,        
+      
+
+            columnDefs: [
+                { targets: [4, 5, 6], orderable: true }, 
+                { targets: '_all', orderable: false }, 
+                { targets: [0,1,3,4,5,6,8], searchable: false }
+            ]            
         });
     </script>
 

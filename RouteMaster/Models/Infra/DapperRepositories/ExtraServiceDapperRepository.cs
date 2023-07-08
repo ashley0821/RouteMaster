@@ -89,12 +89,12 @@ WHERE Id=@Id" ;
 			}
 		}
 
-		public bool ExistExtraService(string name, int attractionId)
+		public bool ExistExtraService(string name, int attractionId,int id)
 		{
 			using(var conn =new SqlConnection(_connstr))
 			{
-				string sql = " select count(*) as [count] from ExtraServices WHERE [Name]=@name and AttractionId=@attractionId";
-                var parameters = new { name, attractionId };
+				string sql = " select count(*) as [count] from ExtraServices WHERE [Name]=@name and AttractionId=@attractionId and Id!=@id";
+                var parameters = new { name, attractionId,id };
                 var result = conn.QueryFirstOrDefault<int>(sql, parameters);
 				bool exists = result > 0;
                 return exists;
@@ -102,15 +102,36 @@ WHERE Id=@Id" ;
             
 		}
 
-		public  ExtraServiceEditDto GetExtraServiceById(int id)
+
+        public bool ExistExtraServiceCreate(string name, int attractionId)
+		{
+            using (var conn = new SqlConnection(_connstr))
+            {
+                string sql = " select count(*) as [count] from ExtraServices WHERE [Name]=@name and AttractionId=@attractionId ";
+                var parameters = new { name, attractionId};
+                var result = conn.QueryFirstOrDefault<int>(sql, parameters);
+                bool exists = result > 0;
+                return exists;
+            }
+        }
+
+
+
+        public  ExtraServiceEditDto GetExtraServiceById(int id)
 		{
 			using (var conn = new SqlConnection(_connstr))
 			{
 
-				string sql = @"select[Id], [Name], [AttractionId], 
-[Price], [Description] ,[Status] 
-from ExtraServices  WHERE Id=@id";
-				return conn.QuerySingleOrDefault<ExtraServiceEditDto>(sql,new { id });
+
+
+
+				string sql = @"select E.[Id],E.[Name],E.[AttractionId],A.[Name] as AttractionName, 
+E.[Price], E.[Description] ,[Status] 
+from ExtraServices AS E
+JOIN Attractions AS A
+ON E.AttractionId=A.Id where E.[Id]=@id ";
+
+                return conn.QuerySingleOrDefault<ExtraServiceEditDto>(sql,new { id });
 			}
 		}
 	}

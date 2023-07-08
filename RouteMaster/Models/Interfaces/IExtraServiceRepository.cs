@@ -15,9 +15,10 @@ namespace RouteMaster.Models.Interfaces
 
 		void Create(ExtraServiceCreateDto dto);
 
-		bool ExistExtraService(string name, int attractionId);	
+		bool ExistExtraService(string name, int attractionId,int id);
+        bool ExistExtraServiceCreate(string name, int attractionId);
 
-		void Edit(ExtraServiceEditDto dto);
+        void Edit(ExtraServiceEditDto dto);
 		
 		void Delete(int id);	
 
