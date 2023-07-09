@@ -39,25 +39,24 @@ namespace RouteMaster.Controllers
     {
         private readonly AppDbContext db = new AppDbContext();
         
-        // 還沒做
+        // 前台介面 不打算用
         public ActionResult Index()
         {
 			var accommodations = db.Accommodations.Include(a => a.Partner).Include(a => a.Region).Include(a => a.Town);
             return View(accommodations.ToList());
         }
         
-        // 合夥人的住宿列表
+        // 住宿列表
         public ActionResult MyAccommodationIndex()
         {
-            IdentityDto identity = GetPartnerEmailAndId();
+            IdentityDto identity = GetPartnerIdAndPermission();
 			// 取得 HTTP 請求中的 Cookie 集合
-			if( !string.IsNullOrEmpty(identity.Email) && !string.IsNullOrEmpty(identity.Permission))
+			if( (identity.Id) != 0 && !string.IsNullOrEmpty(identity.Permission))
             {
 				IEnumerable<AccommodationIndexVM> accommodations;
 				if (identity.Permission == "住所夥伴")
 				{
-					int id = db.Partners.FirstOrDefault(p => p.Email == identity.Email).Id;
-					 accommodations = GetAccommodations(id)
+					 accommodations = GetAccommodations(identity.Id)
 					.OrderBy(a => a.Name.Contains("(已下架)"))
 					.ThenByDescending(a=>a.Id);
             
@@ -72,47 +71,30 @@ namespace RouteMaster.Controllers
             
 					return View(accommodations);
 				}
-
             }
-
             return RedirectToAction("PartnerLogin", "Partners");
-        }
-
-
-		// 還沒做
-		public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Accommodation accommodation = db.Accommodations.Find(id);
-            if (accommodation == null)
-            {
-                return HttpNotFound();
-            }
-
-
-            return View(accommodation.ToVM());
         }
 
         // 新增住宿
         public ActionResult Create()
         {
-            //ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName");
-            
-            PrepareRegionAndTownSelectList();
+            IdentityDto identity = GetPartnerIdAndPermission();
+			if (identity.Permission != "管理員" || identity.Permission != "住所夥伴")
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			//ViewBag.PartnerId = new SelectList(db.Partners, "Id", "FirstName");
+
+			PrepareRegionAndTownSelectList();
             return View();
         }
-
-		
 
 		[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(AccommodationCreateVM vm)
         {
+
             ViewBag.RegionId = new SelectList(db.Regions, "Id", "Name", vm.RegionId);
-                
             ViewBag.TownId = new SelectList(db.Towns, "Id", "Name", vm.TownId);
             if (!ModelState.IsValid) return View(vm);
 
@@ -133,6 +115,24 @@ namespace RouteMaster.Controllers
             //return View(vm);
         }
 
+		// 住所細節
+		public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            IdentityDto identity = GetPartnerIdAndPermission();
+            Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
+            if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員"))
+            {
+                return HttpNotFound();
+            }
+
+
+            return View(accommodation.ToVM());
+        }
+
 		// 編輯住宿資訊
 		public ActionResult Edit(int? id)
         {
@@ -141,19 +141,19 @@ namespace RouteMaster.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-			//var model = GetMemberProfile(currentUserAccount);
-			AccommodationEditVM model = GetAccommodationProfile(id);
+            IdentityDto identity = GetPartnerIdAndPermission();
 
-			//Accommodation accommodation = db.Accommodations.Find(id);
-            if (model == null)
+			AccommodationEditVM vm = GetAccommodationProfile(id);
+
+            if (vm == null || (vm.PartnerId != identity.Id && identity.Permission != "管理員"))
             {
                 return HttpNotFound();
             }
 
-            ViewBag.RegionId = new SelectList(db.Regions.OrderBy(r=>r.Id), "Id", "Name", model.RegionId);
-            ViewBag.TownId = new SelectList(db.Towns.Where(t=>t.RegionId == model.RegionId), "Id", "Name", model.TownId);
+            ViewBag.RegionId = new SelectList(db.Regions.OrderBy(r=>r.Id), "Id", "Name", vm.RegionId);
+            ViewBag.TownId = new SelectList(db.Towns.Where(t=>t.RegionId == vm.RegionId), "Id", "Name", vm.TownId);
 
-            return View(model);
+            return View(vm);
         }
 
 		[HttpPost]
@@ -181,8 +181,20 @@ namespace RouteMaster.Controllers
 
         public ActionResult RoomsIndex(int id)
         {
-            var rooms = db.Rooms.Where(r => r.AccommodationId == id).Include(a => a.RoomImages);
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
 
+			IdentityDto identity = GetPartnerIdAndPermission();
+			int? partnerId = db.Accommodations.FirstOrDefault(a => a.Id == id)?.PartnerId;
+
+			if (partnerId == null || (partnerId != identity.Id && identity.Permission != "管理員"))
+			{
+				return HttpNotFound();
+			}
+
+			var rooms = db.Rooms.Where(r => r.AccommodationId == id).Include(a => a.RoomImages);
             ViewBag.Id = id;
             return View(rooms.ToList().Select(r => r.ToVM()));
         }
@@ -195,18 +207,20 @@ namespace RouteMaster.Controllers
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			AccommodationEditVM model = GetAccommodationProfile(id);
+            IdentityDto identity = GetPartnerIdAndPermission();
+			Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
 
-			if (model == null)
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員"))
 			{
 				return HttpNotFound();
 			}
 
-            RoomCreateVM vm = new RoomCreateVM
-            {
-                AccommodationId = model.Id
-            };
-            ViewBag.AccommodationId = model.Id;
+			RoomCreateVM vm = new RoomCreateVM
+			{
+				AccommodationId = accommodation.Id
+			};
+
+			ViewBag.AccommodationId = accommodation.Id;
             PrepareRoomTypeViewBag();
             
 			return View(vm);
@@ -248,11 +262,11 @@ namespace RouteMaster.Controllers
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			//var model = GetMemberProfile(currentUserAccount);
+            IdentityDto identity = GetPartnerIdAndPermission();
 			RoomEditVM vm = GetRoomProfile(id);
 
-			//Accommodation accommodation = db.Accommodations.Find(id);
-			if (vm == null)
+			int? partnerId = db.Accommodations.FirstOrDefault(a => a.Id == vm.AccommodationId)?.PartnerId;
+			if (vm == null || partnerId == null ||(partnerId != identity.Id && identity.Permission != "管理員"))
 			{
 				return HttpNotFound();
 			}
@@ -290,6 +304,14 @@ namespace RouteMaster.Controllers
 			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+            IdentityDto identity = GetPartnerIdAndPermission();
+			Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
+
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員"))
+			{
+				return HttpNotFound();
 			}
 
 			ServiceInfoVM vm = new ServiceInfoVM
@@ -348,7 +370,11 @@ namespace RouteMaster.Controllers
      
         public void DeleteConfirmed(int id)
         {
-            Accommodation accommodation = db.Accommodations.Find(id);
+            Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
+			IdentityDto identity = GetPartnerIdAndPermission();
+
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員")) return;
+
 			accommodation.Name += "(已下架)";
             //var ais = accommodation.AccommodationImages;
             //var rs = accommodation.Rooms;
@@ -396,17 +422,14 @@ namespace RouteMaster.Controllers
      
         public void Publish(int id)
         {
-            Accommodation accommodation = db.Accommodations.Find(id);
+            Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
+			IdentityDto identity = GetPartnerIdAndPermission();
+
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員")) return;
 			accommodation.Name = accommodation.Name.Replace("(已下架)","");
             db.SaveChanges();
         }
 
-		private void DeleteUploadFile(string file1)
-		{
-			string path = Server.MapPath("~/Uploads");
-			string fullName = Path.Combine(path, file1);
-			System.IO.File.Delete(fullName);
-		}
 
 		[HttpPost]
      
@@ -414,7 +437,11 @@ namespace RouteMaster.Controllers
         {
             Room room = db.Rooms.Find(id);
 
-            foreach(var ri in room.RoomImages.ToList())
+			IdentityDto identity = GetPartnerIdAndPermission();
+			int? partnerId = db.Accommodations.FirstOrDefault(a => a.Id == room.AccommodationId)?.PartnerId;
+			if (room == null || (partnerId != identity.Id && identity.Permission != "管理員")) return;
+
+			foreach (var ri in room.RoomImages.ToList())
             {
                DeleteUploadFile(ri.Image);
                db.RoomImages.Remove(ri);
@@ -422,10 +449,15 @@ namespace RouteMaster.Controllers
 
             db.Rooms.Remove(room);
             db.SaveChanges();
-
         }
 
 
+		private void DeleteUploadFile(string file1)
+		{
+			string path = Server.MapPath("~/Uploads");
+			string fullName = Path.Combine(path, file1);
+			System.IO.File.Delete(fullName);
+		}
 
 
 
@@ -582,6 +614,7 @@ namespace RouteMaster.Controllers
         public void EditImgName(string imgPath, string imgName)
         {
             AccommodationImage ai = db.AccommodationImages.FirstOrDefault(a=>a.Image ==imgPath);
+			if (ai == null) return;
             ai.Name = imgName;
 
             db.SaveChanges();
@@ -606,7 +639,7 @@ namespace RouteMaster.Controllers
 			db.SaveChanges();
 
         }
-		private IdentityDto GetPartnerEmailAndId()
+		private IdentityDto GetPartnerIdAndPermission()
 		{
 			HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
 
@@ -622,12 +655,12 @@ namespace RouteMaster.Controllers
 					// 取得票據中的使用者資料
 					string email = ticket.Name;
 					string permission = ticket.UserData;
+					int? id = db.Partners.FirstOrDefault(p => p.Email == email).Id;
 
-
-					return new IdentityDto(email, permission);
+					return new IdentityDto(id == null ? 0 : (int)id, permission);
 				}
 			}
-			return new IdentityDto(null, null);
+			return new IdentityDto(0, null);
 		}
 
 		#endregion

@@ -31,7 +31,9 @@ namespace RouteMaster.Controllers
     //[CustomAuthorize("管理者")]
     public class MembersController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        
+        
+        private readonly AppDbContext db = new AppDbContext();
 
         // GET: Members/Details/5
         public ActionResult Details(int? id)
@@ -362,11 +364,11 @@ namespace RouteMaster.Controllers
 
             const bool rememberMe = false;
 
-            (string returnUrl, HttpCookie cookie) processResult = ProcessLogin(vm.Account, rememberMe);
+            (string returnUrl, HttpCookie cookie) = ProcessLogin(vm.Account, rememberMe);
 
-            Response.Cookies.Add(processResult.cookie);
+            Response.Cookies.Add(cookie);
 
-            return Redirect(processResult.returnUrl);
+            return Redirect(returnUrl);
         }
 
         private int GetLoginAttempts()
