@@ -12,7 +12,7 @@ namespace RouteMaster.Controllers
 {
     public class AttractionTagsController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        private readonly AppDbContext db = new AppDbContext();
 
         // GET: AttractionTags
         public ActionResult Index()
@@ -102,8 +102,8 @@ namespace RouteMaster.Controllers
 				db.AttractionTags.Remove(attractionTag);
 				db.SaveChanges();
 				return RedirectToAction("Index");
-			}catch (Exception ex)
-            {
+			}catch (Exception)
+			{
 				AttractionTag attractionTag = db.AttractionTags.Find(id);
                 ModelState.AddModelError(string.Empty, "無法刪除");
 				return View(attractionTag);

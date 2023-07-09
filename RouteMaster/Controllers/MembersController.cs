@@ -29,7 +29,7 @@ namespace RouteMaster.Controllers
     {
         
         
-        private AppDbContext db = new AppDbContext();
+        private readonly AppDbContext db = new AppDbContext();
 
 
 
@@ -364,11 +364,11 @@ namespace RouteMaster.Controllers
 
             const bool rememberMe = false;
 
-            (string returnUrl, HttpCookie cookie) processResult = ProcessLogin(vm.Account, rememberMe);
+            (string returnUrl, HttpCookie cookie) = ProcessLogin(vm.Account, rememberMe);
 
-            Response.Cookies.Add(processResult.cookie);
+            Response.Cookies.Add(cookie);
 
-            return Redirect(processResult.returnUrl);
+            return Redirect(returnUrl);
         }
 
 

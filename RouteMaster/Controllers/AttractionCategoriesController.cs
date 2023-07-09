@@ -13,7 +13,7 @@ namespace RouteMaster.Controllers
 {
     public class AttractionCategoriesController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        private readonly AppDbContext db = new AppDbContext();
 
         // GET: AttractionCategories
         public ActionResult Index()
@@ -95,15 +95,15 @@ namespace RouteMaster.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
+			try
+			{
 				AttractionCategory attractionCategory = db.AttractionCategories.Find(id);
 				db.AttractionCategories.Remove(attractionCategory);
 				db.SaveChanges();
 
 				return RedirectToAction("Index");
-			}catch (Exception ex)
-            {
+			}catch (Exception)
+			{
 				AttractionCategory attractionCategory = db.AttractionCategories.Find(id);
 				ModelState.AddModelError(string.Empty, "無法刪除");
                 return View(attractionCategory);
