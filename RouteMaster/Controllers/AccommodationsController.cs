@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Antlr.Runtime;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json.Linq;
@@ -27,8 +28,8 @@ using static RouteMaster.Filter.PartnerAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-    [PartnerAuthenticationFilter]
-    [PartnerAuthorizeAttribute]
+    //[PartnerAuthenticationFilter]
+    //[PartnerAuthorizeAttribute]
 
     public class AccommodationsController : Controller
     {
@@ -42,17 +43,51 @@ namespace RouteMaster.Controllers
         }
         
         // 合夥人的住宿列表
-        public ActionResult MyAccommodationIndex(int? id)
+        public ActionResult MyAccommodationIndex()
         {
-			IEnumerable<AccommodationIndexVM> accommodations = GetAccommodations(id);
+            var profile = GetPartnerEmailAndId();
+			// 取得 HTTP 請求中的 Cookie 集合
+			if( !string.IsNullOrEmpty(profile.Item1) && profile.Item2 != 0)
+            {
+			    IEnumerable<AccommodationIndexVM> accommodations = GetAccommodations(profile.Item2);
             
-            //var accommodations = db.Accommodations.Include(a => a.Partner).Include(a => a.Region).Include(a => a.Town);
+                //var accommodations = db.Accommodations.Include(a => a.Partner).Include(a => a.Region).Include(a => a.Town);
 
-            return View(accommodations);//.ToList());
+                return View(accommodations);//.ToList());
+            }
+
+            return RedirectToAction("PartnerLogin", "Partners");
         }
 
-        // 還沒做
-        public ActionResult Details(int? id)
+		private (string, int) GetPartnerEmailAndId()
+		{
+			HttpCookieCollection cookies = Request.Cookies;
+
+			// 檢查是否存在特定名稱的 Cookie
+			if (cookies[FormsAuthentication.FormsCookieName] != null)
+			{
+				// 從 Cookie 中取得票據的值
+				string encryptedTicket = cookies[FormsAuthentication.FormsCookieName].Value;
+
+				// 解密票據
+				var ticket = FormsAuthentication.Decrypt(encryptedTicket);
+
+				// 檢查票據是否成功解密
+				if (ticket != null && ticket.Expired == false)
+				{
+					// 取得票據中的使用者資料
+					string email = ticket.Name;
+					int id = int.Parse(ticket.UserData);
+
+                    return (email, id);
+				}
+                return (null, 0);
+			}
+            return(null, 0);
+		}
+
+		// 還沒做
+		public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -321,38 +356,65 @@ namespace RouteMaster.Controllers
         public void DeleteConfirmed(int id)
         {
             Accommodation accommodation = db.Accommodations.Find(id);
-            foreach(var ai in accommodation.AccommodationImages.ToList())
+            var ais = accommodation.AccommodationImages;
+            var rs = accommodation.Rooms;
+            var ss = accommodation.ServiceInfos;
+
+			if (ais != null || ais.Count() != 0)
             {
-               db.AccommodationImages.Remove(ai);
+                foreach(var ai in ais.ToList())
+                {
+                   DeleteUploadFile(ai.Image);
+                   db.AccommodationImages.Remove(ai);
+                }
             }
 
-			foreach (var r in accommodation.Rooms.ToList())
-			{
-				foreach (var ri in r.RoomImages.ToList())
-				{
-					db.RoomImages.Remove(ri);
-				}
-			}
 
-			foreach (var r in accommodation.Rooms.ToList())
+			if (rs != null || rs.Count() != 0)
             {
-               db.Rooms.Remove(r);
+			    foreach (var r in rs.ToList())
+			    {
+                    var ris = r.RoomImages;
+					if (ris != null || ris.Count() != 0)
+                    {
+				        foreach (var ri in r.RoomImages.ToList())
+				        {
+                            DeleteUploadFile(ri.Image);
+					        db.RoomImages.Remove(ri);
+				        }
+                    }
+                   db.Rooms.Remove(r);
+			    }
             }
-            
+            if(ss!= null || ss.Count() != 0)
+            {
+                foreach(var s in ss.ToList())
+                {
+					accommodation.ServiceInfos.Remove(s);
+                }
+            }
             
             db.Accommodations.Remove(accommodation);
             db.SaveChanges();
         }
-        
-        [HttpPost]
+
+		private void DeleteUploadFile(string file1)
+		{
+			string path = Server.MapPath("~/Uploads");
+			string fullName = Path.Combine(path, file1);
+			System.IO.File.Delete(fullName);
+		}
+
+		[HttpPost]
      
         public void DeleteRoom(int id)
         {
             Room room = db.Rooms.Find(id);
 
-            foreach(var r in room.RoomImages.ToList())
+            foreach(var ri in room.RoomImages.ToList())
             {
-               db.RoomImages.Remove(r);
+               DeleteUploadFile(ri.Image);
+               db.RoomImages.Remove(ri);
             }
 
             db.Rooms.Remove(room);
