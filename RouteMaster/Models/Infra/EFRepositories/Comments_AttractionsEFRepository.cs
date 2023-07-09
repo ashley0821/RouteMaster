@@ -58,6 +58,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		public Comments_AttractionsDetailDto Detail(int? id)
 		{
 			var commAttrDb= _db.Comments_Attractions
+				.Include(c => c.Member)
 				.Include(c => c.Attraction)
 				 .FirstOrDefault(c => c.Id == id);
 
@@ -69,6 +70,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			Comments_AttractionsDetailDto dto = new Comments_AttractionsDetailDto
 			{
 				Id =(int)id,
+				MemberAccount = commAttrDb.Member.Account,
 				AttractioName = commAttrDb.Attraction.Name,
 				Content = commAttrDb.Content,
 				Score = commAttrDb.Score,
