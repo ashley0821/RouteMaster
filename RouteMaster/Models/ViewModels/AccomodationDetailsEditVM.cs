@@ -34,7 +34,8 @@ namespace RouteMaster.Models.ViewModels
 		[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
 		public DateTime CheckOut { get; set; }
 		[Display(Name = "價格")]
-		[DisplayFormat(DataFormatString = "${0:#,#}")]
+		[DataType(DataType.Currency)]
+		[DisplayFormat(DataFormatString = "{0:C}")]
 		public int RoomPrice { get; set; }
 
 		

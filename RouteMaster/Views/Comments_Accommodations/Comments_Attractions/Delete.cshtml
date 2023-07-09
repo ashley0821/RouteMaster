@@ -1,0 +1,80 @@
+﻿@model RouteMaster.Models.EFModels.Comments_Attractions
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>刪除評論</h2>
+
+<h3>確定要刪除此筆評論?</h3>
+<div>
+    
+   
+    <dl class="row">
+        <dt>
+           景點名稱
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attraction.Name)
+        </dd>
+
+        <dt>
+           用戶帳號
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.FirstName)
+        </dd>
+
+        <dt>
+           分數
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Score)
+        </dd>
+
+        <dt>
+            評論內文
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+        <dt>
+           停留時間
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StayHours)
+        </dd>
+
+        <dt>
+           花費
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+           建立時間
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <input type="submit" value="刪除" class="btn btn-danger me-3" /> 
+    @Html.ActionLink("返回清單頁", "Index", new { id = "" }, new { @class = "btn btn-outline-dark" })
+</div>
+    }
+</div>

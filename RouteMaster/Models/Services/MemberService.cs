@@ -49,21 +49,16 @@ namespace RouteMaster.Models.Services
 			// 新增一筆記錄
 			_repo.Register(dto);
 
-   //         // todo 寄發 email
-   //         EmailHelper emailHelper = new EmailHelper();
-
-			//var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-			//var url = urlHelper.Action("ActiveRegister", "Members", new { Id = dto.Id, confirmCode = dto.ConfirmCode }, HttpContext.Current.Request.Url.Scheme);
-
-			////var url = "https://localhost:44371/Members/ActiveRegister";
+			//todo 寄發 email
+			//EmailHelper emailHelper = new EmailHelper();
+			//var url = "https://localhost:44371/Members/ActiveRegister?Id&ConfirmCode";
 			//var name = dto.Account;
 			//var email = dto.Email;
+			//var Id = dto.Id;
+			//var ConfirmCode = dto.ConfirmCode;
+			//emailHelper.SendConfirmRegisterEmail(url, name, email, Id, ConfirmCode);
 
-
-			//emailHelper.SendConfirmRegisterEmail(url, name, email);
-
-
-            return Result.Success();
+			return Result.Success();
         }
 	}
 }

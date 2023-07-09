@@ -14,7 +14,7 @@ namespace RouteMaster.Models.ViewModels
 
 		//public int ActivityCategoryId { get; set; }  
 
-		[Display(Name = "活動分類")]
+		[Display(Name = "分類")]
 		public string ActivityCategoryName { get; set; }
 
 		//public int AttractionId { get; set; }
@@ -25,7 +25,7 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "活動名稱")]
 		public string Name { get; set; }
 
-		[Display(Name = "所在縣市")]
+		[Display(Name = "縣市")]
 		//public int RegionId { get; set; }
 		public string RegionName { get; set; }
 
@@ -44,7 +44,7 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "活動內容介紹")]
 		public string Description { get; set; }
 
-		[Display(Name = "活動內容介紹")]
+		[Display(Name = "活動簡介")]
 		public string DescriptionText
 		{
 			get
@@ -61,7 +61,7 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "上架狀態")]
 		public bool Status { get; set; }
 
-		[Display(Name = "上架狀態")]
+		[Display(Name = "狀態")]
 		public string StatusText
 		{
 			get
