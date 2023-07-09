@@ -13,6 +13,7 @@ using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json.Linq;
 using RouteMaster.Filter;
 using RouteMaster.Models.Dto;
+using RouteMaster.Models.Dto.Accommodation;
 using RouteMaster.Models.Dto.Accommodation.Service;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
@@ -24,12 +25,17 @@ using RouteMaster.Models.ViewModels;
 using RouteMaster.Models.ViewModels.Accommodations;
 using RouteMaster.Models.ViewModels.Accommodations.Room;
 using static System.Net.Mime.MediaTypeNames;
+using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 using static RouteMaster.Filter.PartnerAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-    [PartnerAuthenticationFilter]
-    [PartnerAuthorizeAttribute]
+
+	[AdministratorAuthenticationFilter]
+	[CustomAuthorize("總管理員", "住所管理員")]
+    //[PartnerAuthenticationFilter]
+    //[PartnerAuthorize]
+
 
     public class AccommodationsController : Controller
     {
@@ -45,46 +51,35 @@ namespace RouteMaster.Controllers
         // 合夥人的住宿列表
         public ActionResult MyAccommodationIndex()
         {
-            var profile = GetPartnerEmailAndId();
+            IdentityDto identity = GetPartnerEmailAndId();
 			// 取得 HTTP 請求中的 Cookie 集合
-			if( !string.IsNullOrEmpty(profile.Item1) && profile.Item2 != 0)
+			if( !string.IsNullOrEmpty(identity.Email) && !string.IsNullOrEmpty(identity.Permission))
             {
-			    IEnumerable<AccommodationIndexVM> accommodations = GetAccommodations(profile.Item2);
+				IEnumerable<AccommodationIndexVM> accommodations;
+				if (identity.Permission == "住所夥伴")
+				{
+					int id = db.Partners.FirstOrDefault(p => p.Email == identity.Email).Id;
+					 accommodations = GetAccommodations(id)
+					.OrderBy(a => a.Name.Contains("(已下架)"))
+					.ThenByDescending(a=>a.Id);
             
-                //var accommodations = db.Accommodations.Include(a => a.Partner).Include(a => a.Region).Include(a => a.Town);
+					return View(accommodations);//.ToList());
+				}
 
-                return View(accommodations);//.ToList());
+				if (identity.Permission == "管理員")
+				{
+					 accommodations = GetAccommodations(null)
+					.OrderBy(a => a.Name.Contains("(已下架)"))
+					.ThenByDescending(a=>a.Id);
+            
+					return View(accommodations);
+				}
+
             }
 
             return RedirectToAction("PartnerLogin", "Partners");
         }
 
-		private (string, int) GetPartnerEmailAndId()
-		{
-			HttpCookieCollection cookies = Request.Cookies;
-
-			// 檢查是否存在特定名稱的 Cookie
-			if (cookies[FormsAuthentication.FormsCookieName] != null)
-			{
-				// 從 Cookie 中取得票據的值
-				string encryptedTicket = cookies[FormsAuthentication.FormsCookieName].Value;
-
-				// 解密票據
-				var ticket = FormsAuthentication.Decrypt(encryptedTicket);
-
-				// 檢查票據是否成功解密
-				if (ticket != null && ticket.Expired == false)
-				{
-					// 取得票據中的使用者資料
-					string email = ticket.Name;
-					int id = int.Parse(ticket.UserData);
-
-                    return (email, id);
-				}
-                return (null, 0);
-			}
-            return(null, 0);
-		}
 
 		// 還沒做
 		public ActionResult Details(int? id)
@@ -356,45 +351,55 @@ namespace RouteMaster.Controllers
         public void DeleteConfirmed(int id)
         {
             Accommodation accommodation = db.Accommodations.Find(id);
-            var ais = accommodation.AccommodationImages;
-            var rs = accommodation.Rooms;
-            var ss = accommodation.ServiceInfos;
+			accommodation.Name += "(已下架)";
+            //var ais = accommodation.AccommodationImages;
+            //var rs = accommodation.Rooms;
+            //var ss = accommodation.ServiceInfos;
 
-			if (ais != null || ais.Count() != 0)
-            {
-                foreach(var ai in ais.ToList())
-                {
-                   DeleteUploadFile(ai.Image);
-                   db.AccommodationImages.Remove(ai);
-                }
-            }
+			//if (ais != null || ais.Count() != 0)
+   //         {
+   //             foreach(var ai in ais.ToList())
+   //             {
+   //                DeleteUploadFile(ai.Image);
+   //                db.AccommodationImages.Remove(ai);
+   //             }
+   //         }
 
 
-			if (rs != null || rs.Count() != 0)
-            {
-			    foreach (var r in rs.ToList())
-			    {
-                    var ris = r.RoomImages;
-					if (ris != null || ris.Count() != 0)
-                    {
-				        foreach (var ri in r.RoomImages.ToList())
-				        {
-                            DeleteUploadFile(ri.Image);
-					        db.RoomImages.Remove(ri);
-				        }
-                    }
-                   db.Rooms.Remove(r);
-			    }
-            }
-            if(ss!= null || ss.Count() != 0)
-            {
-                foreach(var s in ss.ToList())
-                {
-					accommodation.ServiceInfos.Remove(s);
-                }
-            }
+			//if (rs != null || rs.Count() != 0)
+   //         {
+			//    foreach (var r in rs.ToList())
+			//    {
+   //                 var ris = r.RoomImages;
+			//		if (ris != null || ris.Count() != 0)
+   //                 {
+			//	        foreach (var ri in r.RoomImages.ToList())
+			//	        {
+   //                         DeleteUploadFile(ri.Image);
+			//		        db.RoomImages.Remove(ri);
+			//	        }
+   //                 }
+   //                db.Rooms.Remove(r);
+			//    }
+   //         }
+   //         if(ss!= null || ss.Count() != 0)
+   //         {
+   //             foreach(var s in ss.ToList())
+   //             {
+			//		accommodation.ServiceInfos.Remove(s);
+   //             }
+   //         }
             
-            db.Accommodations.Remove(accommodation);
+            //db.Accommodations.Remove(accommodation);
+            db.SaveChanges();
+        }
+		
+		[HttpPost]
+     
+        public void Publish(int id)
+        {
+            Accommodation accommodation = db.Accommodations.Find(id);
+			accommodation.Name = accommodation.Name.Replace("(已下架)","");
             db.SaveChanges();
         }
 
@@ -603,6 +608,30 @@ namespace RouteMaster.Controllers
 			db.SaveChanges();
 
         }
+		private IdentityDto GetPartnerEmailAndId()
+		{
+			HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+			// 檢查是否存在特定名稱的 Cookie
+			if (authCookie != null)
+			{
+				// 從 Cookie 中取得票據的值
+				FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+					// 檢查票據是否成功解密
+				if (ticket != null && ticket.Expired == false)
+				{
+					// 取得票據中的使用者資料
+					string email = ticket.Name;
+					string permission = ticket.UserData;
+
+
+					return new IdentityDto(email, permission);
+				}
+			}
+			return new IdentityDto(null, null);
+		}
+
 		#endregion
 
 	}

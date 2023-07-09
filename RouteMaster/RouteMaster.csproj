@@ -172,6 +172,7 @@
     <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\IdentityDto.cs" />
     <Compile Include="Models\Dto\Accommodation\NavDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Room\RoomEditDto.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />
@@ -730,6 +731,9 @@
     <Content Include="Views\AttractionTags\Index.cshtml" />
     <Content Include="Views\Members\ActiveRegister.cshtml" />
     <Content Include="Views\Accommodations\EditRoom.cshtml" />
+
+    <Content Include="Views\PackageTours\_PopupDetailsPartial.cshtml" />
+
     <Content Include="Views\Members\ActiveMember.cshtml" />
     <Content Include="Views\Administrators\ConfirmRegister.cshtml" />
     <Content Include="Views\Administrators\SuspendAdministrator.cshtml" />
@@ -737,6 +741,7 @@
     <Content Include="Views\Members\ConfirmForgetPassword.cshtml" />
     <Content Include="Views\Members\ResetPassword.cshtml" />
     <Content Include="Views\Members\ConfirmResetPassword.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
