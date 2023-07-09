@@ -22,9 +22,13 @@ using Microsoft.SqlServer.Server;
 using System.IO;
 using static System.Net.WebRequestMethods;
 using System.Web.Helpers;
+using RouteMaster.Filter;
+using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
+    //[AdministratorAuthenticationFilter]
+    //[CustomAuthorize("管理者")]
     public class MembersController : Controller
     {
         private AppDbContext db = new AppDbContext();
@@ -252,45 +256,76 @@ namespace RouteMaster.Controllers
             {
                 return HttpNotFound();
             }
-            return View(member);
+
+
+
+			EmailHelper emailHelper = new EmailHelper();
+			var url = "https://localhost:44371/Members/ActiveMember";
+			var name = member.Account;
+			var email = member.Email;
+			var Id = member.Id;
+			var ConfirmCode = member.ConfirmCode;
+			emailHelper.SendConfirmRegisterEmail(url, name, email, Id, ConfirmCode);
+
+
+
+
+
+			return View(member);
         }
 
-        [HttpPost]
-        public ActionResult ActiveRegister(MemberActiveVM vm)
+		//     [HttpPost]
+		//     public ActionResult ActiveRegister(int id,string confirmcode)
+		//     {
+		//         var MemberInDb = db.Members.Find(id);
+		//         if (MemberInDb.ConfirmCode == confirmcode)
+		//         {
+		//             MemberInDb.IsConfirmed = true;
+		//             MemberInDb.ConfirmCode = confirmcode;
+		//	db.SaveChanges();
+		//}
+		//         else
+		//         {
+		//             return RedirectToAction("Index");
+		//         }            
+
+		//         return RedirectToAction("Index");
+		//     }
+
+
+		[HttpGet]
+		public ActionResult ActiveMember(int? memberId, string confirmcode="")
         {
-            var MemberInDb = db.Members.Find(vm.Id);
-            MemberInDb.IsConfirmed = vm.IsConfirmed;
+			var MemberInDb = db.Members.Find(memberId);
+			if (MemberInDb.ConfirmCode == confirmcode)
+			{
+				MemberInDb.IsConfirmed = true;
+				MemberInDb.ConfirmCode = null;
+				db.SaveChanges();
+			}
 
-            db.SaveChanges();
+			else
+			{
+				return RedirectToAction("Index");
+			}
 
-            EmailHelper emailHelper = new EmailHelper();
-            var url = "https://localhost:44371/Members/ActiveRegister?Id&ConfirmCode";
-            var name = vm.Account;
-            var email = vm.Email;
-            var Id = vm.Id;
-            var ConfirmCode = vm.ConfirmCode;
-            emailHelper.SendConfirmRegisterEmail(url, name, email, Id, ConfirmCode);
+			return RedirectToAction("Index");
 
-            return RedirectToAction("Index");
-        }
+			//var db = new AppDbContext();
+			//// 根據memberId找出一筆記錄, 若找不到就return, 若 isConfirmed不是0, 或confirmCode 不符, 就return
+			//// 查詢方式 SELECT * FROM Members WHERE memberid=99 and isConfirmed=0 and confirmCode='xxx'
+			//var memberInDb = db.Members.FirstOrDefault(m => m.Id == memberId && m.IsConfirmed == false && m.ConfirmCode == confirmCode);
+			//if (memberInDb == null) return Result.Success(); // 就算找不到, 也傳回成功, 不要讓惡意使用者得知測試的結果
 
-        private Result ActiveMember(int memberId, string confirmCode)
-        {
-            var db = new AppDbContext();
-            // 根據memberId找出一筆記錄, 若找不到就return, 若 isConfirmed不是0, 或confirmCode 不符, 就return
-            // 查詢方式 SELECT * FROM Members WHERE memberid=99 and isConfirmed=0 and confirmCode='xxx'
-            var memberInDb = db.Members.FirstOrDefault(m => m.Id == memberId && m.IsConfirmed == false && m.ConfirmCode == confirmCode);
-            if (memberInDb == null) return Result.Success(); // 就算找不到, 也傳回成功, 不要讓惡意使用者得知測試的結果
+			//// 啟用會員
+			//// 啟用此會員的方式, UPDATE Members SET isConfirmed=1 , confirmCode=null WHERE id=99
+			//memberInDb.IsConfirmed = true;
+			//memberInDb.ConfirmCode = null;
 
-            // 啟用會員
-            // 啟用此會員的方式, UPDATE Members SET isConfirmed=1 , confirmCode=null WHERE id=99
-            memberInDb.IsConfirmed = true;
-            memberInDb.ConfirmCode = null;
+			//db.SaveChanges();
 
-            db.SaveChanges();
-
-            return Result.Success();
-        }
+			//return Result.Success();
+		}
 
 
 
@@ -334,6 +369,11 @@ namespace RouteMaster.Controllers
             return Redirect(processResult.returnUrl);
         }
 
+        private int GetLoginAttempts()
+        {
+            int loginAttempts = Session["LoginCounts"] != null ? (int)Session["LoginCounts"] : 0;
+            return loginAttempts;
+        }
 
         public ActionResult Logout()
         {
@@ -381,6 +421,17 @@ namespace RouteMaster.Controllers
 
             //if (member.IsConfirmed == false || member.IsConfirmed == false) return Result.Fail("會員資格尚未確認");
 
+
+            //int LoginCounts = GetLoginAttempts();
+            //if (LoginCounts >= 3)
+            //{
+            //    // 如果登录失败次数达到三次，则返回失败结果
+            //    return Result.Fail("失敗多次，稍後在試");
+            //}
+
+            Result result = ValidLogin(vm);
+           
+            
             if (member.IsSuspended == true) return Result.Fail("帳號已被停權，如有問題請聯絡客服");
 
             var salt = HashUtility.GetSalt();
@@ -392,13 +443,13 @@ namespace RouteMaster.Controllers
         }
 
 
-        public ActionResult ForgetPassword()
+        public ActionResult MemberForgetPassword()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult ForgetPassword(MemberForgetPasswordVM vm)
+        public ActionResult MemberForgetPassword(MemberForgetPasswordVM vm)
         {
             if (ModelState.IsValid == false) return View(vm);
 
@@ -406,6 +457,9 @@ namespace RouteMaster.Controllers
             var urlTemplate = Request.Url.Scheme + "://" +  // 生成 http:.// 或 https://
                              Request.Url.Authority + "/" + // 生成網域名稱或 ip
                              "Members/ResetPassword?memberid={0}&confirmCode={1}"; // 生成網頁 url
+
+
+
 
             Result result = ProcessResetPassword(vm.Account, vm.Email, urlTemplate);
 
@@ -418,6 +472,47 @@ namespace RouteMaster.Controllers
             return View("ConfirmForgetPassword");
         }
 
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(MemberResetPasswordVM vm, int memberId, string confirmCode)
+        {
+            if (ModelState.IsValid == false) return View(vm);
+            Result result = ProcessChangePassword(memberId, confirmCode, vm.Password);
+
+            //if (result.IsSuccess == false) { }
+            //if (!result.IsSuccess) { }
+            if (result.IsFalse)
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
+
+            return View("ConfirmResetPassword");
+        }
+
+        private Result ProcessChangePassword(int memberId, string confirmCode, string password)
+        {
+            var db = new AppDbContext();
+
+            // 驗證 memberId, confirmCode是否正確
+            var memberInDb = db.Members.FirstOrDefault(m => m.Id == memberId && m.ConfirmCode == confirmCode);
+            if (memberInDb == null) return Result.Fail("找不到對應的會員記錄");
+
+            // 更新密碼,並將 confirmCode清空
+            var salt = HashUtility.GetSalt();
+            var encryptedPassword = HashUtility.ToSHA256(password, salt);
+
+            memberInDb.EncryptedPassword = encryptedPassword;
+            memberInDb.ConfirmCode = null;
+
+            db.SaveChanges();
+
+            return Result.Success();
+        }
 
         private Result ProcessResetPassword(string account, string email, string urlTemplate)
         {
