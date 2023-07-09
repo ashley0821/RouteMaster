@@ -10,8 +10,11 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Services.Description;
 using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.Expressions;
+using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.ViewModels;
 
 namespace RouteMaster.Controllers
@@ -177,10 +180,49 @@ namespace RouteMaster.Controllers
 		}
 
 
-		public ActionResult Index()
+		public ActionResult Index(PartnerCriteria criteria)
         {
-            return View(db.Partners.ToList());
+            ViewBag.Criteria = criteria;
+
+			var query = db.Partners.AsEnumerable();
+
+
+            if (string.IsNullOrEmpty(criteria.FirstName) == false)
+            {
+                query = query.Where(m => m.FirstName.Contains(criteria.FirstName));
+            }
+            if (string.IsNullOrEmpty(criteria.LastName) == false)
+            {
+                query = query.Where(m => m.LastName.Contains(criteria.LastName));
+            }
+            if (string.IsNullOrEmpty(criteria.Email) == false)
+            {
+                query = query.Where(m => m.Email.Contains(criteria.Email));
+            }
+            if (criteria.CreateDateBegin.HasValue)
+            {
+                query = query.Where(m => m.CreateDate >= criteria.CreateDateBegin.Value);
+            }
+            if (criteria.CreateDateEnd.HasValue)
+            {
+                query = query.Where(m => m.CreateDate <= criteria.CreateDateEnd.Value);
+            }
+
+
+            var Partners = query.Select(m => new PartnerIndexVM
+            {
+                Id = m.Id,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+                Email = m.Email,
+                CreateDate = m.CreateDate,
+                IsConfirmed = m.IsConfirmed,
+                IsSuspended = m.IsSuspended,
+            });
+           
+            return View(query);
         }
+
 
         // GET: Partners/Details/5
         public ActionResult Details(int? id)
@@ -212,6 +254,8 @@ namespace RouteMaster.Controllers
         {
             if (ModelState.IsValid)
             {
+				
+				partner.CreateDate= DateTime.Now;
                 db.Partners.Add(partner);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -276,6 +320,38 @@ namespace RouteMaster.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        public ActionResult SuspendMember(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Partner partner = db.Partners.Find(id);
+
+            if (partner == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult SuspendPartner(PartnerSuspendVM vm)
+        {
+            var PartnerInDb = db.Partners.Find(vm.Id);
+            PartnerInDb.IsSuspended = vm.IsSuspended;
+
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

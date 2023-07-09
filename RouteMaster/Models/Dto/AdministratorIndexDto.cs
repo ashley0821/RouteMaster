@@ -20,5 +20,7 @@ namespace RouteMaster.Models.Dto
 		public string Email { get; set; }
 
 		public DateTime? CreateDate { get; set; }
-	}
+
+        public bool? IsSuspended { get; set; }
+    }
 }

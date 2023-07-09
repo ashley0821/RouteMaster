@@ -39,7 +39,7 @@ namespace RouteMaster.Models.ViewModels
 
 		public string ConfirmCode { get; set; }
 
-		public bool IsSuspended { get; set; }
+		public bool? IsSuspended { get; set; }
 
 		public virtual Permission Permission { get; set; }
 	}
