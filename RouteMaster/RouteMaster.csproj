@@ -172,6 +172,7 @@
     <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\IdentityDto.cs" />
     <Compile Include="Models\Dto\Accommodation\NavDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Room\RoomEditDto.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />

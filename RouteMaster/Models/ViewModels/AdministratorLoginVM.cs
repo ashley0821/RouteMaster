@@ -10,11 +10,11 @@ namespace RouteMaster.Models.ViewModels
     {
         //用信箱當帳號
         [Display(Name ="註冊信箱")]
-        [Required]
+        //[Required]
         public string Email { get; set; }
 
         [Display(Name ="密碼")]
-        [Required]
+        //[Required]
         [DataType(DataType.Password)]
         public string EncryptedPassword { get; set; }
     }
