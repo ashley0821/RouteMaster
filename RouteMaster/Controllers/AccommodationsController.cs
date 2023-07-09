@@ -30,10 +30,12 @@ using static RouteMaster.Filter.PartnerAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
+
 	[AdministratorAuthenticationFilter]
 	[CustomAuthorize("總管理員", "住所管理員")]
     //[PartnerAuthenticationFilter]
     //[PartnerAuthorize]
+
 
     public class AccommodationsController : Controller
     {

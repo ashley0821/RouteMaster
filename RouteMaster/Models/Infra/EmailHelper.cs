@@ -32,9 +32,6 @@ namespace RouteMaster.Models.Infra
 
 			var urlWithParams = $"{url}?memberId={Id}&Confirmcode={Confirmcode}";
 
-
-
-
 			//var body = $@"Hi {name},
 			//<br />
 			//請點擊此連結 <a href='{url}?Id={Id}&Confirmcode={Confirmcode}'>的確是我申請會員</a>，如果您沒有提出申請，請忽略本信，謝謝";
