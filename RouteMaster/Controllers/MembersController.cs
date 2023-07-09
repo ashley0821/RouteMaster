@@ -22,18 +22,16 @@ using Microsoft.SqlServer.Server;
 using System.IO;
 using static System.Net.WebRequestMethods;
 using System.Web.Helpers;
+using RouteMaster.Filter;
+using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
+    //[AdministratorAuthenticationFilter]
+    //[CustomAuthorize("管理者")]
     public class MembersController : Controller
     {
-        
-        
         private AppDbContext db = new AppDbContext();
-
-
-
-
 
         // GET: Members/Details/5
         public ActionResult Details(int? id)
@@ -371,6 +369,11 @@ namespace RouteMaster.Controllers
             return Redirect(processResult.returnUrl);
         }
 
+        private int GetLoginAttempts()
+        {
+            int loginAttempts = Session["LoginCounts"] != null ? (int)Session["LoginCounts"] : 0;
+            return loginAttempts;
+        }
 
         public ActionResult Logout()
         {
@@ -418,6 +421,17 @@ namespace RouteMaster.Controllers
 
             //if (member.IsConfirmed == false || member.IsConfirmed == false) return Result.Fail("會員資格尚未確認");
 
+
+            //int LoginCounts = GetLoginAttempts();
+            //if (LoginCounts >= 3)
+            //{
+            //    // 如果登录失败次数达到三次，则返回失败结果
+            //    return Result.Fail("失敗多次，稍後在試");
+            //}
+
+            Result result = ValidLogin(vm);
+           
+            
             if (member.IsSuspended == true) return Result.Fail("帳號已被停權，如有問題請聯絡客服");
 
             var salt = HashUtility.GetSalt();
@@ -429,13 +443,13 @@ namespace RouteMaster.Controllers
         }
 
 
-        public ActionResult ForgetPassword()
+        public ActionResult MemberForgetPassword()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult ForgetPassword(MemberForgetPasswordVM vm)
+        public ActionResult MemberForgetPassword(MemberForgetPasswordVM vm)
         {
             if (ModelState.IsValid == false) return View(vm);
 
@@ -443,6 +457,9 @@ namespace RouteMaster.Controllers
             var urlTemplate = Request.Url.Scheme + "://" +  // 生成 http:.// 或 https://
                              Request.Url.Authority + "/" + // 生成網域名稱或 ip
                              "Members/ResetPassword?memberid={0}&confirmCode={1}"; // 生成網頁 url
+
+
+
 
             Result result = ProcessResetPassword(vm.Account, vm.Email, urlTemplate);
 
@@ -455,6 +472,47 @@ namespace RouteMaster.Controllers
             return View("ConfirmForgetPassword");
         }
 
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(MemberResetPasswordVM vm, int memberId, string confirmCode)
+        {
+            if (ModelState.IsValid == false) return View(vm);
+            Result result = ProcessChangePassword(memberId, confirmCode, vm.Password);
+
+            //if (result.IsSuccess == false) { }
+            //if (!result.IsSuccess) { }
+            if (result.IsFalse)
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
+
+            return View("ConfirmResetPassword");
+        }
+
+        private Result ProcessChangePassword(int memberId, string confirmCode, string password)
+        {
+            var db = new AppDbContext();
+
+            // 驗證 memberId, confirmCode是否正確
+            var memberInDb = db.Members.FirstOrDefault(m => m.Id == memberId && m.ConfirmCode == confirmCode);
+            if (memberInDb == null) return Result.Fail("找不到對應的會員記錄");
+
+            // 更新密碼,並將 confirmCode清空
+            var salt = HashUtility.GetSalt();
+            var encryptedPassword = HashUtility.ToSHA256(password, salt);
+
+            memberInDb.EncryptedPassword = encryptedPassword;
+            memberInDb.ConfirmCode = null;
+
+            db.SaveChanges();
+
+            return Result.Success();
+        }
 
         private Result ProcessResetPassword(string account, string email, string urlTemplate)
         {
