@@ -27,7 +27,13 @@ namespace RouteMaster.Controllers
 {
     public class MembersController : Controller
     {
+        
+        
         private AppDbContext db = new AppDbContext();
+
+
+
+
 
         // GET: Members/Details/5
         public ActionResult Details(int? id)
@@ -252,45 +258,76 @@ namespace RouteMaster.Controllers
             {
                 return HttpNotFound();
             }
-            return View(member);
+
+
+
+			EmailHelper emailHelper = new EmailHelper();
+			var url = "https://localhost:44371/Members/ActiveMember";
+			var name = member.Account;
+			var email = member.Email;
+			var Id = member.Id;
+			var ConfirmCode = member.ConfirmCode;
+			emailHelper.SendConfirmRegisterEmail(url, name, email, Id, ConfirmCode);
+
+
+
+
+
+			return View(member);
         }
 
-        [HttpPost]
-        public ActionResult ActiveRegister(MemberActiveVM vm)
+		//     [HttpPost]
+		//     public ActionResult ActiveRegister(int id,string confirmcode)
+		//     {
+		//         var MemberInDb = db.Members.Find(id);
+		//         if (MemberInDb.ConfirmCode == confirmcode)
+		//         {
+		//             MemberInDb.IsConfirmed = true;
+		//             MemberInDb.ConfirmCode = confirmcode;
+		//	db.SaveChanges();
+		//}
+		//         else
+		//         {
+		//             return RedirectToAction("Index");
+		//         }            
+
+		//         return RedirectToAction("Index");
+		//     }
+
+
+		[HttpGet]
+		public ActionResult ActiveMember(int? memberId, string confirmcode="")
         {
-            var MemberInDb = db.Members.Find(vm.Id);
-            MemberInDb.IsConfirmed = vm.IsConfirmed;
+			var MemberInDb = db.Members.Find(memberId);
+			if (MemberInDb.ConfirmCode == confirmcode)
+			{
+				MemberInDb.IsConfirmed = true;
+				MemberInDb.ConfirmCode = null;
+				db.SaveChanges();
+			}
 
-            db.SaveChanges();
+			else
+			{
+				return RedirectToAction("Index");
+			}
 
-            EmailHelper emailHelper = new EmailHelper();
-            var url = "https://localhost:44371/Members/ActiveRegister?Id&ConfirmCode";
-            var name = vm.Account;
-            var email = vm.Email;
-            var Id = vm.Id;
-            var ConfirmCode = vm.ConfirmCode;
-            emailHelper.SendConfirmRegisterEmail(url, name, email, Id, ConfirmCode);
+			return RedirectToAction("Index");
 
-            return RedirectToAction("Index");
-        }
+			//var db = new AppDbContext();
+			//// 根據memberId找出一筆記錄, 若找不到就return, 若 isConfirmed不是0, 或confirmCode 不符, 就return
+			//// 查詢方式 SELECT * FROM Members WHERE memberid=99 and isConfirmed=0 and confirmCode='xxx'
+			//var memberInDb = db.Members.FirstOrDefault(m => m.Id == memberId && m.IsConfirmed == false && m.ConfirmCode == confirmCode);
+			//if (memberInDb == null) return Result.Success(); // 就算找不到, 也傳回成功, 不要讓惡意使用者得知測試的結果
 
-        private Result ActiveMember(int memberId, string confirmCode)
-        {
-            var db = new AppDbContext();
-            // 根據memberId找出一筆記錄, 若找不到就return, 若 isConfirmed不是0, 或confirmCode 不符, 就return
-            // 查詢方式 SELECT * FROM Members WHERE memberid=99 and isConfirmed=0 and confirmCode='xxx'
-            var memberInDb = db.Members.FirstOrDefault(m => m.Id == memberId && m.IsConfirmed == false && m.ConfirmCode == confirmCode);
-            if (memberInDb == null) return Result.Success(); // 就算找不到, 也傳回成功, 不要讓惡意使用者得知測試的結果
+			//// 啟用會員
+			//// 啟用此會員的方式, UPDATE Members SET isConfirmed=1 , confirmCode=null WHERE id=99
+			//memberInDb.IsConfirmed = true;
+			//memberInDb.ConfirmCode = null;
 
-            // 啟用會員
-            // 啟用此會員的方式, UPDATE Members SET isConfirmed=1 , confirmCode=null WHERE id=99
-            memberInDb.IsConfirmed = true;
-            memberInDb.ConfirmCode = null;
+			//db.SaveChanges();
 
-            db.SaveChanges();
-
-            return Result.Success();
-        }
+			//return Result.Success();
+		}
 
 
 

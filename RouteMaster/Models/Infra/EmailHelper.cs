@@ -29,9 +29,19 @@ namespace RouteMaster.Models.Infra
 		public void SendConfirmRegisterEmail(string url, string name, string email, int Id, string Confirmcode)
 		{
 			var subject = "[新會員確認信]";
+
+			var urlWithParams = $"{url}?memberId={Id}&Confirmcode={Confirmcode}";
+
+
+
+
+			//var body = $@"Hi {name},
+			//<br />
+			//請點擊此連結 <a href='{url}?Id={Id}&Confirmcode={Confirmcode}'>的確是我申請會員</a>，如果您沒有提出申請，請忽略本信，謝謝";
+
 			var body = $@"Hi {name},
 <br />
-請點擊此連結 <a href='{url}'+{Id}+{Confirmcode}>的確是我申請會員</a>], 如果您沒有提出申請, 請忽略本信, 謝謝";
+請點擊此連結 <a href='{urlWithParams}'>的確是我申請會員</a>，如果您沒有提出申請，請忽略本信，謝謝";
 
 			var from = senderEmail;
 			var to = email;
