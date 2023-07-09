@@ -231,6 +231,14 @@ namespace RouteMaster.Controllers
 
 
 
+        public ActionResult PopupDetails(int id)
+        {
+            var model = db.PackageTours.Find(id).ToIndexDto().ToIndexVM();
+            return this.PartialView("_PopupDetailsPartial", model);            
+        }
+
+
+
         public PartialViewResult ActivitiesList(ActivityIndexCriteria actCriteria)
         {       
             ViewBag.ActCriteria = actCriteria;

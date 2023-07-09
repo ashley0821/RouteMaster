@@ -1,4 +1,12 @@
-﻿using System;
+﻿using RouteMaster.Models;
+using RouteMaster.Models.EFModels;
+using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Criterias;
+using RouteMaster.Models.Infra.EFRepositories;
+using RouteMaster.Models.Interfaces;
+using RouteMaster.Models.Services;
+using RouteMaster.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,14 +15,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using RouteMaster.Models;
-using RouteMaster.Models.EFModels;
-using RouteMaster.Models.Infra;
-using RouteMaster.Models.Infra.Criterias;
-using RouteMaster.Models.Infra.EFRepositories;
-using RouteMaster.Models.Interfaces;
-using RouteMaster.Models.Services;
-using RouteMaster.Models.ViewModels;
 
 namespace RouteMaster.Controllers
 {
@@ -60,6 +60,12 @@ namespace RouteMaster.Controllers
         {
             if (ModelState.IsValid)
             {
+                
+                // 將密碼進行雜湊
+                var salt = HashUtility.GetSalt();
+                var hashPassword = HashUtility.ToSHA256(administrator.EncryptedPassword, salt);
+                administrator.EncryptedPassword = hashPassword;
+
                 db.Administrators.Add(administrator);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -167,7 +173,11 @@ namespace RouteMaster.Controllers
 		[HttpPost]
         public ActionResult Register(AdministratorRegisterVM vm)
         {
+            if (!ModelState.IsValid) return View(vm);
+
             Result result =  RegisterAdministrator(vm);
+
+            PreparePermissionDataSource(vm.PermissionId);
 
             if (result.IsSuccess)
             {
@@ -246,6 +256,36 @@ namespace RouteMaster.Controllers
             FormsAuthentication.SignOut();
             return Redirect("/Members/Login");
         }
+
+        public ActionResult SuspendAdministrator(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Member member = db.Members.Find(id);
+
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SuspendAdministrator(AdministratorSuspendVM vm)
+        {
+            var adminidtratorInDb = db.Administrators.Find(vm.Id);
+            adminidtratorInDb.IsSuspended = vm.IsSuspended;
+
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+
 
         //[HttpPost]
         //public ActionResult Login(AdministratorLoginVM vm)
