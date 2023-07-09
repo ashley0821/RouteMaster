@@ -124,7 +124,7 @@ namespace RouteMaster.Controllers
 		private (string returnUrl, HttpCookie cookie) ProcessLogin(string email, bool rememberMe)
 		{
 
-			var roles = db.Partners.FirstOrDefault(p=>p.Email == email).Id.ToString(); // 在本範例, 沒有用到角色權限,所以存入空白
+			var roles = "住所夥伴"; // 在本範例, 沒有用到角色權限,所以存入空白
 
 			// 建立一張認證票
 			var ticket =
@@ -144,8 +144,8 @@ namespace RouteMaster.Controllers
 			// 存入cookie
 			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, value);
 			cookie.Expires = DateTime.Now.AddYears(1); // 設定 Cookie 的過期日期為一年後
-
-            // 取得return url
+			
+			// 取得return url
 			var url = FormsAuthentication.GetRedirectUrl(email, true); //第二個引數沒有用處
 
 			return (url, cookie);
