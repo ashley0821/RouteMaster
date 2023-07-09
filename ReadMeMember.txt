@@ -1,7 +1,11 @@
+0709 
+[working on]ad停權
+
+
 0708 解決問題
 []Memberindex頁的萬年曆沒有箭頭
 []大頭貼預設圖片
-[]parthnre搜尋功能
+[]parthner搜尋功能
 []administrator搜尋功能
 
 0707

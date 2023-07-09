@@ -8,8 +8,8 @@ using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-    [AdministratorAuthenticationFilter]
-    [CustomAuthorize("管理者")]
+    //[AdministratorAuthenticationFilter]
+    //[CustomAuthorize("管理者")]
     public class HomeController : Controller
     {
 		
