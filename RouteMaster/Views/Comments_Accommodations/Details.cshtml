@@ -7,9 +7,9 @@
 
 
 <div class="container mt-3">
-    <div class="row mb-1">
+    <div class="row">
         <div class="d-flex text-start">
-            <h3 class="me-auto">評論內文</h3>
+            <h3 class="me-auto"> @Html.DisplayFor(model => model.MemberAccount)</h3>
             <div class="me-2">
                 @Html.ActionLink("返回清單頁", "Index", new { id = "" }, new { @class = "btn btn-dark" })
 
@@ -21,30 +21,14 @@
     <div class="row gx-5">
         <dl class="col-4">
             <dt>
-                @Html.DisplayNameFor(model => model.MemberAccount)
+
+
+                <div class="d-flex w-100 justify-content-between">
+                    <h3 class="mb-1 fs-3 fw-bold"> @Html.DisplayFor(model => model.AccomodationName)</h3>
+                    <small class="fs-3 fw-bold align-top">@Html.DisplayFor(model => model.Score)分</small>
+                </div>
             </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.MemberAccount)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.AccomodationName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.AccomodationName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Score)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Score)
-            </dd>
-
-            <dt>
+            <dt class="fs-5">
                 @Html.DisplayNameFor(model => model.Title)
             </dt>
 
