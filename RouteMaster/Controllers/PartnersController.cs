@@ -144,6 +144,7 @@ namespace RouteMaster.Controllers
 			// 存入cookie
 			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, value);
 			cookie.Expires = DateTime.Now.AddYears(1); // 設定 Cookie 的過期日期為一年後
+
             // 取得return url
 			var url = FormsAuthentication.GetRedirectUrl(email, true); //第二個引數沒有用處
 

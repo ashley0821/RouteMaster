@@ -13,6 +13,7 @@ using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json.Linq;
 using RouteMaster.Filter;
 using RouteMaster.Models.Dto;
+using RouteMaster.Models.Dto.Accommodation;
 using RouteMaster.Models.Dto.Accommodation.Service;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
@@ -45,11 +46,11 @@ namespace RouteMaster.Controllers
         // 合夥人的住宿列表
         public ActionResult MyAccommodationIndex()
         {
-            var profile = GetPartnerEmailAndId();
+            IdentityDto profile = GetPartnerEmailAndId();
 			// 取得 HTTP 請求中的 Cookie 集合
-			if( !string.IsNullOrEmpty(profile.Item1) && profile.Item2 != 0)
+			if( !string.IsNullOrEmpty(profile.Email) && profile.Id != 0)
             {
-			    IEnumerable<AccommodationIndexVM> accommodations = GetAccommodations(profile.Item2);
+			    IEnumerable<AccommodationIndexVM> accommodations = GetAccommodations(profile.Id);
             
                 //var accommodations = db.Accommodations.Include(a => a.Partner).Include(a => a.Region).Include(a => a.Town);
 
@@ -59,32 +60,6 @@ namespace RouteMaster.Controllers
             return RedirectToAction("PartnerLogin", "Partners");
         }
 
-		private (string, int) GetPartnerEmailAndId()
-		{
-			HttpCookieCollection cookies = Request.Cookies;
-
-			// 檢查是否存在特定名稱的 Cookie
-			if (cookies[FormsAuthentication.FormsCookieName] != null)
-			{
-				// 從 Cookie 中取得票據的值
-				string encryptedTicket = cookies[FormsAuthentication.FormsCookieName].Value;
-
-				// 解密票據
-				var ticket = FormsAuthentication.Decrypt(encryptedTicket);
-
-				// 檢查票據是否成功解密
-				if (ticket != null && ticket.Expired == false)
-				{
-					// 取得票據中的使用者資料
-					string email = ticket.Name;
-					int id = int.Parse(ticket.UserData);
-
-                    return (email, id);
-				}
-                return (null, 0);
-			}
-            return(null, 0);
-		}
 
 		// 還沒做
 		public ActionResult Details(int? id)
@@ -603,6 +578,31 @@ namespace RouteMaster.Controllers
 			db.SaveChanges();
 
         }
+		private IdentityDto GetPartnerEmailAndId()
+		{
+			HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+			// 檢查是否存在特定名稱的 Cookie
+			if (authCookie != null)
+			{
+				// 從 Cookie 中取得票據的值
+				FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+				if (ticket != null && !ticket.Expired)
+
+					// 檢查票據是否成功解密
+					if (ticket != null && ticket.Expired == false)
+					{
+						// 取得票據中的使用者資料
+						string email = ticket.Name;
+						int id = int.Parse(ticket.UserData);
+
+						return new IdentityDto(email, id);
+					}
+				return new IdentityDto(null, 0);
+			}
+			return new IdentityDto(null, 0);
+		}
+
 		#endregion
 
 	}
