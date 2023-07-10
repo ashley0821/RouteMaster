@@ -108,7 +108,11 @@ i {
         object-fit:cover;
     }
 
-.btn-css:hover {
+.btn-css-primary {
+    color: #696cff;
+}
+
+.btn-css-primary:hover {
     color: #fff;
     background-color: #696cff;
     border-color: #696cff;
@@ -134,7 +138,7 @@ i {
     .btn-css-danger:hover {
         color: #fff;
         background-color: #ff3E1D !important;
-        border-color: #696cff;
+        border-color: #ff3e1d;
         box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
         display: inline-block;
         font-weight: 400;
@@ -173,13 +177,14 @@ i {
             transition: all 0.2s ease-in-out;
         }
         .btn-css-success {
-    color: #198754
+    color: #71dd37
 }
 
             .btn-css-success:hover {
                 color: #fff;
-                background-color: #198754 !important;
-                border-color: #198754;
+                background-color: #71dd37 !important;
+                border-color: #71dd37;
+
                 box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
                 display: inline-block;
                 font-weight: 400;
