@@ -76,6 +76,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				LastName = a.LastName,
 				Email = a.Email,
 				CreateDate= a.CreateDate,
+				Permission = a.Permission
 			});
 
 			return Administrators;

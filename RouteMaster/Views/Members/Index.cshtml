@@ -1,27 +1,31 @@
 ﻿@model IEnumerable<RouteMaster.Models.ViewModels.MemberIndexVM>
 
+@section Styles
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
+    <style>
+        thead {
+            background-color: rgba(255, 99, 71, 0.4);
+            color: black;
+        }
+    </style>
+}
+
 @{
     ViewBag.Title = "Index";
     var criteria = ViewBag.Criteria as RouteMaster.Models.Infra.Criterias.MemberCriteria;
 }
 
 <h2>會員列表</h2>
+
 <div>
-    <p>
-        @Html.ActionLink("註冊新會員", "Register")
-    </p>
-</div>
-<div>
-    <p>
-        @Html.ActionLink("會員登入", "Login")
-    </p>
+    <form action="@Url.Action("Register", "Members")">
+        <button type="submit" class="btn-css-success">新增會員</button>
+    </form>
 </div>
 
-@*<div>
-    <p>
-        @Html.ActionLink("會員登出", "Logout")
-    </p>
-</div>*@
+
 <section class="container">
     <form method="get">
         <div class="row">
@@ -47,102 +51,106 @@
             </div>
             <div class="mb-3 col-md-4">
                 <label for="s_createDate" style="display: block">創建日期</label>
-                <input type="text" class="form-control" name="createDateBegin" id="createDateBegin" style="width: 40%; display: inline" value="@(criteria.CreateDateBegin.HasValue?criteria.CreateDateBegin.Value.ToString("yyyy'/'MM'/'dd"):"")"> ~
-                <input type="text" class="form-control" name="createDateEnd" id="createDateEnd" style="width: 40%; display: inline" value="@(criteria.CreateDateEnd.HasValue?criteria.CreateDateEnd.Value.ToString("yyyy'/'MM'/'dd"):"")">
+                <input type="text" class="form-control" name="createDateBegin" id="createDateBegin" style="width: 40%; display: inline" value="@(criteria.CreateDateBegin.HasValue ? criteria.CreateDateBegin.Value.ToString("yyyy'/'MM'/'dd") : "")"> ~
+                <input type="text" class="form-control" name="createDateEnd" id="createDateEnd" style="width: 40%; display: inline" value="@(criteria.CreateDateEnd.HasValue ? criteria.CreateDateEnd.Value.ToString("yyyy'/'MM'/'dd") : "")">
             </div>
             <div class="mb-3 col-md-2 align-self-end">
-                <button class="btn btn-primary">Search</button>
+                <button class="btn-css-warning">搜尋</button>
             </div>
         </div>
     </form>
 </section>
 
-<table class="table table-striped table-hover">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Account)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CellPhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Gender)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Birthday)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsConfirmed)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsSuspended)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table table-striped table-hover" id="MembersIndex">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Account)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CellPhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Birthday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsConfirmed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsSuspended)
-            </td>
-            <td>
-                @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("變更圖片", "EditMemberImgae", new { id = item.Id }) |
-                @Html.ActionLink("停權設定", "SuspendMember", new { id = item.Id })|
-                <br />
-                @Html.ActionLink("啟用帳戶", "ActiveRegister", new { id = item.Id })|
-                @Html.ActionLink("更改密碼", "EditPassword", new { id = item.Id })|
-                @Html.ActionLink("會員中心", "MemberArea", new { id = item.Id })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Account)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CellPhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsConfirmed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSuspended)
+            </th>
+            <th></th>
         </tr>
-    }
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Account)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CellPhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsSuspended)
+                </td>
+                <td>
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new {@class="btn-css-primary"}) |
+                    @Html.ActionLink("變更圖片", "EditMemberImgae", new { id = item.Id }, new { @class = "btn-css-primary" }) |
+                    @Html.ActionLink("停權設定", "SuspendMember", new { id = item.Id }, new { @class = "btn-css-danger" })|
+                    <br />
+                    @Html.ActionLink("啟用帳戶", "ActiveRegister", new { id = item.Id }, new { @class = "btn-css-primary" })|
+                    @Html.ActionLink("更改密碼", "EditPassword", new { id = item.Id }, new { @class = "btn-css-primary" })|
+                </td>
+            </tr>
+        }
+    </tbody>
+
 
 </table>
 
@@ -156,6 +164,14 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>*@
 
     <script>
+        new DataTable('#MembersIndex', {
+            ordering: false,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+            }
+        });
+
+
 
         $(document).ready(function () {
             $("#createDateBegin").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd'

@@ -8,19 +8,19 @@
 
 <table class="table">
     <tr>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.OrderId)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.ExtraServiceId)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.ExtraServiceName)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.Price)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.Quantity)
         </th>
         <th></th>
@@ -29,13 +29,13 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td class="control-label" style="text-align: center;">
                 @Html.DisplayFor(modelItem => item.OrderId)
             </td>
-            <td>
+            <td class="control-label" style="text-align:center;">
                 @Html.DisplayFor(modelItem => item.ExtraServiceId)
             </td>
-            <td>
+            <td class="control-label" style="text-align:center;">
                 @Html.DisplayFor(modelItem => item.ExtraServiceName)
             </td>
             @*<td class="Price">

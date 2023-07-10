@@ -16,18 +16,18 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>付款方式管理</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("建立新的付款方式", "Create", new { htmlAttributes = new { @class = "form-control" } })
 </p>
 <table id="datatable" class="display nowrap" style="width:100%">
     <thead>
         <tr>
-            <th>
+            <th class="ui-controlgroup-label " style="text-align:center;">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th class="ui-controlgroup-label" style="text-align:center;">
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th></th>
@@ -40,15 +40,15 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="ui-controlgroup-label" style="text-align:center;">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td>
+                <td class="ui-controlgroup-label" style="text-align:center;">
                     @Html.DisplayFor(modelItem => item.Description)
-                </td>
+                    </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                    @Html.ActionLink("編輯", "Edit", new { id = item.id }, new { @class = "btn btn-outline-secondary", style = "width: 80px; height: 40px;" })
+                    @Html.ActionLink("訂單明細", "Delete", new { id = item.id }, new { @class = "btn btn-outline-danger", style = "width: 80px; height: 40px;" })
                 </td>
             </tr>
         }

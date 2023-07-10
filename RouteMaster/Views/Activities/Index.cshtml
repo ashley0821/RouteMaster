@@ -18,14 +18,25 @@
 
 
     <style>
-        thead {
-            background-color: lightblue;
-            color: black;
+
+        .table > thead {
+            background-color: rgba(255, 99, 71, 0.4);
         }
+
+            .table > thead th {
+                font-size: 18px;
+            }
+  
+
+
+
+
     </style>
+
+
 }
 
-<button class="btn btn-outline-secondary" onclick="location.href='@Url.Action("Create")'">新增活動</button>
+<button class="btn btn-css-success" onclick="location.href='@Url.Action("Create")'">新增活動</button>
 
 <h2>活動一覽</h2>
 
@@ -96,7 +107,7 @@
 
 
             <div class="mb-3 col-md-2 mt-3  ">
-                <button class="btn btn-primary" style="position: relative; right:-1050px ">Search</button>
+                <button class="btn btn-warning" style="position: relative; right:-1050px ">搜尋</button>
             </div>
 
 
@@ -177,8 +188,8 @@
                     @Html.DisplayFor(modelItem => item.StatusText)
                 </td>
                 <td>
-                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-primary m-2">編輯</button>                    
-                    <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-primary m-2">檢視詳細資料</button>                    
+                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-css-primary m-2">編輯</button>                    
+                    <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-css-warning m-2">檢視詳細資料</button>                    
                     @*<button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.Id })'" class="btn btn-danger">刪除</button>*@
                 </td>
             </tr>

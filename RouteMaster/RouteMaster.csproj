@@ -175,6 +175,7 @@
     <Compile Include="Models\Dto\Accommodation\IdentityDto.cs" />
     <Compile Include="Models\Dto\Accommodation\NavDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Room\RoomEditDto.cs" />
+    <Compile Include="Models\Dto\MemberIdentityDto.cs" />
     <Compile Include="Models\Infra\Criterias\PartnerCriteria.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />
     <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
@@ -743,6 +744,7 @@
     <Content Include="Views\Members\ResetPassword.cshtml" />
     <Content Include="Views\Members\ConfirmResetPassword.cshtml" />
     <Content Include="Views\Partners\SuspendMember.cshtml" />
+    <Content Include="Views\Members\MyMemberIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

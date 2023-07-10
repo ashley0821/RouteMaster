@@ -13,15 +13,17 @@ namespace RouteMaster.Models.EFModels
         {
             Orders = new HashSet<Order>();
         }
-
-        public int Id { get; set; }
+		[Display(Name = "½s¸¹")]
+		public int Id { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string Name { get; set; }
+		[Display(Name = "¥I´Ú¤è¦¡")]
+		public string Name { get; set; }
 
         [Required]
-        public string Description { get; set; }
+		[Display(Name = "´y­z")]
+		public string Description { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }

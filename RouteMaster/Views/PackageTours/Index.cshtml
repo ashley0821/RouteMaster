@@ -40,7 +40,7 @@
 
 <h2>套裝行程列表</h2>
 <p>
-    @Html.ActionLink("新增", "Create")
+    <button onclick="location.href='@Url.Action("Create")'" class="btn btn-css-success">新增</button>
 </p>
 <table class="table">
     <tr>
@@ -144,9 +144,9 @@
 
 
             <td>
-                @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("刪除", "Delete", new { id = item.Id }) |           
-                <button onclick="openPopup(@item.Id)">檢視詳細資料</button>
+                <button onclick="location.href='@Url.Action("Edit", new { id = item.Id })'"class="btn btn-css-primary">編輯</button>
+                <button onclick="location.href='@Url.Action("Delete", new { id = item.Id })'"class="btn btn-css-danger">刪除</button>
+                <button onclick="openPopup(@item.Id)" class="btn btn-css-warning">檢視詳細資料</button>
             </td>
         </tr>
 

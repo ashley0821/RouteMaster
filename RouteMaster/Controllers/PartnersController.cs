@@ -11,15 +11,18 @@ using System.Web.Security;
 using System.Web.Services.Description;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.Expressions;
+using RouteMaster.Filter;
 using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.ViewModels;
+using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-    public class PartnersController : Controller
+	
+	public class PartnersController : Controller
     {
         private readonly AppDbContext db = new AppDbContext();
 
