@@ -7,11 +7,21 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">*@
 
+   
+
     <style>
         thead {
             background-color: gainsboro;
             color: white;
         }
+
+        .table > thead {
+            background-color: rgba(255, 99, 71, 0.4);
+        }
+
+            .table > thead th {
+                font-size: 14px;
+            }
     </style>
 }
 
@@ -85,10 +95,10 @@
             </div>
 
             @*<div class="mb-3 col-md-3">
-                <label for="s_name">名稱</label>
-                <input type="text" class="form-control" name="name" id="s_name" value="@criteria.Name">
+                    <label for="s_name">名稱</label>
+                    <input type="text" class="form-control" name="name" id="s_name" value="@criteria.Name">
 
-            </div>*@
+                </div>*@
 
             <div class="mb-3 col-md-4">
                 <label for="s_minScore" style="display: block">平均分數</label>
@@ -141,16 +151,16 @@
             <th class="align-middle">
                 敘述 @*@Html.DisplayNameFor(model => model.DescriptionText)*@
             </th>
-            <th class="align-middle">
+            <th class="align-middle ">
                 平均<br>分數 @*@Html.DisplayNameFor(model => model.AverageScoreText)*@
             </th>
-            <th class="align-middle">
+            <th class="align-middle ">
                 平均停<br>留時數 @*@Html.DisplayNameFor(model => model.AverageStayHoursText)*@
             </th>
             <th class="align-middle">
                 平均<br>花費 @*@Html.DisplayNameFor(model => model.AveragePriceText)*@
             </th>
-            <th class="align-middle">
+            <th class="align-middle text-center">
                 標籤
             </th>
             <th></th>
@@ -183,23 +193,23 @@
                 <td class="align-middle">
                     @Html.DisplayFor(modelItem => item.DescriptionText)
                 </td>
-                <td class="align-middle">
+                <td class="align-middle ">
                     @Html.DisplayFor(modelItem => item.AverageScoreText)
                 </td>
-                <td class="align-middle">
+                <td class="align-middle ">
                     @Html.DisplayFor(modelItem => item.AverageStayHoursText)
                 </td>
-                <td class="align-middle">
+                <td class="align-middle ">
                     @Html.DisplayFor(modelItem => item.AveragePriceText)
                 </td>
-                <td class="align-middle">
+                <td class="align-middle text-center">
                     <span class="badge bg-primary">@item.Tag</span>
                 </td>
                 <td class="align-middle">
                     @Html.ActionLink("景點詳情", "Details", new { id = item.Id }, new { @class = "d-none" })
-                    @Html.ActionLink("編輯景點", "Edit", new { id = item.Id }, new { @class = "btn btn-css-primary" }) |
-                    @Html.ActionLink("管理圖片", "ImagesIndex", new { id = item.Id }, new { @class = "btn btn-css-primary" }) |
-                    @Html.ActionLink("刪除景點", "Delete", new { id = item.Id }, new { @class = "btn btn-css-danger" })
+                    @Html.ActionLink("編輯景點", "Edit", new { id = item.Id }, new { @class = "text-primary" }) |
+                    @Html.ActionLink("管理圖片", "ImagesIndex", new { id = item.Id }, new { @class = "text-primary" }) |
+                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "text-danger" })
                 </td>
 
             </tr>
@@ -228,6 +238,7 @@
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
             responsive: true,
+            sorting: false
         });
     </script>
 
@@ -263,7 +274,7 @@
                 $("#search").trigger("click");
             })
 
-            
+
         });
 
     </script>
