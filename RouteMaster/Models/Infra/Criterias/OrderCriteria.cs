@@ -12,5 +12,5 @@ namespace RouteMaster.Models.Infra.Criterias
 		public int? PaymentStatus { get; set; }
 		public DateTime? CreateStartDate { get; set; }
 		public DateTime? CreateEndDate { get; set; }
-	}
+    }
 }

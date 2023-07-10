@@ -21,7 +21,7 @@ namespace RouteMaster.Models.ViewModels
 		[StringLength(100)]
 		public string Name { get; set; }
 
-		public int TagId { get; set; }
+		public int? TagId { get; set; }
 
 		[Required]
 		[StringLength(255)]

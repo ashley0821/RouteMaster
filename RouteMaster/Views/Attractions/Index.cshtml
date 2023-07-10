@@ -3,9 +3,9 @@
 @section Styles
     {
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">*@
 
     <style>
         thead {
@@ -35,7 +35,7 @@
 <h2>景點列表</h2>
 
 <p>
-    @Html.ActionLink("新增景點", "Create", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("新增景點", "Create", null, new { @class = "btn btn-success" })
 </p>
 
 
@@ -115,7 +115,7 @@
 
             <div class="mb-3 col-md-2 align-self-end">
                 <button class="btn btn-info" id="clear">清空條件</button>
-                <button class="btn btn-secondary" id="search">搜尋</button>
+                <button class="btn btn-warning" id="search">搜尋</button>
             </div>
         </div>
     </form>
@@ -126,31 +126,31 @@
     <thead>
         <tr>
             <th></th>
-            <th>
+            <th class="align-middle">
                 類別 @*@Html.DisplayNameFor(model => model.Category)*@
             </th>
-            <th>
+            <th class="align-middle">
                 縣市 @*@Html.DisplayNameFor(model => model.Region)*@
             </th>
-            <th>
+            <th class="align-middle">
                 鄉鎮 @*@Html.DisplayNameFor(model => model.Town)*@
             </th>
-            <th>
+            <th class="align-middle">
                 名稱 @*@Html.DisplayNameFor(model => model.Name)*@
             </th>
-            <th>
+            <th class="align-middle">
                 敘述 @*@Html.DisplayNameFor(model => model.DescriptionText)*@
             </th>
-            <th>
-                平均分數 @*@Html.DisplayNameFor(model => model.AverageScoreText)*@
+            <th class="align-middle">
+                平均<br>分數 @*@Html.DisplayNameFor(model => model.AverageScoreText)*@
             </th>
-            <th>
-                平均停留時數 @*@Html.DisplayNameFor(model => model.AverageStayHoursText)*@
+            <th class="align-middle">
+                平均停<br>留時數 @*@Html.DisplayNameFor(model => model.AverageStayHoursText)*@
             </th>
-            <th>
-                平均花費 @*@Html.DisplayNameFor(model => model.AveragePriceText)*@
+            <th class="align-middle">
+                平均<br>花費 @*@Html.DisplayNameFor(model => model.AveragePriceText)*@
             </th>
-            <th>
+            <th class="align-middle">
                 標籤
             </th>
             <th></th>
@@ -197,9 +197,9 @@
                 </td>
                 <td class="align-middle">
                     @Html.ActionLink("景點詳情", "Details", new { id = item.Id }, new { @class = "d-none" })
-                    @Html.ActionLink("編輯景點", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("管理圖片", "ImagesIndex", new { id = item.Id }) |
-                    @Html.ActionLink("刪除景點", "Delete", new { id = item.Id })
+                    @Html.ActionLink("編輯景點", "Edit", new { id = item.Id }, new { @class = "btn btn-css-primary" }) |
+                    @Html.ActionLink("管理圖片", "ImagesIndex", new { id = item.Id }, new { @class = "btn btn-css-primary" }) |
+                    @Html.ActionLink("刪除景點", "Delete", new { id = item.Id }, new { @class = "btn btn-css-danger" })
                 </td>
 
             </tr>
@@ -223,10 +223,11 @@
 
     <script>
         new DataTable('#dataTable', {
+
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
-            responsive: true
+            responsive: true,
         });
     </script>
 
