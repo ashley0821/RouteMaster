@@ -175,8 +175,15 @@
     <Compile Include="Models\Dto\Accommodation\IdentityDto.cs" />
     <Compile Include="Models\Dto\Accommodation\NavDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Room\RoomEditDto.cs" />
+
+    <Compile Include="Models\Dto\MemberIdentityDto.cs" />
+
+
     <Compile Include="Models\Dto\FAQChangeImgDto.cs" />
     <Compile Include="Models\Dto\FAQEditImgIndexDto.cs" />
+
+
+
     <Compile Include="Models\Infra\Criterias\PartnerCriteria.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />
     <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
@@ -749,6 +756,10 @@
     <Content Include="Views\Comments_Attractions\ImgIndex.cshtml" />
     <Content Include="Views\Comments_Attractions\UploadImg.cshtml" />
     <Content Include="Views\Partners\SuspendMember.cshtml" />
+
+
+    <Content Include="Views\Members\MyMemberIndex.cshtml" />
+
     <Content Include="Views\Accommodations\OrderManagement.cshtml" />
     <Content Include="Views\Accommodations\PerformanceAnalysis.cshtml" />
     <Content Include="Views\Partners\PartnerLoginTest.cshtml" />

@@ -81,7 +81,7 @@
             <input type="text" name="Total" class="hidden-input largefont" id="totalPrice" readonly style="color: gray" />
         </div>
         <div class="col-md-6 mt-3">
-            <button type="submit" class="btn btn-outline-secondary " style="width:150px;">提交</button>
+            <button type="submit" class="btn btn-warning " style="width:120px;">提交</button>
         </div>
     </div>
 
@@ -168,11 +168,11 @@
 <script>
 
     $(window).on('load', function () {
-        var priceElements = $('.control-label.col-md-3#price');
-        var quantityElements = $('.control-label.col-md-3#quantity');
+        var priceElements = $('.control-label.col-md-2#price');
+        var quantityElements = $('.control-label.col-md-2#quantity');
         var roomPriceElements = $('.control-label.col-md-3#RoomPrice');
-        var Activitiesprice = $('.control-label.col-md-3#Activitiesprice');
-        var Activitiesquantity = $('.control-label.col-md-3#Activitiesquantity');
+        var Activitiesprice = $('.control-label.col-md#Activitiesprice');
+        var Activitiesquantity = $('.control-label.col-md#Activitiesquantity');
         var totalPrice = 0;
 
         // Calculate total price based on price and quantity
