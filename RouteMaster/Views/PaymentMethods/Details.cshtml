@@ -28,7 +28,16 @@
 
     </dl>
 </div>
+
+<div class="col-md-4 col-md-10 mb-4 alert" role="alert">
+    <div class="btn-group mb-3" role="group" aria-label="Save and Back buttons">
+        <button id="demo1" class="btn btn-primary" style="width:100px;">編輯</button>
+        <div class="btn-group" role="group" aria-label="Back button">
+            @Html.ActionLink("回上頁", "Index", "", new { @class = "btn btn-warning" })
+        </div>
+    </div>
+</div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")*@
 </p>

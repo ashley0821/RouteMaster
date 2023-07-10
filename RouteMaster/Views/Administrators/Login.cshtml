@@ -1,42 +1,189 @@
 ﻿@model RouteMaster.Models.ViewModels.AdministratorLoginVM
 
 @{
-    ViewBag.Title = "Login";
+    Layout = "";
 }
 
-<h2>Login</h2>
+<!DOCTYPE html>
 
+<html lang="en"
+      class="light-style customizer-hide"
+      dir="ltr"
+      data-theme="theme-default"
+      data-assets-path="../assets/"
+      data-template="vertical-menu-template-free">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="row">
-        <h4>AdministratorLoginVM</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="mb-3">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
+    <title>Login Basic - Route Master</title>
 
-        <div class="mb-3">
-            @Html.LabelFor(model => model.EncryptedPassword, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.EditorFor(model => model.EncryptedPassword, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EncryptedPassword, "", new { @class = "text-danger" })
-        </div>
+    <meta name="description" content="" />
 
-        <div class="mb-3">
-                <input type="submit" value="登入" class="btn btn-primary" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="~/Uploads/Route-master-logo.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+          rel="stylesheet" />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="~/assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="~/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="~/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="~/assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="~/assets/vendor/css/pages/page-auth.css" />
+    <!-- Helpers -->
+    <script src="~/assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="~/assets/js/config.js"></script>
+</head>
+
+<body>
+    <!-- Content -->
+
+    <div class="container-xxl">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner">
+                <!-- Register -->
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Logo -->
+                        <div class="app-brand justify-content-center">
+                            <a href="/Home/Index" class="menu-link h-100 w-100 d-flex"><img src="~/Uploads/Route-master-logo.png" class="w-100 h-100" /></a>
+                        </div>
+                        <!-- /Logo -->
+                        <h4 class="mb-2">歡迎來到 Route Master! 👋</h4>
+                        <p class="mb-4">請先登入以開始你的住所登記</p>
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="Email"
+                                           name="Email"
+                                           placeholder="請輸入您的Email"
+                                           autofocus />
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="form-label" for="password">Password</label>
+                                        <a href="/Members/MemberForgetPassword/">
+                                            <small>忘記密碼?</small>
+                                        </a>
+                                    </div>
+                                    <div class="input-group input-group-merge">
+                                        <!--<input type="password"
+                                               id="EncryptedPassword"
+                                               class="form-control"
+                                               name="EncryptedPassword"-->
+                                        @*placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"*@ <!--/>-->
+                                        @Html.EditorFor(model => model.EncryptedPassword, new { htmlAttributes = new { @class = "form-control", placeholder = "．．．．．．" } })
+                                        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.EncryptedPassword, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="remember-me" />
+                                        <label class="form-check-label" for="remember-me"> 記住我 </label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <button class="btn btn-primary d-grid w-100" type="submit">登入</button>
+                                </div>
+                            </form>
+                        }
+                        <p class="text-center">
+                            <span>還沒有帳號嗎?</span>
+                            <a href="/Members/Register">
+                                <span>建立一個帳號</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <!-- /Register -->
+            </div>
         </div>
     </div>
-}
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="~/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="~/assets/vendor/libs/popper/popper.js"></script>
+    <script src="~/assets/vendor/js/bootstrap.js"></script>
+    <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-<div>
-    @Html.ActionLink("回首頁", "Index","Home")
-</div>
+    <script src="~/assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+    <!-- Vendors JS -->
+    <!-- Main JS -->
+    <script src="~/assets/js/main.js"></script>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    <!-- Page JS -->
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="~/bundles/jqueryval"></script>
+
+</body>
+</html>
+
+@*@{
+        ViewBag.Title = "Login";
+    }
+
+    <h2>Login</h2>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <h4>AdministratorLoginVM</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.EncryptedPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.EncryptedPassword, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EncryptedPassword, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                    <input type="submit" value="登入" class="btn btn-primary" />
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("回首頁", "Index","Home")
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

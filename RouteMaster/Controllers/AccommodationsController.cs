@@ -459,6 +459,7 @@ namespace RouteMaster.Controllers
 			// 取得 HTTP 請求中的 Cookie 集合
 			if ((identity.Id) != 0 && !string.IsNullOrEmpty(identity.Permission))
 			{
+				
 				IEnumerable<AccommodationDetailsDto> detail;
 				if (identity.Permission == "住所夥伴")
 				{
@@ -482,6 +483,11 @@ namespace RouteMaster.Controllers
 				}
 			}
 			return RedirectToAction("PartnerLogin", "Partners");
+		}
+		
+		public ActionResult PerformanceAnalysis()
+		{
+			return View();
 		}
 
 		private IEnumerable<AccommodationDetail> GetAccommodationDetails(int? id)
