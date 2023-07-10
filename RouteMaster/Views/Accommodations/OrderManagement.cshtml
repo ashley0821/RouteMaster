@@ -18,7 +18,7 @@
 <h2>訂單管理</h2>
 
 <hr />
-@if (Model.FirstOrDefault().Permission == "住所夥伴")
+@if (Model.FirstOrDefault()?.Permission == "住所夥伴")
 {
     <table class="table" id="orderTable">
         <thead>
@@ -67,7 +67,7 @@
         </tbody>
     </table>
 }
-@if(Model.FirstOrDefault().Permission == "總管理員")
+@if(Model.FirstOrDefault()?.Permission == "總管理員")
 {
     <table class="table" id="orderTable">
         <thead>
