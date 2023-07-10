@@ -20,7 +20,7 @@ namespace RouteMaster.Controllers
 {
     public class ActivitiesController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        private readonly AppDbContext db = new AppDbContext();
 
         // GET: Activities
         public ActionResult Index(ActivityIndexCriteria criteria)

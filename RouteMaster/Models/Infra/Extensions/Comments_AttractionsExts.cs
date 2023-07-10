@@ -69,6 +69,7 @@ namespace RouteMaster.Models.Infra.Extensions
 			return new Comments_AttractionsDetailVM
 			{
 				Id = dto.Id,
+				MemberAccount = dto.MemberAccount,
 				AttractioName = dto.AttractioName,
 				Content = dto.Content,
 				Score = dto.Score,

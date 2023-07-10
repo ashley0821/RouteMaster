@@ -127,16 +127,16 @@
                         @*active open">*@
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-layout"></i>
-                            <div data-i18n="Layouts">住宿管理</div>
+                            <div data-i18n="Layouts">住所管理</div>
                         </a>
 
                         <ul class="menu-sub">
                             <li class="menu-item">
                                 <a href="/Accommodations/MyAccommodationIndex" class="menu-link">
-                                    <div data-i18n="Without menu">我的旅宿列表</div>
+                                    <div data-i18n="Without menu">住所列表</div>
                                 </a>
                             </li>
-                            <li class="menu-item">
+                            <!--<li class="menu-item">
                                 <a href="/Accommodations" class="menu-link">
                                     <div data-i18n="Without navbar">旅宿列表</div>
                                 </a>
@@ -146,9 +146,9 @@
                                     <div data-i18n="Container">旅宿細節</div>
                                 </a>
                             </li>
-                            <li class="menu-item">
+                            <li class="menu-item">-->
                                 @*active">*@
-                                <a href="/Accommodations/Create" class="menu-link">
+                                <!--<a href="/Accommodations/Create" class="menu-link">
                                     <div data-i18n="Fluid">建立旅宿</div>
                                 </a>
                             </li>
@@ -171,6 +171,7 @@
                                 <a href="/Accommodations/EditServiceInfo/1" class="menu-link">
                                     <div data-i18n="Blank">編輯公設</div>
                                 </a>
+                            </li>-->
                         </ul>
                     </li>
 
@@ -256,7 +257,7 @@
                             </li>
                             <li class="menu-item">
                                 <a href="/Partners" class="menu-link">
-                                    <div data-i18n="Under Maintenance">旅宿夥伴</div>
+                                    <div data-i18n="Under Maintenance">住所夥伴</div>
                                 </a>
                             </li>
                             <li class="menu-item">
@@ -308,7 +309,7 @@
                         <ul class="menu-sub">
                             <li class="menu-item">
                                 <a href="/Comments_Accommodations/Index" class="menu-link">
-                                    <div data-i18n="Perfect Scrollbar">住宿評論</div>
+                                    <div data-i18n="Perfect Scrollbar">住所評論</div>
                                 </a>
                             </li>
                             <li class="menu-item">
@@ -382,6 +383,12 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
+                                        <a class="dropdown-item" href="Partners/PartnerLogin">
+                                            <i class="bx bx-user me-2"></i>
+                                            <span class="align-middle">PartnerLogin</span>
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a class="dropdown-item" href="#">
                                             <i class="bx bx-user me-2"></i>
                                             <span class="align-middle">My Profile</span>
@@ -402,6 +409,26 @@
                                             </span>
                                         </a>
                                     </li>
+                                    @{
+                                        if (User.Identity.IsAuthenticated)
+                                        {
+                                            <li>
+                                                <a class="dropdown-item" href="@Url.Action("Logout", "Members")">
+                                                    <i class="bx bx-cog me-2"></i>
+                                                    <span class="align-middle">登出</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    else
+                                        {
+                                            <li>
+                                                <a class="dropdown-item" href="@Url.Action("Login", "Members")">
+                                                    <i class="bx bx-cog me-2"></i>
+                                                    <span class="align-middle">登入</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
                                 </ul>
                             </li>
                             <!--/ User -->

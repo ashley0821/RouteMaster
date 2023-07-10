@@ -10,15 +10,18 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Services.Description;
 using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.Expressions;
+using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.ViewModels;
 
 namespace RouteMaster.Controllers
 {
     public class PartnersController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        private readonly AppDbContext db = new AppDbContext();
 
 		// GET: Partners
 
@@ -114,17 +117,17 @@ namespace RouteMaster.Controllers
 			const bool rememberMe = false; // 是否記住登入成功的會員
 
 			// 若登入帳密正確,就開始處理後續登入作業,將登入帳號編碼之後,加到 cookie裡
-			(string returnUrl, HttpCookie cookie) processResult = ProcessLogin(vm.Email, rememberMe);
+			(string returnUrl, HttpCookie cookie) = ProcessLogin(vm.Email, rememberMe);
 
-			Response.Cookies.Add(processResult.cookie);
+			Response.Cookies.Add(cookie);
 
-			return Redirect(processResult.returnUrl);
+			return Redirect(returnUrl);
 		}
 
 		private (string returnUrl, HttpCookie cookie) ProcessLogin(string email, bool rememberMe)
 		{
 
-			var roles = db.Partners.FirstOrDefault(p=>p.Email == email).Id.ToString(); // 在本範例, 沒有用到角色權限,所以存入空白
+			var roles = "住所夥伴"; // 在本範例, 沒有用到角色權限,所以存入空白
 
 			// 建立一張認證票
 			var ticket =
@@ -142,9 +145,12 @@ namespace RouteMaster.Controllers
 			var value = FormsAuthentication.Encrypt(ticket);
 
 			// 存入cookie
-			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, value);
-			cookie.Expires = DateTime.Now.AddYears(1); // 設定 Cookie 的過期日期為一年後
-            // 取得return url
+			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, value)
+			{
+				Expires = DateTime.Now.AddYears(1) // 設定 Cookie 的過期日期為一年後
+			};
+
+			// 取得return url
 			var url = FormsAuthentication.GetRedirectUrl(email, true); //第二個引數沒有用處
 
 			return (url, cookie);
@@ -176,10 +182,49 @@ namespace RouteMaster.Controllers
 		}
 
 
-		public ActionResult Index()
+		public ActionResult Index(PartnerCriteria criteria)
         {
-            return View(db.Partners.ToList());
+            ViewBag.Criteria = criteria;
+
+			var query = db.Partners.AsEnumerable();
+
+
+            if (string.IsNullOrEmpty(criteria.FirstName) == false)
+            {
+                query = query.Where(m => m.FirstName.Contains(criteria.FirstName));
+            }
+            if (string.IsNullOrEmpty(criteria.LastName) == false)
+            {
+                query = query.Where(m => m.LastName.Contains(criteria.LastName));
+            }
+            if (string.IsNullOrEmpty(criteria.Email) == false)
+            {
+                query = query.Where(m => m.Email.Contains(criteria.Email));
+            }
+            if (criteria.CreateDateBegin.HasValue)
+            {
+                query = query.Where(m => m.CreateDate >= criteria.CreateDateBegin.Value);
+            }
+            if (criteria.CreateDateEnd.HasValue)
+            {
+                query = query.Where(m => m.CreateDate <= criteria.CreateDateEnd.Value);
+            }
+
+
+            var Partners = query.Select(m => new PartnerIndexVM
+            {
+                Id = m.Id,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+                Email = m.Email,
+                CreateDate = m.CreateDate,
+                IsConfirmed = m.IsConfirmed,
+                IsSuspended = m.IsSuspended,
+            });
+           
+            return View(query);
         }
+
 
         // GET: Partners/Details/5
         public ActionResult Details(int? id)
@@ -211,6 +256,8 @@ namespace RouteMaster.Controllers
         {
             if (ModelState.IsValid)
             {
+				
+				partner.CreateDate= DateTime.Now;
                 db.Partners.Add(partner);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -275,6 +322,38 @@ namespace RouteMaster.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        public ActionResult SuspendMember(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Partner partner = db.Partners.Find(id);
+
+            if (partner == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult SuspendPartner(PartnerSuspendVM vm)
+        {
+            var PartnerInDb = db.Partners.Find(vm.Id);
+            PartnerInDb.IsSuspended = vm.IsSuspended;
+
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

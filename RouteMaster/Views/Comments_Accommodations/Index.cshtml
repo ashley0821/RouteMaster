@@ -95,8 +95,16 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Account)
                 </td>
-                <td>
+                <td >
+                    @if (item.Name.Contains("(已下架)"))
+                {
+
+                    <span class="text-decoration-line-through">@item.Name</span>
+                }
+else
+                {
                     @Html.DisplayFor(modelItem => item.Name)
+                }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
@@ -131,7 +139,7 @@
             url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
         },
         lengthMenu:
-            [5, 10, 20, 'All']
+            [10, 20, 30]
 
         });
 

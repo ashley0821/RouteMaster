@@ -12,7 +12,10 @@ namespace RouteMaster.Models.ViewModels
 	{
         public int Id { get; set; }
 
-		[Display(Name = "景點")]
+		[Display(Name = "帳號名稱")]
+		public string MemberAccount { get; set; }	
+
+        [Display(Name = "景點")]
 		public string AttractioName { get; set; }
 
 		[Display(Name = "評論")]

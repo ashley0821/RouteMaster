@@ -101,55 +101,55 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#attPartialSearchBtn').on('click', function () {
-                var searchKeyword = $('#attPartialSearch').val();
-                var data = new FormData();
-                data.append('searchKeyword', searchKeyword);
+        //$(document).ready(function () {
+        //    $('#attPartialSearchBtn').on('click', function () {
+        //        var searchKeyword = $('#attPartialSearch').val();
+        //        var data = new FormData();
+        //        data.append('searchKeyword', searchKeyword);
 
-                $.ajax({
-                    url: '/PackageTours/SearchAttraction',
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        var targetTBody = $('#targetAttractionTBody');
-                        targetTBody.empty();
+        //        $.ajax({
+        //            url: '/PackageTours/SearchAttraction',
+        //            method: 'POST',
+        //            headers: {
+        //                'X-Requested-With': 'XMLHttpRequest'
+        //            },
+        //            data: data,
+        //            processData: false,
+        //            contentType: false,
+        //            dataType: 'json',
+        //            success: function (data) {
+        //                var targetTBody = $('#targetAttractionTBody');
+        //                targetTBody.empty();
 
-                        $.each(data, function (index, item) {
-                            var tr = $('<tr></tr>');
-                            var td1 = $('<td></td>').text(item.CategoryName);
-                            tr.append(td1);
+        //                $.each(data, function (index, item) {
+        //                    var tr = $('<tr></tr>');
+        //                    var td1 = $('<td></td>').text(item.CategoryName);
+        //                    tr.append(td1);
 
-                            var td2 = $('<td></td>').text(item.Region);
-                            tr.append(td2);
+        //                    var td2 = $('<td></td>').text(item.Region);
+        //                    tr.append(td2);
 
-                            var td3 = $('<td></td>').text(item.Town);
-                            tr.append(td3);
+        //                    var td3 = $('<td></td>').text(item.Town);
+        //                    tr.append(td3);
 
-                            var td4 = $('<td></td>').text(item.Name);
-                            tr.append(td4);
+        //                    var td4 = $('<td></td>').text(item.Name);
+        //                    tr.append(td4);
 
-                            var td5 = $('<td></td>').text(item.Address);
-                            tr.append(td5);
+        //                    var td5 = $('<td></td>').text(item.Address);
+        //                    tr.append(td5);
 
-                            var td6 = $('<td></td>').text(item.Description);
-                            tr.append(td6);
+        //                    var td6 = $('<td></td>').text(item.Description);
+        //                    tr.append(td6);
 
-                            targetTBody.append(tr);
-                        });
-                    },
-                    error: function (error) {
-                        console.error('沒傳回前端');
-                    }
-                });
-            });
-        });
+        //                    targetTBody.append(tr);
+        //                });
+        //            },
+        //            error: function (error) {
+        //                console.error('沒傳回前端');
+        //            }
+        //        });
+        //    });
+        //});
 
 
         

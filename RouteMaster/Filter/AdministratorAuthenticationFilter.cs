@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Filters;
 using System.Web.Routing;
+using System.Web.Security;
 
 namespace RouteMaster.Filter
 {
@@ -14,7 +15,11 @@ namespace RouteMaster.Filter
 	{
 		public void OnAuthentication(AuthenticationContext filterContext)
 		{
-			if (string.IsNullOrEmpty(Convert.ToString(filterContext.HttpContext.Session["UserName"])))
+			//if (string.IsNullOrEmpty(Convert.ToString(filterContext.HttpContext.Session["UserName"])))
+			//{
+			//	filterContext.Result = new HttpUnauthorizedResult();
+			//}
+			if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
 			{
 				filterContext.Result = new HttpUnauthorizedResult();
 			}
@@ -43,26 +48,69 @@ namespace RouteMaster.Filter
 			protected override bool AuthorizeCore(HttpContextBase httpContext)
 			{
 				bool authorize = false;
-				var userEmail = Convert.ToString(httpContext.Session["UserEmail"]);
-				if (!string.IsNullOrEmpty(userEmail))
+				var authCookie = httpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+				//var userEmail = Convert.ToString(httpContext.Session["UserEmail"]);
+				if (authCookie != null)
+				//if (!string.IsNullOrEmpty(userEmail))
+					//using (var context = new AppDbContext())
+					{
+					var ticket = FormsAuthentication.Decrypt(authCookie.Value);
+					var userEmail = ticket.Name;
+					var identity = ticket.UserData;
+
 					using (var context = new AppDbContext())
 					{
-						var userRole = (from a in context.Administrators
-										join p in context.Permissions on a.PermissionId equals p.Id
-										where a.Email == userEmail
-										select new
-										{
-											p.Name
-										}).FirstOrDefault();
-						foreach (var permission in allowedroles)
+						if(identity == "住所夥伴")
 						{
-							if (permission == userRole.Name)
+							var partnerRole = (from p in context.Partners
+											where p.Email == userEmail
+											select new
+											{
+												p.Id
+											}).FirstOrDefault();
+							if (partnerRole != null)
 							{
-
 								authorize = true;
-							};
+							}
+
 						}
-					}
+						if(identity == "總管理員")
+						{
+
+							var userRole = (from a in context.Administrators
+												join p in context.Permissions on a.PermissionId equals p.Id
+												where a.Email == userEmail
+												select new
+												{
+													p.Name
+												}).FirstOrDefault();
+								foreach (var permission in allowedroles)
+								{
+									if (permission == userRole.Name)
+									{
+
+										authorize = true;
+									};
+								}
+							}
+                        if(identity == "會員")
+                        {
+                            var partnerRole = (from m in context.Partners
+                                               where m.Email == userEmail
+                                               select new
+                                               {
+                                                   m.Id
+                                               }).FirstOrDefault();
+                            if (partnerRole != null)
+                            {
+                                authorize = true;
+                            }
+
+                        }
+                    }
+
+					
+				}
 
 
 				return authorize;
@@ -73,8 +121,8 @@ namespace RouteMaster.Filter
 				filterContext.Result = new RedirectToRouteResult(
 				   new RouteValueDictionary
 				   {
-					{ "controller", "Home" },
-					{ "action", "UnAuthorized" }
+					{ "controller", "Administrators" },
+					{ "action", "Login" }
 				   });
 			}
 		}

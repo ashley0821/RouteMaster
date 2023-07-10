@@ -1,56 +1,93 @@
 ﻿@model IEnumerable<RouteMaster.Models.ViewModels.AccommodationIndexVM>
+<table id="imgTable">
+    <thead>
+        <tr>
+            <th>
 
-@foreach (var item in Model)
-{
-    <div class="row mb-2">
-        <div class="col-md">
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img class="card-img card-img-left" src="~/Uploads/@item.AccommodationImage" alt="尚未建立住所照片" />
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </h5>
-                            @*<p class="card-text">
-                    @Html.DisplayFor(modelItem => item.Name)
-                </p>*@
-                            <p class="card-text">
-                                <small class="text-muted">
-                                    @Html.DisplayFor(modelItem => item.Address)
-                                </small>
-                            </p>
-                            @*@Html.ActionLink("繼續註冊流程", "Edit", new { id = item.Id })*@
-                            <a href="/Accommodations/Details/@item.Id" class="btn btn-primary">住所資訊</a>
-                            <input type="button" class="btn btn-danger delete-accommodation" data-id="@item.Id" id="delete-accommodation-@item.Id" value="刪除住所" />
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.Where(m => !m.Name.Contains("(已下架)")))
+        {
+            <tr>
+                <td>
+                    <div class="row mb-2">
+                        <div class="col-md">
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img class="card-img card-img-left" src="~/Uploads/@item.AccommodationImage" alt="尚未建立住所照片" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </h5>
+                                            @*<p class="card-text">
+                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                </p>*@
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    @Html.DisplayFor(modelItem => item.Address)
+                                                </small>
+                                            </p>
+                                            @*@Html.ActionLink("繼續註冊流程", "Edit", new { id = item.Id })*@
+                                            <a href="/Accommodations/Details/@item.Id" class="btn btn-warning">住所資訊</a>
+                                            <input type="button" class="btn btn-danger delete-accommodation" data-id="@item.Id" id="delete-accommodation-@item.Id" value="下架住所" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        @*<div class="col-md">
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">
-                                This is a wider card with supporting text below as a natural lead-in to additional content.
-                                This content is a little bit longer.
-                            </p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr />
+
+
+<div class="border border-3 rounded-2 border-danger " id="Unavailable-div" data-id="@Model.Where(m=>m.Name.Contains("(已下架)")).Any()">
+
+    @foreach (var item in Model.Where(m => m.Name.Contains("(已下架)")))
+    {
+        if (item.Name.Contains("(已下架)"))
+        {
+            <tr>
+                <td>
+                    <div class="row mt-3 m-1">
+                        <div class="col-md">
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img class="card-img card-img-left" alt="此住所已下架" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </h5>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    @Html.DisplayFor(modelItem => item.Address)
+                                                </small>
+                                            </p>
+                                            <input type="button" class="btn btn-info publish-accommodation" data-id="@item.Id" id="publish-accommodation-@item.Id" value="上架住所" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <img class="card-img card-img-right" src="../assets/img/elements/17.jpg" alt="Card image" />
-                    </div>
-                </div>
-            </div>
-        </div>*@
-    </div>
-}
+                </td>
+            </tr>
+        }
+    }
+</div>
+
 
 <script>
 
@@ -64,16 +101,47 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                        alert('修改成功');
+                        alert('下架成功');
                         window.location.reload();
                     } else {
-                        alert('修改失敗');
+                        alert('下架失敗');
                     }
                 }
             };
             var formData = new FormData();
             formData.append('id', id);
             xhr.send(formData);
-        })
-    })
+        });
+    });
+
+    let publish_accommodation_btn = document.querySelectorAll(".publish-accommodation");
+    publish_accommodation_btn.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const id = this.getAttribute('data-id');
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', baseAddress + '/Accommodations/Publish', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert('上架成功');
+                        window.location.reload();
+                    } else {
+                        alert('上架失敗');
+                    }
+                }
+            };
+            var formData = new FormData();
+            formData.append('id', id);
+            xhr.send(formData);
+        });
+    });
+
+    const unavailable = document.querySelector("#Unavailable-div");
+
+
+    if (unavailable.getAttribute("data-id") == "False") {
+        unavailable.classList.add("d-none");
+    }
+
+    
 </script>
