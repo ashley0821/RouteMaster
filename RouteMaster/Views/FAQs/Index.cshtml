@@ -4,9 +4,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
     <style>
-        thead {
+        .table > thead {
             background-color: rgba(255, 99, 71, 0.4);
-            color: black;
+        }
+
+        .table > thead th {
+                font-size: 18px;
+        }
+
+        #viewer{
+            padding-left:60px;
+        }
+        #adjust {
+            padding-left: 50px;
         }
     </style>
 }
@@ -53,7 +63,7 @@
             </div>
 
             <div class="mb-3 col-md-2 align-self-end">
-                <button class="btn btn-dark">Search</button>
+                <button class="btn btn-primary">Search</button>
             </div>
         </div>
     </form>
@@ -82,7 +92,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.ModifiedDate)
             </th>
-            <th>管理功能</th>
+            <th id="viewer">管理功能</th>
         </tr>
     </thead>
     <tbody class="table-light">
@@ -98,7 +108,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.AnswerText)
                 </td>
-                <td>
+                <td id="adjust">
                     @Html.DisplayFor(modelItem => item.Helpful)
                 </td>
                 <td>
@@ -108,9 +118,9 @@
                     @Html.DisplayFor(modelItem => item.ModifiedDate)
                 </td>
                 <td>
-                    @Html.ActionLink("修改", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) |
-                    @Html.ActionLink("瀏覽", "Details", new { id = item.Id }, new { @class = "btn btn-outline-secondary" })
-                    @Html.ActionLink("圖片庫", "EditImgIndex", new { id = item.Id }, new { @class = "btn btn-outline-secondary" }) |
+                    @Html.ActionLink("修改", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) 
+                    @Html.ActionLink("瀏覽", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @*@Html.ActionLink("圖片庫", "EditImgIndex", new { id = item.Id }, new { @class = "btn btn-outline-secondary" }) |*@
                     @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
             </tr>

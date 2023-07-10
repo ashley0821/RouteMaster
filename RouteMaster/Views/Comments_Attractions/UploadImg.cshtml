@@ -1,19 +1,17 @@
-﻿@model RouteMaster.Models.ViewModels.FAQUploadImgVM
+﻿@model RouteMaster.Models.ViewModels.Comments_AttractionsUploadImgVM
 
 @{
     ViewBag.Title = "UploadImg";
-    var parentId = ViewBag.Id;
+    var parentId = ViewBag.ParentId;
 }
 
 <h2>新增圖片</h2>
 
-
-@using (Html.BeginForm("UploadImg", "FAQs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("UploadImg", "Comments_Attractions", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
 <div class="row">
-
     <div class="mb-3">
         @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
 
@@ -22,14 +20,12 @@
     </div>
 
     <div class="mb-3">
-        <input type="submit" value="上傳" class="btn btn-success me-3"/>
-        @Html.ActionLink("返回圖片庫", "EditImgIndex", new { id = parentId }, new { @class = "btn btn-primary" })
+        <input type="submit" value="上傳" class="btn btn-success me-3" />
+        @Html.ActionLink("返回圖片庫", "ImgIndex", new { id = parentId }, new { @class = "btn btn-outline-secondary" })
     </div>
 </div>
 }
 
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -97,27 +97,6 @@ namespace RouteMaster.Models.Infra.Extensions
 			};
 		}
 
-		public static FAQEditImgIndexVM ToEditImgIndexVM(this FAQImage entity)
-		{
-			return new FAQEditImgIndexVM
-			{
-				Id = entity.Id,
-				FAQId = entity.Id,
-				Image = entity.Image
-			};
-		}
-
-		public static FAQChangeImgVM ToChangeImgVM(this FAQImage entity)
-		{
-			return new FAQChangeImgVM
-			{
-				ImgId = entity.Id,
-				FAQId=entity.FAQId,
-				Image = entity.Image
-
-			};
-		}
-
 		public static FAQDetailVM ToDetailVM(this FAQDetailDto dto)
 		{
 			return new FAQDetailVM
@@ -131,6 +110,45 @@ namespace RouteMaster.Models.Infra.Extensions
 			};
 		}
 
+		public static FAQChangeImgDto ToChangeImgDto(this FAQImage entity)
+		{
+			return new FAQChangeImgDto
+			{
+				ImgId = entity.Id,
+				FAQId = entity.FAQId,
+				Image = entity.Image
+			};
+		}
+
+		public static FAQChangeImgVM ToChangeImgVM(this FAQChangeImgDto dto)
+		{
+			return new FAQChangeImgVM
+			{
+				ImgId = dto.ImgId,
+				FAQId = dto.FAQId,
+				Image = dto.Image
+			};
+		}
+
+		public static FAQEditImgIndexDto ToEditImgIndexDto(this FAQImage entity)
+		{
+			return new FAQEditImgIndexDto
+			{
+				Id = entity.Id,
+				FAQId = entity.FAQId,
+				Image = entity.Image
+			};
+		}
+
+		public static FAQEditImgIndexVM ToEditImgIndexVM(this FAQEditImgIndexDto dto)
+		{
+			return new FAQEditImgIndexVM
+			{
+				Id = dto.Id,
+				FAQId = dto.Id,
+				Image = dto.Image
+			};
+		}
 
 
 	}
