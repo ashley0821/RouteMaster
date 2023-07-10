@@ -110,7 +110,7 @@
                 <td>
                     @Html.ActionLink("修改", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) |
                     @Html.ActionLink("瀏覽", "Details", new { id = item.Id }, new { @class = "btn btn-outline-secondary" })
-                    @*@Html.ActionLink("圖片庫", "EditImgIndex", new { id = item.Id }, new { @class = "btn btn-outline-secondary" })*@ |
+                    @Html.ActionLink("圖片庫", "EditImgIndex", new { id = item.Id }, new { @class = "btn btn-outline-secondary" }) |
                     @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
@@ -131,7 +131,7 @@
             url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
         },
         lengthMenu: 
-            [5, 10, 20, 'All']
+            [8, 15, 30]
         
         });
         

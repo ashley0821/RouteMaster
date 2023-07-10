@@ -1,0 +1,191 @@
+﻿@model RouteMaster.Models.ViewModels.Accommodations.Room.RoomEditVM
+
+@section Styles{
+    <style>
+        .exist-image:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+    </style>
+}
+@{
+    ViewBag.Title = "Edit";
+    var images = Model.RoomImages != null ? Model.RoomImages.ToArray() : new RouteMaster.Models.EFModels.RoomImage[0];
+}
+
+@{ Html.RenderPartial("_AccommodationNavPartial", new RouteMaster.Models.Dto.Accommodation.NavDto { Id = Model.AccommodationId, Parameter = "accommodation" });}
+@using (Html.BeginForm("EditRoom", "Accommodations", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.AccommodationId);
+
+    <div class="row">
+        <div class="d-flex justify-content-center">
+
+            <h2 class="me-auto">編輯住所資訊</h2>
+
+        </div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        <div class="col-4">
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Type", ViewBag.RoomType as IEnumerable<SelectListItem>, null, new { @class = "form-control" })
+                    @*@Html.DropDownListFor(m => m.Type, ViewBag.RoomType as IEnumerable<SelectListItem>, null, new { @class = "form-control" })*@
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="mb-3 d-flex">
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="submit-btn" type="submit" value="確認編輯" class="btn btn-primary " />
+                    @Html.ActionLink("放棄編輯", $"RoomsIndex/{Model.AccommodationId}", null, new { @class = "btn btn-danger" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-7 ms-5">
+            @{ Html.RenderPartial("_ImageCorouselPartial");}
+            @if (images.Any())
+            {
+                <div class="imageInDb-preview border border-1 border-primary mt-3" id="imageInDbPreview">
+                    <h3 class="m-3 text-primary">已經建立的照片</h3>
+                    @foreach (var image in Model.RoomImages)
+                    {
+                        <img src="~/Uploads/@image.Image" class="preview-image exist-image" id="exist-image-@image.Id" alt="@Model.Name">
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+    const carousel =
+        `
+    <div class="big">
+        <div class="area">
+            <div class="content">
+                <div id="carouselExampleDark" class="carousel slide h-100" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        @for (int i = 1; i < images.Count(); i++)
+                        {
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="@i" aria-label="Slide @(i+1)"></button>
+                        }
+
+                    </div>
+                    <div class="carousel-inner h-100">
+
+
+                        @for (int i = 0; i < images.Count(); i++)
+                        {
+                            if (i == 0)
+                            {
+                                <div class="carousel-item active h-100" data-bs-interval="1000000">
+                                    <img src="~/Uploads/@images[0].Image" class="d-block w-100 BigImg">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <input id="@images[0].Image" type="text" class="text-white d-inline form-control w-25 text-center" style="background-color:#67676799" value="@Model.Name" />
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="carousel-item h-100" data-bs-interval="1000000">
+                                    <img src="~/Uploads/@images[i].Image" class="d-block w-100 BigImg">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <input id="@images[i].Image" type="text" class="text-white d-inline form-control w-25 text-center" style="background-color:#67676799" value="@Model.Name" />
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon rounded-circle" style="background-color:#67676799;" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                        <span class="carousel-control-next-icon rounded-circle" style="background-color:#67676799" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="btns d-flex justify-content-center align-items-center">
+                <input id="delete-img" type="button" class="btn btn-danger" value="刪除照片">
+            </div>
+        </div>
+</div>
+        `;
+
+        $(function () {
+            let baseAddress = "https://localhost:44371";
+            $("#delete-img").on('click', function () {
+                console.log(213)
+                const imgPath = $(".active").children().children('input')[0].id;
+                $.ajax({
+                    type: "POST",
+                    url: `${baseAddress}/Accommodations/DeleteRoomImage`,
+                    data: {
+                        imgPath: imgPath,
+                    },
+
+                }).done(data => {
+                    // 清空 Town DropDownList 的选项
+                    alert("刪除成功");
+                    location.reload();
+                }).fail(err => {
+                    alert("刪除失敗");
+                });
+
+            });
+
+            $(".exist-image").on('click', function (e) {
+                $(".big").addClass('bigShow');
+
+                $('.carousel-item').removeClass('active');
+
+                const imagePath = $(this).attr('src');
+                const targetItem = $(`.carousel-item img[src='${imagePath}']`).closest('.carousel-item');
+                targetItem.addClass('active');
+            });
+
+        });
+
+
+    </script>
+    <script src="~/Scripts/ShowBigImages.js"></script>
+
+}

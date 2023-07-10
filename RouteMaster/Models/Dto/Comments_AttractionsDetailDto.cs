@@ -11,6 +11,8 @@ namespace RouteMaster.Models.Dto
 	{
 		public int Id { get; set; }
 
+		public string MemberAccount { get; set; }
+
 		public string AttractioName { get; set; }
 
 		public string Content { get; set; }

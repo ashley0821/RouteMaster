@@ -1,0 +1,105 @@
+﻿@model RouteMaster.Models.ViewModels.PackageTourIndexVM
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>詳細資料</h2>
+
+<div>
+
+    <hr />
+
+    <dl class="dl-row">
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CouponId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CouponId)
+        </dd>
+
+        <dt>
+           景點列表
+        </dt>
+        @foreach (var attraction in Model.Attractions)
+        {
+            <dd>景點類別</dd>
+            <dd>@attraction.CategoryName</dd>
+            <dd>景點名稱</dd>
+            <dd>@attraction.Name</dd>
+            <dd>景點所在縣市</dd>
+            <dd>@attraction.Region</dd>
+            <dd>景點詳細地址</dd>
+            <dd>@attraction.Address</dd>
+            <dd>景點介紹</dd>
+            <dd>@attraction.Description</dd>    
+        }
+
+
+        <dt>
+            活動列表
+        </dt>
+        @foreach (var activity in Model.Activities)
+        {
+            <dd>活動種類</dd>
+            <dd>@activity.ActivityCategoryName</dd>
+            <dd>附屬景點</dd>
+            <dd>@activity.AttractionName</dd>
+            <dd>活動說明</dd>
+            <dd>@activity.Description</dd>
+            <dd>開始時間</dd>
+            <dd>@activity.StartTime</dd>
+            <dd>結束時間</dd>
+            <dd>@activity.EndTime</dd>
+            <dd>價格</dd>
+            <dd>@activity.Price</dd>
+            <dd>是否上架</dd>
+            <dd>@activity.Status</dd>
+        }
+
+
+
+        <dt>
+            額外服務列表
+        </dt>
+        @foreach (var extraService in Model.ExtraServices)
+        {
+            <dd>附屬景點</dd>
+            <dd>@extraService.AttractionName</dd>
+            <dd>額外服務名稱</dd>
+            <dd>@extraService.Name</dd>
+            <dd>額外服務說明</dd>
+            <dd>@extraService.Description</dd>
+            <dd>額外服務價格</dd>
+            <dd>@extraService.Price</dd>
+            <dd>是否上架</dd>
+            <dd>@extraService.Status</dd>
+        }
+
+
+
+
+
+
+
+    </dl>
+</div>
+
+

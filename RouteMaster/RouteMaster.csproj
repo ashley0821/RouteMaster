@@ -172,6 +172,9 @@
     <Compile Include="Models\Dto\Accommodation\AccommodationCreateDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationDetailsDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationEditDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\IdentityDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\NavDto.cs" />
+    <Compile Include="Models\Dto\Accommodation\Room\RoomEditDto.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />
     <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationIndexDto.cs" />
@@ -351,6 +354,7 @@
     <Compile Include="Models\ViewModels\Accommodations\AccommodationEditVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccomodationDetailsVM.cs" />
+    <Compile Include="Models\ViewModels\Accommodations\Room\RoomEditVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomImagesVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\Room\RoomIndexVM.cs" />
     <Compile Include="Models\ViewModels\Accommodations\ImagesVM.cs" />
@@ -366,6 +370,7 @@
     <Compile Include="Models\ViewModels\AdministratorIndexVM.cs" />
     <Compile Include="Models\ViewModels\AdministratorLoginVM.cs" />
     <Compile Include="Models\ViewModels\AdministratorRegisterVM.cs" />
+    <Compile Include="Models\ViewModels\AdministratorSuspendVM.cs" />
     <Compile Include="Models\ViewModels\Attractions\AttractionCreateVM.cs" />
     <Compile Include="Models\ViewModels\Attractions\AttractionCriteria.cs" />
     <Compile Include="Models\ViewModels\Attractions\AttractionDetailVM.cs" />
@@ -398,13 +403,16 @@
     <Compile Include="Models\ViewModels\FAQIndexVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServicesDetailsVM.cs" />
     <Compile Include="Models\ViewModels\FAQUploadImgVM.cs" />
+    <Compile Include="Models\ViewModels\MemberActiveVM.cs" />
     <Compile Include="Models\ViewModels\MemberCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberEditVM.cs" />
+    <Compile Include="Models\ViewModels\MemberForgetPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberImageCreateVM.cs" />
     <Compile Include="Models\ViewModels\MemberImageEditVM.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVM.cs" />
     <Compile Include="Models\ViewModels\MemberRegisterVM.cs" />
+    <Compile Include="Models\ViewModels\MemberResetPasswordVM.cs" />
     <Compile Include="Models\ViewModels\MemberSuspendVM.cs" />
     <Compile Include="Models\ViewModels\OrderEditVM.cs" />
     <Compile Include="Models\ViewModels\OrderInvdexVM.cs" />
@@ -710,10 +718,8 @@
     <Content Include="Views\Comments_Attractions\Edit.cshtml" />
     <Content Include="Views\Comments_Attractions\Index.cshtml" />
     <Content Include="Views\Attractions\UploadImg.cshtml" />
-
     <Content Include="Views\Accommodations\_AccommodationNavPartial.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
-
     <Content Include="Views\Partners\PartnerLogin.cshtml" />
     <Content Include="Views\AttractionCategories\Create.cshtml" />
     <Content Include="Views\AttractionCategories\Delete.cshtml" />
@@ -723,6 +729,19 @@
     <Content Include="Views\AttractionTags\Delete.cshtml" />
     <Content Include="Views\AttractionTags\Edit.cshtml" />
     <Content Include="Views\AttractionTags\Index.cshtml" />
+    <Content Include="Views\Members\ActiveRegister.cshtml" />
+    <Content Include="Views\Accommodations\EditRoom.cshtml" />
+
+    <Content Include="Views\PackageTours\_PopupDetailsPartial.cshtml" />
+
+    <Content Include="Views\Members\ActiveMember.cshtml" />
+    <Content Include="Views\Administrators\ConfirmRegister.cshtml" />
+    <Content Include="Views\Administrators\SuspendAdministrator.cshtml" />
+    <Content Include="Views\Members\MemberForgetPassword.cshtml" />
+    <Content Include="Views\Members\ConfirmForgetPassword.cshtml" />
+    <Content Include="Views\Members\ResetPassword.cshtml" />
+    <Content Include="Views\Members\ConfirmResetPassword.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,5 +1,6 @@
 ﻿using RouteMaster.Models.Dto;
 using RouteMaster.Models.Dto.Accommodation;
+using RouteMaster.Models.Dto.Accommodation.Room;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra.ViewModels.Accommodations;
 using RouteMaster.Models.ViewModels;
@@ -12,6 +13,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Xml.Linq;
 
 namespace RouteMaster.Models.Infra.Extensions
 {
@@ -49,7 +51,20 @@ namespace RouteMaster.Models.Infra.Extensions
 				AccommodationImages = dto.AccommodationImages
 			};
 		}
-		
+        public static RoomEditVM ToVM(this RoomEditDto dto)
+		{
+			return new RoomEditVM
+			{
+				Id = dto.Id,
+				AccommodationId = dto.AccommodationId,
+				Type = dto.Type,
+				Name = dto.Name,
+				Quantity = dto.Quantity,
+				Price = dto.Price,
+				RoomImages = dto.RoomImages
+			};
+		}
+
 		//vm轉dto
 		public static AccommodationCreateDto ToDto(this AccommodationCreateVM vm)
 		{
@@ -103,6 +118,19 @@ namespace RouteMaster.Models.Infra.Extensions
 				Files = iVM.Files
 			};
 		}
+		public static RoomEditDto ToDto(this RoomEditVM iVM)
+		{
+			return new RoomEditDto
+			{
+				Id = iVM.Id,
+				AccommodationId = iVM.AccommodationId,
+				Type = iVM.Type,
+				Name = iVM.Name,
+				Quantity = iVM.Quantity,
+				Price = iVM.Price,
+				RoomImages = iVM.RoomImages
+			};
+		}
 
 
 
@@ -136,6 +164,20 @@ namespace RouteMaster.Models.Infra.Extensions
 				IndustryEmail = accommodation.IndustryEmail,
 				ParkingSpace = accommodation.ParkingSpace,
 				AccommodationImages = accommodation.AccommodationImages
+			};
+		}
+		public static RoomEditDto ToEditDto(this Room room)
+		{
+
+			return new RoomEditDto
+			{
+				Id = room.Id,
+				AccommodationId = room.AccommodationId,
+				Type = room.Type,
+				Name = room.Name,
+				Quantity = room.Quantity,
+				Price = room.Price,
+				RoomImages = room.RoomImages
 			};
 		}
 

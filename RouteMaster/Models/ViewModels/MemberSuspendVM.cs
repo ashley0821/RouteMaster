@@ -10,6 +10,6 @@ namespace RouteMaster.Models.ViewModels
         public int Id { get; set; }
         public bool IsSuspended { get; set; }
 
-        public bool IsConfirmed { get; set; }
-	}
+        public bool IsConfirmed { get; set; }   
+    }
 }

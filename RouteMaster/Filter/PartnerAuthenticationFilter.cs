@@ -39,10 +39,6 @@ namespace RouteMaster.Filter
 		}
 		public class PartnerAuthorizeAttribute : AuthorizeAttribute
 		{
-			public PartnerAuthorizeAttribute()
-			{
-
-			}
 			protected override bool AuthorizeCore(HttpContextBase httpContext)
 			{
 				bool authorize = false;

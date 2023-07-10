@@ -5,12 +5,23 @@
     var criteria = ViewBag.Criteria as RouteMaster.Models.Infra.Criterias.MemberCriteria;
 }
 
-<h2>Index</h2>
+<h2>會員列表</h2>
+<div>
+    <p>
+        @Html.ActionLink("註冊新會員", "Register")
+    </p>
+</div>
+<div>
+    <p>
+        @Html.ActionLink("會員登入", "Login")
+    </p>
+</div>
 
-<p>
-    @Html.ActionLink("註冊會員", "Register")
-</p>
-
+<div>
+    <p>
+        @Html.ActionLink("會員登出", "Logout")
+    </p>
+</div>
 <section class="container">
     <form method="get">
         <div class="row">
@@ -22,26 +33,26 @@
                 <label for="s_lastname">姓</label>
                 <input type="text" class="form-control" name="LastName" id="s_lastname" value="@criteria.LastName">
             </div>
-        <div class="mb-3 col-md-3">
-            <label for="s_account">帳號</label>
-            <input type="text" class="form-control" name="Account" id="s_account" value="@criteria.Account">
-        </div>
-        <div class="mb-3 col-md-3">
-            <label for="s_email">信箱</label>
-            <input type="text" class="form-control" name="Email" id="s_email" value="@criteria.Email">
-        </div>
-        <div class="mb-3 col-md-3">
-            <label for="s_cellPhoneNumber">手機號碼</label>
-            <input type="text" class="form-control" name="CellPhoneNumber" id="s_cellPhoneNumber" value="@criteria.CellPhoneNumber">
-        </div>
-        <div class="mb-3 col-md-4">
-            <label for="s_createDate" style="display: block">創建日期</label>
-            <input type="text" class="form-control" name="createDateBegin" id="createDateBegin" style="width: 40%; display: inline" value="@(criteria.CreateDateBegin.HasValue?criteria.CreateDateBegin.Value.ToString("yyyy'/'MM'/'dd"):"")"> ~
-            <input type="text" class="form-control" name="createDateEnd" id="createDateEnd" style="width: 40%; display: inline" value="@(criteria.CreateDateEnd.HasValue?criteria.CreateDateEnd.Value.ToString("yyyy'/'MM'/'dd"):"")">
-        </div>
-        <div class="mb-3 col-md-2 align-self-end">
-            <button class="btn btn-primary">Search</button>
-        </div>
+            <div class="mb-3 col-md-3">
+                <label for="s_account">帳號</label>
+                <input type="text" class="form-control" name="Account" id="s_account" value="@criteria.Account">
+            </div>
+            <div class="mb-3 col-md-3">
+                <label for="s_email">信箱</label>
+                <input type="text" class="form-control" name="Email" id="s_email" value="@criteria.Email">
+            </div>
+            <div class="mb-3 col-md-3">
+                <label for="s_cellPhoneNumber">手機號碼</label>
+                <input type="text" class="form-control" name="CellPhoneNumber" id="s_cellPhoneNumber" value="@criteria.CellPhoneNumber">
+            </div>
+            <div class="mb-3 col-md-4">
+                <label for="s_createDate" style="display: block">創建日期</label>
+                <input type="text" class="form-control" name="createDateBegin" id="createDateBegin" style="width: 40%; display: inline" value="@(criteria.CreateDateBegin.HasValue?criteria.CreateDateBegin.Value.ToString("yyyy'/'MM'/'dd"):"")"> ~
+                <input type="text" class="form-control" name="createDateEnd" id="createDateEnd" style="width: 40%; display: inline" value="@(criteria.CreateDateEnd.HasValue?criteria.CreateDateEnd.Value.ToString("yyyy'/'MM'/'dd"):"")">
+            </div>
+            <div class="mb-3 col-md-2 align-self-end">
+                <button class="btn btn-primary">Search</button>
+            </div>
         </div>
     </form>
 </section>
@@ -124,7 +135,11 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("變更圖片", "EditMemberImgae", new { id = item.Id }) |
-                @Html.ActionLink("停權設定", "SuspendMember", new { id = item.Id })
+                @Html.ActionLink("停權設定", "SuspendMember", new { id = item.Id })|
+                <br />
+                @Html.ActionLink("啟用帳戶", "ActiveRegister", new { id = item.Id })
+                @Html.ActionLink("更改密碼", "EditPassword", new { id = item.Id })
+                @Html.ActionLink("會員中心", "MemberArea", new {id=item.Id})
             </td>
         </tr>
     }
@@ -133,13 +148,20 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
-    
-    $(document).ready(function () {
-        $("#createDateBegin").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd' 
-        $("#createDateEnd").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd' }
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    });
+    @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>*@
+
+    <script>
+
+        $(document).ready(function () {
+            $("#createDateBegin").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd'
+            $("#createDateEnd").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd' }
+
+        });
 
 
     </script>

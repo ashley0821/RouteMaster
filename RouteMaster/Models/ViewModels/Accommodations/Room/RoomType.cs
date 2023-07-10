@@ -9,12 +9,12 @@ namespace RouteMaster.Models.ViewModels.Accommodations.Room
 
 	public class RoomType
 	{
-        public int Id { get; set; }
-        public string Type { get; set; }
-        public RoomType(int id, string type)
+        public string Value { get; set; }
+        public string Text { get; set; }
+        public RoomType(string value, string type)
         {
-            this.Type = type;
-            this.Id = id;
+            this.Text = type;
+            this.Value = value;
         }
     }
 }

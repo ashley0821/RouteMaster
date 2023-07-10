@@ -27,6 +27,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		{
 			Administrator administrator = new Administrator
 			{
+				PermissionId = dto.PermissionId,
 				Permission= dto.Permission,
 				FirstName= dto.FirstName,
 				LastName= dto.LastName,
@@ -57,8 +58,17 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			{
 				query = query.Where(m => m.Email.Contains(criteria.Email));
 			}
+            if (criteria.CreateDateBegin.HasValue)
+            {
+                query = query.Where(m => m.CreateDate >= criteria.CreateDateBegin.Value);
+            }
+            if (criteria.CreateDateEnd.HasValue)
+            {
+                query = query.Where(m => m.CreateDate <= criteria.CreateDateEnd.Value);
+            }
 
-			var Administrators = query.Select(a => new AdministratorIndexDto
+
+            var Administrators = query.Select(a => new AdministratorIndexDto
 			{
 				Id = a.Id,
 				PermissionId = (int)a.PermissionId,
