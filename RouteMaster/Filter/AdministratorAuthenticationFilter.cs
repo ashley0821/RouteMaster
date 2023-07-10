@@ -74,7 +74,7 @@ namespace RouteMaster.Filter
 							}
 
 						}
-						if(identity == "管理員")
+						if(identity == "總管理員")
 						{
 
 							var userRole = (from a in context.Administrators
@@ -93,8 +93,24 @@ namespace RouteMaster.Filter
 									};
 								}
 							}
-						}
-					}
+                        if(identity == "會員")
+                        {
+                            var partnerRole = (from m in context.Partners
+                                               where m.Email == userEmail
+                                               select new
+                                               {
+                                                   m.Id
+                                               }).FirstOrDefault();
+                            if (partnerRole != null)
+                            {
+                                authorize = true;
+                            }
+
+                        }
+                    }
+
+					
+				}
 
 
 				return authorize;
@@ -105,8 +121,8 @@ namespace RouteMaster.Filter
 				filterContext.Result = new RedirectToRouteResult(
 				   new RouteValueDictionary
 				   {
-					{ "controller", "Home" },
-					{ "action", "UnAuthorized" }
+					{ "controller", "Administrators" },
+					{ "action", "Login" }
 				   });
 			}
 		}

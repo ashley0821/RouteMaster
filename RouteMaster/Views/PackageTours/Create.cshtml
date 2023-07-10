@@ -27,6 +27,16 @@
         .hide{
             display:none;
         }
+
+
+
+        .table > thead {
+            background-color: rgba(255, 99, 71, 0.4);
+        }
+
+            .table > thead th {
+                font-size: 18px;
+            }
     </style>
 
 
@@ -114,7 +124,7 @@
     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
 
     <div class="mb-3">
-        <input type="submit" value="新增" class="btn btn-primary" />
+        <input type="submit" value="新增" class="btn btn-css-success" />
     </div>
 </div>
 
@@ -134,14 +144,19 @@
 
     <script>
         //叫用DataTable套件
+       
+
+
         new DataTable('#attractionTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
             responsive: true,
 
-
         });
+
+
+
         new DataTable('#activitiyTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
@@ -151,6 +166,7 @@
         });
 
 
+     
 
         new DataTable('#extraServiceTable', {
             language: {
@@ -234,6 +250,8 @@
         const attractions = @Html.Raw(Json.Encode(ViewBag.Attractions));
         const attsContainer = document.querySelector("#attractionContainer");
         const addAttBtns = document.querySelectorAll(".addAttraction");
+
+        console.log(addAttBtns);
         for (let i = 0; i < addAttBtns.length; i++) {
             addAttBtns[i].addEventListener('click', () => {
 
@@ -340,6 +358,9 @@
         const extraServices =@Html.Raw(Json.Encode(ViewBag.ExtraServices));
         const extContainer = document.querySelector("#extraServiceContainer");
         const addExtBtns = document.querySelectorAll(".addExtraService");
+
+
+       
         for (let i = 0; i < addExtBtns.length; i++) {
             addExtBtns[i].addEventListener('click', () => {
 

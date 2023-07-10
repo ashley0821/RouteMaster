@@ -44,11 +44,13 @@
         }
 
             .table > thead th {
-                font-size: 18px;
+                font-size: 16px;
             }
 
         .table tbody tr td {
             vertical-align: middle;
+            color:#697A8D;
+            font-size:14px;
         }
 
         #viewer {
@@ -100,7 +102,7 @@
                 </select>
             </div>
             <div class="mb-4 col-md-4 align-self-end">
-                <button class="btn btn-outline-secondary right-aligned-button" style="width:200px">搜尋</button>
+                <button class="btn btn-outline-primary right-aligned-button" style="width:200px">搜尋</button>
             </div>
 
 
@@ -137,12 +139,13 @@
 
 <table id="orderTable" class="table" style="width:100%">
     <thead>
+        
         <tr style="text-align: center" ;>
 
             <th class="control-label col-md-1" style="text-align: center;">
                 @Html.DisplayNameFor(model => model.Id)
             </th>
-            <th class="control-label col-md-1" style="text-align: center;">
+            <th class="control-label col-md-2" style="text-align: center;">
                 @Html.DisplayNameFor(model => model.MemberName)
             </th>
             <th class="control-label col-md-2" style="text-align: center;">
@@ -186,7 +189,7 @@
                 @*<td>
                         @Html.DisplayFor(modelItem => item.MemberId)
                     </td>*@
-                <td class="control-label col-md-1" style="text-align: center;">
+                <td class="control-label col-md-2" style="text-align: center;">
                     @Html.DisplayFor(modelItem => item.MemberName)
                 </td>
                 @*<td>
@@ -230,8 +233,8 @@
                         </div>
                     </td>*@
                 <td class="control-label col-md-2" style="text-align: center;">
-                    @Html.ActionLink("訂單細節", "Details", new { id = item.Id }, new { @class = "btn btn-warning", style = "width: 100px; height: 40px;" })
-                    @Html.ActionLink("訂單編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-primary", style = "width: 100px; height: 40px;" })
+                    @Html.ActionLink("訂單細節", "Details", new { id = item.Id }, new { @class = "btn btn-warning", style = "width: 80px; height: 40px; font-size:13px" })
+                    @Html.ActionLink("訂單編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-primary", style = "width: 80px; height: 40px; font-size:13px;" })
 
                     @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
                 </td>
@@ -265,10 +268,11 @@
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
 
+
     <script>
 
         new DataTable('#orderTable', {
-            ordering: false,
+            ordering: true,
             searching:false,
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
@@ -306,46 +310,62 @@
 
 
     <script>
-        const generateExcel = (data) => {
+        //const generateExcel = (data) => {
+        //    const csvContent = "\uFEFF" + data.map(row => Object.values(row).join(",")).join("\n");
+        //    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+        //    const downloadLink = document.createElement("a");
+        //    downloadLink.href = URL.createObjectURL(blob);
+        //    downloadLink.download = "data.csv";
+        //    downloadLink.click();
+        //};
+        const generateExcel = (data, headers) => {
+            const csvContent = "\uFEFF" + headers.join(",") + "\n" +
+                data.map(row => {
+                    const values = headers.map(header => {
+                        const value = row[header] || "";
+                        if (typeof value === "string" && (value.includes(",") || value.includes('"'))) {
+                            return `"${value.replace(/"/g, '""')}"`;
+                        }
+                        return value;
+                    });
+                    return values.join(",");
+                }).join("\n");
 
-            const csvContent = "data:text/csv;charset=utf-8," + data.map(row => Object.values(row).join(",")).join("\n");
-
+            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
             const downloadLink = document.createElement("a");
-            downloadLink.href = encodeURI(csvContent);
+            downloadLink.href = URL.createObjectURL(blob);
             downloadLink.download = "data.csv";
-
             downloadLink.click();
         };
 
         const exportExcel = () => {
-            let list = [];
-
-
             const table = document.getElementById("orderTable");
+
+            const headers = [
+                "Id",
+                "MemberName",
+                "Email",
+                "PaymentMethod",
+                "CreateDate",
+                "Total",
+                "PaymentStatusText"
+            ];
+
             const tbody = table.getElementsByTagName("tbody")[0];
             const rows = tbody.getElementsByTagName("tr");
 
-            for (let i = 0; i < rows.length; i++) {
-                const row = rows[i];
+            const list = Array.from(rows).map(row => {
                 const cells = row.getElementsByTagName("td");
+                const obj = {};
 
+                headers.forEach((header, index) => {
+                    obj[header] = cells[index].innerText;
+                });
 
-                const obj = {
-                    Id: cells[0].innerText,
-                    MemberName: cells[1].innerText,
-                    PaymentMethodName: cells[2].innerText,
-                    CreateDate: cells[3].innerText,
-                    Total: cells[4].innerText,
-                    PaymentStatusText: cells[5].innerText,
-                };
+                return obj;
+            });
 
-
-                list.push(obj);
-            }
-            /*console.log(list);*/
-
-            generateExcel(list);
-
+            generateExcel(list, headers);
         };
     </script>
 
@@ -355,12 +375,11 @@
             checkbox.addEventListener("change", function () {
                
                 updateSendEmailButtonStatus();
-                console.log(data);
-                alert("發送成功，已成功記錄。");
+
 
             });
         });
-
+       
 
         function updateSendEmailButtonStatus() {
             const checkedCheckboxes = document.querySelectorAll("input[name='selectedOrderIds']:checked");
@@ -369,23 +388,25 @@
         }
 
         $(document).ready(function () {
-            $("#sendEmailButton").click(function () {
+            $("#sendEmailButton").click(function (e) {
+                 e.preventDefault();
+
+
                 var selectedOrderIds = [];
 
 
                 $("input[name='selectedOrderIds']:checked").each(function () {
                     selectedOrderIds.push(parseInt($(this).val()));
                 });
-
+                console.log(selectedOrderIds)
                 $.ajax({
                     url: "https://localhost:44371/Orders/SendUnpaidNotification",
                     method: "POST",
                     data: { selectedOrderIds: selectedOrderIds },
                     success: function (data) {
+                        console.log('666');
                         console.log(data);
                         alert("發送成功，已成功記錄。");
-
-
                     },
 
                     error: function (error) {

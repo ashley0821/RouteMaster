@@ -234,11 +234,11 @@
 
                                 </a>
                             </li>
-                            <li class="menu-item">
+                            @*<li class="menu-item">
                                 <a href="#" class="menu-link">
                                     <div data-i18n="Basic">留位子給你</div>
                                 </a>
-                            </li>
+                            </li>*@
                         </ul>
                     </li>
                     <li class="menu-header small text-uppercase">
@@ -409,6 +409,26 @@
                                             </span>
                                         </a>
                                     </li>
+                                    @{
+                                        if (User.Identity.IsAuthenticated)
+                                        {
+                                            <li>
+                                                <a class="dropdown-item" href="@Url.Action("Logout", "Members")">
+                                                    <i class="bx bx-cog me-2"></i>
+                                                    <span class="align-middle">登出</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    else
+                                        {
+                                            <li>
+                                                <a class="dropdown-item" href="@Url.Action("Login", "Members")">
+                                                    <i class="bx bx-cog me-2"></i>
+                                                    <span class="align-middle">登入</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
                                 </ul>
                             </li>
                             <!--/ User -->
