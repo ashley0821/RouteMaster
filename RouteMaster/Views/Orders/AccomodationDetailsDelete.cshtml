@@ -4,7 +4,7 @@
     ViewBag.Title = "AccomodationDetailsDelete";
 }
 
-<h2>AccomodationDetailsDelete</h2>
+<h2>住宿訂單管理</h2>
 
 <div>
     <style>
@@ -15,16 +15,12 @@
 
             .dl-horizontal dt {
                 color: #333;
-               
             }
 
             .dl-horizontal dd {
                 color: #666;
                 margin-left: 12px;
             }
-           
-
-        
     </style>
     <h4>AccomodationDetailsVM</h4>
     <hr />
@@ -112,11 +108,19 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-    <div class="form-actions no-color">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        @Html.ActionLink("Back to List", "Index",null, new { @class = "btn btn-info" })
+    <div class="col-md-4 col-md-10 mb-4 alert" role="alert">
+        <div class="btn-group mb-3" role="group" aria-label="Save and Back buttons">
+            <button id="demo1" class="btn btn-danger" style="width:100px;">刪除</button>
+            <div class="btn-group" role="group" aria-label="Back button">
+                @Html.ActionLink("回上頁", "Index", "", new { @class = "btn btn-warning" })
+            </div>
+        </div>
     </div>
+
+    @*<div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to List", "Index",null, new { @class = "btn btn-info" })
+        </div>*@
 }
 
 
