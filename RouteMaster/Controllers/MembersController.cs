@@ -369,12 +369,16 @@ namespace RouteMaster.Controllers
             return Redirect(processResult.returnUrl);
         }
 
+        public ActionResult ForMemberIndex(string account)
+        {
+
+            return View();
+        }
         public ActionResult ForMemberEdit(string account)
         {
             return View();
         }
 
-        
 
         private int GetLoginAttempts()
         {
