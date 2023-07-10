@@ -17,11 +17,11 @@
     </p>
 </div>
 
-<div>
+@*<div>
     <p>
         @Html.ActionLink("會員登出", "Logout")
     </p>
-</div>
+</div>*@
 <section class="container">
     <form method="get">
         <div class="row">
@@ -133,13 +133,13 @@
                 @Html.DisplayFor(modelItem => item.IsSuspended)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("變更圖片", "EditMemberImgae", new { id = item.Id }) |
                 @Html.ActionLink("停權設定", "SuspendMember", new { id = item.Id })|
                 <br />
-                @Html.ActionLink("啟用帳戶", "ActiveRegister", new { id = item.Id })
-                @Html.ActionLink("更改密碼", "EditPassword", new { id = item.Id })
-                @Html.ActionLink("會員中心", "MemberArea", new {id=item.Id})
+                @Html.ActionLink("啟用帳戶", "ActiveRegister", new { id = item.Id })|
+                @Html.ActionLink("更改密碼", "EditPassword", new { id = item.Id })|
+                @Html.ActionLink("會員中心", "MemberArea", new { id = item.Id })
             </td>
         </tr>
     }

@@ -28,7 +28,7 @@ using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 namespace RouteMaster.Controllers
 {
     //[AdministratorAuthenticationFilter]
-    //[CustomAuthorize("管理者")]
+    [CustomAuthorize("總管理員","會員")]
     public class MembersController : Controller
     {
         private AppDbContext db = new AppDbContext();
@@ -341,13 +341,13 @@ namespace RouteMaster.Controllers
             return View();
         }
 
-
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
         }
 
-
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Login(MemberLoginVM vm)
         {
@@ -369,6 +369,17 @@ namespace RouteMaster.Controllers
             return Redirect(processResult.returnUrl);
         }
 
+        public ActionResult ForMemberIndex(string account)
+        {
+
+            return View();
+        }
+        public ActionResult ForMemberEdit(string account)
+        {
+            return View();
+        }
+
+
         private int GetLoginAttempts()
         {
             int loginAttempts = Session["LoginCounts"] != null ? (int)Session["LoginCounts"] : 0;
@@ -385,7 +396,7 @@ namespace RouteMaster.Controllers
 
         private (string returnUrl, HttpCookie cookie) ProcessLogin(string account, bool rememberMe)
         {
-            var roles = string.Empty; // 在本範例, 沒有用到角色權限,所以存入空白
+            var roles = "會員"; // 在本範例, 沒有用到角色權限,所以存入空白
 
             // 建立一張認證票
             var ticket =
@@ -657,6 +668,7 @@ namespace RouteMaster.Controllers
 
             return RedirectToAction("Index");
         }
+
 
 
         protected override void Dispose(bool disposing)
