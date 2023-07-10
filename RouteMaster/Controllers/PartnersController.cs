@@ -21,8 +21,7 @@ using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-	[AdministratorAuthenticationFilter]
-	[CustomAuthorize("總管理員")]
+	
 	public class PartnersController : Controller
     {
         private readonly AppDbContext db = new AppDbContext();

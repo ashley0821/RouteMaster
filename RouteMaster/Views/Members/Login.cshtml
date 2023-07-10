@@ -1,8 +1,6 @@
 ﻿@model RouteMaster.Models.ViewModels.MemberLoginVM
 
-@{
-    ViewBag.Title = "Login";
-}
+
 
 <h2>Login</h2>
 
@@ -32,10 +30,13 @@
         </div>
 
         <div class="mb-3">
-                <input type="submit" value="登入" class="btn btn-warning" />
-                <a href="/Members/MemberForgetPassword/" class="btn btn-primary ">忘記密碼</a>
-
+            <input type="submit" value="登入" class="btn btn-warning" />
+            <a href="/Members/MemberForgetPassword/" class="btn btn-primary ">忘記密碼</a>
+            <a href="/Members/Register/" class="btn btn-success ">註冊會員</a>
         </div>
+      
+
+     
     </div>
 }
 
@@ -45,4 +46,18 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+
+
+<script>
+
+
+
+        //window.addEventListener('load', function () {
+        //    var memberImage = document.querySelector('#memberImage');
+        //    memberImage.setAttribute('src', '<%= "~Uploads" + Model.Image %>');
+        //});
+
+
+</script>
 }

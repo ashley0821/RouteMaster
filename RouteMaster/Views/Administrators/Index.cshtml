@@ -19,9 +19,11 @@
 
 <h2>平台管理員列表</h2>
 
-<p>
-    @Html.ActionLink("新增管理員", "Register")
-</p>
+<div>
+    <form action="@Url.Action("Register", "Administrators")">
+        <button type="submit" class="btn-css-success">新增會員</button>
+    </form>
+</div>
 
 <section class="container">
     <form method="get">
@@ -101,9 +103,9 @@
                     @Html.DisplayFor(modelItem => item.IsSuspended)
                 </td>
                 <td>
-                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("詳細資料", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("停權", "SuspendAdministrator", new { id = item.Id })
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn-css-primary" }) |
+                    @Html.ActionLink("詳細資料", "Details", new { id = item.Id }, new { @class = "btn-css-warning" }) |
+                    @Html.ActionLink("停權", "SuspendAdministrator", new { id = item.Id }, new { @class = "btn-css-danger" })
                 </td>
             </tr>
         }

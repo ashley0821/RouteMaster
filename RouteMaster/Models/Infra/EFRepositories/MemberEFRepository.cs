@@ -144,6 +144,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 				IsConfirmed = m.IsConfirmed,
 				IsSuspended = m.IsSuspended,
 				ConfirmCode = m.ConfirmCode,
+			
 			});
 			return Members;
 		}

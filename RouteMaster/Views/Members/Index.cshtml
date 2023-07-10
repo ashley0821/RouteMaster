@@ -18,17 +18,14 @@
 }
 
 <h2>會員列表</h2>
+
 <div>
-    <p>
-        @Html.ActionLink("註冊新會員", "Register")
-    </p>
+    <form action="@Url.Action("Register", "Members")">
+        <button type="submit" class="btn-css-success">新增會員</button>
+    </form>
 </div>
 
-@*<div>
-        <p>
-            @Html.ActionLink("會員登出", "Logout")
-        </p>
-    </div>*@
+
 <section class="container">
     <form method="get">
         <div class="row">
@@ -54,11 +51,11 @@
             </div>
             <div class="mb-3 col-md-4">
                 <label for="s_createDate" style="display: block">創建日期</label>
-                <input type="text" class="form-control" name="createDateBegin" id="createDateBegin" style="width: 40%; display: inline" value="@(criteria.CreateDateBegin.HasValue?criteria.CreateDateBegin.Value.ToString("yyyy'/'MM'/'dd"):"")"> ~
-                <input type="text" class="form-control" name="createDateEnd" id="createDateEnd" style="width: 40%; display: inline" value="@(criteria.CreateDateEnd.HasValue?criteria.CreateDateEnd.Value.ToString("yyyy'/'MM'/'dd"):"")">
+                <input type="text" class="form-control" name="createDateBegin" id="createDateBegin" style="width: 40%; display: inline" value="@(criteria.CreateDateBegin.HasValue ? criteria.CreateDateBegin.Value.ToString("yyyy'/'MM'/'dd") : "")"> ~
+                <input type="text" class="form-control" name="createDateEnd" id="createDateEnd" style="width: 40%; display: inline" value="@(criteria.CreateDateEnd.HasValue ? criteria.CreateDateEnd.Value.ToString("yyyy'/'MM'/'dd") : "")">
             </div>
             <div class="mb-3 col-md-2 align-self-end">
-                <button class="btn btn-primary">Search</button>
+                <button class="btn-css-warning">搜尋</button>
             </div>
         </div>
     </form>
@@ -143,13 +140,12 @@
                     @Html.DisplayFor(modelItem => item.IsSuspended)
                 </td>
                 <td>
-                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("變更圖片", "EditMemberImgae", new { id = item.Id }) |
-                    @Html.ActionLink("停權設定", "SuspendMember", new { id = item.Id })|
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new {@class="btn-css-primary"}) |
+                    @Html.ActionLink("變更圖片", "EditMemberImgae", new { id = item.Id }, new { @class = "btn-css-primary" }) |
+                    @Html.ActionLink("停權設定", "SuspendMember", new { id = item.Id }, new { @class = "btn-css-danger" })|
                     <br />
-                    @Html.ActionLink("啟用帳戶", "ActiveRegister", new { id = item.Id })|
-                    @Html.ActionLink("更改密碼", "EditPassword", new { id = item.Id })|
-                    @Html.ActionLink("會員中心", "MemberArea", new { id = item.Id })
+                    @Html.ActionLink("啟用帳戶", "ActiveRegister", new { id = item.Id }, new { @class = "btn-css-primary" })|
+                    @Html.ActionLink("更改密碼", "EditPassword", new { id = item.Id }, new { @class = "btn-css-primary" })|
                 </td>
             </tr>
         }

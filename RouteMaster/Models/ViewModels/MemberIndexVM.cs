@@ -62,5 +62,7 @@ namespace RouteMaster.Models.ViewModels
 
 		[Display(Name = "已被停帳")]
 		public bool? IsSuspended { get; set; }
-	}
+
+     
+    }
 }

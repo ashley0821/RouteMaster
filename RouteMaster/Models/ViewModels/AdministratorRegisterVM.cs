@@ -50,5 +50,7 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "註冊日期")]
 		public DateTime? CreateDate { get; set; }
 
+		public virtual Permission Permission { get; set; }
+
 	}
 }

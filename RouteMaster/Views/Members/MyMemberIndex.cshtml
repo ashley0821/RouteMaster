@@ -80,7 +80,9 @@
             @Html.DisplayFor(modelItem => item.IsSuspended)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn-css-primary" }) |
+            @Html.ActionLink("啟用帳戶", "ActiveRegister", new { account = item.Account }, new { @class = "btn-css-primary" })|
+            @Html.ActionLink("變更大頭貼", "EditMemberImgae", new { account = item.Account }, new { @class = "btn-css-primary" })|
         </td>
     </tr>
 }

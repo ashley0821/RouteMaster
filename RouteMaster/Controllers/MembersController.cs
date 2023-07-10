@@ -249,7 +249,7 @@ namespace RouteMaster.Controllers
 				});
 		}
 
-
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult Register()
         {
@@ -257,6 +257,7 @@ namespace RouteMaster.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Register(MemberRegisterVM vm, HttpPostedFileBase facePhoto1)
         {
@@ -288,8 +289,8 @@ namespace RouteMaster.Controllers
             }
         }
 
-   
-        private string SaveUploadedFile(string path, HttpPostedFileBase facePhoto1)
+		[AllowAnonymous]
+		private string SaveUploadedFile(string path, HttpPostedFileBase facePhoto1)
         {
             // 如果沒有上傳檔案或檔案是空的,就不處理, 傳回 string.empty
             if (facePhoto1 == null || facePhoto1.ContentLength == 0)return string.Empty;
@@ -312,8 +313,8 @@ namespace RouteMaster.Controllers
             return newFileName;
         }
 
-
-        public Result RegisterMember(MemberRegisterVM
+		[AllowAnonymous]
+		public Result RegisterMember(MemberRegisterVM
             
             vm)
         {
@@ -325,22 +326,25 @@ namespace RouteMaster.Controllers
             return service.Register(vm.ToDto());
         }
 
-
+        [AllowAnonymous]
         public ActionResult ConfirmRegister()
         {
 
             return View();
         }
 
-
-        [HttpGet]
-        public ActionResult ActiveRegister(int? id)
+		[AllowAnonymous]
+		[HttpGet]
+        public ActionResult ActiveRegister(string account)
         {
-            if (id == null)
+            if (account == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
+
+
+
+            Member member = db.Members.FirstOrDefault(x => x.Account == account);
             if (member == null)
             {
                 return HttpNotFound();
@@ -379,9 +383,33 @@ namespace RouteMaster.Controllers
 		//         }            
 
 		//         return RedirectToAction("Index");
-		//     }
+		//     } 
 
+		private IdentityDto GetMemberId()
+		{
+			HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
 
+			// 檢查是否存在特定名稱的 Cookie
+			if (authCookie != null)
+			{
+				// 從 Cookie 中取得票據的值
+				FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+				// 檢查票據是否成功解密
+				if (ticket != null && ticket.Expired == false)
+				{
+					// 取得票據中的使用者資料
+					string email = ticket.Name;
+					string permission = ticket.UserData;
+					int? id = db.Members.FirstOrDefault(p => p.Account == email).Id;
+
+					return new IdentityDto(id == null ? 0 : (int)id, permission);
+				}
+			}
+			return new IdentityDto(0, null);
+		}
+
+		[AllowAnonymous]
 		[HttpGet]
 		public ActionResult ActiveMember(int? memberId, string confirmcode="")
         {
@@ -398,7 +426,7 @@ namespace RouteMaster.Controllers
 				return RedirectToAction("Index");
 			}
 
-			return RedirectToAction("Index");
+			return RedirectToAction("MyMemberIndex");
 
 			//var db = new AppDbContext();
 			//// 根據memberId找出一筆記錄, 若找不到就return, 若 isConfirmed不是0, 或confirmCode 不符, 就return
@@ -453,6 +481,15 @@ namespace RouteMaster.Controllers
 
             Response.Cookies.Add(cookie);
 
+
+			string image = db.Members.FirstOrDefault(x => x.Account == vm.Account)?.Image;
+			if (!string.IsNullOrEmpty(image))
+			{
+				HttpCookie imageCookie = new HttpCookie("UserImage", image);
+				Response.Cookies.Add(imageCookie);
+			}
+
+
             return RedirectToAction("MyMemberIndex", "Members");
         }
 
@@ -463,34 +500,35 @@ namespace RouteMaster.Controllers
             return loginAttempts;
         }
 
+        [AllowAnonymous]
         public ActionResult Logout()
         {
-			//var authTicket = ((FormsIdentity)User.Identity).Ticket;
+            //var authTicket = ((FormsIdentity)User.Identity).Ticket;
 
-			//// 创建一个过期的认证 Cookie
-			//var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName)
-			//{
-			//	Expires = DateTime.Now.AddDays(-1),
-			//	HttpOnly = true
-			//};
+            //// 创建一个过期的认证 Cookie
+            //var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName)
+            //{
+            //    Expires = DateTime.Now.AddDays(-1),
+            //    HttpOnly = true
+            //};
 
-			//// 设置 Cookie 的路径与认证票据相同
-			//authCookie.Path = authTicket.CookiePath;
+            //// 设置 Cookie 的路径与认证票据相同
+            //authCookie.Path = authTicket.CookiePath;
 
-			//// 将 Cookie 添加到响应的 Cookie 集合中
-			//Response.Cookies.Add(authCookie);
-
-
-			Session.Abandon();
-			FormsAuthentication.SignOut();
-			return Redirect("/Members/Login");
+            //// 将 Cookie 添加到响应的 Cookie 集合中
+            //Response.Cookies.Add(authCookie);
 
 
-			//return Redirect("/Members/Login");
+            Session.Abandon();
+            FormsAuthentication.SignOut();
+            return Redirect("/Members/Login");
+
+
+            //return Redirect("/Members/Login");
 
             #region Session版本
             //老師版本
-           
+
             #endregion
         }
 
@@ -554,13 +592,14 @@ namespace RouteMaster.Controllers
                 : Result.Fail("帳密有誤");
         }
 
-
-        public ActionResult MemberForgetPassword()
+		[AllowAnonymous]
+		public ActionResult MemberForgetPassword()
         {
             return View();
         }
 
-        [HttpPost]
+		[AllowAnonymous]
+		[HttpPost]
         public ActionResult MemberForgetPassword(MemberForgetPasswordVM vm)
         {
             if (ModelState.IsValid == false) return View(vm);
@@ -584,12 +623,14 @@ namespace RouteMaster.Controllers
             return View("ConfirmForgetPassword");
         }
 
-        public ActionResult ResetPassword()
+		[AllowAnonymous]
+		public ActionResult ResetPassword()
         {
             return View();
         }
 
-        [HttpPost]
+		[AllowAnonymous]
+		[HttpPost]
         public ActionResult ResetPassword(MemberResetPasswordVM vm, int memberId, string confirmCode)
         {
             if (ModelState.IsValid == false) return View(vm);
@@ -606,7 +647,8 @@ namespace RouteMaster.Controllers
             return View("ConfirmResetPassword");
         }
 
-        private Result ProcessChangePassword(int memberId, string confirmCode, string password)
+		[AllowAnonymous]
+		private Result ProcessChangePassword(int memberId, string confirmCode, string password)
         {
             var db = new AppDbContext();
 
@@ -626,7 +668,8 @@ namespace RouteMaster.Controllers
             return Result.Success();
         }
 
-        private Result ProcessResetPassword(string account, string email, string urlTemplate)
+		[AllowAnonymous]
+		private Result ProcessResetPassword(string account, string email, string urlTemplate)
         {
             var db = new AppDbContext();
             // 檢查account,email正確性
@@ -657,8 +700,8 @@ namespace RouteMaster.Controllers
             return View();
         }
 
-
-        [HttpPost]
+		[AllowAnonymous]
+		[HttpPost]
         public ActionResult EditPassword(MemberEditPasswordVM vm)
         {
             if (ModelState.IsValid == false) return View(vm);
@@ -675,8 +718,8 @@ namespace RouteMaster.Controllers
             return RedirectToAction("Index");
         }
 
-
-        private Result ChangePassword(string account, MemberEditPasswordVM vm)
+		[AllowAnonymous]
+		private Result ChangePassword(string account, MemberEditPasswordVM vm)
         {
             var salt = HashUtility.GetSalt();
             var hashOrigPassword = HashUtility.ToSHA256(vm.OldPassword, salt);
@@ -695,24 +738,24 @@ namespace RouteMaster.Controllers
             return Result.Success();
         }
 
-
-        public ActionResult EditMemberImgae(int? id)
+		[AllowAnonymous]
+		public ActionResult EditMemberImgae(string account)
         {
-            if (id == null)
+            if (account == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
+            Member member = db.Members.FirstOrDefault(x => x.Account == account);
 
-            if (member == null)
+			if (member == null)
             {
                 return HttpNotFound();
             }
             return View(member.ToMemberImageVM());
         }
 
-
-        [HttpPost]
+		[AllowAnonymous]
+		[HttpPost]
         public ActionResult EditMemberImage(MemberImageEditVM vm, HttpPostedFileBase newFacePhoto)
         {
             string path = Server.MapPath("/Uploads");
@@ -746,7 +789,7 @@ namespace RouteMaster.Controllers
 
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("MyMemberIndex");
             }
 
             return View(vm);
@@ -783,9 +826,7 @@ namespace RouteMaster.Controllers
             return RedirectToAction("Index");
         }
 
-        
-
-
+ 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -794,7 +835,6 @@ namespace RouteMaster.Controllers
             }
             base.Dispose(disposing);
         }
-
 
     }
 }
