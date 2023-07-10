@@ -30,6 +30,8 @@ namespace RouteMaster.Models.Dto
 
 		public int RoomPrice { get; set; }
 
-		
-	}
+		public virtual EFModels.Accommodation Accommodation { get; set; }
+
+		public string Permission { get; set; } = "";
+    }
 }

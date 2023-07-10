@@ -59,5 +59,14 @@ namespace RouteMaster.Models.Services
 
 		}
 
+		public IEnumerable<FAQEditImgIndexDto> GetImgIndex(int? id)
+		{
+			return _repo.GetImgIndex(id);
+		}
+
+
+
+
+
 	}
 }

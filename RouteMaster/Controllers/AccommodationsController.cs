@@ -63,7 +63,7 @@ namespace RouteMaster.Controllers
 					return View(accommodations);//.ToList());
 				}
 
-				if (identity.Permission == "管理員")
+				if (identity.Permission == "總管理員")
 				{
 					 accommodations = GetAccommodations(null)
 					.OrderBy(a => a.Name.Contains("(已下架)"))
@@ -79,7 +79,7 @@ namespace RouteMaster.Controllers
         public ActionResult Create()
         {
             IdentityDto identity = GetPartnerIdAndPermission();
-			if ((identity.Permission != "管理員" && identity.Permission != "住所夥伴"))
+			if ((identity.Permission != "總管理員" && identity.Permission != "住所夥伴"))
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
@@ -124,7 +124,7 @@ namespace RouteMaster.Controllers
             }
             IdentityDto identity = GetPartnerIdAndPermission();
             Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
-            if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員"))
+            if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "總管理員"))
             {
                 return HttpNotFound();
             }
@@ -145,7 +145,7 @@ namespace RouteMaster.Controllers
 
 			AccommodationEditVM vm = GetAccommodationProfile(id);
 
-            if (vm == null || (vm.PartnerId != identity.Id && identity.Permission != "管理員"))
+            if (vm == null || (vm.PartnerId != identity.Id && identity.Permission != "總管理員"))
             {
                 return HttpNotFound();
             }
@@ -190,7 +190,7 @@ namespace RouteMaster.Controllers
 			IdentityDto identity = GetPartnerIdAndPermission();
 			int? partnerId = db.Accommodations.FirstOrDefault(a => a.Id == id)?.PartnerId;
 
-			if (partnerId == null || (partnerId != identity.Id && identity.Permission != "管理員"))
+			if (partnerId == null || (partnerId != identity.Id && identity.Permission != "總管理員"))
 			{
 				return HttpNotFound();
 			}
@@ -211,7 +211,7 @@ namespace RouteMaster.Controllers
             IdentityDto identity = GetPartnerIdAndPermission();
 			Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
 
-			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員"))
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "總管理員"))
 			{
 				return HttpNotFound();
 			}
@@ -267,7 +267,7 @@ namespace RouteMaster.Controllers
 			RoomEditVM vm = GetRoomProfile(id);
 
 			int? partnerId = db.Accommodations.FirstOrDefault(a => a.Id == vm.AccommodationId)?.PartnerId;
-			if (vm == null || partnerId == null ||(partnerId != identity.Id && identity.Permission != "管理員"))
+			if (vm == null || partnerId == null ||(partnerId != identity.Id && identity.Permission != "總管理員"))
 			{
 				return HttpNotFound();
 			}
@@ -310,7 +310,7 @@ namespace RouteMaster.Controllers
             IdentityDto identity = GetPartnerIdAndPermission();
 			Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
 
-			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員"))
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "總管理員"))
 			{
 				return HttpNotFound();
 			}
@@ -375,7 +375,7 @@ namespace RouteMaster.Controllers
             Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
 			IdentityDto identity = GetPartnerIdAndPermission();
 
-			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員")) return;
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "總管理員")) return;
 
 			accommodation.Name += "(已下架)";
             //var ais = accommodation.AccommodationImages;
@@ -427,7 +427,7 @@ namespace RouteMaster.Controllers
             Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
 			IdentityDto identity = GetPartnerIdAndPermission();
 
-			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員")) return;
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "總管理員")) return;
 			accommodation.Name = accommodation.Name.Replace("(已下架)","");
             db.SaveChanges();
         }
@@ -440,7 +440,7 @@ namespace RouteMaster.Controllers
 
 			IdentityDto identity = GetPartnerIdAndPermission();
 			int? partnerId = db.Accommodations.FirstOrDefault(a => a.Id == room.AccommodationId)?.PartnerId;
-			if (room == null || (partnerId != identity.Id && identity.Permission != "管理員")) return;
+			if (room == null || (partnerId != identity.Id && identity.Permission != "總管理員")) return;
 
 			foreach (var ri in room.RoomImages.ToList())
             {
@@ -459,26 +459,39 @@ namespace RouteMaster.Controllers
 			// 取得 HTTP 請求中的 Cookie 集合
 			if ((identity.Id) != 0 && !string.IsNullOrEmpty(identity.Permission))
 			{
-				IEnumerable<AccommodationIndexVM> accommodations;
+				IEnumerable<AccommodationDetailsDto> detail;
 				if (identity.Permission == "住所夥伴")
 				{
-					accommodations = GetAccommodations(identity.Id)
-				   .OrderBy(a => a.Name.Contains("(已下架)"))
-				   .ThenByDescending(a => a.Id);
+					detail = GetAccommodationDetails(identity.Id)
+				   .Select(a => a.ToPartnerDto())
+				   .OrderBy(a => a.OrderId)
+				   .ThenByDescending(a => a.AccommodationId);
 
-					return View(accommodations);//.ToList());
+					return View(detail);//.ToList());
 				}
 
-				if (identity.Permission == "管理員")
+				if (identity.Permission == "總管理員")
 				{
-					accommodations = GetAccommodations(null)
-				   .OrderBy(a => a.Name.Contains("(已下架)"))
-				   .ThenByDescending(a => a.Id);
+					detail = GetAccommodationDetails(null)
+				   .Select(a => a.ToAdminDto())
+				   .OrderBy(a => a.Accommodation.PartnerId)
+				   .ThenByDescending(a => a.OrderId)
+				   .ThenByDescending(a => a.AccommodationId);
 
-					return View(accommodations);
+					return View(detail);
 				}
 			}
 			return RedirectToAction("PartnerLogin", "Partners");
+		}
+
+		private IEnumerable<AccommodationDetail> GetAccommodationDetails(int? id)
+		{
+			var accommodationDetail = (IEnumerable<AccommodationDetail>)db.AccommodationDetails
+				.AsNoTracking()
+				.Where(ad => id == null ? true : ad.Accommodation.PartnerId == id)
+				.Include(a => a.Accommodation);
+
+			return accommodationDetail;
 		}
 
 

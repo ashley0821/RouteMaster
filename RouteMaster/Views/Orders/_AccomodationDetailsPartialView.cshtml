@@ -64,8 +64,8 @@
                 @Html.DisplayFor(modelItem => item.RoomPrice)
             </td>
             <td>
-                @Html.ActionLink("Edit", "AccomodationDetailsEdit", new { id = item.Id  } ) |
-                @Html.ActionLink("Delete", "AccomodationDetailsDelete", new { id = item.Id })
+                @Html.ActionLink("Edit", "AccomodationDetailsEdit", new { id = item.Id }, new {@class="btn-css-primary"} ) |
+                @Html.ActionLink("Delete", "AccomodationDetailsDelete", new { id = item.Id }, new {@class="btn-css-warning"})
 
             </td>
 
