@@ -1,0 +1,79 @@
+﻿@model IEnumerable<RouteMaster.Models.Dto.AccommodationDetailsDto>
+@section Styles{
+    <style>
+        .table > thead {
+            background-color: rgba(255, 99, 71, 0.4);
+        }
+
+            .table > thead th {
+                font-size: 18px;
+            }
+    </style>
+    }
+@{
+    ViewBag.Title = "OrderManagement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>訂單管理</h2>
+
+<hr />
+
+<table class="table" id="orderTable">
+    <thead>
+
+        <tr>
+            <th>
+                訂單Id
+            </th>
+            
+            <th>
+                住所名字
+            </th>
+            <th>
+                房間名稱
+            </th>
+            <th>
+                入住時間
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.Accommodation.Name)
+                </td>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckIn)
+                </td>
+               
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@section Scripts{
+    <script>
+        new DataTable('#orderTable', {
+
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+            },
+            responsive: true,
+        });
+
+    </script>
+    }

@@ -743,6 +743,7 @@
     <Content Include="Views\Members\ResetPassword.cshtml" />
     <Content Include="Views\Members\ConfirmResetPassword.cshtml" />
     <Content Include="Views\Partners\SuspendMember.cshtml" />
+    <Content Include="Views\Accommodations\OrderManagement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
