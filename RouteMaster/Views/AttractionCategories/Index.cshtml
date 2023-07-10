@@ -12,6 +12,14 @@
             background-color: gainsboro;
             color: white;
         }
+
+        .table > thead {
+            background-color: rgba(255, 99, 71, 0.4);
+        }
+
+            .table > thead th {
+                font-size: 18px;
+            }
     </style>
 }
 
@@ -42,8 +50,8 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.ActionLink("編輯類別", "Edit", new { id = item.Id }, new { @class = "btn btn-css-primary" }) |
-                    @Html.ActionLink("刪除類別", "Delete", new { id = item.Id }, new { @class = "btn btn-css-danger" })
+                    @Html.ActionLink("編輯類別", "Edit", new { id = item.Id }, new { @class = " btn-css-primary" }) |
+                    @Html.ActionLink("刪除類別", "Delete", new { id = item.Id }, new { @class = " btn-css-danger" })
                 </td>
             </tr>
         }

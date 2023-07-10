@@ -45,6 +45,7 @@ namespace RouteMaster.Models
 				LastName = vm.LastName,
 				Password = vm.Password,
 				Email = vm.Email,
+				Permission = vm.Permission,
 			};
 		}
 	}

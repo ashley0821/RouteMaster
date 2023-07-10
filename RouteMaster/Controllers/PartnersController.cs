@@ -11,15 +11,18 @@ using System.Web.Security;
 using System.Web.Services.Description;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.Expressions;
+using RouteMaster.Filter;
 using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.ViewModels;
+using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-    public class PartnersController : Controller
+	
+	public class PartnersController : Controller
     {
         private readonly AppDbContext db = new AppDbContext();
 
@@ -363,5 +366,35 @@ namespace RouteMaster.Controllers
             }
             base.Dispose(disposing);
         }
+
+		//public ActionResult PartnerLoginTest()
+		//{
+		//	return View();
+		//}
+
+		//[HttpPost]
+		//public ActionResult PartnerLoginTest(PartnerLoginVM vm)
+		//{
+		//	if (ModelState.IsValid == false) return View(vm);
+
+		//	// 驗證帳密的正確性
+		//	Result result = ValidLogin(vm);
+
+		//	if (result.IsSuccess != true) // 若驗證失敗...
+		//	{
+		//		ModelState.AddModelError("", result.ErrorMessage);
+		//		return View(vm);
+		//	}
+
+		//	const bool rememberMe = false; // 是否記住登入成功的會員
+
+		//	// 若登入帳密正確,就開始處理後續登入作業,將登入帳號編碼之後,加到 cookie裡
+		//	(string returnUrl, HttpCookie cookie) = ProcessLogin(vm.Email, rememberMe);
+
+		//	Response.Cookies.Add(cookie);
+
+		//	return Redirect(returnUrl);
+		//}
+
     }
 }

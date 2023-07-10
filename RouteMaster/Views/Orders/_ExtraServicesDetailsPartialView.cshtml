@@ -41,19 +41,19 @@
             @*<td class="Price">
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>*@
-            <td class="control-label col-md-3" style="text-align: center" id="price">
+            <td class="control-label col-md-2" style="text-align: center" id="price">
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             @*<td class="Quantity">
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>*@
-            <td class="control-label col-md-3" style="text-align: center" id="quantity">
+            <td class="control-label col-md-2" style="text-align: center" id="quantity">
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
 
             <td>
-                @Html.ActionLink("Edit", "ExtraServicesDetailsEdit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "ExtraServicesDetailsDelete", new { id = item.Id })
+                @Html.ActionLink("Edit", "ExtraServicesDetailsEdit", new { id = item.Id }, new { @class = "btn-css-primary" }) |
+                @Html.ActionLink("Delete", "ExtraServicesDetailsDelete", new { id = item.Id }, new {@class="btn-css-warning"})
             </td>
         </tr>
     }

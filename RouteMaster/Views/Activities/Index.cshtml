@@ -18,7 +18,6 @@
 
 
     <style>
-
         .table > thead {
             background-color: rgba(255, 99, 71, 0.4);
         }
@@ -26,17 +25,12 @@
             .table > thead th {
                 font-size: 18px;
             }
-  
-
-
-
-
     </style>
 
 
 }
 
-<button class="btn btn-css-success" onclick="location.href='@Url.Action("Create")'">新增活動</button>
+<button class="btn btn-success" onclick="location.href='@Url.Action("Create")'">新增活動</button>
 
 <h2>活動一覽</h2>
 
@@ -188,9 +182,12 @@
                     @Html.DisplayFor(modelItem => item.StatusText)
                 </td>
                 <td>
-                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-css-primary m-2">編輯</button>                    
-                    <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-css-warning m-2">檢視詳細資料</button>                    
-                    @*<button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.Id })'" class="btn btn-danger">刪除</button>*@
+
+
+
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-primary", style = "width: 80px; height: 40px; font-size:13px;" })
+                    @Html.ActionLink("細節", "Details", new { id = item.Id }, new { @class = "btn btn-warning", style = "width: 80px; height: 40px; font-size:13px" })
+                    @*@Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-danger", style = "width: 70px; height: 40px;" })*@
                 </td>
             </tr>
         }

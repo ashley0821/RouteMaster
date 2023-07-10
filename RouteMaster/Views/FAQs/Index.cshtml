@@ -63,7 +63,8 @@
             </div>
 
             <div class="mb-3 col-md-2 align-self-end">
-                <button class="btn btn-primary">Search</button>
+                <button class="btn btn-secondary me-2" id="clear">清空條件</button>
+                <button class="btn btn-primary">搜尋</button>
             </div>
         </div>
     </form>
@@ -149,6 +150,12 @@
     <script>
         $(document).ready(function () {
             $("#FAQIndex_filter").css('display', 'none');
+           
+            $("#clear").on('click', function () {
+                $("#s_categoryId").val("");
+                $("#s_name").val("");
+                $("#s_sortId").val("");
+            });
 
         });
     </script>
