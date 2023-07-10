@@ -37,7 +37,7 @@ namespace RouteMaster.Models.Dto
 			get
 			{
 				if (AverageScore == null) { return "尚未有評分"; }
-				else { return Math.Round(AverageScore.Value, 1).ToString(); }
+				else { return Math.Round(AverageScore.Value, 1).ToString("0.0"); }
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace RouteMaster.Models.Dto
 			get
 			{
 				if (AverageStayHours == null) { return "尚未有資料"; }
-				else { return Math.Round(AverageScore.Value, 1).ToString(); }
+				else { return Math.Round(AverageScore.Value, 1).ToString("0.0"); }
 			}
 		}
 
