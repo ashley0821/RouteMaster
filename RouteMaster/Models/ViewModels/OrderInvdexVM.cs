@@ -68,5 +68,6 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "金額")]
 		[DisplayFormat(DataFormatString = "${0:#,#}")]
 		public int Total { get; set; }
+		public bool IsSuccess { get; set; } = false;
 	}
 }
