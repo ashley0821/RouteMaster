@@ -35,7 +35,7 @@
 <hr />
 
 
-<div class="border border-3 rounded-2 border-danger" id="Unavailable-div">
+<div class="border border-3 rounded-2 border-danger " id="Unavailable-div" data-id="@Model.Where(m=>m.Name.Contains("(已下架)")).Any()">
 
     @foreach (var item in Model.Where(m => m.Name.Contains("(已下架)")))
     {
@@ -118,7 +118,9 @@
     })
 
     const unavailable = document.querySelector("#Unavailable-div");
-    if (typeof(@Model.Where(m=>!m.Name.Contains("已下架")).Any())) {
+
+
+    if (unavailable.getAttribute("data-id") == "False") {
         unavailable.classList.add("d-none");
     }
 </script>

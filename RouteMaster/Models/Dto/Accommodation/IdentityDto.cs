@@ -7,11 +7,11 @@ namespace RouteMaster.Models.Dto.Accommodation
 {
 	public class IdentityDto
 	{
-        public string Email { get; set; }
+        public int Id { get; set; }
         public string Permission { get; set; }
-        public IdentityDto(string email, string permission)
+        public IdentityDto(int id, string permission)
         {
-            this.Email = email;
+            this.Id = id;
             this.Permission = permission;
         }
     }

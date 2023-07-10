@@ -21,7 +21,7 @@ namespace RouteMaster.Controllers
 {
     public class PartnersController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        private readonly AppDbContext db = new AppDbContext();
 
 		// GET: Partners
 
@@ -117,11 +117,11 @@ namespace RouteMaster.Controllers
 			const bool rememberMe = false; // 是否記住登入成功的會員
 
 			// 若登入帳密正確,就開始處理後續登入作業,將登入帳號編碼之後,加到 cookie裡
-			(string returnUrl, HttpCookie cookie) processResult = ProcessLogin(vm.Email, rememberMe);
+			(string returnUrl, HttpCookie cookie) = ProcessLogin(vm.Email, rememberMe);
 
-			Response.Cookies.Add(processResult.cookie);
+			Response.Cookies.Add(cookie);
 
-			return Redirect(processResult.returnUrl);
+			return Redirect(returnUrl);
 		}
 
 		private (string returnUrl, HttpCookie cookie) ProcessLogin(string email, bool rememberMe)
@@ -145,9 +145,11 @@ namespace RouteMaster.Controllers
 			var value = FormsAuthentication.Encrypt(ticket);
 
 			// 存入cookie
-			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, value);
-			cookie.Expires = DateTime.Now.AddYears(1); // 設定 Cookie 的過期日期為一年後
-			
+			var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, value)
+			{
+				Expires = DateTime.Now.AddYears(1) // 設定 Cookie 的過期日期為一年後
+			};
+
 			// 取得return url
 			var url = FormsAuthentication.GetRedirectUrl(email, true); //第二個引數沒有用處
 

@@ -116,7 +116,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		{
 			var accommodationdb = _db.Accommodations.AsNoTracking().Include(a=>a.AccommodationImages).FirstOrDefault(x => x.Id == id);
 
-			return accommodationdb == null ? null : accommodationdb.ToEditDto();
+			return accommodationdb?.ToEditDto();
 			
 		}
 		
@@ -124,7 +124,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		{
 			var roomdb = _db.Rooms.AsNoTracking().Include(a=>a.RoomImages).FirstOrDefault(x => x.Id == id);
 
-			return roomdb == null ? null : roomdb.ToEditDto();
+			return roomdb?.ToEditDto();
 			;
 		}
 
@@ -185,14 +185,17 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 		public void EditService(ServiceInfoVM vm)
 		{
-			var accommodationInDb = _db.Accommodations.Find(vm.AccommodationId);
+			var accommodationInDb = _db.Accommodations.FirstOrDefault(a => a.Id == vm.AccommodationId);
 			//var service = _db.Accommodations.FirstOrDefault(a => a.Id == vm.AccommodationId)?.ServiceInfos.Select(s => s.Id);
 
 			accommodationInDb.ServiceInfos.Clear();
-			foreach(var service in vm.ServiceInfoList)
+			if(accommodationInDb != null && vm.ServiceInfoList != null )
 			{
-				var serviceInfo = _db.ServiceInfos.Find(service.Id);
-				accommodationInDb.ServiceInfos.Add(serviceInfo);
+				foreach(var service in vm.ServiceInfoList)
+				{
+					var serviceInfo = _db.ServiceInfos.Find(service.Id);
+					accommodationInDb.ServiceInfos.Add(serviceInfo);
+				}
 			}
 
 			_db.SaveChanges();
