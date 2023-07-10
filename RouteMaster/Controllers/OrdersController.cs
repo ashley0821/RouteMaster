@@ -415,7 +415,7 @@ namespace RouteMaster.Controllers
 			return (db.Orders?.Any(o => o.Id == id)).GetValueOrDefault();
 		}
 		[HttpPost]
-		public JsonResult SendUnpaidNotification(List<int> selectedOrderIds)
+		public void SendUnpaidNotification(List<int> selectedOrderIds)
 		{
 			EmailHelper emailHelper = new EmailHelper();
 
@@ -432,7 +432,10 @@ namespace RouteMaster.Controllers
 				}
 
 			}
-			return Json(new { success = true });
+
+
+
+			//return Json(new { success = true });
 		}
 		[HttpPost]
 		public JsonResult UpdatePaymentStatus(int id, int PaymentStatus)
