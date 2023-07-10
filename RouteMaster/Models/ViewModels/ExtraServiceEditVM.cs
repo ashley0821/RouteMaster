@@ -20,10 +20,12 @@ namespace RouteMaster.Models.ViewModels
         public string Name { get; set; }
 
 
-        [Display(Name = "附屬景點")]
+        [Display(Name = "附屬景點編號")]
         [Required]
         public int AttractionId { get; set; }
 
+
+        [Display(Name = "附屬景點名稱")]
         public string AttractionName { get; set; }
 
         [Display(Name = "價格")]

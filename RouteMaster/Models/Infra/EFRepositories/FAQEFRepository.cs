@@ -140,5 +140,35 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			// 傳回存放的檔名
 			return newFileName;
 		}
+
+		public bool ExistDetail(int? id)
+		{
+			return _db.FAQs.Any(f => f.Id == id);
+		}
+
+		public FAQDetailDto Detail(int? id)
+		{
+			var questionDb=_db.FAQs
+				.Include(q =>q.FAQCategory)
+				.FirstOrDefault(q => q.Id == id);
+
+			var img = _db.FAQImages
+				.Where(i => i.FAQId == id)
+				.ToList()
+				.Select(i => i.Image);
+
+			FAQDetailDto dto = new FAQDetailDto
+			{
+				Id = (int)id,
+				CategoryName = questionDb.FAQCategory.Name,
+				Question = questionDb.Question,
+				Answer = questionDb.Answer,
+				Helpful = (int)questionDb.Helpful,
+				Images = img
+			};
+
+			return dto;
+		}
+
 	}
 }

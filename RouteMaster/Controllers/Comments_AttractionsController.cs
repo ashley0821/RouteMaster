@@ -156,12 +156,12 @@ namespace RouteMaster.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comments_Attractions comments_Attractions = db.Comments_Attractions.Find(id);
-            if (comments_Attractions == null)
+            Comments_Attractions commAttrDb = db.Comments_Attractions.Find(id);
+            if (commAttrDb == null)
             {
                 return HttpNotFound();
             }
-            return View(comments_Attractions);
+            return View(commAttrDb);
         }
 
         // POST: Comments_Attractions/Delete/5
@@ -169,9 +169,10 @@ namespace RouteMaster.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Comments_Attractions comments_Attractions = db.Comments_Attractions.Find(id);
-            db.Comments_Attractions.Remove(comments_Attractions);
-            db.SaveChanges();
+            IComments_AttractionsRepository repo = new Comments_AttractionsEFRepository();
+            Comments_AttractionsService service = new Comments_AttractionsService(repo);
+            service.DeleteComment_Attraction(id);
+
             return RedirectToAction("Index");
         }
 		private string SaveUploadedFile(string path, HttpPostedFileBase file1)

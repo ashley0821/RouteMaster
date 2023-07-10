@@ -16,7 +16,8 @@ namespace RouteMaster.Models.Interfaces
 		OrderIndexVM GetOrderById(int id);
 
 
-		void Edit(OrderEditDto order);
+		void Edit(OrderEditDto dto);
+		OrderEditDto GetEditDto(int id);
 		void Delete(int id);
 		
 	

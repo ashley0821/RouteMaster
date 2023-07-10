@@ -31,5 +31,15 @@ namespace RouteMaster.Models.Services
 		{
 			return _repo.Detail(id);
 		}
+
+		public void DeleteComment_Attraction(int id) 
+		{
+			if (_repo.ExistImgWithinComment(id))
+			{
+				_repo.ClearImg(id);
+			}
+
+			_repo.DeleteComment(id);
+		}
 	}
 }

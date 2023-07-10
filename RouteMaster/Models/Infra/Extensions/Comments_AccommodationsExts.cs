@@ -19,8 +19,6 @@ namespace RouteMaster.Models.Infra.Extensions
 				Name = dto.Name,
 				Score = dto.Score,
 				Title = dto.Title,
-				Pros = dto.Pros,
-				Cons = dto.Cons,
 				CreateDate = dto.CreateDate
 
 			};
@@ -34,8 +32,6 @@ namespace RouteMaster.Models.Infra.Extensions
 				Name = entity.Accommodation.Name,
 				Score = (float)entity.Score,
 				Title = entity.Title,
-				Pros = entity.Pros,
-				Cons = entity.Cons,
 				CreateDate = entity.CreateDate
 
 			};
@@ -105,6 +101,22 @@ namespace RouteMaster.Models.Infra.Extensions
 				ImgId = entity.Id,
 				CommentId = entity.Comments_AccommodationId,
 				Image = entity.Image
+			};
+		}
+
+		
+		public static Comments_AccommodationsDetailVM ToDetailVM(this Comments_AccommodationsDetailDto dto)
+		{
+			return new Comments_AccommodationsDetailVM
+			{
+				Id = dto.Id,
+				MemberAccount = dto.MemberAccount,
+				AccomodationName = dto.AccomodationName,
+				Score = dto.Score,
+				Title = dto.Title,
+				Pros = dto.Pros,
+				Cons = dto.Cons,
+				Images = dto.Images
 			};
 		}
 	}

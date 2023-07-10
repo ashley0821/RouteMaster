@@ -26,12 +26,19 @@ namespace RouteMaster.Models.Infra
 			SendFromGmail(from, to, subject, body);
 		}
 
-		public void SendConfirmRegisterEmail(string url, string name, string email)
+		public void SendConfirmRegisterEmail(string url, string name, string email, int Id, string Confirmcode)
 		{
 			var subject = "[新會員確認信]";
+
+			var urlWithParams = $"{url}?memberId={Id}&Confirmcode={Confirmcode}";
+
+			//var body = $@"Hi {name},
+			//<br />
+			//請點擊此連結 <a href='{url}?Id={Id}&Confirmcode={Confirmcode}'>的確是我申請會員</a>，如果您沒有提出申請，請忽略本信，謝謝";
+
 			var body = $@"Hi {name},
 <br />
-請點擊此連結 [<a href='{url}' target='_blank'>的確是我申請會員</a>], 如果您沒有提出申請, 請忽略本信, 謝謝";
+請點擊此連結 <a href='{urlWithParams}'>的確是我申請會員</a>，如果您沒有提出申請，請忽略本信，謝謝";
 
 			var from = senderEmail;
 			var to = email;
@@ -39,6 +46,22 @@ namespace RouteMaster.Models.Infra
 			SendFromGmail(from, to, subject, body);
 		}
 
+		public void SendUppaidNotification ( string name, string email)
+		{
+			var subject = "[Route Master - 付款提醒通知]";
+			var body = $@"Hi {name},
+<br/>
+感謝您的訂單！
+<br/>
+我們很高興能為您提供服務。根據我們的記錄，您的訂單尚未付款。為了確保您能順利獲得所訂購的商品/服務，我們請您盡快完成付款程序。
+";
+			var from = senderEmail;
+			var to = email;
+
+			SendFromGmail(from, to,subject,body);
+
+
+		}
 		public virtual void SendFromGmail(string from, string to, string subject, string body)
 		{
 			// todo 以下是開發時,測試之用, 只是建立text file, 不真的寄出信

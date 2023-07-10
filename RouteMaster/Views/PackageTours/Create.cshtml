@@ -4,112 +4,126 @@
 @section Styles{
     <style>
         .attSize {
-            width: 30px;
-            height: 30px;
+            width: 20px;
+            height: 20px;
         }
 
         .extSize {
-            width: 30px;
-            height: 30px;
+            width: 20px;
+            height: 20px;
         }
 
         .actSize {
-            width: 30px;
-            height: 30px;
+            width: 20px;
+            height: 20px;
+        }
+
+
+        .block {
+            border: 1px solid #CCC;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .hide{
+            display:none;
         }
     </style>
+
+
+
+
 
     @*<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
         <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />*@
 
 }
 
+<hr />
+<div id="ActivityPartial">
+    @{
 
+        Html.RenderAction("ActivitiesList");
+    }
 
-@{
+</div>
 
-    Html.RenderAction("ActivitiesList");
-}
-
-
+<hr />
 @{
     Html.RenderAction("ExtraServicesList");
 }
+
+<hr />
 
 @{
     Html.RenderAction("AttractionsList");
 }
 
 
-
+<hr />
 
 
 <h2>建立套裝行程</h2>
-
+<hr />
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CreatePackageTour" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="row">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="mb-3">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label col-md-2" })
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-        </div>
+<div class="row">
 
-        <div class="mb-3">
-            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "form-label col-md-2" })
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Status)
-                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div>
+
+
+    </div>
+
+    <div class="d-flex row-cols-3">
+
+        <textarea class="form-control mb-3 col d-block ms-0 me-2" style="margin-left:12px" rows="15" id="Description" name="Description" required></textarea>
+
+
+
+        <div class="d-flex row-cols-3 col">
+            <div class="block col" id="activityContainer">
+                <h6>活動列表</h6>
+            </div>
+            <div class="block col" id="extraServiceContainer">
+                <h6>額外服務列表</h6>
+            </div>
+            <div class="block col" id="attractionContainer">
+                <h6>景點列表</h6>
             </div>
         </div>
 
-        <div class="mb-3">
-            @Html.LabelFor(model => model.CouponId, htmlAttributes: new { @class = "form-label col-md-2" })
-            @Html.DropDownList("CouponId", null, htmlAttributes: new { @class = "form-select" })
-            @Html.ValidationMessageFor(model => model.CouponId, "", new { @class = "text-danger" })
-        </div>
+        <div class="col">
+            <div class="mb-3 ">
+                @Html.LabelFor(model => model.CouponId, htmlAttributes: new { @class = "form-label col-md-2" })
+                @Html.DropDownList("CouponId", null, htmlAttributes: new { @class = "form-select w-50" })
+                @Html.ValidationMessageFor(model => model.CouponId, "", new { @class = "text-danger" })
+            </div>
 
-
-
-
-        <h2>活動列表</h2>
-        <div id="activityContainer">
-
-
-        </div>
-
-        <h2>額外服務列表</h2>
-        <div id="extraServiceContainer">
-
-
-        </div>
-
-
-        <h2>景點列表</h2>
-        <div id="attractionContainer">
-
-
-        </div>
-
-
-
-
-
-
-        <div class="mb-3">
-            <input type="submit" value="新增" class="btn btn-primary" />
+            <div class="mb-3  ">
+                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "form-label col-md-2" })
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Status)
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
     </div>
+    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+
+    <div class="mb-3">
+        <input type="submit" value="新增" class="btn btn-primary" />
+    </div>
+</div>
 
 }
 
 
 @section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
 
 
     @*<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -120,40 +134,102 @@
 
     <script>
         //叫用DataTable套件
+       
+
+
         new DataTable('#attractionTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
             responsive: true,
-            searching: false,
-            sorting: false
 
         });
+
+
+
         new DataTable('#activitiyTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
-            responsive: true,//響應式
-            searching: false, // 停用搜尋功能
-            sorting: false // 停用排序功能
+            responsive: true,
+
         });
 
 
-        
+     
+
         new DataTable('#extraServiceTable', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
             responsive: true,
-            searching: false,
-            sorting: false
+
         });
 
+        //new DataTable('#extraServiceTable', {
+        //    language: {
+        //        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+        //    },
+        //    responsive: true,
+        //    searching: false,
+        //    sorting: false,
+        //    serverSide: true,
+        //    processing: true,
+        //    pageLength:5,
+        //    ajax: {
+        //        url: '/PackageTours/GetQueryResult',
+        //        type: 'POST',
+        //        dataType: 'json',
+        //        data: function (data) {
+        //            data.search = document.querySelector('#extPartialSearch').value;
+        //            data.draw = 1;
+        //            data.start = 0;
+        //            data.length = 10;
+
+        //            return data;
+        //        },
+
+        //        dataSrc: function (json) {
+        //            // 回傳的資料要從哪個屬性取得
+        //            return json.data;
+        //        }
+        //    },
+        //       columns: [
+        //            // 指定資料欄位對應的屬性名稱
+        //            { "data": "Id" },
+        //            { "data": "Name" },
+        //            { "data": "AttractionId" },
+        //            { "data": "Price" },
+        //            { "data": "Description" },
+        //            { "data": "Status" }
+        //        ],
 
 
-       
+        //    initComplete: function () {
 
-    
+        //    },
+        //    error: function (xhr, status, error) {
+        //        console.log('哈哈哈又錯了')
+        //    }
+        //});
+
+        //$('#extraServiceTable').on('page.dt search.dt', function () {
+        //    console.log('6666666');
+
+
+        //    var searchValue = document.querySelector('#extPartialSearch').value;
+        //    var drawValue = table.ajax.params().draw;
+        //    var startValue = table.page.info().start;
+        //    var lengthValue = table.page.info().length;
+
+        //    table.ajax.reload(function (data) {
+        //        // 更新請求參數
+        //        data.search.value = searchValue;
+        //        data.draw = drawValue;
+        //        data.start = startValue;
+        //        data.length = lengthValue;
+        //    }, false); // 重新載入資料
+        //});
     </script>
 
 
@@ -161,6 +237,53 @@
 
 
     <script>
+        const attractions = @Html.Raw(Json.Encode(ViewBag.Attractions));
+        const attsContainer = document.querySelector("#attractionContainer");
+        const addAttBtns = document.querySelectorAll(".addAttraction");
+
+        console.log(addAttBtns);
+        for (let i = 0; i < addAttBtns.length; i++) {
+            addAttBtns[i].addEventListener('click', () => {
+
+
+                let id = parseInt(addAttBtns[i].getAttribute('data-id'));
+                let newAttraction = document.createElement("div");
+                attsContainer.appendChild(newAttraction);
+                addAttBtns[i].disabled = true;
+
+                let closestRow = addAttBtns[i].closest("tr");
+                closestRow.classList.add("hide");
+
+
+                for (let j = 0; j < attractions.length; j++) {
+                    if (attractions[j].Id === id) {
+
+                        newAttraction.textContent = attractions[j].Name;
+                        //生成複選框
+
+                        let checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.value = attractions[j].Id;
+                        checkbox.checked = true;
+                        checkbox.classList.add('attSize')
+                        //綁定移除
+                        checkbox.addEventListener('change', function () {
+                            if (!this.checked) {
+                                this.parentNode.remove();
+                                addAttBtns[i].disabled = false;
+                                closestRow.classList.remove("hide");
+                            }
+                        })
+                        newAttraction.appendChild(checkbox);
+                        break;
+                    }
+                }
+            });
+        }
+
+
+
+
         const activities = @Html.Raw(Json.Encode(ViewBag.Activities));
         const actsContainer = document.querySelector("#activityContainer");
         function bindingSelectAct() {
@@ -171,7 +294,11 @@
                     var id = parseInt(addActBtns[i].getAttribute('data-id'));
                     var newActivity = document.createElement("div");
                     actsContainer.appendChild(newActivity);
+
+
                     addActBtns[i].disabled = true;
+                    let closestRow = addActBtns[i].closest("tr");
+                        closestRow.classList.add("hide");
 
                     var nameExists = false;
 
@@ -201,6 +328,7 @@
                                 if (!this.checked) {
                                     this.parentNode.remove();
                                     addActBtns[i].disabled = false;
+                                    closestRow.classList.remove("hide");
                                 }
                             })
                             // 添加到表单
@@ -217,23 +345,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         const extraServices =@Html.Raw(Json.Encode(ViewBag.ExtraServices));
         const extContainer = document.querySelector("#extraServiceContainer");
         const addExtBtns = document.querySelectorAll(".addExtraService");
+
+
+       
         for (let i = 0; i < addExtBtns.length; i++) {
             addExtBtns[i].addEventListener('click', () => {
 
@@ -241,6 +358,11 @@
                 let newExtraService = document.createElement("div");
                 extContainer.appendChild(newExtraService);
                 addExtBtns[i].disabled = true;
+
+                let closestRow = addExtBtns[i].closest("tr");
+                closestRow.classList.add("hide");
+
+
 
 
                 for (let j = 0; j < extraServices.length; j++) {
@@ -257,6 +379,7 @@
                             if (!this.checked) {
                                 this.parentNode.remove();
                                 addExtBtns[i].disabled = false;
+                                closestRow.classList.remove("hide");
                             }
                         })
 
@@ -269,63 +392,29 @@
         }
 
 
-        const attractions = @Html.Raw(Json.Encode(ViewBag.Attractions));
-        const attsContainer = document.querySelector("#attractionContainer");
-        const addAttBtns = document.querySelectorAll(".addAttraction");
-        for (let i = 0; i < addAttBtns.length; i++) {
-            addAttBtns[i].addEventListener('click', () => {
 
-
-                let id = parseInt(addAttBtns[i].getAttribute('data-id'));
-                let newAttraction = document.createElement("div");
-                attsContainer.appendChild(newAttraction);
-                addAttBtns[i].disabled = true;
-
-                for (let j = 0; j < attractions.length; j++) {
-                    if (attractions[j].Id === id) {
-
-                        newAttraction.textContent = attractions[j].Name;
-                        //生成複選框
-
-
-                        let checkbox = document.createElement("input");
-                        checkbox.type = "checkbox";
-                        checkbox.value = attractions[j].Id;
-                        checkbox.checked = true;
-                        checkbox.classList.add('attSize')
-                        //綁定移除
-                        checkbox.addEventListener('change', function () {
-                            if (!this.checked) {
-                                this.parentNode.remove();
-                                addAttBtns[i].disabled = false;
-                            }
-                        })
-                        newAttraction.appendChild(checkbox);
-                        break;
-                    }
-                }
-            });
-        }
 
         const mainForm = document.querySelector('#CreatePackageTour');
-        mainForm.addEventListener('submit', function () {
+        mainForm.addEventListener('submit', function (e) {
+            let attCheckBoxes = document.querySelectorAll('.attSize');
+            let actCheckBoxes = document.querySelectorAll('.actSize');
+            let extCheckBoxes = document.querySelectorAll('.extSize');
 
-            let attCheckBoxies = document.querySelectorAll('.attSize');
-            for (let i = 0; i < attCheckBoxies.length; i++) {
-                attCheckBoxies[i].setAttribute('name', "Attractions[" + i + "].Id");
+            if (attCheckBoxes.length === 0 || actCheckBoxes.length === 0 || extCheckBoxes.length === 0) {
+                e.preventDefault();
+                alert('請至少分別選擇一個選項')
+            } else {
+
+                for (let i = 0; i < attCheckBoxes.length; i++) {
+                    attCheckBoxes[i].setAttribute('name', "Attractions[" + i + "].Id");
+                }
+                for (let i = 0; i < actCheckBoxes.length; i++) {
+                    actCheckBoxes[i].setAttribute('name', "Activities[" + i + "].Id")
+                }
+                for (let i = 0; i < extCheckBoxes.length; i++) {
+                    extCheckBoxes[i].setAttribute('name', "ExtraServices[" + i + "].Id")
+                }
             }
-
-            let extCheckBoxies = document.querySelectorAll('.extSize');
-            for (let i = 0; i < extCheckBoxies.length; i++) {
-                extCheckBoxies[i].setAttribute('name', "ExtraServices["+i+"].Id")
-            }
-
-
-            let actCheckBoxies = document.querySelectorAll('.actSize');
-            for (let i = 0; i < actCheckBoxies.length; i++) {
-                actCheckBoxies[i].setAttribute('name', "Activities[" + i + "].Id")
-            }
-
         })
     </script>
 
@@ -345,7 +434,7 @@
             criteria.showAvailableOnly = document.querySelector('#status').checked;
             return criteria;
         }
-        const actform = document.querySelector('#ActivityPartial');
+        const actform = document.querySelector('#actForm');
         actform.addEventListener('submit', function (event) {
             event.preventDefault();
         });
@@ -394,9 +483,6 @@
             }
         });
     </script>
-
-
-
 
 
 

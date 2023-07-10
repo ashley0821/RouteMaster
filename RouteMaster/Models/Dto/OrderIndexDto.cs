@@ -11,7 +11,7 @@ namespace RouteMaster.Models.Dto
 
 		public int MemberId { get; set; }
 		public string MemberName { get; set; }
-
+		public string MemberEmail { get;set; }
 		public int PaymentMethodId { get; set; }
 		public string PaymentMethodName { get; set; }
 

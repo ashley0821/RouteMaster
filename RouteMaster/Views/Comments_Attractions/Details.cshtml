@@ -1,72 +1,95 @@
 ﻿@model RouteMaster.Models.ViewModels.Comments_AttractionsDetailVM
-@section Styles
-{
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-}
 @{
     ViewBag.Title = "Details";
 }
 
 <div class="container mt-3">
-    <div class="row mb-1">
-        <div class="d-flex text-start">
-            <h3 class="me-auto">評論內文</h3>
+    <div class="row">
+        <div class="d-flex text-start align-items-end">
+            <h3 class="me-auto mb-0">@Html.DisplayFor(model => model.MemberAccount)</h3>
             <div class="me-2">
-                @Html.ActionLink("Back to List", "Index", new { id = "" }, new { @class = "btn btn-dark" })
+                @Html.ActionLink("返回清單頁", "Index", new { id = "" }, new { @class = "btn btn-dark" })
 
             </div>
         </div>
     </div>
-        <hr />
+    <hr />
 
-        <div class="row gx-5">
-            <dl class="col-4">
-                <dt class="fs-5">
-                    @Html.DisplayNameFor(model => model.AttractioName)
-                </dt>
+    <div class="row gx-5">
+        <dl class="col-4">
+            <dt>
+                <div class="d-flex w-100 justify-content-between">
+                    <h3 class="mb-1 fs-4 fw-bold">@Html.DisplayFor(model => model.AttractioName)</h3>
+                    <small class="fs-4">@Html.DisplayFor(model => model.Score)分</small>
+                </div>
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.AttractioName)
-                </dd>
+            <dd>
 
-                <dt class="fs-5">
-                    @Html.DisplayNameFor(model => model.Content)
-                </dt>
+            </dd>
 
-                <dd>
-                    <textarea class="form-control w-100 mb-3 col-12 " style="margin:13px" rows="15" id="Description" name="Description">@Model.Content</textarea>
-                    @*@Html.DisplayFor(model => model.Content)*@
-                </dd>
+            <dt class="fs-5 mt-2">
+                @Html.DisplayNameFor(model => model.Content):
+            </dt>
 
-                <dt class="fs-5">
-                    @Html.DisplayNameFor(model => model.Score)
-                </dt>
+            <dd class="fs-5">
+                @*<textarea class="form-control w-100 mb-3 col-12"  style="margin:10px" rows="10" name="Description" readonly>@Model.Content</textarea>*@
+                @Html.DisplayFor(model => model.Content)
+            </dd>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Score)
-                </dd>
-
-            </dl>
-            <div class="col-8">
-                <div class="row row-cols-lg-3 g-3">
-
+        </dl>
+        <div class="col-8">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
                     @foreach (var item in Model.Images)
                     {
-                        <div class="col">
-                        <img class="img-thumbnail" height="30%" src="~/Uploads/@item">
-                        </div>
-                        
-                    }
+                        if (Model.Images.Count() <= 1)
+                        {
+                            <div class="text-center" id="disappear">
+                                <img src="~/Uploads/@item" width="75%" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="carousel-item w-100">
+                                <img src="~/Uploads/@item" class="d-block w-75 mx-auto" alt="...">
+                            </div>
 
+                        }
+
+
+                    }
                 </div>
+                <button class="carousel-control-prev ms-5" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon rounded-circle" aria-hidden="true" style="background-color:#67676799;"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next me-5" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon rounded-circle" aria-hidden="true" style="background-color:#67676799;"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
         </div>
+    </div>
 </div>
-    <p>
-        @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
-    </p>
-
 @section Scripts
 {
-<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script>
+    $(document).ready(function () {
+        var singleImg = $("#disappear").length;
+        var carouselItems = $(".carousel-item").length;
+
+        if (singleImg <= 1 && carouselItems < 2) {
+            $(".carousel-control-prev").hide();
+            $(".carousel-control-next").hide();
+        }
+        if (carouselItems >= 2) {
+            $(".carousel-item").first().addClass("active");
+        }
+        
+
+    });
+</script>
 }
+

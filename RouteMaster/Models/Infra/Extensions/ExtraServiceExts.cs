@@ -107,6 +107,7 @@ namespace RouteMaster.Models.Infra.Extensions
 			{				
 				Id = entity.Id,
 				AttractionId = entity.AttractionId,
+				AttractionName=entity.Attraction.Name,
 				Name = entity.Name,		
 				Price = entity.Price,	
 				Description = entity.Description,
@@ -119,6 +120,7 @@ namespace RouteMaster.Models.Infra.Extensions
 			return new ExtraServiceEditVM
 			{		
 				Id= dto.Id,
+				AttractionName = dto.AttractionName,
 				AttractionId = dto.AttractionId,
 				Name = dto.Name,
 				Price = dto.Price,
