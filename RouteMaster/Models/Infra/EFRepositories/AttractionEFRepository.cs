@@ -26,6 +26,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		{
 			return _db.Attractions
 				.AsNoTracking() // 告訴程式不用追蹤改動 以增加效率
+				.OrderBy(p => p.Id)
 				.Include(p => p.AttractionCategory) // 避免N+1 Query
 				.Include(p => p.AttractionImages)
 				.Include(p => p.Region)
@@ -54,7 +55,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 								.Where(c => c.AttractionId == p.Id)
 								.Select(c => c.Price)
 								.Average(),
-				}).OrderBy(p => p.Id);
+				});
 
 
 		}
@@ -95,8 +96,12 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			_db.SaveChanges();
 
-			AttractionTagsDapperRepository tagRepo = new AttractionTagsDapperRepository();
-			tagRepo.AddTag(dto.Name, dto.TagId);
+			if (dto.TagId.HasValue)
+			{
+				AttractionTagsDapperRepository tagRepo = new AttractionTagsDapperRepository();
+				tagRepo.AddTag(dto.Name, dto.TagId.Value);
+			}
+			
 		}
 
 		public bool ExistAttraction(string Name)
@@ -224,9 +229,21 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		{
 			var img = _db.AttractionImages.Find(imageId);
 
-				_db.AttractionImages.Remove(img);
-				// 將它存到db
-				_db.SaveChanges();
+			
+
+			_db.AttractionImages.Remove(img);
+			
+			// 將它存到db
+			_db.SaveChanges();
+
+			DeleteUploadFile(img.Image);
+		}
+
+		private void DeleteUploadFile(string file1)
+		{
+			string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads");
+			string fullName = Path.Combine(path, file1);
+			System.IO.File.Delete(fullName);
 		}
 
 		public void UploadImage(AttractionImageIndexDto dto, HttpPostedFileBase[] files, String path)
