@@ -212,11 +212,8 @@ namespace RouteMaster.Controllers
 
 			if (result.IsSuccess)
 			{
-				if (vm.TagId.HasValue)
-				{
-					AttractionTagsDapperRepository tagRepo = new AttractionTagsDapperRepository();
-					tagRepo.EditTag(vm.Id, vm.TagId.Value);
-				}
+				AttractionTagsDapperRepository tagRepo = new AttractionTagsDapperRepository();
+				tagRepo.EditTag(vm.Id, vm.TagId);
 
 				return RedirectToAction("Index");
 			}

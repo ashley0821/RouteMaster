@@ -22,7 +22,7 @@
 <h2>景點類別</h2>
 
 <p>
-    @Html.ActionLink("新增類別", "Create", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("新增類別", "Create", null, new { @class = "btn btn-success" })
 </p>
 <table class="table table-striped table-hover">
     <thead>
@@ -42,8 +42,8 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.ActionLink("編輯類別", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("刪除類別", "Delete", new { id = item.Id })
+                    @Html.ActionLink("編輯類別", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("刪除類別", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }
