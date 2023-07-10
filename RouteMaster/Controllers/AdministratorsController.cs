@@ -1,4 +1,5 @@
-﻿using RouteMaster.Models;
+﻿using RouteMaster.Filter;
+using RouteMaster.Models;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
 using RouteMaster.Models.Infra.Criterias;
@@ -15,10 +16,13 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-    public class AdministratorsController : Controller
+	
+	[CustomAuthorize("總管理員")]
+	public class AdministratorsController : Controller
     {
         private readonly AppDbContext db = new AppDbContext();
 
@@ -155,6 +159,8 @@ namespace RouteMaster.Controllers
                               LastName = dto.LastName,
                               Email = dto.Email,
                               CreateDate = dto.CreateDate,
+                              Permission = dto.Permission,
+                              IsSuspended = dto.IsSuspended,
                           });
         }
 
@@ -198,11 +204,13 @@ namespace RouteMaster.Controllers
             return service.Register(vm.ToDto());
         }
 
+        [AllowAnonymous]
 		public ActionResult Login()
         {
             return View();
         }
 
+		[AllowAnonymous]
 		[HttpPost]
 		public ActionResult Login(AdministratorLoginVM vm)
 		{
@@ -309,7 +317,7 @@ namespace RouteMaster.Controllers
         private (string returnUrl, HttpCookie cookie) ProcessLogin(string email, bool rememberMe)
         
         {
-            var roles = "管理員"; // 在本範例, 沒有用到角色權限,所以存入空白
+            var roles = "總管理員"; // 在本範例, 沒有用到角色權限,所以存入空白
 
 			// 建立一張認證票
 			var ticket =

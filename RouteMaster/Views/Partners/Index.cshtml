@@ -1,75 +1,138 @@
 ﻿@model IEnumerable<RouteMaster.Models.EFModels.Partner>
 
+@section Styles
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
+    <style>
+        thead {
+            background-color: rgba(255, 99, 71, 0.4);
+            color: black;
+        }
+    </style>
+}
+
 @{
     ViewBag.Title = "旅宿夥伴列表";
+    var criteria = ViewBag.Criteria as RouteMaster.Models.Infra.Criterias.PartnerCriteria;
 }
 
 <h2>旅宿夥伴列表</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EncryptedPassword)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsConfirmed)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ConfirmCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsSuspended)
-        </th>
-        <th></th>
-    </tr>
+<div>
+    <form action="@Url.Action("Create", "Partners")">
+        <button type="submit" class="btn-css-success">新增會員</button>
+    </form>
+</div>
+<section class="container">
+    <form method="get">
+        <div class="row">
+            <div class="mb-3 col-md-3">
+                <label for="s_firstname">名</label>
+                <input type="text" class="form-control" name="FirstName" id="s_firstname" value="@criteria.FirstName">
+            </div>
+            <div class="mb-3 col-md-3">
+                <label for="s_lastname">姓</label>
+                <input type="text" class="form-control" name="LastName" id="s_lastname" value="@criteria.LastName">
+            </div>
+            <div class="mb-3 col-md-3">
+                <label for="s_email">信箱</label>
+                <input type="text" class="form-control" name="Email" id="s_email" value="@criteria.Email">
+            </div>
+            <div class="mb-3 col-md-4">
+                <label for="s_createDate" style="display: block">創建日期</label>
+                <input type="text" class="form-control" name="createDateBegin" id="createDateBegin" style="width: 40%; display: inline" value="@(criteria.CreateDateBegin.HasValue?criteria.CreateDateBegin.Value.ToString("yyyy'/'MM'/'dd"):"")"> ~
+                <input type="text" class="form-control" name="createDateEnd" id="createDateEnd" style="width: 40%; display: inline" value="@(criteria.CreateDateEnd.HasValue?criteria.CreateDateEnd.Value.ToString("yyyy'/'MM'/'dd"):"")">
+            </div>
+            <div class="mb-3 col-md-2 align-self-end">
+                <button class="btn btn-primary">搜尋</button>
+            </div>
+        </div>
+    </form>
+</section>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EncryptedPassword)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreateDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsConfirmed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ConfirmCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsSuspended)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
+<table class="table" id="PartnerIndex">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsConfirmed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSuspended)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsSuspended)
+                </td>
+                <td>
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn-css-primary" }) |
+                    @Html.ActionLink("詳細資料", "Details", new { id = item.Id }, new { @class = "btn-css-warning" }) |
+                    @Html.ActionLink("停權", "SuspendMember", new { id = item.Id }, new { @class = "btn-css-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>*@
+
+    <script>
+        new DataTable('#PartnerIndex', {
+            ordering: false,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+            }
+        });
+
+
+
+        $(document).ready(function () {
+            $("#createDateBegin").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd'
+            $("#createDateEnd").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd' }
+
+        });
+
+
+    </script>
+}

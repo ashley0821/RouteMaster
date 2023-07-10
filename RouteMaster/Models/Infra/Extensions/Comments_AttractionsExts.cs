@@ -78,6 +78,17 @@ namespace RouteMaster.Models.Infra.Extensions
 			};
 		}
 
+		public static Comments_AttractionsImgIndexVM ToImgIndexVM(this Comments_AttractionImages entity)
+		{
+			return new Comments_AttractionsImgIndexVM
+			{
+				Id = entity.Id,
+				CommentId = entity.Comments_AttractionId,
+				Image = entity.Image
+
+			};
+		}
+
 	}
 
 }

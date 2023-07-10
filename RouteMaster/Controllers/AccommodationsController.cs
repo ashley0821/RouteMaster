@@ -63,7 +63,7 @@ namespace RouteMaster.Controllers
 					return View(accommodations);//.ToList());
 				}
 
-				if (identity.Permission == "管理員")
+				if (identity.Permission == "總管理員")
 				{
 					 accommodations = GetAccommodations(null)
 					.OrderBy(a => a.Name.Contains("(已下架)"))
@@ -79,7 +79,7 @@ namespace RouteMaster.Controllers
         public ActionResult Create()
         {
             IdentityDto identity = GetPartnerIdAndPermission();
-			if (identity.Permission != "管理員" || identity.Permission != "住所夥伴")
+			if ((identity.Permission != "總管理員" && identity.Permission != "住所夥伴"))
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
@@ -124,7 +124,7 @@ namespace RouteMaster.Controllers
             }
             IdentityDto identity = GetPartnerIdAndPermission();
             Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
-            if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員"))
+            if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "總管理員"))
             {
                 return HttpNotFound();
             }
@@ -145,7 +145,7 @@ namespace RouteMaster.Controllers
 
 			AccommodationEditVM vm = GetAccommodationProfile(id);
 
-            if (vm == null || (vm.PartnerId != identity.Id && identity.Permission != "管理員"))
+            if (vm == null || (vm.PartnerId != identity.Id && identity.Permission != "總管理員"))
             {
                 return HttpNotFound();
             }
@@ -179,7 +179,8 @@ namespace RouteMaster.Controllers
 			
         }
 
-        public ActionResult RoomsIndex(int id)
+		// 房間列表
+        public ActionResult RoomsIndex(int? id)
         {
 			if (id == null)
 			{
@@ -189,7 +190,7 @@ namespace RouteMaster.Controllers
 			IdentityDto identity = GetPartnerIdAndPermission();
 			int? partnerId = db.Accommodations.FirstOrDefault(a => a.Id == id)?.PartnerId;
 
-			if (partnerId == null || (partnerId != identity.Id && identity.Permission != "管理員"))
+			if (partnerId == null || (partnerId != identity.Id && identity.Permission != "總管理員"))
 			{
 				return HttpNotFound();
 			}
@@ -210,7 +211,7 @@ namespace RouteMaster.Controllers
             IdentityDto identity = GetPartnerIdAndPermission();
 			Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
 
-			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員"))
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "總管理員"))
 			{
 				return HttpNotFound();
 			}
@@ -254,7 +255,7 @@ namespace RouteMaster.Controllers
 			//return View(vm);
 		}
 
-		// 客房列表
+		// 編輯客房
 		public ActionResult EditRoom(int? id)
 		{
 			if (id == null)
@@ -266,7 +267,7 @@ namespace RouteMaster.Controllers
 			RoomEditVM vm = GetRoomProfile(id);
 
 			int? partnerId = db.Accommodations.FirstOrDefault(a => a.Id == vm.AccommodationId)?.PartnerId;
-			if (vm == null || partnerId == null ||(partnerId != identity.Id && identity.Permission != "管理員"))
+			if (vm == null || partnerId == null ||(partnerId != identity.Id && identity.Permission != "總管理員"))
 			{
 				return HttpNotFound();
 			}
@@ -309,7 +310,7 @@ namespace RouteMaster.Controllers
             IdentityDto identity = GetPartnerIdAndPermission();
 			Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
 
-			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員"))
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "總管理員"))
 			{
 				return HttpNotFound();
 			}
@@ -366,6 +367,7 @@ namespace RouteMaster.Controllers
   //          return View(accommodation);
   //      }
 
+		// 下架住所
         [HttpPost, ActionName("Delete")]
      
         public void DeleteConfirmed(int id)
@@ -373,7 +375,7 @@ namespace RouteMaster.Controllers
             Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
 			IdentityDto identity = GetPartnerIdAndPermission();
 
-			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員")) return;
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "總管理員")) return;
 
 			accommodation.Name += "(已下架)";
             //var ais = accommodation.AccommodationImages;
@@ -418,28 +420,27 @@ namespace RouteMaster.Controllers
             db.SaveChanges();
         }
 		
+		// 上架住所
 		[HttpPost]
-     
         public void Publish(int id)
         {
             Accommodation accommodation = db.Accommodations.FirstOrDefault(a => a.Id == id);
 			IdentityDto identity = GetPartnerIdAndPermission();
 
-			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "管理員")) return;
+			if (accommodation == null || (accommodation.PartnerId != identity.Id && identity.Permission != "總管理員")) return;
 			accommodation.Name = accommodation.Name.Replace("(已下架)","");
             db.SaveChanges();
         }
 
-
+		// 刪除房間
 		[HttpPost]
-     
         public void DeleteRoom(int id)
         {
             Room room = db.Rooms.Find(id);
 
 			IdentityDto identity = GetPartnerIdAndPermission();
 			int? partnerId = db.Accommodations.FirstOrDefault(a => a.Id == room.AccommodationId)?.PartnerId;
-			if (room == null || (partnerId != identity.Id && identity.Permission != "管理員")) return;
+			if (room == null || (partnerId != identity.Id && identity.Permission != "總管理員")) return;
 
 			foreach (var ri in room.RoomImages.ToList())
             {
@@ -451,17 +452,63 @@ namespace RouteMaster.Controllers
             db.SaveChanges();
         }
 
+		// 訂單管理
+		public ActionResult OrderManagement()
+		{
+			IdentityDto identity = GetPartnerIdAndPermission();
+			// 取得 HTTP 請求中的 Cookie 集合
+			if ((identity.Id) != 0 && !string.IsNullOrEmpty(identity.Permission))
+			{
+				
+				IEnumerable<AccommodationDetailsDto> detail;
+				if (identity.Permission == "住所夥伴")
+				{
+					detail = GetAccommodationDetails(identity.Id)
+				   .Select(a => a.ToPartnerDto())
+				   .OrderBy(a => a.OrderId)
+				   .ThenByDescending(a => a.AccommodationId);
 
+					return View(detail);//.ToList());
+				}
+
+				if (identity.Permission == "總管理員")
+				{
+					detail = GetAccommodationDetails(null)
+				   .Select(a => a.ToAdminDto())
+				   .OrderBy(a => a.Accommodation.PartnerId)
+				   .ThenByDescending(a => a.OrderId)
+				   .ThenByDescending(a => a.AccommodationId);
+
+					return View(detail);
+				}
+			}
+			return RedirectToAction("PartnerLogin", "Partners");
+		}
+		
+		public ActionResult PerformanceAnalysis()
+		{
+			return View();
+		}
+
+		private IEnumerable<AccommodationDetail> GetAccommodationDetails(int? id)
+		{
+			var accommodationDetail = (IEnumerable<AccommodationDetail>)db.AccommodationDetails
+				.AsNoTracking()
+				.Where(ad => id == null ? true : ad.Accommodation.PartnerId == id)
+				.Include(a => a.Accommodation);
+
+			return accommodationDetail;
+		}
+
+
+
+		#region:方法
 		private void DeleteUploadFile(string file1)
 		{
 			string path = Server.MapPath("~/Uploads");
 			string fullName = Path.Combine(path, file1);
 			System.IO.File.Delete(fullName);
 		}
-
-
-
-		#region:方法
 		private Result EditService(ServiceInfoVM vm)
 		{
 			IAccommodationRepository repo = new AccommodationEFRepository();
@@ -499,10 +546,13 @@ namespace RouteMaster.Controllers
                 new SelectListItem { Value = "雙床房", Text = "雙床房" },
                 new SelectListItem { Value = "三人房", Text = "三人房" },
                 new SelectListItem { Value = "四人房", Text = "四人房" },
+                new SelectListItem { Value = "六人房", Text = "六人房" },
+                new SelectListItem { Value = "包廂", Text = "包廂" },
                 new SelectListItem { Value = "家庭房", Text = "家庭房" },
                 new SelectListItem { Value = "套房", Text = "套房" },
                 new SelectListItem { Value = "雅房", Text = "雅房" },
-                new SelectListItem { Value = "膠囊床位", Text = "膠囊床位" }
+                new SelectListItem { Value = "膠囊床位", Text = "膠囊床位" },
+                new SelectListItem { Value = "包棟", Text = "包棟" }
             };
 
             ViewBag.RoomType = roomTypes;

@@ -10,13 +10,19 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Services.Description;
 using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.Expressions;
+using RouteMaster.Filter;
+using RouteMaster.Models.Dto;
 using RouteMaster.Models.EFModels;
 using RouteMaster.Models.Infra;
+using RouteMaster.Models.Infra.Criterias;
 using RouteMaster.Models.ViewModels;
+using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 
 namespace RouteMaster.Controllers
 {
-    public class PartnersController : Controller
+	
+	public class PartnersController : Controller
     {
         private readonly AppDbContext db = new AppDbContext();
 
@@ -179,10 +185,49 @@ namespace RouteMaster.Controllers
 		}
 
 
-		public ActionResult Index()
+		public ActionResult Index(PartnerCriteria criteria)
         {
-            return View(db.Partners.ToList());
+            ViewBag.Criteria = criteria;
+
+			var query = db.Partners.AsEnumerable();
+
+
+            if (string.IsNullOrEmpty(criteria.FirstName) == false)
+            {
+                query = query.Where(m => m.FirstName.Contains(criteria.FirstName));
+            }
+            if (string.IsNullOrEmpty(criteria.LastName) == false)
+            {
+                query = query.Where(m => m.LastName.Contains(criteria.LastName));
+            }
+            if (string.IsNullOrEmpty(criteria.Email) == false)
+            {
+                query = query.Where(m => m.Email.Contains(criteria.Email));
+            }
+            if (criteria.CreateDateBegin.HasValue)
+            {
+                query = query.Where(m => m.CreateDate >= criteria.CreateDateBegin.Value);
+            }
+            if (criteria.CreateDateEnd.HasValue)
+            {
+                query = query.Where(m => m.CreateDate <= criteria.CreateDateEnd.Value);
+            }
+
+
+            var Partners = query.Select(m => new PartnerIndexVM
+            {
+                Id = m.Id,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+                Email = m.Email,
+                CreateDate = m.CreateDate,
+                IsConfirmed = m.IsConfirmed,
+                IsSuspended = m.IsSuspended,
+            });
+           
+            return View(query);
         }
+
 
         // GET: Partners/Details/5
         public ActionResult Details(int? id)
@@ -214,6 +259,8 @@ namespace RouteMaster.Controllers
         {
             if (ModelState.IsValid)
             {
+				
+				partner.CreateDate= DateTime.Now;
                 db.Partners.Add(partner);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -279,6 +326,38 @@ namespace RouteMaster.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public ActionResult SuspendMember(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Partner partner = db.Partners.Find(id);
+
+            if (partner == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult SuspendPartner(PartnerSuspendVM vm)
+        {
+            var PartnerInDb = db.Partners.Find(vm.Id);
+            PartnerInDb.IsSuspended = vm.IsSuspended;
+
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -287,5 +366,35 @@ namespace RouteMaster.Controllers
             }
             base.Dispose(disposing);
         }
+
+		//public ActionResult PartnerLoginTest()
+		//{
+		//	return View();
+		//}
+
+		//[HttpPost]
+		//public ActionResult PartnerLoginTest(PartnerLoginVM vm)
+		//{
+		//	if (ModelState.IsValid == false) return View(vm);
+
+		//	// 驗證帳密的正確性
+		//	Result result = ValidLogin(vm);
+
+		//	if (result.IsSuccess != true) // 若驗證失敗...
+		//	{
+		//		ModelState.AddModelError("", result.ErrorMessage);
+		//		return View(vm);
+		//	}
+
+		//	const bool rememberMe = false; // 是否記住登入成功的會員
+
+		//	// 若登入帳密正確,就開始處理後續登入作業,將登入帳號編碼之後,加到 cookie裡
+		//	(string returnUrl, HttpCookie cookie) = ProcessLogin(vm.Email, rememberMe);
+
+		//	Response.Cookies.Add(cookie);
+
+		//	return Redirect(returnUrl);
+		//}
+
     }
 }

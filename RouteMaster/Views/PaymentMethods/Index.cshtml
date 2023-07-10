@@ -2,12 +2,21 @@
 @section Styles
     {
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
 
     <style>
         div.container {
             width: 960px;
+        }
+
+        thead {
+            background-color: rgba(255, 99, 71, 0.4);
+            color: #697A8D
+        }
+
+        tr {
+            color: #697A8D
         }
     </style>
 }
@@ -16,18 +25,21 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2 class="mb-4">付款方式管理</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table id="datatable" class="display nowrap" style="width:100%">
+<div class="mb-3">
+    @Html.ActionLink("建立新的付款方式", "Create", null, new { @class = "btn btn-outline-success" })
+</div>
+
+    
+
+<table id="datatable" class="table" style="width:100%">
     <thead>
         <tr>
-            <th>
+            <th class="ui-controlgroup-label " style="text-align:center;">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th class="ui-controlgroup-label" style="text-align:center;">
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th></th>
@@ -40,15 +52,15 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="ui-controlgroup-label" style="text-align:center;">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td>
+                <td class="ui-controlgroup-label" style="text-align:center;">
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                    @Html.ActionLink("編輯", "Edit", new { id = item.id }, new { @class = "btn btn-outline-primary", style = "width: 70px; height: 40px;" })
+                    @Html.ActionLink("刪除", "Delete", new { id = item.id }, new { @class = "btn btn-outline-danger", style = "width: 70px; height: 40px;" })
                 </td>
             </tr>
         }
@@ -61,23 +73,20 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
 
 
     <script>
 
         new DataTable('#datatable', {
-            responsive: {
-                details: {
-                    display: DataTable.Responsive.display.modal({
-                        header: function (row) {
-                            var data = row.data();
-                            return 'Details for ' + data[0] + ' ' + data[1];
-                        }
-                    }),
-                    renderer: DataTable.Responsive.renderer.tableAll()
-                }
-            }
+            ordering: false,
+            searching: false,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+            },
+            lengthMenu:
+                [8, 15, 30]
+
         });
     </script>
 }

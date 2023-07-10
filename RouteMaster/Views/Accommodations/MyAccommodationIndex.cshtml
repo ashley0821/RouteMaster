@@ -1,15 +1,37 @@
 ﻿@model IEnumerable<RouteMaster.Models.ViewModels.AccommodationIndexVM>
-
+@section Styles{
+    <style>
+        .dispaly-none{
+            display:none !important;
+        }
+    </style>
+    
+    }
 @{
     ViewBag.Title = "MyAccommodationIndex";
 }
 
     <div class="my-2 d-flex justify-content-end ">
         <h2 class="me-auto">我的住所</h2>
-        <a href="/Accommodations/Create" class="btn btn-outline-primary d-flex align-items-center">新增其他住所</a>
+        <a href="/Accommodations/Create" class="btn btn-outline-success d-flex align-items-center">新增其他住所</a>
     </div>
 
 
 @{ Html.RenderPartial("_AccommodationCardPartial");}
 
+@section Scripts{
+    <script>
+        new DataTable('#imgTable', {
+            
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+            },
+            responsive: true,
+            sorting:false,
+            
+        });
+
+    </script>
+    
+    }
 

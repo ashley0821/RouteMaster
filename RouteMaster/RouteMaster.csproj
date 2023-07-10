@@ -175,6 +175,16 @@
     <Compile Include="Models\Dto\Accommodation\IdentityDto.cs" />
     <Compile Include="Models\Dto\Accommodation\NavDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Room\RoomEditDto.cs" />
+
+    <Compile Include="Models\Dto\MemberIdentityDto.cs" />
+
+
+    <Compile Include="Models\Dto\FAQChangeImgDto.cs" />
+    <Compile Include="Models\Dto\FAQEditImgIndexDto.cs" />
+
+
+
+    <Compile Include="Models\Infra\Criterias\PartnerCriteria.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />
     <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationIndexDto.cs" />
@@ -389,7 +399,9 @@
     <Compile Include="Models\ViewModels\Comments_AccommodationsUploadImgVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AttractionsCreateVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AttractionsDetailVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AttractionsImgIndexVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AttractionsIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AttractionsUploadImgVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceIndexVM.cs" />
@@ -420,8 +432,10 @@
     <Compile Include="Models\ViewModels\PackageTourCreateVM.cs" />
     <Compile Include="Models\ViewModels\PackageTourEditVM.cs" />
     <Compile Include="Models\ViewModels\PackageTourIndexVM.cs" />
+    <Compile Include="Models\ViewModels\PartnerIndexVM.cs" />
     <Compile Include="Models\ViewModels\PartnerLoginVM.cs" />
     <Compile Include="Models\ViewModels\PartnerRegisterVM.cs" />
+    <Compile Include="Models\ViewModels\PartnerSuspendVM.cs" />
     <Compile Include="Models\ViewModels\PaymentMethodCreateVM.cs" />
     <Compile Include="Models\ViewModels\PaymentMethodEditVM.cs" />
     <Compile Include="Models\ViewModels\PaymentMethodIndexVM.cs" />
@@ -731,9 +745,7 @@
     <Content Include="Views\AttractionTags\Index.cshtml" />
     <Content Include="Views\Members\ActiveRegister.cshtml" />
     <Content Include="Views\Accommodations\EditRoom.cshtml" />
-
     <Content Include="Views\PackageTours\_PopupDetailsPartial.cshtml" />
-
     <Content Include="Views\Members\ActiveMember.cshtml" />
     <Content Include="Views\Administrators\ConfirmRegister.cshtml" />
     <Content Include="Views\Administrators\SuspendAdministrator.cshtml" />
@@ -741,7 +753,16 @@
     <Content Include="Views\Members\ConfirmForgetPassword.cshtml" />
     <Content Include="Views\Members\ResetPassword.cshtml" />
     <Content Include="Views\Members\ConfirmResetPassword.cshtml" />
+    <Content Include="Views\Comments_Attractions\ImgIndex.cshtml" />
+    <Content Include="Views\Comments_Attractions\UploadImg.cshtml" />
+    <Content Include="Views\Partners\SuspendMember.cshtml" />
 
+
+    <Content Include="Views\Members\MyMemberIndex.cshtml" />
+
+    <Content Include="Views\Accommodations\OrderManagement.cshtml" />
+    <Content Include="Views\Accommodations\PerformanceAnalysis.cshtml" />
+    <Content Include="Views\Partners\PartnerLoginTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
