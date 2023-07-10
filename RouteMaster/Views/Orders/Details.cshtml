@@ -98,20 +98,22 @@
             <div class="col-md-5">
                 <label for="note" class="control-label mfont">訂單後台備註：</label>
             </div>
-            <div class="col-md-7">
-                <textarea class="form-control" id="note" rows="5"></textarea>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-7 text-right">
+                <textarea class="form-control" id="note" rows="2"></textarea>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-12 text-right">
-                <button onclick="saveNote()" class="btn btn-primary">儲存</button>
+        <div class="row mb-3">
+            <div class="col-md-12 ">
+                <button id="saveNote" onclick="saveNote()" class="btn btn-primary">儲存</button>
             </div>
         </div>
         @*<button onclick="saveNote()">儲存</button>*@
     </container>}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
     $(document).ready(function () {
         $('.toggle').click(function () {
             var content = $(this).next('.content');
@@ -121,7 +123,7 @@
 
 </script>
 
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @*<script>
 
@@ -133,6 +135,9 @@
 
     </script>*@
 <script>
+ 
+</script>
+<script>
     window.onload = function () {
         var savedNote = localStorage.getItem('savedNote');
         if (savedNote) {
@@ -140,13 +145,18 @@
             savedNoteElement.innerHTML = "<strong>備註內容：</strong>" + savedNote;
         }
     };
+    $('#saveNote').click(function () {
+        saveNote();
+    });
 
     function saveNote() {
         var note = document.getElementById("note").value;
         var savedNoteElement = document.getElementById("savedNote");
+       
         if (savedNoteElement) {
             savedNoteElement.innerHTML = "<strong>備註內容：</strong>" + note;
             localStorage.setItem('savedNote', note);
+            
         } else {
             console.error("找不到ID為'savedNote'的元素");
         }

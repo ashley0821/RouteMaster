@@ -5,28 +5,28 @@
 </p>
 <table class="table">
     <tr>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.OrderId)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.AccommodationId)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.AccommodationName)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.RoomType)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.RoomName)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.CheckIn)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.CheckOut)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.RoomPrice)
         </th>
 
@@ -36,25 +36,25 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td class="control-label" style="text-align: center;">
                 @Html.DisplayFor(modelItem => item.OrderId)
             </td>
-            <td>
+            <td class="control-label" style="text-align: center;">
                 @Html.DisplayFor(modelItem => item.AccommodationId)
             </td>
-            <td>
+            <td class="control-label" style="text-align: center;">
                 @Html.DisplayFor(modelItem => item.AccommodationName)
             </td>
-            <td>
+            <td class="control-label" style="text-align: center;">
                 @Html.DisplayFor(modelItem => item.RoomType)
             </td>
-            <td>
+            <td class="control-label" style="text-align: center;">
                 @Html.DisplayFor(modelItem => item.RoomName)
             </td>
-            <td>
+            <td class="control-label" style="text-align: center;">
                 @Html.DisplayFor(modelItem => item.CheckIn)
             </td>
-            <td>
+            <td class="control-label" style="text-align: center;">
                 @Html.DisplayFor(modelItem => item.CheckOut)
             </td>
             @*<td>
