@@ -9,7 +9,7 @@
                 font-size: 18px;
             }
     </style>
-    }
+}
 @{
     ViewBag.Title = "OrderManagement";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,52 +18,110 @@
 <h2>訂單管理</h2>
 
 <hr />
-
-<table class="table" id="orderTable">
-    <thead>
-
-        <tr>
-            <th>
-                訂單Id
-            </th>
-            
-            <th>
-                住所名字
-            </th>
-            <th>
-                房間名稱
-            </th>
-            <th>
-                入住時間
-            </th>
-           
-        </tr>
-    </thead>
-    <tbody>
-
-        @foreach (var item in Model)
-        {
+@if (Model.FirstOrDefault().Permission == "住所夥伴")
+{
+    <table class="table" id="orderTable">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderId)
-                </td>
-               
-                <td>
-                    @Html.DisplayFor(modelItem => item.Accommodation.Name)
-                </td>
-               
-                <td>
-                    @Html.DisplayFor(modelItem => item.RoomName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CheckIn)
-                </td>
-               
-            </tr>
-        }
-    </tbody>
+                <th class="border-end ">
+                    訂單Id
+                </th>
+                <th class="border-end ">
+                    住所名字
+                </th>
+                <th class="border-end ">
 
-</table>
+                    房間名稱
+                </th>
+                <th>
+                    入住時間
+                </th>
+                <th>
+                    住客資訊
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="https://localhost:44371/Orders/Details/@item.OrderId" class="btn btn-css-warning">@item.OrderId</a>
+                    </td>
+                    <td>
+                        <a href="https://localhost:44371/Accommodations/Details/@item.Accommodation.Id" class="btn-css-warning">@item.Accommodation.Name</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomName)
+                    </td>
+                    <td>
+                        @item.CheckIn.ToString("yyyy/MM/dd")
+                    </td>
+                    <td>
+                        <a href="https://localhost:44371/Members/Details/@item.Order.MemberId" class="btn-css-warning">@item.Order.Member.FirstName @item.Order.Member.LastName</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if(Model.FirstOrDefault().Permission == "總管理員")
+{
+    <table class="table" id="orderTable">
+        <thead>
+            <tr>
+                <th class="border-end ">
+                    訂單Id
+                </th>
+                <th class="border-end ">
+                    合作夥伴
+                </th>
+                <th class="border-end ">
+                    住所名字
+                </th>
+                <th class="border-end ">
+                    房間名稱
+                </th>
+                <th class="border-end ">
+
+                    入住時間
+                </th>
+                <th>
+                    住客資訊
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="https://localhost:44371/Orders/Details/@item.OrderId" class="btn btn-css-warning">@item.OrderId</a>
+
+                    </td>
+                    <td>
+                        <a href="https://localhost:44371/Partners/Details/@item.Accommodation.PartnerId" class="btn-css-warning">@item.Accommodation.Partner.FirstName @item.Accommodation.Partner.LastName</a>
+                    </td>
+                    <td>
+                        <a href="https://localhost:44371/Accommodations/Details/@item.Accommodation.Id" class="btn-css-warning">@item.Accommodation.Name</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomName)
+                    </td>
+                    <td>
+                        @item.CheckIn.ToString("yyyy/MM/dd")
+                    </td>
+                    <td>
+                        <a href="https://localhost:44371/Members/Details/@item.Order.MemberId" class="btn-css-warning">@item.Order.Member.FirstName @item.Order.Member.LastName</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @section Scripts{
     <script>
@@ -76,4 +134,4 @@
         });
 
     </script>
-    }
+}
