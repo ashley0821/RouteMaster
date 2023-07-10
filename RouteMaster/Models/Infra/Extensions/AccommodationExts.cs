@@ -192,7 +192,8 @@ namespace RouteMaster.Models.Infra.Extensions
 				CheckIn = room.CheckIn,
 				RoomPrice = room.RoomPrice,
 				Accommodation = room.Accommodation,
-				Permission = "合作夥伴"
+				Permission = "住所夥伴",
+				Order = room.Order,
 			};
 		}
 		
@@ -208,7 +209,8 @@ namespace RouteMaster.Models.Infra.Extensions
 				CheckIn = room.CheckIn,
 				RoomPrice = room.RoomPrice,
 				Accommodation = room.Accommodation,
-				Permission = "管理員"
+				Permission = "總管理員",
+				Order = room.Order,
 			};
 		}
 
