@@ -35,7 +35,7 @@
 <h2>景點列表</h2>
 
 <p>
-    @Html.ActionLink("新增景點", "Create", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("新增景點", "Create", null, new { @class = "btn btn-success" })
 </p>
 
 
@@ -115,7 +115,7 @@
 
             <div class="mb-3 col-md-2 align-self-end">
                 <button class="btn btn-info" id="clear">清空條件</button>
-                <button class="btn btn-secondary" id="search">搜尋</button>
+                <button class="btn btn-warning" id="search">搜尋</button>
             </div>
         </div>
     </form>
@@ -197,9 +197,9 @@
                 </td>
                 <td class="align-middle">
                     @Html.ActionLink("景點詳情", "Details", new { id = item.Id }, new { @class = "d-none" })
-                    @Html.ActionLink("編輯景點", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("管理圖片", "ImagesIndex", new { id = item.Id }) |
-                    @Html.ActionLink("刪除景點", "Delete", new { id = item.Id })
+                    @Html.ActionLink("編輯景點", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("管理圖片", "ImagesIndex", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("刪除景點", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
 
             </tr>
