@@ -34,7 +34,8 @@
                                                 </small>
                                             </p>
                                             @*@Html.ActionLink("繼續註冊流程", "Edit", new { id = item.Id })*@
-                                            <a href="/Accommodations/Details/@item.Id" class="btn btn-warning">住所資訊</a>
+                                            <a href="/Accommodations/Details/@item.Id" class="btn btn-outline-warning">住所資訊</a>
+                                            |
                                             <input type="button" class="btn btn-danger delete-accommodation" data-id="@item.Id" id="delete-accommodation-@item.Id" value="下架住所" />
                                         </div>
                                     </div>

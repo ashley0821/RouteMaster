@@ -28,7 +28,8 @@
                 </td>
                 <td class="col-3 d-flex justify-content-center align-items-center">
                     <a href="" data-></a>
-                    @Html.ActionLink("編輯房間", "EditRoom", new { id = item.Id }, new { @class = "btn-css-primary" })    ｜
+                    @Html.ActionLink("編輯房間", "EditRoom", new { id = item.Id }, new { @class = "btn-css-primary" })
+                    ｜
                     @*@Html.ActionLink("刪除房間", "DeleteRoom", new { id = item.Id }, new { @class = "btn-css-danger delete-accommodation", data_id = item.Id })*@
                     <input type="button" class="btn-css-danger delete-accommodation border-0" style="background-color:inherit" data-id="@item.Id" id="delete-accommodation-@item.Id" value="刪除房間" />
                 </td>
