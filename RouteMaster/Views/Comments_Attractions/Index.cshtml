@@ -48,13 +48,13 @@
                 </select>
             </div>
             <div class="mb-3 col-md-2 align-self-end">
-                <button type="submit" class="btn btn-dark">搜尋</button>
+                <button type="submit" class="btn btn-primary">搜尋</button>
             </div>
         </div>
     </form>
 </section>
 <p>
-    @Html.ActionLink("新增評論", "Create", new { id = "" }, new { @class = "btn btn-outline-success" })
+    @*@Html.ActionLink("新增評論", "Create", new { id = "" }, new { @class = "btn btn-outline-success" })*@
 </p>
 <table class="table" style="width:100%" id="CommentIndex">
     <thead>
@@ -92,10 +92,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td>
+                <td class="ps-3">
                     @Html.DisplayFor(modelItem => item.Score)
                 </td>
-                <td>
+                <td class="ps-4">
                     @Html.DisplayFor(modelItem => item.StayHours)
                 </td>
                 <td>
@@ -106,8 +106,9 @@
                 </td>
                 <td>
                     @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
-                    @Html.ActionLink("瀏覽", "Details", new { id = item.Id }, new { @class = "btn btn-outline-secondary" }) 
-                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new {@class = "btn btn-danger"})
+                    @Html.ActionLink("瀏覽", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("圖片庫", "ImgIndex", new { id = item.Id }, new { @class = "btn btn-outline-secondary ms-1 me-1" }) 
+                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }

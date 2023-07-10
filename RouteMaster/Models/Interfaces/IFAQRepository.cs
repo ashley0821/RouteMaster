@@ -26,5 +26,9 @@ namespace RouteMaster.Models.Interfaces
 		bool ExistDetail(int? id);
 
 		FAQDetailDto Detail	(int? id);
+
+		IEnumerable<FAQEditImgIndexDto> GetImgIndex(int? id);
+
+		
 	}
 }

@@ -307,7 +307,7 @@ namespace RouteMaster.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult EditImage(AttractionImageIndexVM vm, HttpPostedFileBase file1)
 		{
-			if (vm.Id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			//if (vm.Id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
 			if (file1 == null)
 			{
