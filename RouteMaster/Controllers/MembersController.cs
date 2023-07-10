@@ -521,7 +521,7 @@ namespace RouteMaster.Controllers
 
             Session.Abandon();
             FormsAuthentication.SignOut();
-            return Redirect("/Members/Login");
+            return Redirect("/Home/Index");
 
 
             //return Redirect("/Members/Login");
@@ -773,23 +773,23 @@ namespace RouteMaster.Controllers
 
                 db.SaveChanges();
 
-				#region 資料庫重建時的新增照片
-				//因沒有圖片在memberImage，故改成這段，新增照片完要改回來
-				//MemberImage memberImage = new MemberImage
-				//{
-				//    Image = vm.Image,
-				//    Name = "未命名",
-				//    MemberId = vm.Id,
-				//};
-				//db.MemberImages.Add(memberImage);
-				//db.SaveChanges();
-				#endregion
+				//#region 資料庫重建時的新增照片
+				////因沒有圖片在memberImage，故改成這段，新增照片完要改回來
+				////MemberImage memberImage = new MemberImage
+				////{
+				////    Image = vm.Image,
+				////    Name = "未命名",
+				////    MemberId = vm.Id,
+				////};
+				////db.MemberImages.Add(memberImage);
+				////db.SaveChanges();
+				//#endregion
 
-				//原來的程式碼
-				var MemberImageIndb = db.MemberImages.FirstOrDefault(m => m.MemberId == vm.Id);
-                MemberImageIndb.Image = vm.Image;
+				////原來的程式碼
+				//var MemberImageIndb = db.MemberImages.FirstOrDefault(m => m.MemberId == vm.Id);
+    //            MemberImageIndb.Image = vm.Image;
 
-                db.SaveChanges();
+    //            db.SaveChanges();
 
                 return RedirectToAction("MyMemberIndex");
             }
