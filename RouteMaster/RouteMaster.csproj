@@ -175,15 +175,9 @@
     <Compile Include="Models\Dto\Accommodation\IdentityDto.cs" />
     <Compile Include="Models\Dto\Accommodation\NavDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Room\RoomEditDto.cs" />
-
     <Compile Include="Models\Dto\MemberIdentityDto.cs" />
-
-
     <Compile Include="Models\Dto\FAQChangeImgDto.cs" />
     <Compile Include="Models\Dto\FAQEditImgIndexDto.cs" />
-
-
-
     <Compile Include="Models\Infra\Criterias\PartnerCriteria.cs" />
     <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />
     <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
@@ -446,6 +440,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\demo.css" />
+    <Content Include="assets\css\styles.css" />
+    <Content Include="assets\favicon.ico" />
     <Content Include="assets\img\avatars\1.png" />
     <Content Include="assets\img\avatars\5.png" />
     <Content Include="assets\img\avatars\6.png" />
@@ -496,6 +492,7 @@
     <Content Include="assets\js\form-basic-inputs.js" />
     <Content Include="assets\js\main.js" />
     <Content Include="assets\js\pages-account-settings-account.js" />
+    <Content Include="assets\js\scripts.js" />
     <Content Include="assets\js\ui-modals.js" />
     <Content Include="assets\js\ui-popover.js" />
     <Content Include="assets\js\ui-toasts.js" />
@@ -620,7 +617,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Accommodations\Create.cshtml" />
     <Content Include="Views\Accommodations\Delete.cshtml" />
     <Content Include="Views\Accommodations\Details.cshtml" />
@@ -756,13 +752,11 @@
     <Content Include="Views\Comments_Attractions\ImgIndex.cshtml" />
     <Content Include="Views\Comments_Attractions\UploadImg.cshtml" />
     <Content Include="Views\Partners\SuspendMember.cshtml" />
-
-
     <Content Include="Views\Members\MyMemberIndex.cshtml" />
-
     <Content Include="Views\Accommodations\OrderManagement.cshtml" />
     <Content Include="Views\Accommodations\PerformanceAnalysis.cshtml" />
     <Content Include="Views\Partners\PartnerLoginTest.cshtml" />
+    <Content Include="Views\Home\HomePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
