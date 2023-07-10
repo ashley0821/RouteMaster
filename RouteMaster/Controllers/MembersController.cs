@@ -455,13 +455,14 @@ namespace RouteMaster.Controllers
                 : Result.Fail("帳密有誤");
         }
 
-
+        [AllowAnonymous]
         public ActionResult MemberForgetPassword()
         {
             return View();
         }
 
-        [HttpPost]
+		[AllowAnonymous]
+		[HttpPost]
         public ActionResult MemberForgetPassword(MemberForgetPasswordVM vm)
         {
             if (ModelState.IsValid == false) return View(vm);

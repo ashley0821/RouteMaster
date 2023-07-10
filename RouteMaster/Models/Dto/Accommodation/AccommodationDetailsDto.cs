@@ -33,5 +33,6 @@ namespace RouteMaster.Models.Dto
 		public virtual EFModels.Accommodation Accommodation { get; set; }
 
 		public string Permission { get; set; } = "";
-    }
+        public virtual Order Order { get; set; }
+	}
 }
