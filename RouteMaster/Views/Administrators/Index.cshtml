@@ -1,5 +1,17 @@
 ﻿@model IEnumerable<RouteMaster.Models.ViewModels.AdministratorIndexVM>
 
+
+@section Styles
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
+    <style>
+        thead {
+            background-color: rgba(255, 99, 71, 0.4);
+            color: black;
+        }
+    </style>
+}
 @{
     ViewBag.Title = "Index";
     var criteria = ViewBag.Criteria as RouteMaster.Models.Infra.Criterias.AdministratorCriteria;
@@ -42,58 +54,60 @@
     </form>
 </section>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Permission.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsSuspended)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table class="table" id="AdministratorIndex">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Permission.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsSuspended)
-            </td>
-            <td>
-                @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("詳細資料", "Details", new { id = item.Id }) |
-                @Html.ActionLink("停權", "SuspendAdministrator", new { id = item.Id })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Permission.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSuspended)
+            </th>
+            <th></th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Permission.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsSuspended)
+                </td>
+                <td>
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("詳細資料", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("停權", "SuspendAdministrator", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -106,6 +120,14 @@
 
     <script>
 
+        new DataTable('#AdministratorIndex', {
+            ordering: false,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+            }
+        });
+
+
         $(document).ready(function () {
             $("#createDateBegin").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd'
             $("#createDateEnd").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd' }
@@ -114,4 +136,4 @@
 
 
     </script>
-    }
+}

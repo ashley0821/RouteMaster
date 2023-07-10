@@ -24,19 +24,21 @@ using static System.Net.WebRequestMethods;
 using System.Web.Helpers;
 using RouteMaster.Filter;
 using static RouteMaster.Filter.AdministratorAuthenticationFilter;
+using RouteMaster.Models.Dto.Accommodation;
 
 namespace RouteMaster.Controllers
 {
-    //[AdministratorAuthenticationFilter]
-    [CustomAuthorize("總管理員","會員")]
+
+    [CustomAuthorize("總管理員", "訂單管理員")]
     public class MembersController : Controller
     {
         
         
         private readonly AppDbContext db = new AppDbContext();
 
-        // GET: Members/Details/5
-        public ActionResult Details(int? id)
+		#region 精靈crud
+		// GET: Members/Details/5
+		public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -121,8 +123,10 @@ namespace RouteMaster.Controllers
             return View(member);
         }
 
-        // POST: Members/Delete/5
-        [HttpPost, ActionName("Delete")]
+		#endregion
+
+		// POST: Members/Delete/5
+		[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -132,7 +136,7 @@ namespace RouteMaster.Controllers
             return RedirectToAction("Index");
         }
 
-
+        
         public ActionResult Index(MemberCriteria criteria)
         {
             ViewBag.Criteria = criteria;
@@ -141,27 +145,110 @@ namespace RouteMaster.Controllers
             return View(members);
         }
 
-        public IEnumerable<MemberIndexVM> GetMembers(MemberCriteria criteria)
+
+		[AllowAnonymous]
+		public ActionResult MyMemberIndex()
         {
-            IMemberRepository repo = new MemberEFRepository();
-            MemberService service = new MemberService(repo);
-            return service.Search(criteria)
-                .Select(dto => new MemberIndexVM
+            MemberIdentityDto identity = GetMemberCookie();
+
+            if ((identity.Id) != 0 && !string.IsNullOrEmpty(identity.Permission))
+            {
+                IEnumerable<MemberIndexVM> members;
+                if (identity.Permission == "會員")
                 {
-                    Id = dto.Id,
-                    FirstName = dto.FirstName,
-                    LastName = dto.LastName,
-                    Account = dto.Account,
-                    Email = dto.Email,
-                    CellPhoneNumber = dto.CellPhoneNumber,
-                    Address = dto.Address,
-                    Gender = dto.Gender,
-                    Birthday = dto.Birthday,
-                    CreateDate = dto.CreateDate,
-                    IsConfirmed = dto.IsConfirmed,
-                    IsSuspended = dto.IsSuspended,
-                });
+					members = db.Members
+				.Where(m => m.Id == identity.Id)
+				.Select(m => new MemberIndexVM
+				{
+					FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    Account = m.Account,
+                    Email = m.Email,
+                    CellPhoneNumber = m.CellPhoneNumber,
+                    Address = m.Address,
+                    Gender = m.Gender,
+                    Birthday = m.Birthday,
+                    CreateDate = m.CreateDate,
+                    IsConfirmed = m.IsConfirmed,
+                    IsSuspended = m.IsSuspended,
+				})
+				.ToList();
+
+					return View(members);
+				}
+            }
+            return RedirectToAction("Login", "Members");
         }
+
+        private MemberIdentityDto GetMemberCookie()
+		{
+			HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+
+			// 檢查是否存在特定名稱的 Cookie
+			if (authCookie != null)
+			{
+				// 從 Cookie 中取得票據的值
+				FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+					// 檢查票據是否成功解密
+				if (ticket != null && ticket.Expired == false)
+				{
+					// 取得票據中的使用者資料
+					string email = ticket.Name;
+					string permission = ticket.UserData;
+					int? id = db.Members.FirstOrDefault(m => m.Account == email).Id;
+
+					return new MemberIdentityDto(id == null ? 0 : (int)id, permission);
+				}
+			}
+			return new MemberIdentityDto(0, null);
+		}
+
+		public IEnumerable<MemberIndexVM> GetMembers(MemberCriteria criteria)
+		{
+			IMemberRepository repo = new MemberEFRepository();
+			MemberService service = new MemberService(repo);
+			return service.Search(criteria)
+				.Select(dto => new MemberIndexVM
+				{
+					Id = dto.Id,
+					FirstName = dto.FirstName,
+					LastName = dto.LastName,
+					Account = dto.Account,
+					Email = dto.Email,
+					CellPhoneNumber = dto.CellPhoneNumber,
+					Address = dto.Address,
+					Gender = dto.Gender,
+					Birthday = dto.Birthday,
+					CreateDate = dto.CreateDate,
+					IsConfirmed = dto.IsConfirmed,
+					IsSuspended = dto.IsSuspended,
+				});
+		}
+
+
+        public IEnumerable<MemberIndexVM> GetMyProfile(MemberCriteria criteria)
+        {
+			IMemberRepository repo = new MemberEFRepository();
+			MemberService service = new MemberService(repo);
+			return service.Search(criteria)
+				.Select(dto => new MemberIndexVM
+				{
+					Id = dto.Id,
+					FirstName = dto.FirstName,
+					LastName = dto.LastName,
+					Account = dto.Account,
+					Email = dto.Email,
+					CellPhoneNumber = dto.CellPhoneNumber,
+					Address = dto.Address,
+					Gender = dto.Gender,
+					Birthday = dto.Birthday,
+					CreateDate = dto.CreateDate,
+					IsConfirmed = dto.IsConfirmed,
+					IsSuspended = dto.IsSuspended,
+				});
+		}
+
 
         [HttpGet]
         public ActionResult Register()
@@ -330,8 +417,6 @@ namespace RouteMaster.Controllers
 		}
 
 
-
-
         public ActionResult MemberEdit()
         {
             return View();
@@ -368,20 +453,10 @@ namespace RouteMaster.Controllers
 
             Response.Cookies.Add(cookie);
 
-            return Redirect(returnUrl);
+            return RedirectToAction("MyMemberIndex", "Members");
         }
 
-        public ActionResult ForMemberIndex(string account)
-        {
-
-            return View();
-        }
-        public ActionResult ForMemberEdit(string account)
-        {
-            return View();
-        }
-
-
+      
         private int GetLoginAttempts()
         {
             int loginAttempts = Session["LoginCounts"] != null ? (int)Session["LoginCounts"] : 0;
@@ -390,9 +465,33 @@ namespace RouteMaster.Controllers
 
         public ActionResult Logout()
         {
-            Session.Abandon();
-            FormsAuthentication.SignOut();
-            return Redirect("/Members/Login");
+			//var authTicket = ((FormsIdentity)User.Identity).Ticket;
+
+			//// 创建一个过期的认证 Cookie
+			//var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName)
+			//{
+			//	Expires = DateTime.Now.AddDays(-1),
+			//	HttpOnly = true
+			//};
+
+			//// 设置 Cookie 的路径与认证票据相同
+			//authCookie.Path = authTicket.CookiePath;
+
+			//// 将 Cookie 添加到响应的 Cookie 集合中
+			//Response.Cookies.Add(authCookie);
+
+
+			Session.Abandon();
+			FormsAuthentication.SignOut();
+			return Redirect("/Members/Login");
+
+
+			//return Redirect("/Members/Login");
+
+            #region Session版本
+            //老師版本
+           
+            #endregion
         }
 
 
@@ -442,7 +541,7 @@ namespace RouteMaster.Controllers
             //    return Result.Fail("失敗多次，稍後在試");
             //}
 
-            Result result = ValidLogin(vm);
+            //Result result = ValidLogin(vm);
            
             
             if (member.IsSuspended == true) return Result.Fail("帳號已被停權，如有問題請聯絡客服");
@@ -629,7 +728,20 @@ namespace RouteMaster.Controllers
 
                 db.SaveChanges();
 
-                var MemberImageIndb = db.MemberImages.FirstOrDefault(m => m.MemberId == vm.Id);
+				#region 資料庫重建時的新增照片
+				//因沒有圖片在memberImage，故改成這段，新增照片完要改回來
+				//MemberImage memberImage = new MemberImage
+				//{
+				//    Image = vm.Image,
+				//    Name = "未命名",
+				//    MemberId = vm.Id,
+				//};
+				//db.MemberImages.Add(memberImage);
+				//db.SaveChanges();
+				#endregion
+
+				//原來的程式碼
+				var MemberImageIndb = db.MemberImages.FirstOrDefault(m => m.MemberId == vm.Id);
                 MemberImageIndb.Image = vm.Image;
 
                 db.SaveChanges();
@@ -671,6 +783,7 @@ namespace RouteMaster.Controllers
             return RedirectToAction("Index");
         }
 
+        
 
 
         protected override void Dispose(bool disposing)
