@@ -155,6 +155,8 @@ namespace RouteMaster.Controllers
                               LastName = dto.LastName,
                               Email = dto.Email,
                               CreateDate = dto.CreateDate,
+                              Permission = dto.Permission,
+                              IsSuspended = dto.IsSuspended,
                           });
         }
 
@@ -309,7 +311,7 @@ namespace RouteMaster.Controllers
         private (string returnUrl, HttpCookie cookie) ProcessLogin(string email, bool rememberMe)
         
         {
-            var roles = "管理員"; // 在本範例, 沒有用到角色權限,所以存入空白
+            var roles = "總管理員"; // 在本範例, 沒有用到角色權限,所以存入空白
 
 			// 建立一張認證票
 			var ticket =
