@@ -67,8 +67,8 @@
                     @Html.DisplayFor(modelItem => item.StatusText)
                 </td>
                 <td>
-                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-primary">編輯</button>
-                    <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-primary">檢視詳細資料</button>
+                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-css-primary">編輯</button>
+                    <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-css-warning">檢視詳細資料</button>
                     @*<button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.Id })'" class="btn btn-danger">刪除</button>*@
                 </td>
             </tr>

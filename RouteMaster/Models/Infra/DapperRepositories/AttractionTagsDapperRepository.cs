@@ -88,29 +88,37 @@ WHERE[Attractions].Id = @Id";
 			return tagId;
 		}
 
-		public void EditTag(int attractionId, int tagId)
+		public void EditTag(int attractionId, int? tagId)
 		{
 			
 			string checkSql = @"SELECT COUNT(*) FROM [dbo].[Tags_Attractions] WHERE AttractionId = @AttractionId";
 
 			int existingCount = new SqlConnection(_connStr).QueryFirstOrDefault<int>(checkSql, new { AttractionId = attractionId });
 
-			if (existingCount > 0)
+			if (existingCount > 0 && tagId != 0 )
 			{
 				// 景點已有標籤，執行更新操作
 				string updateSql = @"UPDATE [dbo].[Tags_Attractions]
-                            SET TagId = @TagId
-                            WHERE AttractionId = @AttractionId";
+SET TagId = @TagId
+WHERE AttractionId = @AttractionId";
 
 				new SqlConnection(_connStr).Execute(updateSql, new { TagId = tagId, AttractionId = attractionId });
 			}
-			else
+			else if(existingCount == 0 && tagId != 0)
 			{
 				// 景點沒有標籤，執行插入操作
 				string insertSql = @"INSERT INTO [dbo].[Tags_Attractions] (AttractionId, TagId)
-                             VALUES (@AttractionId, @TagId)";
+VALUES (@AttractionId, @TagId)";
 
 				new SqlConnection(_connStr).Execute(insertSql, new { AttractionId = attractionId, TagId = tagId });
+			}
+			else if (existingCount > 0 && tagId == 0)
+			{
+				// 景點存在 則刪除標籤
+				string insertSql = @"DELETE FROM [dbo].[Tags_Attractions] 
+WHERE AttractionId = @AttractionId";
+
+				new SqlConnection(_connStr).Execute(insertSql, new { AttractionId = attractionId });
 			}
 		}
 	}
