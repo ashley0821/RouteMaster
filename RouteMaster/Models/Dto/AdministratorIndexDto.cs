@@ -24,5 +24,6 @@ namespace RouteMaster.Models.Dto
 
 		public virtual Permission Permission { get; set; }
 
-	}
+        public bool? IsSuspended { get; set; }
+    }
 }
