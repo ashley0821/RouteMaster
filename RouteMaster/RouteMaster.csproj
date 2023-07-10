@@ -175,7 +175,12 @@
     <Compile Include="Models\Dto\Accommodation\IdentityDto.cs" />
     <Compile Include="Models\Dto\Accommodation\NavDto.cs" />
     <Compile Include="Models\Dto\Accommodation\Room\RoomEditDto.cs" />
+
+    <Compile Include="Models\Dto\FAQChangeImgDto.cs" />
+    <Compile Include="Models\Dto\FAQEditImgIndexDto.cs" />
+
     <Compile Include="Models\Infra\Criterias\PartnerCriteria.cs" />
+
     <Compile Include="Models\ViewModels\Accommodations\AccommodationInfoVM.cs" />
     <Compile Include="Models\Dto\Accommodation\ImagesDto.cs" />
     <Compile Include="Models\Dto\Accommodation\AccommodationIndexDto.cs" />
@@ -390,7 +395,9 @@
     <Compile Include="Models\ViewModels\Comments_AccommodationsUploadImgVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AttractionsCreateVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AttractionsDetailVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AttractionsImgIndexVM.cs" />
     <Compile Include="Models\ViewModels\Comments_AttractionsIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Comments_AttractionsUploadImgVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceCreateVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceEditVM.cs" />
     <Compile Include="Models\ViewModels\ExtraServiceIndexVM.cs" />
@@ -742,7 +749,12 @@
     <Content Include="Views\Members\ConfirmForgetPassword.cshtml" />
     <Content Include="Views\Members\ResetPassword.cshtml" />
     <Content Include="Views\Members\ConfirmResetPassword.cshtml" />
+
+    <Content Include="Views\Comments_Attractions\ImgIndex.cshtml" />
+    <Content Include="Views\Comments_Attractions\UploadImg.cshtml" />
+
     <Content Include="Views\Partners\SuspendMember.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

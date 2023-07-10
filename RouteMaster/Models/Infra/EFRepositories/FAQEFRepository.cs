@@ -170,5 +170,13 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			return dto;
 		}
 
+		public IEnumerable<FAQEditImgIndexDto> GetImgIndex(int? id)
+		{
+			var imgList = _db.FAQImages.Where(i => i.FAQId == id)
+				.ToList()
+				.Select(i => i.ToEditImgIndexDto());
+
+			return imgList;
+		}
 	}
 }
