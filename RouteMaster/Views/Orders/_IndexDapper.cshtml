@@ -12,25 +12,25 @@
 @*<h3>Order ID: @orderId</h3>*@
 <table class="table">
     <tr>
-        <th>
+        <th class="control-label col-md" style="text-align: center;">
             @Html.DisplayNameFor(model => model.OrderId)
         </th>
-        <th>
+        <th class="control-label col-md" style="text-align: center;">
             @Html.DisplayNameFor(model => model.ActivityId)
         </th>
-        <th>
+        <th class="control-label col-md-3" style="text-align: center;">
             @Html.DisplayNameFor(model => model.ActivityName)
         </th>
-        <th>
+        <th class="control-label col-md-2" style="text-align: center;">
             @Html.DisplayNameFor(model => model.StartTime)
         </th>
-        <th>
+        <th class="control-label col-md-2" style="text-align: center;">
             @Html.DisplayNameFor(model => model.EndTime)
         </th>
-        <th>
+        <th class="control-label " style="text-align: center;">
             @Html.DisplayNameFor(model => model.Price)
         </th>
-        <th>
+        <th class="control-label" style="text-align: center;">
             @Html.DisplayNameFor(model => model.Quantity)
         </th>
         <th></th>
@@ -39,33 +39,35 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td class="control-label col-md" style="text-align:center;">
                 @Html.DisplayFor(modelItem => item.OrderId)
             </td>
-            <td>
+            <td class="control-label col-md" style="text-align:center;">
                 @Html.DisplayFor(modelItem => item.ActivityId)
             </td>
-            <td>
+            <td class="control-labelcol-md-3" style="text-align:center;">
                 @Html.DisplayFor(modelItem => item.ActivityName)
             </td>
-            <td>
+            <td class="control-label col-md-2" style="text-align:center;">
                 @Html.DisplayFor(modelItem => item.StartTime)
             </td>
-            <td>
+            <td class="control-label col-md-2" style="text-align:center;">
                 @Html.DisplayFor(modelItem => item.EndTime)
             </td>
-            <td class="control-label col-md-3" style="text-align: center" id="Activitiesprice">
+            <td class="control-label col-md" style="text-align: center" id="Activitiesprice">
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
-            <td class="control-label col-md-3" style="text-align: center" id="Activitiesquantity">
+            <td class="control-label col-md" style="text-align: center" id="Activitiesquantity">
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "ActivitiesDetailsEdit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "ActivitiesDetailsDelete", new { id = item.Id })
+            <td class="control-label col-md-2">
+                @Html.ActionLink("Edit", "ActivitiesDetailsEdit", new { id = item.Id }, new { @class = "btn-css-primary" }) |
+                @Html.ActionLink("Delete", "ActivitiesDetailsDelete", new { id = item.Id }, new { @class = "btn-css-warning" })
+                
             </td>
         </tr>
-    }
+    }            
+    
 </table>
 @*}*@
 @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
