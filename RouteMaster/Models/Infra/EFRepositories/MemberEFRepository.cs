@@ -125,6 +125,31 @@ namespace RouteMaster.Models.Infra.EFRepositories
 			return Members;
 		}
 
+		public IEnumerable<MemberIndexDto> SearchPerson(int id)
+		{
+			var query = _db.Members.AsEnumerable();
+
+			var Members = query.Select(m => new MemberIndexDto
+			{
+				Id = m.Id,
+				FirstName = m.FirstName,
+				LastName = m.LastName,
+				Account = m.Account,
+				Email = m.Email,
+				CellPhoneNumber = m.CellPhoneNumber,
+				Address = m.Address,
+				Gender = m.Gender,
+				Birthday = m.Birthday,
+				CreateDate = m.CreateDate,
+				IsConfirmed = m.IsConfirmed,
+				IsSuspended = m.IsSuspended,
+				ConfirmCode = m.ConfirmCode,
+			
+			});
+			return Members;
+		}
+
+
 		public void UpdateMemberImage(MemberImageCreateDto dto)
 		{
 		}
