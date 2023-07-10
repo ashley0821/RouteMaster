@@ -79,7 +79,7 @@ namespace RouteMaster.Controllers
         public ActionResult Create()
         {
             IdentityDto identity = GetPartnerIdAndPermission();
-			if ((identity.Permission != "管理員" || identity.Permission != "住所夥伴"))
+			if ((identity.Permission != "管理員" && identity.Permission != "住所夥伴"))
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
