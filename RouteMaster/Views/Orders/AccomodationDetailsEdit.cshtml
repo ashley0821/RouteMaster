@@ -1,10 +1,11 @@
 ﻿@model RouteMaster.Models.ViewModels.AccomodationDetailsEditVM
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.css">
+<link rel="stylesheet" type="text/css" href="path/to/sweetalert2.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.6/dist/sweetalert2.min.css">
 @{
     ViewBag.Title = "AccomodationDetailsEdit";
 }
 
-<h2>AccomodationDetailsEdit</h2>
+<h2>住宿訂單管理</h2>
 
 
 @using (Html.BeginForm())
@@ -12,7 +13,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>AccomodationDetailsEditVM</h4>
+        @*<h4>AccomodationDetailsEditVM</h4>*@
         <hr />
         @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.Id)*@
@@ -81,38 +82,52 @@
 
         </div>
 
-        <div class="mb-3">
-            @Html.LabelFor(model => model.RoomPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RoomPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RoomPrice, "", new { @class = "text-danger" })
+        <div class="mb-4">
+            <div class="mb-3">
+                @Html.LabelFor(model => model.RoomPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RoomPrice, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RoomPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4 col-md-10 mb-4 alert" role="alert">
+                <div class="btn-group mb-3" role="group" aria-label="Save and Back buttons">
+                    <button id="demo1" class="btn btn-primary" style="width:100px;">儲存</button>
+                    <div class="btn-group" role="group" aria-label="Back button">
+                        @Html.ActionLink("回上頁", "Index", "", new { @class = "btn btn-warning" })
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="mb-3">
-            <div class="col-md-offset-2 col-md-10 alert alert-secondary" role="alert">
-                @*<input type="button" value="Save" class="btn btn-outline-secondary" onclick="showMessage()" />*@
-                <button id="demo1" class="btn btn-outline-secondary">Save</button>
-            </div>
-        </div>
+
     </div>
+
 
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@*<div class="form-actions no-color">
+
+        @Html.ActionLink("Back to List", "Index", "", new { @class = "btn-css-warning" })
+    </div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.6/dist/sweetalert2.all.min.js"></script>
     @*<script>
-            document.getElementById("demo1").addEventListener("click", function () {
-                swal("Here's a message!")
+        $("#demo1").click(function () {
+           
+            Swal.fire({
+                title: "發送成功",
+                text: "已成功記錄",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "確定"
             });
-
-
-        </script>*@
+        });
+     </script>*@
     <script>
 
 
@@ -127,7 +142,7 @@
 
         CheckInDateInput.addEventListener('change', updateCheckIn);
         CheckInTimeInput.addEventListener('change', updateCheckIn);
-        CheckOutDateInput.addEventListener('change', asupdateCheckOut);
+        CheckOutDateInput.addEventListener('change', updateCheckOut);
         CheckOutTimeInput.addEventListener('change', updateCheckOut);
 
         function updateCheckIn() {
@@ -145,7 +160,7 @@
         }
     </script>
     <script>
-   
+
     </script>
 
 }

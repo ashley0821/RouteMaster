@@ -4,7 +4,7 @@
     ViewBag.Title = "ActivitiesDetailsEdit";
 }
 
-<h2>ActivitiesDetailsEdit</h2>
+<h2>活動訂單管理</h2>
 
 
 @using (Html.BeginForm())
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>ActivitiesDetailsIndexVM</h4>
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -81,24 +81,34 @@
     </div>
 
     <div class="form-group">
+        <div class="mb-3">
         @Html.Label("Total Price", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <input type="number" class="form-control" id="totalPrice" readonly />
         </div>
-    </div>
-
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
         </div>
     </div>
 
+
+    <div class="col-md-4 col-md-10 mb-4 alert" role="alert">
+        <div class="btn-group mb-3" role="group" aria-label="Save and Back buttons">
+            <button id="demo1" class="btn btn-primary" style="width:100px;">儲存</button>
+            <div class="btn-group" role="group" aria-label="Back button">
+                @Html.ActionLink("回上頁", "Index", "", new { @class = "btn btn-warning" })
+            </div>
+        </div>
+    </div>
+    @*<div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>*@
+
 }
 
-<div>
+<!--<-->@*div>
     @Html.ActionLink("Back to List", "Index")
-</div>
+</div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
