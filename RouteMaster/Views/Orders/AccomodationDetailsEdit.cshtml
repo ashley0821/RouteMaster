@@ -1,5 +1,5 @@
 ﻿@model RouteMaster.Models.ViewModels.AccomodationDetailsEditVM
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.css">
 @{
     ViewBag.Title = "AccomodationDetailsEdit";
 }
@@ -81,7 +81,7 @@
 
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
             @Html.LabelFor(model => model.RoomPrice, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.RoomPrice, new { htmlAttributes = new { @class = "form-control" } })
@@ -89,9 +89,10 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+        <div class="mb-3">
+            <div class="col-md-offset-2 col-md-10 alert alert-secondary" role="alert">
+                @*<input type="button" value="Save" class="btn btn-outline-secondary" onclick="showMessage()" />*@
+                <button id="demo1" class="btn btn-outline-secondary">Save</button>
             </div>
         </div>
     </div>
@@ -104,36 +105,47 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    @*<script>
+            document.getElementById("demo1").addEventListener("click", function () {
+                swal("Here's a message!")
+            });
 
+
+        </script>*@
     <script>
 
 
 
         // 日期選擇
-            var CheckInDateInput = document.querySelector('#CheckInDate');
-            var CheckInTimeInput = document.querySelector('#CheckIn');
-            var CheckOutDateInput = document.querySelector('#CheckOutDate');
-            var CheckOutTimeInput = document.querySelector('#CheckOut');
-            var CheckInEditor = document.querySelector('#CheckInEditor');
-            var CheckOutEditor = document.querySelector('#CheckOutEditor');
+        var CheckInDateInput = document.querySelector('#CheckInDate');
+        var CheckInTimeInput = document.querySelector('#CheckIn');
+        var CheckOutDateInput = document.querySelector('#CheckOutDate');
+        var CheckOutTimeInput = document.querySelector('#CheckOut');
+        var CheckInEditor = document.querySelector('#CheckInEditor');
+        var CheckOutEditor = document.querySelector('#CheckOutEditor');
 
-            CheckInDateInput.addEventListener('change', updateCheckIn);
-            CheckInTimeInput.addEventListener('change', updateCheckIn);
-            CheckOutDateInput.addEventListener('change', asupdateCheckOut);
-            CheckOutTimeInput.addEventListener('change', updateCheckOut);
+        CheckInDateInput.addEventListener('change', updateCheckIn);
+        CheckInTimeInput.addEventListener('change', updateCheckIn);
+        CheckOutDateInput.addEventListener('change', asupdateCheckOut);
+        CheckOutTimeInput.addEventListener('change', updateCheckOut);
 
-            function updateCheckIn() {
+        function updateCheckIn() {
             var CheckInDateValue = CheckInDateInput.value;
             var CheckInTimeValue = CheckInTimeInput.value;
             var dateTimeValue = CheckInDateValue + " " + CheckInTimeValue;
             CheckInEditor.value = dateTimeValue;
         }
 
-            function updateCheckOut() {
+        function updateCheckOut() {
             var CheckOutDateValue = CheckOutDateInput.value;
             var CheckOutTimeValue = CheckOutTimeInput.value;
             var dateTimeValue = CheckOutDateValue + " " + CheckOutTimeValue;
             CheckOutEditor.value = dateTimeValue;
         }
     </script>
+    <script>
+   
+    </script>
+
 }

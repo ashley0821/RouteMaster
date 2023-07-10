@@ -10,7 +10,7 @@ namespace RouteMaster.Models.Interfaces
 {
 	public interface IMemberRepository
 	{
-		IEnumerable<MemberIndexDto> Seacrh(MemberCriteria criteria);
+		IEnumerable<MemberIndexDto> Search(MemberCriteria criteria);
 
 		void Register(MemberRegisterDto dto);
 

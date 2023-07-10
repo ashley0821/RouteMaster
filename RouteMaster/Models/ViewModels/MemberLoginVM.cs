@@ -16,5 +16,7 @@ namespace RouteMaster.Models.ViewModels
 		[DataType(DataType.Password)]
 		[Display(Name = "密碼")]
 		public string Password { get; set; }
+
+		public string IsSuspended { get; set; }
 	}
 }

@@ -1,66 +1,94 @@
-﻿@model RouteMaster.Models.EFModels.FAQ
+﻿@model RouteMaster.Models.ViewModels.FAQDetailVM
 
 @{
     ViewBag.Title = "Details";
+    var parentId = ViewBag.Id;
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>FAQ</h4>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="d-flex text-start align-items-end">
+            <h3 class="me-auto mb-0 fw-bold">@Html.DisplayFor(model => model.CategoryName)問題</h3>
+            <div class="me-2">
+                @Html.ActionLink("返回清單頁", "Index", new { id = "" }, new { @class = "btn btn-dark me-2" })
+                @Html.ActionLink("圖片編輯", "EditImgIndex", new { id = parentId }, new { @class = "btn btn-secondary" })
+
+            </div>
+        </div>
+    </div>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FAQCategory.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FAQCategory.Name)
-        </dd>
+    <div class="row gx-5">
+        <dl class="col-4">
+            <dt>
+                <div class="d-flex w-100 justify-content-between">
+                    <h3 class="mb-1 fs-4 fw-bold">@Html.DisplayFor(model => model.Question)</h3>
+                    <small class="fs-4">@Html.DisplayFor(model => model.Helpful)分</small>
+                </div>
+            </dt>
+            <dt class="fs-5 mt-2">
+                @Html.DisplayNameFor(model => model.Answer):
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Question)
-        </dt>
+            <dd class="fs-5">
+                @Html.DisplayFor(model => model.Answer)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Question)
-        </dd>
+        </dl>
+        <div class="col-8">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach (var item in Model.Images)
+                    {
+                        if (Model.Images.Count() <= 1)
+                        {
+                            <div class="text-center" id="disappear">
+                                <img src="~/Uploads/@item" width="75%" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="carousel-item w-100">
+                                <img src="~/Uploads/@item" class="d-block w-75 mx-auto" alt="...">
+                            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Answer)
-        </dt>
+                        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Answer)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Helpful)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Helpful)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ModifiedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ModifiedDate)
-        </dd>
-
-    </dl>
+                    }
+                </div>
+                <button class="carousel-control-prev ms-5" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon rounded-circle" aria-hidden="true" style="background-color:#67676799;"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next me-5" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon rounded-circle" aria-hidden="true" style="background-color:#67676799;"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+@section Scripts
+{
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script>
+    $(document).ready(function () {
+        var singleImg = $("#disappear").length;
+        var carouselItems = $(".carousel-item").length;
+
+        if (singleImg <= 1 && carouselItems < 2) {
+            $(".carousel-control-prev").hide();
+            $(".carousel-control-next").hide();
+        }
+        if (carouselItems >= 2) {
+            $(".carousel-item").first().addClass("active");
+        }
+
+
+    });
+    </script>
+}
+

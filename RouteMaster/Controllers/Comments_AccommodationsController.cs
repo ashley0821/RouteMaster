@@ -52,13 +52,21 @@ namespace RouteMaster.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Comments_Accommodations comments_Accommodations = db.Comments_Accommodations.Find(id);
-            if (comments_Accommodations == null)
+
+            IComments_AccommodationsRepository repo = new Comments_AccommodationsEFRepository();
+            Comments_AccommodationsService service =  new Comments_AccommodationsService(repo);
+
+            if (!service.ExistDetail(id))
             {
                 return HttpNotFound();
             }
-            return View(comments_Accommodations);
-        }
+
+			Comments_AccommodationsDetailVM vm = service.Detail(id).ToDetailVM();
+
+            return View(vm);
+
+
+		}
 
         // GET: Comments_Accommodations/Create
         public ActionResult Create(int? id=1)
@@ -105,7 +113,7 @@ namespace RouteMaster.Controllers
 			IComments_AccommodationsRepository repo = new Comments_AccommodationsEFRepository();
             Comments_AccommodationsService service = new Comments_AccommodationsService(repo);
 
-             return service.Create(vm.ToCreateDto(), file1, path);
+            return service.Create(vm.ToCreateDto(), file1, path);
 
 		}
 

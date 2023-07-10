@@ -23,19 +23,15 @@ namespace RouteMaster.Controllers
 {
     public class PackageToursController : Controller
     {
+
         private AppDbContext db = new AppDbContext();
 
         // GET: PackageTours
         public ActionResult Index()
-        {
-
-           
+        {           
             IPackageTourRepository repo =new PackageTourEFRepository();
             PackageTourService service = new PackageTourService(repo);
-
-
             return View(service.Search().ToList().Select(x => x.ToIndexVM()));
-
         }
 
 
@@ -48,14 +44,9 @@ namespace RouteMaster.Controllers
 
         public ActionResult Create()
         {
-
-            //todo 頁面太長 收合
-            //fetch
-            //DataTable 改 ajax形式
             ViewBag.Attractions=db.Attractions.ToList().Select(x=>x.ToAttractionListIndexDto().ToAttractionListIndexVM());
             ViewBag.Activities = db.Activities.ToList().Select(x=>x.ToIndexDto().ToIndexVM());
-            ViewBag.ExtraServices=db.ExtraServices.ToList().Select(x=>x.ToIndexDto().ToIndexVM());          
-
+            ViewBag.ExtraServices=db.ExtraServices.ToList().Select(x=>x.ToIndexDto().ToIndexVM());       
 
             PrepareCouponDataSource(null);
             return View();
@@ -198,8 +189,9 @@ namespace RouteMaster.Controllers
 
 			service.Edit(vm.ToEditDto());        
 
-            PrepareCouponDataSource(vm.CouponId);            
-            return View(vm);
+            PrepareCouponDataSource(vm.CouponId); 
+            
+            return RedirectToAction("Index");   
         }
 
         // GET: PackageTours/Delete/5
@@ -235,6 +227,14 @@ namespace RouteMaster.Controllers
             PackageTourService service = new PackageTourService(repo);
 
             return View(service.GetPackageTourById(id).ToIndexDto().ToIndexVM());
+        }
+
+
+
+        public ActionResult PopupDetails(int id)
+        {
+            var model = db.PackageTours.Find(id).ToIndexDto().ToIndexVM();
+            return this.PartialView("_PopupDetailsPartial", model);            
         }
 
 
@@ -342,7 +342,17 @@ namespace RouteMaster.Controllers
 			int totalRecords = query.Count();
 			int pageNumber = (start ?? 0 / length) + 1;
 			int skipRecords = (pageNumber - 1) * length;
-			var pagedData = query.Skip(skipRecords).Take(length).ToList();
+			var pagedData = query.OrderBy(x=>x.Id).Skip(skipRecords).Take(length)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Name,
+                    x.AttractionId,
+                    x.Price,
+                    x.Description,
+                    x.Status
+                })
+                .ToList();
 			int filteredRecords = pagedData.Count();
 
 			var result = new
@@ -371,7 +381,7 @@ namespace RouteMaster.Controllers
 
         private void PrepareCouponDataSource(int? couponId)
         {
-            var coupons = db.Coupons.ToList().Prepend(new Coupon() {Discount=1 });
+            var coupons = db.Coupons.OrderBy(x=>x.Id).ToList();
             ViewBag.CouponId = new SelectList(coupons, "Id", "Discount", couponId);
         }
 

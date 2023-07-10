@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Helpers;
+using System.Web.Mvc;
 using System.Xml.Linq;
 using static System.Net.WebRequestMethods;
 
@@ -16,16 +17,14 @@ namespace RouteMaster.Models.Services
 	public class MemberService
 	{
 		private IMemberRepository _repo;
-
 		public MemberService(IMemberRepository repo)
 		{
 			_repo = repo;
 		}
-		public IEnumerable<MemberIndexDto> Seacrh(MemberCriteria criteria)
+		public IEnumerable<MemberIndexDto> Search(MemberCriteria criteria)
 		{
-			return _repo.Seacrh(criteria);
+			return _repo.Search(criteria);
 		}
-
 		public Result Register(MemberRegisterDto dto)
 		{
 			// 判斷帳號是否已被使用
@@ -50,19 +49,16 @@ namespace RouteMaster.Models.Services
 			// 新增一筆記錄
 			_repo.Register(dto);
 
-            // todo 寄發 email
-            EmailHelper emailHelper = new EmailHelper();
-			var url = "https://localhost:44371/Members/ActiveRegister";
-			var name = dto.Account;
-			var email = dto.Email;
+			//todo 寄發 email
+			//EmailHelper emailHelper = new EmailHelper();
+			//var url = "https://localhost:44371/Members/ActiveRegister?Id&ConfirmCode";
+			//var name = dto.Account;
+			//var email = dto.Email;
+			//var Id = dto.Id;
+			//var ConfirmCode = dto.ConfirmCode;
+			//emailHelper.SendConfirmRegisterEmail(url, name, email, Id, ConfirmCode);
 
-			emailHelper.SendConfirmRegisterEmail(url, name, email);
-
-
-            return Result.Success();
+			return Result.Success();
         }
-
-
-
 	}
 }
