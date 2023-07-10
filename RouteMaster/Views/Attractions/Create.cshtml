@@ -112,8 +112,8 @@
             <div class="d-flex justify-content-end">
                 <p class="small m-0" id="uploadContent"></p>
             </div>
-            <div class="progress-bar-div ms-auto">
-                <div class="progress-bar h-100"></div>
+            <div class="progress-bar-div ms-auto d-none">
+                <div class="progress-bar h-100 d-none"></div>
             </div>
         </div>
 
@@ -131,6 +131,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/UploadImage.js"></script>
     <script>
         $(document).ready(function () {
             // 监听地区下拉选单的变化
