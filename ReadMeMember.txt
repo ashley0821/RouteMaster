@@ -1,6 +1,6 @@
 0709 
-[working on]ad停權
-
+[√}ad停權
+[√]Layout 右上角大頭些登出設定: MemberLogout，
 
 0708 解決問題
 []Memberindex頁的萬年曆沒有箭頭
@@ -88,36 +88,6 @@ ppt報告流程:
     4.註冊帳號 - 啟用帳號
 
    *AdministratorLogout
-    
-     
-
-已完成功能
-
-1.Register
-  []啟用帳戶--詢問組長技術長!!! 能做就做  
-  [√]成功註冊會員
-  [√]註冊時新增圖片
- 
-
-2.Edit 06120049 []MemberImage是相片庫
-  []修改會員資料
-  []修改圖片
-
-
-3.Delete(因不刪除會員，刪除功能變更為停權功能)
-  []停權功能 -- 寫功能把會員IsSuspended變更為未開通
-
-
-4.Search
-  [√]Index頁搜尋 
-
-
-5.登入/登出/忘記密碼
-  [√]登入
-  []登入-登入三次錯誤
-  []登入-機器人驗證
-  []登出
-  []忘記密碼
 
 
 --viewpage版面配置
@@ -141,5 +111,6 @@ ppt報告流程:
 2.再覆寫裡面的 AuthorizeCore // protected override bool AuthorizeCore(HttpContextBase httpContext)
 
 
-    **權限的分類:
-      0707下午找時間跟組員討論
+ ***.報告前需要確定的事情
+
+       1.平台管理員的name

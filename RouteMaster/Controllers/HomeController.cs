@@ -9,8 +9,8 @@ using static RouteMaster.Filter.AdministratorAuthenticationFilter;
 namespace RouteMaster.Controllers
 {
 
-    [AdministratorAuthenticationFilter]
-    //[CustomAuthorize()]
+    //[AdministratorAuthenticationFilter]
+    //[CustomAuthorizeAttribute]
 
     public class HomeController : Controller
     {
