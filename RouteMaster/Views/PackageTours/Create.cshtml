@@ -27,6 +27,16 @@
         .hide{
             display:none;
         }
+
+
+
+        .table > thead {
+            background-color: rgba(255, 99, 71, 0.4);
+        }
+
+            .table > thead th {
+                font-size: 18px;
+            }
     </style>
 
 
@@ -114,7 +124,7 @@
     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
 
     <div class="mb-3">
-        <input type="submit" value="新增" class="btn btn-primary" />
+        <input type="submit" value="新增" class="btn btn-css-success" />
     </div>
 </div>
 
