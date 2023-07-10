@@ -23,7 +23,15 @@ namespace RouteMaster.Models.ViewModels
 		[Display(Name = "評論標題")]
 		public string Title { get; set; }
 
-		[Display(Name = "評論建立時間")]
+        public string TitleText
+		{
+			get
+			{
+				return Title.Length > 10 ? Title.Substring(0, 10) + "..." : Title;
+			}
+		}
+
+        [Display(Name = "評論建立時間")]
 		[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}")]
 		public DateTime? CreateDate { get; set; }   
 		

@@ -149,8 +149,58 @@ namespace RouteMaster.Controllers
             return View(comments_Attractions);
         }
 
-        // GET: Comments_Attractions/Delete/5
-        public ActionResult Delete(int? id)
+		//GET:Comments_AttractionImages
+		public ActionResult ImgIndex(int? id)
+        {
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			ViewBag.Id = id;
+            var imgShow = db.Comments_AttractionImages.Where(i =>i.Comments_AttractionId== id);
+            var vm = imgShow.ToList().Select(i => i.ToImgIndexVM());
+            return View(vm);
+
+		}
+		public ActionResult UploadImg(int id)
+		{
+			ViewBag.ParentId = id;
+			return View();
+		}
+        [HttpPost]
+		public ActionResult UploadImg(int id, Comments_AccommodationsUploadImgVM vm, HttpPostedFileBase[] file1)
+		{
+			string path = Server.MapPath("~/Uploads");
+			//將HttpPostedFileBase 集合化條列出各檔案一一存取
+			foreach (var i in file1)
+			{
+				if (i != null)
+				{
+					Comments_AttractionImages img = new Comments_AttractionImages();
+					img.Comments_AttractionId = id;
+
+					string fileName = SaveUploadedFile(path, i);
+
+					img.Image = fileName;
+					db.Comments_AttractionImages.Add(img);
+					db.SaveChanges();
+				}
+				else
+				{
+					ViewBag.ParentId = id;
+					ModelState.AddModelError("Image", "請選擇檔案");
+					return View(vm);
+				}
+			}
+
+			return RedirectToAction("ImgIndex", new { id = id });
+
+		}
+
+
+
+		// GET: Comments_Attractions/Delete/5
+		public ActionResult Delete(int? id)
         {
             if (id == null)
             {

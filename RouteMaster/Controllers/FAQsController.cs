@@ -171,15 +171,15 @@ namespace RouteMaster.Controllers
 			}
 			ViewBag.Id = id;
 
-			var imgShow = db.FAQImages.Where(i => i.FAQId == id);
+			IFAQRepository repo = new FAQEFRepository();
+			FAQService service = new FAQService(repo);
 
-			if (imgShow == null)
-			{
-				return HttpNotFound();
-			}
-			var vm = imgShow.ToList().Select(i => i.ToEditImgIndexVM());
-			return View(vm);
+			var imgList = service.GetImgIndex(id)
+				.ToList()
+				.Select(i => i.ToEditImgIndexVM());
 
+			return View(imgList);
+			
 		}
 
 		public ActionResult ChangeImg(int? imgId)
@@ -190,7 +190,7 @@ namespace RouteMaster.Controllers
 				return HttpNotFound();
 			}
             //回傳ImgId,FAQId都綁定的entity紀錄，給予修改
-            FAQChangeImgVM vm = img.ToChangeImgVM();
+            FAQChangeImgVM vm = img.ToChangeImgDto().ToChangeImgVM();
             
             return View(vm);
 
@@ -286,9 +286,7 @@ namespace RouteMaster.Controllers
             
 			return View(detail);
 			
-        }
-
-		
+        }	
 
 		// POST: FAQs/Delete/5
 		[HttpPost, ActionName("Delete")]
