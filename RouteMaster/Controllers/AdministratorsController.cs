@@ -155,6 +155,7 @@ namespace RouteMaster.Controllers
                               LastName = dto.LastName,
                               Email = dto.Email,
                               CreateDate = dto.CreateDate,
+                              Permission = dto.Permission
                               IsSuspended = dto.IsSuspended,
                           });
         }
