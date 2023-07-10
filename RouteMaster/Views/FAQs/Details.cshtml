@@ -12,8 +12,8 @@
         <div class="d-flex text-start align-items-end">
             <h3 class="me-auto mb-0 fw-bold">@Html.DisplayFor(model => model.CategoryName)問題</h3>
             <div class="me-2">
-                @Html.ActionLink("返回清單頁", "Index", new { id = "" }, new { @class = "btn btn-dark me-2" })
-                @Html.ActionLink("圖片編輯", "EditImgIndex", new { id = parentId }, new { @class = "btn btn-secondary" })
+                @Html.ActionLink("返回清單頁", "Index", new { id = "" }, new { @class = "btn btn-primary me-2" })
+                @Html.ActionLink("圖片編輯", "EditImgIndex", new { id = parentId }, new { @class = "btn btn-warning" })
 
             </div>
         </div>
@@ -59,11 +59,11 @@
 
                     }
                 </div>
-                <button class="carousel-control-prev ms-5" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <button class="carousel-control-prev ms-5 d-none" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon rounded-circle" aria-hidden="true" style="background-color:#67676799;"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next me-5" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <button class="carousel-control-next me-5 d-none" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
                     <span class="carousel-control-next-icon rounded-circle" aria-hidden="true" style="background-color:#67676799;"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
@@ -79,13 +79,16 @@
         var singleImg = $("#disappear").length;
         var carouselItems = $(".carousel-item").length;
 
-        if (singleImg <= 1 && carouselItems < 2) {
-            $(".carousel-control-prev").hide();
-            $(".carousel-control-next").hide();
-        }
-        if (carouselItems >= 2) {
+        if (carouselItems >= 2)
+        {
             $(".carousel-item").first().addClass("active");
+            $(".carousel-control-prev").removeClass("d-none");
+            $(".carousel-control-next").removeClass("d-none");
+
+
         }
+
+
 
 
     });

@@ -2,7 +2,7 @@
 
 @section Styles{
     <style>
-
+/*
         .btn-css:hover {
             color: #fff;
             background-color: #696cff;
@@ -20,7 +20,7 @@
             font-size: 0.9375rem;
             border-radius: 0.375rem;
             transition: all 0.2s ease-in-out;
-        }
+        }*/
     </style>
     }
 @{
@@ -93,9 +93,9 @@
 
         <div class="mb-3 d-flex">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="新增住所" class="btn btn-success" />
             |
-                @Html.ActionLink("Back to List", "MyAccommodationIndex", null, new {@class = "btn-css"})
+                @Html.ActionLink("返回住所列表", "MyAccommodationIndex", null, new {@class = "btn-css-warning"})
             </div>
         </div>
     </div>

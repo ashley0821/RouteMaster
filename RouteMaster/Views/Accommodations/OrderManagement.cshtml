@@ -1,0 +1,137 @@
+﻿@model IEnumerable<RouteMaster.Models.Dto.AccommodationDetailsDto>
+@section Styles{
+    <style>
+        .table > thead {
+            background-color: rgba(255, 99, 71, 0.4);
+        }
+
+            .table > thead th {
+                font-size: 18px;
+            }
+    </style>
+}
+@{
+    ViewBag.Title = "OrderManagement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>訂單管理</h2>
+
+<hr />
+@if (Model.FirstOrDefault()?.Permission == "住所夥伴")
+{
+    <table class="table" id="orderTable">
+        <thead>
+            <tr>
+                <th class="border-end ">
+                    訂單Id
+                </th>
+                <th class="border-end ">
+                    住所名字
+                </th>
+                <th class="border-end ">
+
+                    房間名稱
+                </th>
+                <th class="border-end ">
+                    入住時間
+                </th>
+                <th>
+                    住客資訊
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="https://localhost:44371/Orders/Details/@item.OrderId" class="btn btn-css-warning">@item.OrderId</a>
+                    </td>
+                    <td>
+                        <a href="https://localhost:44371/Accommodations/Details/@item.Accommodation.Id" class="btn-css-warning">@item.Accommodation.Name</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomName)
+                    </td>
+                    <td>
+                        @item.CheckIn.ToString("yyyy/MM/dd")
+                    </td>
+                    <td>
+                        <a href="https://localhost:44371/Members/Details/@item.Order.MemberId" class="btn-css-warning">@item.Order.Member.FirstName @item.Order.Member.LastName</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if(Model.FirstOrDefault()?.Permission == "總管理員")
+{
+    <table class="table" id="orderTable">
+        <thead>
+            <tr>
+                <th class="border-end ">
+                    訂單Id
+                </th>
+                <th class="border-end ">
+                    合作夥伴
+                </th>
+                <th class="border-end ">
+                    住所名字
+                </th>
+                <th class="border-end ">
+                    房間名稱
+                </th>
+                <th class="border-end ">
+
+                    入住時間
+                </th>
+                <th>
+                    住客資訊
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="https://localhost:44371/Orders/Details/@item.OrderId" class="btn btn-css-warning">@item.OrderId</a>
+
+                    </td>
+                    <td>
+                        <a href="https://localhost:44371/Partners/Details/@item.Accommodation.PartnerId" class="btn-css-warning">@item.Accommodation.Partner.FirstName @item.Accommodation.Partner.LastName</a>
+                    </td>
+                    <td>
+                        <a href="https://localhost:44371/Accommodations/Details/@item.Accommodation.Id" class="btn-css-warning">@item.Accommodation.Name</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomName)
+                    </td>
+                    <td>
+                        @item.CheckIn.ToString("yyyy/MM/dd")
+                    </td>
+                    <td>
+                        <a href="https://localhost:44371/Members/Details/@item.Order.MemberId" class="btn-css-warning">@item.Order.Member.FirstName @item.Order.Member.LastName</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts{
+    <script>
+        new DataTable('#orderTable', {
+
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+            },
+            responsive: true,
+        });
+
+    </script>
+}

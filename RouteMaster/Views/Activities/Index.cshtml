@@ -18,27 +18,45 @@
 
 
     <style>
+        thead {
+            background-color: gainsboro;
+            color: white;
+        }
 
         .table > thead {
             background-color: rgba(255, 99, 71, 0.4);
         }
 
-            .table > thead th {
-                font-size: 18px;
-            }
-  
+        .table > thead th {
+            font-size: 18px;
+        }
 
+        table > tbody tr {
+            font-size: 13px;
+            color: #697a8D;
+        }
 
+        .vertical-align-center {
+            vertical-align: middle;
+        }
 
-
+        .small-button {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .no-wrap {
+            white-space: nowrap;
+        }
     </style>
 
 
 }
 
-<button class="btn btn-css-success" onclick="location.href='@Url.Action("Create")'">新增活動</button>
+@*<button class="btn btn-success" onclick="location.href='@Url.Action("Create")'">新增活動</button>*@
 
 <h2>活動一覽</h2>
+
+<button class="btn btn-success" onclick="location.href='@Url.Action("Create")'">新增活動</button>
 
 <section class="container">
     <form method="get">
@@ -107,7 +125,7 @@
 
 
             <div class="mb-3 col-md-2 mt-3  ">
-                <button class="btn btn-css-primary" style="position: relative; right:-1050px ">Search</button>
+                <button class="btn btn-warning" style="position: relative; right:-1050px ">搜尋</button>
             </div>
 
 
@@ -122,34 +140,34 @@
 
 
 
-<table class="table table-striped table-hover" id="activityIndexTable">
+<table class="table table-hover vertical-align-center align-middle" id="activityIndexTable">
     <thead>
         <tr>
-            <th>
+            <th class="col-md-1">
                 @Html.DisplayNameFor(model => model.ActivityCategoryName)
             </th>
-            <th>
+            <th class="col-md-1">
                 @Html.DisplayNameFor(model => model.AttractionName)
             </th>
-            <th>
+            <th class="col-md-3">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th class="col-md-1">
                 @Html.DisplayNameFor(model => model.RegionName)
             </th>
-            <th>
+            <th class="col-md-1">
                 @Html.DisplayNameFor(model => model.Price)
             </th>
-            <th>
+            <th class="col-md-1">
                 @Html.DisplayNameFor(model => model.StartTime)
             </th>
-            <th>
+            <th class="col-md-1">
                 @Html.DisplayNameFor(model => model.EndTime)
             </th>
-            <th>
+            <th class="col-md-1">
                 @Html.DisplayNameFor(model => model.DescriptionText)
             </th>
-            <th>
+            <th class="col-md-2">
                 @Html.DisplayNameFor(model => model.StatusText)
             </th>
             <th></th>
@@ -159,38 +177,38 @@
 
         @foreach (var item in Model)
         {
-            <tr >
-                <td style="width:80px">
+            <tr>
+                <td class="col-md-1 no-wrap">
                     @Html.DisplayFor(modelItem => item.ActivityCategoryName)
                 </td>
-                <td  style="width:120px">
+                <td class="col-md-1 no-wrap">
                     @Html.DisplayFor(modelItem => item.AttractionName)
                 </td>
-                <td  style="width:120px">
+                <td class="col-md-3">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td  style="width:80px">
+                <td class="col-md-1 no-wrap">
                     @Html.DisplayFor(modelItem => item.RegionName)
                 </td>
-                <td>
+                <td class="col-md-1 no-wrap">
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
-                <td>
+                <td class="col-md-1 no-wrap">
                     @Html.DisplayFor(modelItem => item.StartTime)
                 </td>
-                <td>
+                <td class="col-md-1 no-wrap">
                     @Html.DisplayFor(modelItem => item.EndTime)
                 </td>
-                <td >
+                <td class="col-md-3 ">
                     @Html.DisplayFor(modelItem => item.DescriptionText)
                 </td>
-                <td style="width:80px">
+                <td class="col-md-1 no-wrap">
                     @Html.DisplayFor(modelItem => item.StatusText)
                 </td>
-                <td>
-                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-css-primary m-2">編輯</button>                    
-                    <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-css-warning m-2">檢視詳細資料</button>                    
-                    @*<button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.Id })'" class="btn btn-danger">刪除</button>*@
+                <td class="col-md-2 no-wrap">
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-primary", style = "width: 70px; height: 30px; font-size:13px;" })
+                    @Html.ActionLink("細節", "Details", new { id = item.Id }, new { @class = "btn btn-warning", style = "width: 70px; height: 30px; font-size:13px" })
+                    @*@Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-danger", style = "width: 70px; height: 40px;" })*@
                 </td>
             </tr>
         }
@@ -211,14 +229,14 @@
                 url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
             },
             responsive: true,
-            searching: true,        
-      
+            searching: true,
+
 
             columnDefs: [
-                { targets: [4, 5, 6], orderable: true }, 
-                { targets: '_all', orderable: false }, 
-                { targets: [0,1,3,4,5,6,8], searchable: false }
-            ]            
+                { targets: [4, 5, 6], orderable: true },
+                { targets: '_all', orderable: false },
+                { targets: [0, 1, 3, 4, 5, 6, 8], searchable: false }
+            ]
         });
     </script>
 

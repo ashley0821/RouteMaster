@@ -7,13 +7,35 @@
     <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
 
     <style>
+        thead {
+            background-color: gainsboro;
+            color: white;
+        }
+
         .table > thead {
             background-color: rgba(255, 99, 71, 0.4);
         }
 
-            .table > thead th {
-                font-size: 18px;
-            }
+        .table > thead th {
+            font-size: 18px;
+        }
+
+        table > tbody tr {
+            font-size: 13px;
+            color: #697a8D;
+        }
+
+        .vertical-align-center {
+            vertical-align: middle;
+        }
+
+        .small-button {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .center-align {
+            text-align: center;
+        }
     </style>
 }
 
@@ -26,7 +48,7 @@
 
 
 <p>
-    <button type="button" onclick="location.href='@Url.Action("Create")'" class="btn btn-css-success">新增額外服務項目</button>
+    <button type="button" onclick="location.href='@Url.Action("Create")'" class="btn btn-success">新增額外服務項目</button>
 </p>
 
 
@@ -37,14 +59,14 @@
 
 
 
-<table id="extraServiceTable" class="table table-striped table-hover">
+<table id="extraServiceTable" class="table table-hover vertical-align-center align-middle">
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.Name)</th>
-            <th>@Html.DisplayNameFor(model => model.AttractionName)</th>
-            <th>@Html.DisplayNameFor(model => model.Price)</th>
+            <th style="width: 200px; text-align: center;">@Html.DisplayNameFor(model => model.AttractionName)</th>
+            <th style="text-align:center;">@Html.DisplayNameFor(model => model.Price)</th>
             <th>@Html.DisplayNameFor(model => model.Description)</th>
-            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th style="width:200px; text-align:center;">@Html.DisplayNameFor(model => model.Status)</th>
             <th></th>
         </tr>
     </thead>
@@ -54,24 +76,24 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="col-md-3 ">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td>
+                <td class="col-md-1 center-align">
                     @Html.DisplayFor(modelItem => item.AttractionName)
                 </td>
-                <td>
+                <td class="col-md-1 center-align">
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
-                <td>
+                <td class="col-md-3">
                     @Html.DisplayFor(modelItem => item.DescriptionText)
                 </td>
-                <td>
+                <td class="col-md-1 center-align">
                     @Html.DisplayFor(modelItem => item.StatusText)
                 </td>
-                <td>
-                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-css-primary">編輯</button>
-                    <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-css-warning">檢視詳細資料</button>
+                <td class="col-md-1">
+                    <button type="button" onclick="location.href='@Url.Action("Edit", new { id = item.Id })'" class="btn btn-primary">編輯</button>
+                    <button type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-warning">詳情</button>
                     @*<button type="button" onclick="location.href='@Url.Action("Delete", new { id = item.Id })'" class="btn btn-danger">刪除</button>*@
                 </td>
             </tr>

@@ -180,6 +180,40 @@ namespace RouteMaster.Models.Infra.Extensions
 				RoomImages = room.RoomImages
 			};
 		}
+		public static AccommodationDetailsDto ToPartnerDto(this AccommodationDetail room)
+		{
+
+			return new AccommodationDetailsDto
+			{
+				Id = room.Id,
+				OrderId = room.OrderId,
+				RoomType = room.RoomType,
+				RoomName = room.RoomName,
+				CheckIn = room.CheckIn,
+				RoomPrice = room.RoomPrice,
+				Accommodation = room.Accommodation,
+				Permission = "住所夥伴",
+				Order = room.Order,
+			};
+		}
+		
+		public static AccommodationDetailsDto ToAdminDto(this AccommodationDetail room)
+		{
+
+			return new AccommodationDetailsDto
+			{
+				Id = room.Id,
+				OrderId = room.OrderId,
+				RoomType = room.RoomType,
+				RoomName = room.RoomName,
+				CheckIn = room.CheckIn,
+				RoomPrice = room.RoomPrice,
+				Accommodation = room.Accommodation,
+				Permission = "總管理員",
+				Order = room.Order,
+			};
+		}
+
 
 		//dto 轉entity
 		public static Accommodation ToIndexEntity(this AccommodationCreateDto dto)

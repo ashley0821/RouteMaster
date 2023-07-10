@@ -51,7 +51,8 @@
                 </select>
             </div>
             <div class="mb-3 col-md-2 align-self-end">
-                <button type="submit" class="btn btn-dark">搜尋</button>
+                <button class="btn btn-secondary me-2" id="clear">清空條件</button>
+                <button type="submit" class="btn btn-primary">搜尋</button>
             </div>
         </div>
     </form>
@@ -63,7 +64,7 @@
 
 
 <p>
-    @Html.ActionLink("新增評論", "Create", new { id = "" }, new { @class = "btn btn-outline-success" })
+    @*@Html.ActionLink("新增評論", "Create", new { id = "" }, new { @class = "btn btn-outline-success" })*@
 </p>
 <table class="table" style="width:100%" id="CommentIndex">
     <thead>
@@ -107,17 +108,17 @@ else
                 }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                    @Html.DisplayFor(modelItem => item.TitleText)
                 </td>
-                <td>
+                <td class="ps-3">
                     @Html.DisplayFor(modelItem => item.Score)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreateDate)
                 </td>
                 <td>
-                    @Html.ActionLink("修改", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) |
-                    @Html.ActionLink("瀏覽", "Details", new { id = item.Id }, new { @class = "btn btn-outline-secondary" })
+                    @*@Html.ActionLink("修改", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) |*@
+                    @Html.ActionLink("瀏覽", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
                     @Html.ActionLink("圖片庫", "ImgIndex", new { id = item.Id }, new { @class = "btn btn-outline-secondary ms-1 me-1" }) |
                     @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
@@ -147,6 +148,11 @@ else
     <script>
         $(document).ready(function () {
             $("#CommentIndex_filter").css('display', 'none');
+            $("#clear").on('click', function () {
+                $("#hotel").val("");
+                $("#title").val("");
+                $("#s_sortId").val("");
+            });
 
         });
     </script>

@@ -88,5 +88,7 @@ namespace RouteMaster.Models.EFModels
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comments_Accommodations> Comments_Accommodations1 { get; set; }
-    }
+
+		
+	}
 }
