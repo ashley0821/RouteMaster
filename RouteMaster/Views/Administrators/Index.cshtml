@@ -7,8 +7,30 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
     <style>
         thead {
+            background-color: gainsboro;
+            color: white;
+        }
+
+        .table > thead {
             background-color: rgba(255, 99, 71, 0.4);
-            color: black;
+        }
+
+        .table > thead th {
+            font-size: 18px;
+        }
+
+        table > tbody tr {
+            font-size: 13px;
+            color: #697a8D;
+        }
+
+        .vertical-align-center {
+            vertical-align: middle;
+        }
+
+        .small-button {
+            padding: 5px 10px;
+            font-size: 12px;
         }
     </style>
 }
@@ -21,7 +43,8 @@
 
 <div>
     <form action="@Url.Action("Register", "Administrators")">
-        <button type="submit" class="btn-css-success">新增會員</button>
+        @*<button type="submit" class="btn-css-success">新增會員</button>*@
+        @Html.ActionLink("新增會員", "Create", null, new { @class = "btn btn-success" })
     </form>
 </div>
 
@@ -50,13 +73,14 @@
                 <input type="text" class="form-control" name="createDateEnd" id="createDateEnd" style="width: 40%; display: inline" value="@(criteria.CreateDateEnd.HasValue?criteria.CreateDateEnd.Value.ToString("yyyy'/'MM'/'dd"):"")">
             </div>
             <div class="mb-3 col-md-2 align-self-end">
-                <button class="btn btn-primary">Search</button>
+                <!--<-->@*button class="btn btn-primary">Search</button>*@
+                <button class="btn btn-warning" style="width:80px;">搜尋</button>
             </div>
         </div>
     </form>
 </section>
 
-<table class="table" id="AdministratorIndex">
+<table class="table table-hover vertical-align-center align-middle" id="AdministratorIndex">
     <thead>
         <tr>
             <th>
@@ -103,9 +127,9 @@
                     @Html.DisplayFor(modelItem => item.IsSuspended)
                 </td>
                 <td>
-                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn-css-primary" }) |
-                    @Html.ActionLink("詳細資料", "Details", new { id = item.Id }, new { @class = "btn-css-warning" }) |
-                    @Html.ActionLink("停權", "SuspendAdministrator", new { id = item.Id }, new { @class = "btn-css-danger" })
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("詳細資料", "Details", new { id = item.Id }, new { @class = "btn btn-outline-warning" }) |
+                    @Html.ActionLink("停權", "SuspendAdministrator", new { id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }
