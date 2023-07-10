@@ -14,7 +14,7 @@
     }
 
 
-    @Styles.Render("~/Content/css")
+
     @Scripts.Render("~/bundles/modernizr")
 
     <link rel="stylesheet" href="~/Content/UploadImage.css" />
@@ -85,6 +85,8 @@
                 }
         }
     </style>
+
+    @Styles.Render("~/Content/css")
     @RenderSection("styles", required: false)
 
 
