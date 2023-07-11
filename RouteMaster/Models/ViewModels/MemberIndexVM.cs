@@ -47,10 +47,12 @@ namespace RouteMaster.Models.ViewModels
 		public bool Gender { get; set; }
 
 		[Display(Name = "生日")]
-		public DateTime Birthday { get; set; }
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime Birthday { get; set; }
 
 		[Display(Name = "創建日期")]
-		public DateTime CreateDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime CreateDate { get; set; }
 
 		//[Required]
 		//public string Image { get; set; }

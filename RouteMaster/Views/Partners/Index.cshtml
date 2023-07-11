@@ -6,8 +6,33 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" />
     <style>
         thead {
+            background-color: gainsboro;
+            color: white;
+        }
+
+        .table > thead {
             background-color: rgba(255, 99, 71, 0.4);
-            color: black;
+        }
+
+            .table > thead th {
+                font-size: 18px;
+            }
+
+        table > tbody tr {
+            font-size: 13px;
+            color: #697a8D;
+        }
+
+        .vertical-align-center {
+            vertical-align: middle;
+        }
+
+        .small-button {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .center-align {
+            text-align: center;
         }
     </style>
 }
@@ -20,9 +45,14 @@
 <h2>旅宿夥伴列表</h2>
 
 <div>
-    <form action="@Url.Action("Create", "Partners")">
-        <button type="submit" class="btn-css-success">新增會員</button>
+
+    <form action="@Url.Action("Register", "Partners")">
+        @Html.ActionLink("新增會員", "Create", null, new { @class = "btn btn-success" })
+        @*<button type="submit" class="btn-css-success">新增會員</button>*@
     </form>
+    @*<form action="@Url.Action("Create", "Partners")">
+        <button type="submit" class="btn-css-success">新增會員</button>
+    </form>*@
 </div>
 <section class="container">
     <form method="get">
@@ -45,94 +75,99 @@
                 <input type="text" class="form-control" name="createDateEnd" id="createDateEnd" style="width: 40%; display: inline" value="@(criteria.CreateDateEnd.HasValue?criteria.CreateDateEnd.Value.ToString("yyyy'/'MM'/'dd"):"")">
             </div>
             <div class="mb-3 col-md-2 align-self-end">
-                <button class="btn btn-primary">搜尋</button>
+                <button class="btn btn-warning" style="width:80px;">搜尋</button>
+
+
             </div>
+            @*<div class="mb-3 col-md-2 align-self-end">
+            <button class="btn btn-primary">搜尋</button>
+        </div>*@
         </div>
     </form>
 </section>
-
-<table class="table" id="PartnerIndex">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsConfirmed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsSuspended)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<table class="table table-hover vertical-align-center " id="PartnerIndex">
+   
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreateDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsConfirmed)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsSuspended)
-                </td>
-                <td>
-                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn-css-primary" }) |
-                    @Html.ActionLink("詳細資料", "Details", new { id = item.Id }, new { @class = "btn-css-warning" }) |
-                    @Html.ActionLink("停權", "SuspendMember", new { id = item.Id }, new { @class = "btn-css-danger" })
-                </td>
+                <th style="text-align:center">
+                  名
+                </th>
+                <th style="text-align:center">
+                    姓
+                </th>
+                <th style="text-align:center">
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th style="text-align:center">
+                    創始時間
+                </th>
+                <th style="text-align:center">
+                    是否驗證
+                </th>
+                <th style="text-align:center">
+                    是否註銷
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-ui.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>*@
-
-    <script>
-        new DataTable('#PartnerIndex', {
-            ordering: false,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                   <td class="center-align">
+                       @Html.DisplayFor(modelItem => item.FirstName)
+                   </td>
+                   <td class="center-align">
+                       @Html.DisplayFor(modelItem => item.LastName)
+                   </td>
+                   <td class="center-align">
+                       @Html.DisplayFor(modelItem => item.Email)
+                   </td>
+                   <td class="center-align">
+                       @Html.DisplayFor(modelItem => item.CreateDate)
+                   </td>
+                   <td class="center-align">
+                       @Html.DisplayFor(modelItem => item.IsConfirmed)
+                   </td>
+                   <td class="center-align">
+                       @Html.DisplayFor(modelItem => item.IsSuspended)
+                   </td>
+                   <td class="center-align">
+                       @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                       @Html.ActionLink("詳細資料", "Details", new { id = item.Id }, new { @class = "btn btn-warning" }) |
+                       @Html.ActionLink("停權", "SuspendMember", new { id = item.Id }, new { @class = "btn btn-danger" })
+                   </td>
+                </tr>
             }
-        });
+        </tbody>
+    </table>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+        <script src="~/Scripts/jquery-ui.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>*@
+
+        <script>
+            new DataTable('#PartnerIndex', {
+                ordering: false,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Chinese-traditional.json'
+                }
+            });
 
 
 
-        $(document).ready(function () {
-            $("#createDateBegin").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd'
-            $("#createDateEnd").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd' }
+            $(document).ready(function () {
+                $("#createDateBegin").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd'
+                $("#createDateEnd").datepicker({ dateFormat: 'yy/mm/dd' }) //{ dateFormat: 'yy/mm/dd' }
 
-        });
+            });
 
 
-    </script>
-}
+        </script>
+    }

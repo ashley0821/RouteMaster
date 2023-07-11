@@ -40,20 +40,20 @@
 
 <h2>套裝行程列表</h2>
 <p>
-    <button onclick="location.href='@Url.Action("Create")'" class="btn btn-css-success">新增</button>
+    <button onclick="location.href='@Url.Action("Create")'" class="btn btn-success">新增</button>
 </p>
 <table class="table">
     <tr>
-        <th>
+        <th style="width: 100px">
             @Html.DisplayNameFor(model => model.Description)
         </th>
-        <th>
+        <th style="width: 100px">
             @Html.DisplayNameFor(model => model.Status)
         </th>
-        <th>
+        <th style="width: 200px">
             @Html.DisplayNameFor(model => model.Attractions)
         </th>
-        <th>
+        <th style="width: 300px">
             @Html.DisplayNameFor(model => model.Activities)
 
         </th>
@@ -97,8 +97,8 @@
                     foreach (var activity in item.Activities)
                     {
                         <div class="d-flex">
-                            <p class="m-3">景點:</p>
-                            <div class="m-3">@activity.AttractionName</div>
+                            @*<p class="m-3">景點:</p>*@
+                           @* <div class="m-3">@activity.AttractionName</div>*@
                             <div class="m-3">@activity.Name</div>
 
                             @*<div>@activity.StartTime</div>
@@ -124,8 +124,8 @@
                     foreach (var extraService in item.ExtraServices)
                     {
                         <div class="d-flex">
-                            <p class="m-3">景點: </p>
-                            <div class="m-3">@extraService.AttractionName</div>
+                            @*<p class="m-3">景點: </p>*@
+                            @*<div class="m-3">@extraService.AttractionName</div>*@
                             <div class="m-3">@extraService.Name</div>
                             @*<div class="m-3">@extraService.Price</div>*@
 
@@ -144,9 +144,9 @@
 
 
             <td>
-                <button onclick="location.href='@Url.Action("Edit", new { id = item.Id })'"class="btn btn-css-primary">編輯</button>
-                <button onclick="location.href='@Url.Action("Delete", new { id = item.Id })'"class="btn btn-css-danger">刪除</button>
-                <button onclick="openPopup(@item.Id)" class="btn btn-css-warning">檢視詳細資料</button>
+                <button onclick="location.href='@Url.Action("Edit", new { id = item.Id })'"class="btn btn-primary">編輯</button>
+                @*<button onclick="location.href='@Url.Action("Delete", new { id = item.Id })'"class="btn btn-danger">刪除</button>*@
+                <button onclick="openPopup(@item.Id)" class="btn btn-warning">詳情</button>
             </td>
         </tr>
 

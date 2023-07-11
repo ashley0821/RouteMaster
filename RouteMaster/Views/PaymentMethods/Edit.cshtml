@@ -11,39 +11,47 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-       
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+<div class="form-horizontal">
 
-        <div class="form-group mb-3">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group mb-3">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group mb-3">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group,mb-3">
-            <div class="col-md-offset-2 col-md-10 mb-3">
-                <input type="submit" value="儲存" class="btn btn-primary" />
+    <div class="col-md-4 col-md-10 mb-4 alert" role="alert">
+        <div class="btn-group mb-3" role="group" aria-label="Save and Back buttons">
+            <button id="demo1" class="btn btn-primary" style="width:100px;">儲存</button>
+            <div class="btn-group" role="group" aria-label="Back button">
+                @Html.ActionLink("回上頁", "Index", "", new { @class = "btn btn-warning",style="width:100px;" })
             </div>
         </div>
     </div>
+    @*<div class="form-group,mb-3">
+        <div class="col-md-offset-2 col-md-10 mb-3">
+            <input type="submit" value="儲存" class="btn btn-primary" />
+        </div>
+    </div>*@
+</div>
 }
 
-<div>
+@*<div>
     @Html.ActionLink("Back to List", "Index")
-</div>
+</div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

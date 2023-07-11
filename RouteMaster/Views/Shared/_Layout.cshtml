@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8 " />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
+    <title>@ViewBag.Title - Route Master </title>
 
 
     @{
@@ -14,7 +14,7 @@
     }
 
 
-    @Styles.Render("~/Content/css")
+
     @Scripts.Render("~/bundles/modernizr")
 
     <link rel="stylesheet" href="~/Content/UploadImage.css" />
@@ -72,7 +72,7 @@
             }
 
             .layout-page {
-                margin-left: 16.25rem;
+                margin-left: 17.25rem;
             }
 
             .menu-inner {
@@ -80,11 +80,18 @@
                 overscroll-behavior: none;
             }
 
-                .menu-inner::-webkit-scrollbar {
-                    display: none;
-                }
+            .menu-inner::-webkit-scrollbar {
+                display: none;
+            }
+            .container-p-y {
+                margin-left: 50px;
+                margin-right: 50px;
+                
+            }
         }
     </style>
+
+    @Styles.Render("~/Content/css")
     @RenderSection("styles", required: false)
 
 
@@ -97,7 +104,7 @@
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <a href="/" class="menu-link h-100 w-100 d-flex"><img src="~/Uploads/Route-master-logo.png" class="w-100 h-100" /></a>
+                    <a href="/Home/HomePage" class="menu-link h-100 w-100 d-flex"><img src="~/Uploads/Route-master-logo.png" class="w-100 h-100" /></a>
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
                         <i class="bx bx-chevron-left bx-sm align-middle"></i>
                     </a>
@@ -108,22 +115,48 @@
                 <ul class="menu-inner py-1 ps ps--active-y" style="overflow-y: auto !important;">
                     <!-- Dashboard -->
                     <li class="menu-item">
-                        <a href="/" class="menu-link">
+                        <a href="~/Home/HomePage" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">首頁</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="Home/about" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">關於</div>
-                        </a>
+                    @*<li class="menu-item">
+            <a href="Home/about" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">關於</div>
+            </a>
+        </li>*@
+                    @*<li class="menu-item">
+            <a href="Home/contact" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">聯絡人</div>
+            </a>
+        </li>*@
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">帳號</span>
                     </li>
                     <li class="menu-item">
-                        <a href="Home/contact" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">聯絡人</div>
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                            <div data-i18n="Misc">帳號管理</div>
                         </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="/Members/Index" class="menu-link">
+                                    <div data-i18n="Error">會員</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/Partners/Index" class="menu-link">
+                                    <div data-i18n="Under Maintenance">住所夥伴</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/Administrators/Index" class="menu-link">
+                                    <div data-i18n="Under Maintenance">平台管理員</div>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">住宿</span>
@@ -157,41 +190,41 @@
                                 </a>
                             </li>
                             <!--<li class="menu-item">
-                                <a href="/Accommodations" class="menu-link">
-                                    <div data-i18n="Without navbar">旅宿列表</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="/Accommodations/Details/1" class="menu-link">
-                                    <div data-i18n="Container">旅宿細節</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">-->
-                                @*active">*@
-                                <!--<a href="/Accommodations/Create" class="menu-link">
-                                    <div data-i18n="Fluid">建立旅宿</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="/Accommodations/Edit/1" class="menu-link">
-                                    <div data-i18n="Blank">編輯旅宿</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="/Accommodations/CreateRoom/1" class="menu-link">
-                                    <div data-i18n="Blank">開房間</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="/Accommodations/RoomsIndex/1" class="menu-link">
-                                    <div data-i18n="Blank">房間列表</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="/Accommodations/EditServiceInfo/1" class="menu-link">
-                                    <div data-i18n="Blank">編輯公設</div>
-                                </a>
-                            </li>-->
+                <a href="/Accommodations" class="menu-link">
+                    <div data-i18n="Without navbar">旅宿列表</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/Accommodations/Details/1" class="menu-link">
+                    <div data-i18n="Container">旅宿細節</div>
+                </a>
+            </li>
+            <li class="menu-item">-->
+                            @*active">*@
+                            <!--<a href="/Accommodations/Create" class="menu-link">
+                    <div data-i18n="Fluid">建立旅宿</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/Accommodations/Edit/1" class="menu-link">
+                    <div data-i18n="Blank">編輯旅宿</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/Accommodations/CreateRoom/1" class="menu-link">
+                    <div data-i18n="Blank">開房間</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/Accommodations/RoomsIndex/1" class="menu-link">
+                    <div data-i18n="Blank">房間列表</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/Accommodations/EditServiceInfo/1" class="menu-link">
+                    <div data-i18n="Blank">編輯公設</div>
+                </a>
+            </li>-->
                         </ul>
                     </li>
 
@@ -205,22 +238,50 @@
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="/Activities" class="menu-link">
+                                <a href="/Activities/index" class="menu-link">
                                     <div data-i18n="Account">活動</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="/ExtraServices" class="menu-link">
+                                <a href="/ExtraServices/index" class="menu-link">
                                     <div data-i18n="Notifications">額外服務項目</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="/PackageTours" class="menu-link">
+                                <a href="/PackageTours/index" class="menu-link">
                                     <div data-i18n="Connections">套裝行程列表</div>
                                 </a>
                             </li>
                         </ul>
                     </li>
+
+
+
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">景點</span></li>
+                    <!-- User interface -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0)" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-box"></i>
+                            <div data-i18n="User interface">景點管理</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="/Attractions/index" class="menu-link">
+                                    <div data-i18n="Accordion">景點</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/AttractionCategories/index" class="menu-link">
+                                    <div data-i18n="Alerts">景點類別</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/AttractionTags/index" class="menu-link">
+                                    <div data-i18n="Badges">景點標籤</div>
+                                </a>
+                        </ul>
+                    </li>
+
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">訂單</span>
                     </li>
@@ -231,91 +292,20 @@
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item">
-
-
-
-                                <a href="/Orders" class="menu-link">
-
-
-
+                                <a href="/Orders/index" class="menu-link">
                                     <div data-i18n="Basic">訂單</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-
-
-
-                                <a href="/PaymentMethods" class="menu-link">
-
-
-
+                                <a href="/PaymentMethods/index" class="menu-link">
                                     <div data-i18n="Basic">付款方式管理</div>
-
-
                                 </a>
                             </li>
                             @*<li class="menu-item">
-                                <a href="#" class="menu-link">
-                                    <div data-i18n="Basic">留位子給你</div>
-                                </a>
-                            </li>*@
-                        </ul>
-                    </li>
-                    <li class="menu-header small text-uppercase">
-                        <span class="menu-header-text">帳號</span>
-                    </li>
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                            <div data-i18n="Misc">帳號管理</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="/Members" class="menu-link">
-                                    <div data-i18n="Error">會員</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="/Partners" class="menu-link">
-                                    <div data-i18n="Under Maintenance">住所夥伴</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="/Administrators" class="menu-link">
-                                    <div data-i18n="Under Maintenance">平台管理員</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">其他</span></li>
-                    <li class="menu-item">
-                        <a href="/FAQs" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-collection"></i>
-                            <div data-i18n="Basic">常見問題</div>
-                        </a>
-                    </li>
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">景點</span></li>
-                    <!-- User interface -->
-                    <li class="menu-item">
-                        <a href="javascript:void(0)" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-box"></i>
-                            <div data-i18n="User interface">景點管理</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="/Attractions" class="menu-link">
-                                    <div data-i18n="Accordion">景點</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="/AttractionCategories" class="menu-link">
-                                    <div data-i18n="Alerts">景點類別</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="/AttractionTags" class="menu-link">
-                                    <div data-i18n="Badges">景點標籤</div>
-                                </a>
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Basic">留位子給你</div>
+                    </a>
+                </li>*@
                         </ul>
                     </li>
 
@@ -338,6 +328,13 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="menu-header small text-uppercase"><span class="menu-header-text">其他</span></li>
+                    <li class="menu-item">
+                        <a href="/FAQs/index" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-collection"></i>
+                            <div data-i18n="Basic">常見問題</div>
+                        </a>
                     </li>
                 </ul>
             </aside>
@@ -473,7 +470,7 @@
                 <div class="content-wrapper">
                     <!-- Content -->
 
-                    <div class="container-fluid flex-grow-1 container-p-y">
+                    <div class="container-fluid flex-grow-5 container-p-y"id="content-wrapper">
                         <!-- Layout Demo -->
 
                         @RenderBody()

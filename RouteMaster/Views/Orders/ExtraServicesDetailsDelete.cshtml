@@ -4,10 +4,10 @@
     ViewBag.Title = "ExtraServicesDetailsDelete";
 }
 
-<h2>ExtraServicesDetailsDelete</h2>
+<h2>額外服務項目訂單管理</h2>
 
 <div>
-    <h4>ExtraServicesDetailsVM</h4>
+   
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -52,15 +52,24 @@
 
     </dl>
 
-    
+
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+
+        <div class="col-md-4 col-md-10 mb-4 alert" role="alert">
+            <div class="btn-group mb-3" role="group" aria-label="delete and Back buttons">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <div class="btn-group" role="group" aria-label="Back button">
+                    @Html.ActionLink("回上頁", "Index", "", new { @class = "btn btn-warning" })
+                </div>
+            </div>
         </div>
+        @*<div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" />
+            @Html.ActionLink("Back to List", "Index")
+        </div>*@
     }
 </div>

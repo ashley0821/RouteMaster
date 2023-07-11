@@ -1,0 +1,157 @@
+﻿@section Styles{
+    
+    
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <link href="css/styles.css" rel="stylesheet" />
+    }
+
+
+
+
+
+
+    <header class="py-5">
+        <div class="container px-lg-5">
+            <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+                <div class="m-4 m-lg-5">
+                    <h1 class="display-5 fw-bold">歡迎使用RouteMaster</h1>
+                    <p class="fs-4">開始旅行的好助手!</p>
+                    <a class="btn btn-primary btn-lg" href="#!">在這裡你可以...</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Page Content-->
+    <section class="pt-4">
+        <div class="container px-lg-5">
+            <!-- Page Features-->
+            <div class="row gx-lg-5">
+                <div class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-collection"></i></div>
+                            <h2 class="fs-4 fw-bold">取得最新的旅遊資訊</h2>
+                            <p class="mb-0">查看其他使用者發表的最新評論</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-cloud-download"></i></div>
+                            <h2 class="fs-4 fw-bold">多種獨家優惠</h2>
+                            <p class="mb-0">透過本站下單合作旅宿、景點皆享有獨家優惠</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">客製化個人行程</div>
+                            <h2 class="fs-4 fw-bold"></h2>
+                            <p class="mb-0">自由行也能享有優惠</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">一站式旅行體驗<i class="bi bi-bootstrap"></i></div>
+                            <h2 class="fs-4 fw-bold"></h2>
+                            <p class="mb-0">提供多樣化的行程安排，符合預算和喜好的住宿選項</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-code"></i></div>
+                            <h2 class="fs-4 fw-bold">快速規劃行程</h2>
+                            <p class="mb-0">複製其他使用者分享的行程，站方提供的套裝行程，馬上開始一場旅行</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-patch-check"></i></div>
+                            <h2 class="fs-4 fw-bold">免費使用</h2>
+                            <p class="mb-0">最重要的是你不需要為上面提到的所有服務支付額外的費用</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<div  id="airPlane" class="d-none" ><i class="fa-solid fa-plane-departure"></i></div>*@
+        <div id="airPlane" style="left:500px ;top:1000px;"> <img src="~/Uploads/airplane.png" /></div>
+        
+    </section>
+@section Scripts{
+    <!-- Bootstrap core JS-->
+    <script>
+        // 建立一個飛機物件
+        var airplane = document.querySelector('#airPlane');
+
+        var startX = -500;
+        var startY = 1000;
+        airplane.style.left = startX + 'px';
+        airplane.style.bottom = startY + 'px';
+        airplane.style.position = 'fixed';
+        airplane.classList.remove('d-none');
+
+
+
+
+        airplane.style.width = '800px';
+        airplane.style.height = '800px';
+        airplane.style.fontSize = '800px';
+        airplane.style.backgroundImage = 'url(airplane.png)'; // 飛機圖片的路徑
+        airplane.style.backgroundSize = 'cover';
+        document.body.appendChild(airplane);
+
+        // 設定初始位置
+
+
+        // 設定目標位置
+        var targetX = window.innerWidth;
+        var targetY = -1000;
+
+        // 計算每個動畫幀的位移量
+        var distanceX = targetX - startX;
+        var distanceY = targetY - startY;
+        var steps = 250; // 動畫的總幀數
+        var stepX = distanceX / steps;
+        var stepY = distanceY / steps;
+
+        // 執行動畫
+        var currentStep = 0;
+        function animateAirplane() {
+            if (currentStep >= steps) {
+                airplane.classList.add('d-none');
+                return; // 動畫結束
+            }
+
+            startX += stepX;
+            startY += stepY;
+            airplane.style.left = startX + 'px';
+            airplane.style.top = startY + 'px';
+
+            currentStep++;
+
+            requestAnimationFrame(animateAirplane);
+        }
+
+        // 觸發動畫
+        window.addEventListener('load', function () {
+            animateAirplane();
+        });
+    </script>
+
+
+    <script src="https://kit.fontawesome.com/a260a05f7c.js" crossorigin="anonymous"></script>
+
+    }
