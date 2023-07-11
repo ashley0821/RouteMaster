@@ -16,7 +16,8 @@
 
 
     <laber>簡介</laber>
-    <textarea class="form-control mb-3 col d-block ms-0 me-2" style="margin-left:12px" rows="15" id="Description" name="Description" required></textarea>
+    <textarea class="form-control mb-3 col d-block ms-0 me-2" style="margin-left:12px" rows="15" id="Description" name="Description" required>@Model.Description</textarea>
+
     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
 
 
