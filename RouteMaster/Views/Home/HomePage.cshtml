@@ -1,38 +1,18 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>RouteMaster</title>
-    <!-- Favicon-->
+﻿@section Styles{
+    
+    
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <!-- Bootstrap icons-->
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Core theme CSS (includes Bootstrap)-->
+
     <link href="css/styles.css" rel="stylesheet" />
+    }
 
 
 
 
-</head>
-<body>
-    <!-- Responsive navbar-->
-    <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container px-lg-5">
-            <a class="navbar-brand" href="~/Attractions/Index">Start Your Travel</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">-->
-    @*<li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>*@
-    <!--<li class="nav-item"><a class="nav-link" href="~/Home/About">關於</a></li>
-                    <li class="nav-item"><a class="nav-link" href="~/Home/Contact">聯絡我們</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>-->
-    <!-- Header-->
+
+
     <header class="py-5">
         <div class="container px-lg-5">
             <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
@@ -108,21 +88,11 @@
 
         @*<div  id="airPlane" class="d-none" ><i class="fa-solid fa-plane-departure"></i></div>*@
         <div id="airPlane" style="left:500px ;top:1000px;"> <img src="~/Uploads/airplane.png" /></div>
+        
     </section>
-
+@section Scripts{
     <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <!--<script src="js/scripts.js"></script>-->
-
-
-
-
-    <script src="https://kit.fontawesome.com/a260a05f7c.js" crossorigin="anonymous"></script>
     <script>
-
-
-
         // 建立一個飛機物件
         var airplane = document.querySelector('#airPlane');
 
@@ -159,7 +129,7 @@
 
         // 執行動畫
         var currentStep = 0;
-        function animate() {
+        function animateAirplane() {
             if (currentStep >= steps) {
                 airplane.classList.add('d-none');
                 return; // 動畫結束
@@ -172,78 +142,16 @@
 
             currentStep++;
 
-            requestAnimationFrame(animate);
+            requestAnimationFrame(animateAirplane);
         }
 
         // 觸發動畫
         window.addEventListener('load', function () {
-            animate();
+            animateAirplane();
         });
     </script>
+
+
     <script src="https://kit.fontawesome.com/a260a05f7c.js" crossorigin="anonymous"></script>
-    <script>
 
-
-
-        // 建立一個飛機物件
-        var airplane = document.querySelector('#airPlane');
-
-        var startX = -500;
-        var startY = 1000;
-        airplane.style.left = startX + 'px';
-        airplane.style.bottom = startY + 'px';
-        airplane.style.position = 'fixed';
-        airplane.classList.remove('d-none');
-
-
-
-
-        airplane.style.width = '800px';
-        airplane.style.height = '800px';
-        airplane.style.fontSize = '800px';
-        airplane.style.backgroundImage = 'url(airplane.png)'; // 飛機圖片的路徑
-        airplane.style.backgroundSize = 'cover';
-        document.body.appendChild(airplane);
-
-        // 設定初始位置
-
-
-        // 設定目標位置
-        var targetX = window.innerWidth;
-        var targetY = -1000;
-
-        // 計算每個動畫幀的位移量
-        var distanceX = targetX - startX;
-        var distanceY = targetY - startY;
-        var steps = 250; // 動畫的總幀數
-        var stepX = distanceX / steps;
-        var stepY = distanceY / steps;
-
-        // 執行動畫
-        var currentStep = 0;
-        function animate() {
-            if (currentStep >= steps) {
-                airplane.classList.add('d-none');
-                return; // 動畫結束
-            }
-
-            startX += stepX;
-            startY += stepY;
-            airplane.style.left = startX + 'px';
-            airplane.style.top = startY + 'px';
-
-            currentStep++;
-
-            requestAnimationFrame(animate);
-        }
-
-        // 觸發動畫
-        window.addEventListener('load', function () {
-            animate();
-        });
-    </script>
-</body>
-</html>
-
-
-
+    }
