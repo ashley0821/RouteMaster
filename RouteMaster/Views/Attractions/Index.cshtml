@@ -10,7 +10,7 @@
    
 
     <style>
-        thead {
+       /* thead {
             background-color: gainsboro;
             color: white;
         }
@@ -21,7 +21,33 @@
 
             .table > thead th {
                 font-size: 14px;
-            }
+            }*/
+        thead {
+            background-color: gainsboro;
+            color: white;
+        }
+
+        .table > thead {
+            background-color: rgba(255, 99, 71, 0.4);
+        }
+
+        .table > thead th {
+            font-size: 18px;
+        }
+
+        table > tbody tr {
+            font-size: 15px;
+            color: #697a8D;
+        }
+
+        .vertical-align-center {
+            vertical-align: middle;
+        }
+
+        .small-button {
+            padding: 5px 10px;
+            font-size: 13px;
+        }
     </style>
 }
 
@@ -132,7 +158,7 @@
 </section>
 
 
-<table class="table table-hover" id="dataTable">
+<table class="table table-hover vertical-align-center align-middle" id="dataTable">
     <thead>
         <tr>
             <th></th>
@@ -178,19 +204,19 @@
                         <img src="~/Uploads/@item.Image" width="100px" style="object-fit: cover; height: 75px" />
                     }
                 </td>
-                <td class="align-middle">
+                <td class="align-middle col-md-1">
                     @Html.DisplayFor(modelItem => item.Category)
                 </td>
-                <td class="align-middle">
+                <td class="align-middle col-md-1">
                     @Html.DisplayFor(modelItem => item.Region)
                 </td>
-                <td class="align-middle">
+                <td class="align-middle col-md-1">
                     @Html.DisplayFor(modelItem => item.Town)
                 </td>
-                <td class="align-middle">
+                <td class="align-middle col-md-1">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td class="align-middle">
+                <td class="align-middle col-md-2">
                     @Html.DisplayFor(modelItem => item.DescriptionText)
                 </td>
                 <td class="align-middle ">
@@ -207,9 +233,9 @@
                 </td>
                 <td class="align-middle">
                     @Html.ActionLink("景點詳情", "Details", new { id = item.Id }, new { @class = "d-none" })
-                    @Html.ActionLink("編輯景點", "Edit", new { id = item.Id }, new { @class = "text-primary" }) |
-                    @Html.ActionLink("管理圖片", "ImagesIndex", new { id = item.Id }, new { @class = "text-primary" }) |
-                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "text-danger" })
+                    @Html.ActionLink("編輯景點", "Edit", new { id = item.Id }, new { @class = "btn btn-primary"}) 
+                    @Html.ActionLink("管理圖片", "ImagesIndex", new { id = item.Id }, new { @class = "btn btn-outline-primary" }) 
+                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
 
             </tr>
