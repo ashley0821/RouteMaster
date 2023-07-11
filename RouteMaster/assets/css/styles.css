@@ -2558,7 +2558,7 @@ textarea.form-control-lg {
 .input-group-lg > .form-select,
 .input-group-sm > .form-select {
   padding-right: 3rem;
-}
+}/*
 
 .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
 .input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3),
@@ -2577,7 +2577,7 @@ textarea.form-control-lg {
 .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
   margin-left: -1px;
   border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;*/
 }
 .input-group > .form-floating:not(:first-child) > .form-control,
 .input-group > .form-floating:not(:first-child) > .form-select {
@@ -3723,7 +3723,7 @@ textarea.form-control-lg {
 }
 .tab-content > .active {
   display: block;
-}
+}/*
 
 .navbar {
   --bs-navbar-padding-x: 0;
@@ -3995,8 +3995,8 @@ textarea.form-control-lg {
     flex-grow: 0;
     padding: 0;
     overflow-y: visible;
-  }
-}
+  }*/
+}/*
 @media (min-width: 1200px) {
   .navbar-expand-xl {
     flex-wrap: nowrap;
@@ -4147,7 +4147,7 @@ textarea.form-control-lg {
   --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.1);
   --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
-
+*/
 .card {
   --bs-card-spacer-y: 1rem;
   --bs-card-spacer-x: 1rem;
