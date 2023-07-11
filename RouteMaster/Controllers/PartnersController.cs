@@ -123,6 +123,9 @@ namespace RouteMaster.Controllers
 			(string returnUrl, HttpCookie cookie) = ProcessLogin(vm.Email, rememberMe);
 
 			Response.Cookies.Add(cookie);
+			HttpCookie permission = new HttpCookie("Permission", "Partner");
+
+			Response.Cookies.Add(permission);
 
 			return Redirect(returnUrl);
 		}
