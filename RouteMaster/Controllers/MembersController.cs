@@ -486,7 +486,10 @@ namespace RouteMaster.Controllers
 			if (!string.IsNullOrEmpty(image))
 			{
 				HttpCookie imageCookie = new HttpCookie("UserImage", image);
+				HttpCookie permission = new HttpCookie("Permission", "Member");
+
 				Response.Cookies.Add(imageCookie);
+				Response.Cookies.Add(permission);
 			}
 
 
