@@ -20,7 +20,7 @@ namespace RouteMaster.Models.ViewModels
 
 		public string Image { get; set; }
 
-		public string Tag { get; set; }
+		public List<string> Tags { get; set; }
 
 		public string DescriptionText { get; set; }
 

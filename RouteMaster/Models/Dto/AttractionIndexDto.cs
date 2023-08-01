@@ -21,13 +21,14 @@ namespace RouteMaster.Models.Dto
 
 		public string Description { get; set; }
 
-		
+		public List<string> Tags { get; set; }
 
 		public string DescriptionText
 		{
 			get
 			{
-				return Description.Length>10? Description.Substring(0,10)+"...":Description;
+				string description = System.Text.RegularExpressions.Regex.Replace(Description, "<.*?>", string.Empty);
+				return description.Length>10? description.Substring(0,10)+"...": description;
 			}
 		}
 

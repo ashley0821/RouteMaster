@@ -45,15 +45,15 @@ namespace RouteMaster.Controllers
 			var query2 = GetAttractions().ToList();
 
 			AttractionTagsDapperRepository repo = new AttractionTagsDapperRepository();
-			var tags = repo.SearchTags().ToList();
+			//var tags = repo.SearchTags().ToList();
 
-			var tagSelector = repo.AllTags().ToList().Prepend(new AttractionTagVM());
+			var tagSelector = repo.AllTags().ToList();
 			ViewBag.Tags = new SelectList(tagSelector, "Id", "Name");
 
-			for (var i = 0; i < query2.Count(); i++)
-			{
-				query2[i].Tag = tags[i];
-			}
+			//for (var i = 0; i < query2.Count(); i++)
+			//{
+			//	query2[i].Tag = tags[i];
+			//}
 
 			var query = query2.AsEnumerable();
 
@@ -70,9 +70,10 @@ namespace RouteMaster.Controllers
 			{
 				query = query.Where(p => p.Town == criteria.Town);
 			}
-			if (string.IsNullOrEmpty(criteria.Tag) == false)
+			if (criteria.Tag != null && criteria.Tag.Count > 0)
 			{
-				query = query.Where(p => p.Tag == criteria.Tag);
+				//query = query.Where(p => criteria.Tag.All(t => p.Tags.Contains(t)));
+				query = query.Where(p => p.Tags.Intersect(criteria.Tag).Any());
 			}
 
 			if (string.IsNullOrEmpty(criteria.Name) == false)
@@ -147,6 +148,7 @@ namespace RouteMaster.Controllers
 		{
 
 			if (ModelState.IsValid == false) return View(vm);
+			
 
 			// 建立新會員
 			Result result = CreateAttraction(vm, files);
@@ -188,9 +190,9 @@ namespace RouteMaster.Controllers
 				ViewBag.Towns = _db.Towns.Where(t => t.RegionId == vm.RegionId).ToList();
 
 				AttractionTagsDapperRepository tagRepo = new AttractionTagsDapperRepository();
-				ViewBag.Tags = tagRepo.AllTags().Prepend(new AttractionTagVM());
+				ViewBag.Tags = tagRepo.AllTags();
 
-				vm.TagId = tagRepo.GetTagId(id.Value);
+				//vm.TagId = tagRepo.GetTagId(id.Value);
 
 				return View(vm);
 			}

@@ -13,7 +13,7 @@ namespace RouteMaster.Models.ViewModels
 
 		public string Town { get; set; }
 
-		public string Tag { get; set; }
+		public List<string> Tag { get; set; }
 
 		public string Name { get; set; }
 

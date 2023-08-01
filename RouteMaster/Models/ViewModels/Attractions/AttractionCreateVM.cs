@@ -11,17 +11,20 @@ namespace RouteMaster.Models.ViewModels
 	{
 		public int Id { get; set; }
 
+		
 		public int AttractionCategoryId { get; set; }
 
+		
 		public int RegionId { get; set; }
 
+		
 		public int TownId { get; set; }
 
 		[Required]
 		[StringLength(100)]
 		public string Name { get; set; }
 
-		public int? TagId { get; set; }
+		public List<int> TagId { get; set; } = new List<int>();
 
 		[Required]
 		[StringLength(255)]
@@ -35,6 +38,6 @@ namespace RouteMaster.Models.ViewModels
 		public string Description { get; set; }
 
 		public string Website { get; set; }
-		
+
 	}
 }

@@ -46,16 +46,19 @@ ORDER BY [Attractions].Id";
 			return Tags;
 		}
 
-		public void AddTag(string attractionName, int tagId)
+		public void AddTag(string attractionName, List<int> tagId)
 		{
-			string sql = @"INSERT INTO [dbo].[Tags_Attractions] ([AttractionId], [TagId])
+			foreach (var tag in tagId)
+			{
+				string sql = @"INSERT INTO [dbo].[Tags_Attractions] ([AttractionId], [TagId])
 VALUES ((
 	SELECT Id
 	FROM [dbo].[Attractions]
 	WHERE Name = @Name
 ), @TagId);";
 
-			new SqlConnection(_connStr).Execute(sql, new { Name = attractionName, TagId = tagId });
+				new SqlConnection(_connStr).Execute(sql, new { Name = attractionName, TagId = tag });
+			}
 		}
 
 		public string GetTag(int id)
@@ -68,8 +71,8 @@ LEFT JOIN[dbo].[AttractionTags]
 			ON AttractionTags.Id = Tags_Attractions.TagId
 WHERE[Attractions].Id = @Id";
 
-			var tag =  new SqlConnection(_connStr)
-								.QueryFirstOrDefault<string> (sql, new {Id = id });
+			var tag = new SqlConnection(_connStr)
+								.QueryFirstOrDefault<string>(sql, new { Id = id });
 
 			return tag;
 		}
@@ -88,38 +91,24 @@ WHERE[Attractions].Id = @Id";
 			return tagId;
 		}
 
-		public void EditTag(int attractionId, int? tagId)
+		public void EditTag(int attractionId, List<int> tagId)
 		{
-			
-			string checkSql = @"SELECT COUNT(*) FROM [dbo].[Tags_Attractions] WHERE AttractionId = @AttractionId";
+			string checkSql = @"DELETE FROM [dbo].[Tags_Attractions] WHERE AttractionId = @AttractionId";
 
 			int existingCount = new SqlConnection(_connStr).QueryFirstOrDefault<int>(checkSql, new { AttractionId = attractionId });
 
-			if (existingCount > 0 && tagId != 0 )
+			foreach (var tag in tagId)
 			{
-				// 景點已有標籤，執行更新操作
-				string updateSql = @"UPDATE [dbo].[Tags_Attractions]
-SET TagId = @TagId
-WHERE AttractionId = @AttractionId";
 
-				new SqlConnection(_connStr).Execute(updateSql, new { TagId = tagId, AttractionId = attractionId });
-			}
-			else if(existingCount == 0 && tagId != 0)
-			{
 				// 景點沒有標籤，執行插入操作
 				string insertSql = @"INSERT INTO [dbo].[Tags_Attractions] (AttractionId, TagId)
 VALUES (@AttractionId, @TagId)";
 
-				new SqlConnection(_connStr).Execute(insertSql, new { AttractionId = attractionId, TagId = tagId });
-			}
-			else if (existingCount > 0 && tagId == 0)
-			{
-				// 景點存在 則刪除標籤
-				string insertSql = @"DELETE FROM [dbo].[Tags_Attractions] 
-WHERE AttractionId = @AttractionId";
+				new SqlConnection(_connStr).Execute(insertSql, new { AttractionId = attractionId, TagId = tag });
 
-				new SqlConnection(_connStr).Execute(insertSql, new { AttractionId = attractionId });
+
 			}
+
 		}
 	}
 }

@@ -14,7 +14,7 @@ namespace RouteMaster.Models.ViewModels
 
 		public int RegionId { get; set; }
 
-		public int? TagId { get; set; }
+		public List<int> TagId { get; set; }
 
 		public int TownId { get; set; }
 

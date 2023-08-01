@@ -24,38 +24,41 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		}
 		public IEnumerable<AttractionIndexDto> Search()
 		{
-			return _db.Attractions
+			var query = _db.Attractions
 				.AsNoTracking() // 告訴程式不用追蹤改動 以增加效率
 				.OrderBy(p => p.Id)
 				.Include(p => p.AttractionCategory) // 避免N+1 Query
 				.Include(p => p.AttractionImages)
 				.Include(p => p.Region)
-				.Include(p => p.Town)
-				.Select(p => new AttractionIndexDto
-				{
-					Id = p.Id,
-					Category = p.AttractionCategory.Name,
-					Region = p.Region.Name,
-					Town = p.Town.Name,
-					Name = p.Name,
-					Image = _db.AttractionImages
+				.Include(p => p.Town);
+
+
+			return query.Select(p => new AttractionIndexDto
+			{
+				Id = p.Id,
+				Category = p.AttractionCategory.Name,
+				Region = p.Region.Name,
+				Town = p.Town.Name,
+				Name = p.Name,
+				Tags = p.AttractionTags.Select(t => t.Name).ToList(),
+				Image = _db.AttractionImages
 								.Where(i => i.AttractionId == p.Id)
 								.Select(i => i.Image)
 								.FirstOrDefault(),
-					Description = p.Description,
-					AverageScore = _db.Comments_Attractions
-								.Where(c => c.AttractionId == p.Id)
+				Description = p.Description,
+				AverageScore = _db.Comments_Attractions
+								.Where(c => c.AttractionId == p.Id )
 								.Select(c => c.Score)
 								.Average(),
-					AverageStayHours = (double)_db.Comments_Attractions
-								.Where(c => c.AttractionId == p.Id)
-								.Select(c => c.StayHours)
+				AverageStayHours = (double)_db.Comments_Attractions
+								.Where(c => c.AttractionId == p.Id )
+								.Select(c => c.StayHours )
 								.Average(),
-					AveragePrice = (int)_db.Comments_Attractions
+				AveragePrice = (int)_db.Comments_Attractions
 								.Where(c => c.AttractionId == p.Id)
 								.Select(c => c.Price)
 								.Average(),
-				});
+			});
 
 
 		}
@@ -96,12 +99,12 @@ namespace RouteMaster.Models.Infra.EFRepositories
 
 			_db.SaveChanges();
 
-			if (dto.TagId.HasValue)
+			if (dto.TagId.Any())
 			{
 				AttractionTagsDapperRepository tagRepo = new AttractionTagsDapperRepository();
-				tagRepo.AddTag(dto.Name, dto.TagId.Value);
+				tagRepo.AddTag(dto.Name, dto.TagId);
 			}
-			
+
 		}
 
 		public bool ExistAttraction(string Name)
@@ -170,6 +173,7 @@ namespace RouteMaster.Models.Infra.EFRepositories
 					AttractionCategoryId = p.AttractionCategoryId,
 					RegionId = p.RegionId,
 					TownId = p.TownId,
+					TagId = p.AttractionTags.Select(t=>t.Id).ToList(),
 					Name = p.Name,
 					Address = p.Address,
 					PositionX = p.PositionX,
@@ -229,10 +233,10 @@ namespace RouteMaster.Models.Infra.EFRepositories
 		{
 			var img = _db.AttractionImages.Find(imageId);
 
-			
+
 
 			_db.AttractionImages.Remove(img);
-			
+
 			// 將它存到db
 			_db.SaveChanges();
 

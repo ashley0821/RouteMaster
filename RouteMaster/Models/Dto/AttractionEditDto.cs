@@ -15,6 +15,8 @@ namespace RouteMaster.Models.Dto
 
 		public int TownId { get; set; }
 
+		public List<int> TagId { get; set; }
+
 		public string Name { get; set; }
 
 		public string Address { get; set; }
